@@ -9812,8 +9812,6 @@ a.button {
       border-radius: 4px 4px 0px 0px; }
     .center-form label.bottom-input {
       border-radius: 0px 0px 4px 4px; }
-  .center-form .button-positive {
-    opacity: 0.9; }
 
 .error-box {
   padding: 10px;
@@ -9866,8 +9864,8 @@ input:-ms-input-placeholder {
   background: -webkit-linear-gradient(left top, #000, #484848);
   background: -o-linear-gradient(bottom right, #000, #484848);
   background: -moz-linear-gradient(bottom right, #000, #484848);
-  background: linear-gradient(to bottom right, #000, #484848); 
- 
+  background: linear-gradient(to bottom right, #000, #484848);
+
 }
 
 .profile-image img {
@@ -9880,12 +9878,12 @@ input:-ms-input-placeholder {
 
 .eth-address {
   padding-left: 20px;
-  padding-right: 20px; 
+  padding-right: 20px;
 
 }
 .eth-balance {
   padding-left: 7px;
-  padding-right: 7px; 
+  padding-right: 7px;
 
 }
 .tabs .active{
@@ -9900,9 +9898,7 @@ input:-ms-input-placeholder {
     transform: rotate(90deg);
 }
 .popover{
-
-	 height:110px;
-	
+  height:110px;
 }
 .item-img {
     position: absolute;
@@ -9912,6 +9908,5 @@ input:-ms-input-placeholder {
     max-width: 40px;
     max-height: 40px;
     width: 100%;
-    border-radius: 4px; 
+    border-radius: 4px;
 }
-  
