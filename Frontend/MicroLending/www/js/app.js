@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast']);
+mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova']);
 
 var myApp = angular.module('app', ['ionic','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services',]);
 

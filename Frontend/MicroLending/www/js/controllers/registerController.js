@@ -1,12 +1,74 @@
-mycontrollerModule.controller('registerCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('registerCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,$ionicLoading,$timeout) {
+function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory) {
 
 
 	$scope.Register = function(data){
 	
-		console.log("register data: ",data);
+	 console.log(data)
+        
+		//Fetch all the data from the view
+	
+        var user_data = {}
+        user_data.fname = data.firstname;
+        user_data.lname = data.lastname;
+        user_data.email = data.emailid;
+        user_data.password = data.password;
+        user_data.confirm_password = data.confirmpassword;
+        
+        if ( user_data.password != user_data.confirm_password){
+        
+            console.log('password does not match')
+            $scope.error = "Password does not match. Try again!"
+            return
+        }
+        
+		//get all users
+        
+		/*$http.get(apiUrl + "getOrganizationList")
+                .success(function (response) {
+                    $scope.userList = response.Data.message;
+                });*/    
+        
+        
+         // check username
+         /* $scope.enrollmentIdChange = function () {
+                $http.post(apiUrl + "checkUsername", {
+                        enrollmentId: $scope.user.email
+                    })
+                    .success(function (response) {
+                        if (response.Status == "success") {
+                            $scope.enrollmentIdMsg = "Username available";
+                            $scope.emailStyle = {
+                                color: 'green'
+                            };
+                        } else {
+                            $scope.enrollmentIdMsg = "Username not available";
+                            $scope.emailStyle = {
+                                color: 'red'
+                            };
+                        }
+                    });
+            }*/
+        
+        
+		//make an http.post call to the server to perform the email_verification
+        
+    
+        //call Register Factory and send the user_data and get the response as temp id 
+        
+        
+        registerFactory.registerUser(user_data,function(response){
+        
+            console.log("register user: ",response);
+		      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password}});
+        
+        })
+    
+        
+        
+		/*console.log("register data: ",data);
 		$ionicLoading.show({
 				templateUrl: 'templates/loading.html',
 				animation: 'fade-in',
@@ -19,7 +81,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout) {
 			$ionicLoading.hide();
 			$state.go('emailVerification');
     
-		}, 2000);
+		}, 2000);*/
 		
 	}
 }])

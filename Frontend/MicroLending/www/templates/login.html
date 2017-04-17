@@ -17,11 +17,9 @@
         </label>
 
         <!-- Show errors  -->
-        <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
-        <small ng-if="error">{{error}}</small>
-
       </div>
-
+       <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
+       <small ng-show="error">{{error}}</small>
 
       <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-balanced button-block" ng-disabled="loginForm.$invalid" ng-click="Login(data)">Log in</button>
 

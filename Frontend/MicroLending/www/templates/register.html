@@ -2,7 +2,7 @@
   <ion-content padding="true" style="background: url(img/background-blue.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
 
     <div class="spacer" style="width: 290px; height: 20px;"></div>
-      <form name="registerForm" class="list center-form form-validation" >
+      <form name="registerForm" class="list center-form form-validation" ng-submit="Register(data)">
         <div>
           <img src="img/app_logo_white.jpg" style="display: block; width: 70%; height:70%; margin-left: auto; margin-right: auto;"/>
         </div>
@@ -18,25 +18,24 @@
           <small ng-show="registerForm.lastname.$error.minlength">Last name must be longer than 1 character</small>
 
           <label class="item item-input top-input" id="registerEmailId">
-            <input type="email" placeholder="Email ID" name="emailid" ng-model="data.emailid"  ng-maxlength="20" required/>
+            <input type="email" placeholder="Email ID" name="emailid" ng-model="data.emailid"  ng-maxlength="50" required/>
           </label>
           <small ng-show="registerForm.emailid.$invalid &&  !registerForm.emailid.$pristine">Enter a valid email address</small>
           <label class="item item-input top-input" id="registerPassword">
-            <input type="password" placeholder="Password" name="password" ng-model="data.password" ng-minlength="6" ng-maxlength="10" required/>
+            <input type="password" placeholder="Password" name="password" ng-model="data.password" ng-minlength="6" ng-maxlength="20" required/>
           </label>
           <small ng-show="registerForm.password.$error.minlength && !registerForm.emailid.$pristine">Minimum password length is 6 characters</small>
           <label class="item item-input bottom-input" id="registerConfirmPassword">
-            <input type="password" placeholder="Confirm password" ng-model="data.confirmpassword" ng-minlength="6" ng-maxlength="10" required/>
+            <input type="password" placeholder="Confirm password" ng-model="data.confirmpassword" ng-minlength="6" ng-maxlength="20" required/>
           </label>
         </div>
         <!-- Show errors -->
         <small ng-show="registerForm.firstname.$error.required || registerForm.lastname.$error.required || registerForm.emaildid.$error.required || registerForm.password.$error.required">All fields are mandatory</small>
-        <small ng-if="error">{{error}}</small>
-        </div>
+        <small ng-show="error">{{error}}</small>
 
         <div class="padding">
-         <button type="button" id="register-button9" style="border-radius:15px 15px 15px 15px;"
-         class="button button-balanced button-block" ng-disabled="registerForm.$invalid" ng-click="Register(data)">Register</button>
+         <button id="register-button9" style="border-radius:15px 15px 15px 15px;"
+         class="button button-balanced button-block" ng-disabled="registerForm.$invalid">Register</button>
         </div>
           <a ui-sref="login" id="register-button10" class="button button-light  button-block button-clear">Already have an account? LOGIN!</a>
       </form>

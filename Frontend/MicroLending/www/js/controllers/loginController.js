@@ -1,14 +1,59 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,$ionicLoading,$timeout) {
+function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory) {
 
 
 	$scope.Login = function(data){
 	
+		console.log("Login");
+		var user_name = data.username
+        var password = data.password
+        var login_data = {}
+        
+        login_data.username = data.username
+        login_data.password = data.password
+        
+        if (window.cordova)
+        {
+            
+            fileFactory.readFile("abc.json","/",function(result){
+            
+                if (result.status == 0){console.log(result.error)}
+                else{
+
+                        console.log(result.data)
+                        
+                        login_data.ks = JSON.parse(result.data)
+                }
+			})
+        
+        }else{
 		
-		 console.log("Login");
-		 $ionicLoading.show({
+            console.log(JSON.parse(localStorage.getItem('user_data')))
+            login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
+            
+        }
+ 
+        loginFactory.login(login_data,function(err,result){
+            if (err) {
+                
+                console.log(err)
+            
+                console.log($scope.error)
+                return
+            }
+            
+            else{
+                    console.log("Login",result)
+                    $state.go('menu.allContracts');
+                
+            }
+        
+        
+        })
+		
+		/* $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
 				animation: 'fade-in',
 				showBackdrop: true,
@@ -21,7 +66,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout) {
 			$ionicLoading.hide();
 			$state.go('menu.allContracts');
     
-		}, 2000);
+		}, 2000);*/
 
 		
 	}

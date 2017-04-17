@@ -21,7 +21,10 @@ angular.module('app.routes', [])
 	.state('emailVerification', {
 		url: '/emailVerify',
 		templateUrl: 'templates/emailVerification.html',
-		controller: 'emailVerificationCtrl'
+		controller: 'emailVerificationCtrl',
+		params:{
+				params:null
+		}
 	})
 	.state('menu', {
 		url: '/tabs',
