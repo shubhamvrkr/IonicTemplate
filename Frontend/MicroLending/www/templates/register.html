@@ -1,0 +1,33 @@
+<ion-view title="Register" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page7">
+  <ion-content padding="true" style="background: url(img/background.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
+    <form id="register-form5" class="list center-form">
+      <div>
+        <img src="img/app_logo.png" style="display: block; width: 100%; height:100%; margin-left: auto; margin-right: auto;"/>
+      </div>
+      <div class="spacer" style="width: 290px; height: 20px;"></div>
+      <div>
+        <img src="img/app_logo.png" style="display: block; width: 0%; height: auto; margin-left: auto; margin-right: auto;"/>
+      </div>
+      <ion-list id="register-list5">
+        <label class="item item-input top-input" id="register-input9">
+          <input type="text" placeholder="First Name" ng-model="data.firstname"/>
+        </label>
+		 <label class="item item-input top-input" id="register-input9">
+          <input type="text" placeholder="Last Name" ng-model="data.lastname"/>
+        </label>
+        <label class="item item-input top-input" id="register-input10">
+          <input type="text" placeholder="Email ID" ng-model="data.emailid"/>
+        </label>
+        <label class="item item-input top-input" id="register-input11">
+          <input type="password" placeholder="Password" ng-model="data.password"/>
+        </label>
+        <label class="item item-input bottom-input" id="register-input12">
+          <input type="password" placeholder="Confirm password" ng-model="data.confirmpassword"/>
+        </label>
+      </ion-list>
+      <div class="spacer" style="width: 290px; height: 20px;"></div>
+      <button id="register-button9" style="border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block" ng-click="Register(data)">Register</button>
+      <a ui-sref="login" id="register-button10" class="button button-light  button-block button-clear">Already have an account?</a>
+    </form>
+  </ion-content>
+</ion-view>

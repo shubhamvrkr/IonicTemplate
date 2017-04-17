@@ -1,0 +1,26 @@
+<ion-view title="Login" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page6">
+  <ion-content padding="true" style="background: url(img/background.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
+    
+    <form id="login-form4" class="list center-form">
+    
+      <div>
+        <img src="img/app_logo.png" style="display: block; width: 100%; height:100%; margin-left: auto; margin-right: auto;"/>
+      </div>
+      <div class="spacer" style="width: 290px; height: 20px;"></div>
+      <ion-list id="login-list4">
+        <label class="item item-input top-input" id="login-input7">
+          <input type="text" placeholder="Username | Eth address" ng-model="data.username"/>
+        </label>
+        <label class="item item-input bottom-input" id="login-input8">
+          <input type="password" placeholder="Password" ng-model="data.password"/>
+        </label>
+      </ion-list>
+      <div class="spacer" style="width: 290px; height: 20px;"></div>
+      <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block" ng-click="Login(data)">Log in</button>
+      <a ui-sref="register" id="login-button8" class="button button-light  button-block button-clear">Don't have an account?</a>
+      
+      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-assertive  button-block">Import Profile</button>
+ 
+    </form>
+  </ion-content>
+</ion-view>
