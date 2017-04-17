@@ -1,19 +1,24 @@
 <ion-view title="Email Verification" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page1">
   <ion-content padding="true" style="background: url(img/background.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
-    
-    <form id="emailVerification-form1" class="list center-form" ng-submit="Verify(data)">
-		
-		<div class="spacer" style="width: 300px; height: 20px;"></div>
-		<div>
-		 <img src="img/app_logo.png" style="display: block; width: 100%; height:100%; margin-left: auto; margin-right: auto;"/>
-		</div>
-		<h5 id="emailVerification-heading2" style="color:#FFF;text-align:left;">We have sent a one time password to xyz@abc.com</h5>
-		<div class="spacer" style="width: 300px; height: 20px;"></div>
-		<label class="item item-input" id="emailVerification-input1">
-			<input type="text" placeholder="Enter OTP" ng-model="data.otpnumber"/>
-		</label>
-		<button id="emailVerification-button1" style="font-weight:600;border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block">Verify</button>
-		<a id="login-button8" class="button button-light  button-block button-clear" ng-click="ResendOTP()">Resend OTP ?</a>
+
+    <form name="emailVerificationForm" class="list center-form">
+
+      <div class="spacer" style="width: 300px; height: 20px;"></div>
+      <div>
+        <img src="img/app_logo.png" style="display: block; width: 100%; height:100%; margin-left: auto; margin-right: auto;"/>
+      </div>
+      <h5 id="emailVerification-heading" style="color:#FFF;text-align:left;">We have sent a one time password to xyz@abc.com</h5>
+      <div class="spacer" style="width: 300px; height: 20px;"></div>
+
+      <label class="item item-input" id="emailVerification-input1">
+        <input type="text" placeholder="Enter OTP" name="otpnumber" ng-model="data.otpnumber" required/>
+      </label>
+
+    <!-- Show error from server -->
+    <small ng-if="error">{{error}}</small>
+
+		<button id="emailVerification-button1" style="font-weight:600;border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block" ng-disabled="emailVerificationForm.$invalid" ng-click="Verify(data)">Verify</button>
+		<a id="login-button8" class="button button-light  button-block button-clear" ng-click="ResendOTP(data)">Resend OTP ?</a>
 	</form>
   </ion-content>
 </ion-view>

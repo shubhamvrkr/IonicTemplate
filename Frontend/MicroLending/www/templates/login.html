@@ -4,23 +4,24 @@
     <div class="spacer" style="width: 290px; height: 20px;"></div>
 
 
-    <form name="loginForm" class="list center-form">
+    <form name="loginForm" class="list center-form form-validation">
       <div>
         <img src="img/app_logo.png" style="display: block;width: 70%; height:70%; margin-left: auto; margin-right: auto;"/>
       </div>
       <div class="list">
         <label class="item item-input top-input" id="loginUsername">
-          <input type="text" placeholder="Username | Eth address" name="username" ng-model="login.username" required/>
+          <input type="text" placeholder="Username | Eth address" name="username" ng-model="data.username" required/>
         </label>
         <label class="item item-input bottom-input" id="loginPassword">
-          <input type="password" placeholder="Password" name="password" ng-model="login.password" required/>
+          <input type="password" placeholder="Password" name="password" ng-model="data.password" required/>
         </label>
+
+        <!-- Show errors  -->
+        <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
+        <small ng-if="error">{{error}}</small>
+
       </div>
 
-      <div class="form-validation">
-        <p ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</p>
-        <p ng-if="error">{{error}}</p>
-      </div>
 
       <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-balanced button-block" ng-disabled="loginForm.$invalid" ng-click="Login(data)">Log in</button>
 

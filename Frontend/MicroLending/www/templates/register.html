@@ -8,36 +8,35 @@
         </div>
         <div class="list">
           <label class="item item-input top-input" id="registerFirstName">
-            <input type="text" placeholder="First Name" name="firstname" ng-model="register.firstname" ng-minlength="2" ng-maxlength="10" required/>
+            <input type="text" placeholder="First Name" name="firstname" ng-model="data.firstname" ng-minlength="2" ng-maxlength="10" required/>
           </label>
-          <p ng-show="registerForm.firstname.$error.minlength">First name must be longer than 1 character</p>
+          <small ng-show="registerForm.firstname.$error.minlength">First name must be longer than 1 character</small>
 
           <label class="item item-input top-input" id="registerLastName">
-            <input type="text" placeholder="Last Name" name="lastname" ng-model="register.lastname" ng-minlength="2" ng-maxlength="10" required/>
+            <input type="text" placeholder="Last Name" name="lastname" ng-model="data.lastname" ng-minlength="2" ng-maxlength="10" required/>
           </label>
-          <p ng-show="registerForm.lastname.$error.minlength">Last name must be longer than 1 character</p>
+          <small ng-show="registerForm.lastname.$error.minlength">Last name must be longer than 1 character</small>
 
           <label class="item item-input top-input" id="registerEmailId">
-            <input type="email" placeholder="Email ID" name="emailid" ng-model="register.emailid"  ng-maxlength="20" required/>
+            <input type="email" placeholder="Email ID" name="emailid" ng-model="data.emailid"  ng-maxlength="20" required/>
           </label>
-          <p ng-show="registerForm.emailid.$invalid &&  !registerForm.emailid.$pristine">Enter a valid email address</p>
+          <small ng-show="registerForm.emailid.$invalid &&  !registerForm.emailid.$pristine">Enter a valid email address</small>
           <label class="item item-input top-input" id="registerPassword">
-            <input type="password" placeholder="Password" name="password" ng-model="register.password" ng-minlength="6" ng-maxlength="10" required/>
+            <input type="password" placeholder="Password" name="password" ng-model="data.password" ng-minlength="6" ng-maxlength="10" required/>
           </label>
-          <p ng-show="registerForm.password.$error.minlength && !registerForm.emailid.$pristine">Minimum password length is 6 characters</p>
+          <small ng-show="registerForm.password.$error.minlength && !registerForm.emailid.$pristine">Minimum password length is 6 characters</small>
           <label class="item item-input bottom-input" id="registerConfirmPassword">
-            <input type="password" placeholder="Confirm password" ng-model="register.confirmpassword" ng-minlength="6" ng-maxlength="10" required/>
+            <input type="password" placeholder="Confirm password" ng-model="data.confirmpassword" ng-minlength="6" ng-maxlength="10" required/>
           </label>
         </div>
-
-        <div class="form-validation">
-            <p ng-show="registerForm.firstname.$error.required || registerForm.lastname.$error.required || registerForm.emaildid.$error.required || registerForm.password.$error.required">All fields are mandatory</p>
-            <p ng-if="erorr">{{error}}</p>
+        <!-- Show errors -->
+        <small ng-show="registerForm.firstname.$error.required || registerForm.lastname.$error.required || registerForm.emaildid.$error.required || registerForm.password.$error.required">All fields are mandatory</small>
+        <small ng-if="error">{{error}}</small>
         </div>
 
         <div class="padding">
          <button type="button" id="register-button9" style="border-radius:15px 15px 15px 15px;"
-         class="button button-balanced button-block" ng-disabled="registerForm.$invalid" ng-click="Register(username)">Register</button>
+         class="button button-balanced button-block" ng-disabled="registerForm.$invalid" ng-click="Register(data)">Register</button>
         </div>
           <a ui-sref="login" id="register-button10" class="button button-light  button-block button-clear">Already have an account? LOGIN!</a>
       </form>
