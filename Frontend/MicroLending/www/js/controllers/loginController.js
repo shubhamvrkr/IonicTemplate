@@ -1,7 +1,7 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory',"$cordovaZip", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory) {
+function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory,$cordovaZip) {
 
 
 	$scope.Login = function(data){
@@ -71,5 +71,88 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 		
 	}
 	
+	$scope.Export = function(){
+	
+			if(window.cordova){
+			
+				console.log("Device");
+				fileChooser.open(success, error);
+			
+			}else{
+			
+				console.log("Browser")
+				console.log()
+				var input = document.getElementById("fileLoader");
+				input.click();
+
+			}
+	
+	
+	}
+	var success = function(data) {
+	
+        console.log("new Data: ",data);
+		
+		var permissions = cordova.plugins.permissions;
+		
+		console.log(permissions)
+
+		permissions.hasPermission(permissions.READ_EXTERNAL_STORAGE, checkPermissionCallback, null);
+
+        function checkPermissionCallback(status) {
+			console.log("status: ",status)
+            
+			if (!status.hasPermission) {
+                
+                  permissions.requestPermission(
+                  permissions.READ_EXTERNAL_STORAGE,
+                  function (status) {
+                      if (!status.hasPermission) {
+                          errorCallback();
+                      } else {
+                          
+						  // continue with downloading/ Accessing operation 
+						  resolveNativePath();
+                      }
+                  },errorCallback);
+            }else{
+			
+				resolveNativePath()
+			}
+        }
+		function resolveNativePath(){
+			
+			window.FilePath.resolveNativePath(data, function(filepath){
+			
+			 console.log("File path: ",filepath);
+			 
+			 //handle unzipping here
+			 
+			 
+			}, function(code,message){
+			
+				console.log(code);
+				console.log(message);
+				
+			});
+		} 
+    };
+	
+    var error = function(msg) {
+        
+		console.log("error: ",msg);
+      
+    };
+	var errorCallback = function () {
+		
+		//user didnt grant permission
+		//tell him export couldnot be done
+         console.warn('Storage permission is not turned on');
+    }
+	$scope.fileNameChanged = function(element){
+		
+			console.log(element.files[0])
+			console.log(element.value)
+	}
 
 }]);
