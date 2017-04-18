@@ -1,4 +1,12 @@
+.background-app{
+  background: url(../img/background-blue.jpg) no-repeat center;
+  background-size:cover;
+  /*background-color: #397ef5;*/
+}
+
 .form-validation{
   color:chartreuse;
   font-weight:bold;
 }
+
+
