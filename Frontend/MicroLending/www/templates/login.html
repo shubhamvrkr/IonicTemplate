@@ -1,12 +1,9 @@
 <ion-view title="Login" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page6">
   <ion-content padding="true" class="background-app manual-ios-statusbar-padding" scroll="false">
 
-    <div class="spacer" style="width: 290px; height: 20px;"></div>
-
-
     <form name="loginForm" class="list center-form form-validation">
       <div>
-        <img src="img/app_logo_white.jpg" style="display: block;width: 70%; height:70%; margin-left: auto; margin-right: auto;"/>
+        <img src="img/app_logo_white.jpg" style="display: block;width: 70%; height:70%; margin-left: auto; margin-right: auto;" />
       </div>
       <div class="list">
         <label class="item item-input top-input" id="loginUsername">
@@ -18,16 +15,17 @@
 
         <!-- Show errors  -->
       </div>
-       <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
-       <small ng-show="error">{{error}}</small>
+      <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
+      <small ng-show="error">{{error}}</small>
 
-      <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-balanced button-block" ng-disabled="loginForm.$invalid" ng-click="Login(data)">Log in</button>
-
-
-      <a ui-sref="register" id="login-button8" class="button button-light  button-block button-clear">Don't have an account? REGISTER!</a>
+      <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-small button-balanced button-block"
+        ng-disabled="loginForm.$invalid" ng-click="Login(data)" outline>Log in</button>
+      <div class="spacer" style="width: 290px; height: 10px;"></div>
+      <a ui-sref="register" id="login-button8">Don't have an account? REGISTER!</a>
+      <div class="spacer" style="width: 290px; height: 10px;"></div>
       <hr style="border:2px dashed white">
       <div class="spacer" style="width: 290px; height: 20px;"></div>
-      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-assertive  button-block">Import Existing Profile</button>
+      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-small button-assertive  button-block">Import Existing Profile</button>
     </form>
 
   </ion-content>

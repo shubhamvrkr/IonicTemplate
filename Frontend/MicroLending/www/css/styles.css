@@ -9,6 +9,23 @@
   font-weight:bold;
 }
 
+.app-logo{
+  display: block;
+  width: 70%;
+  height:70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+a{
+  display: block;
+  align-self: center;
+  text-align: center;
+  color:white;
+}
+a:hover{
+  color:greenyellow ;
+}
+
 /* Hide up-down arrows for number fields - Firefox */
 input[type='number'] {
     -moz-appearance:textfield;
