@@ -12,7 +12,7 @@
       <div class="spacer" style="width: 300px; height: 20px;"></div>
 
       <label class="item item-input" id="emailVerification-input1">
-        <input type="text" placeholder="Enter OTP" name="otpnumber" ng-model="data.otp" required/>
+        <input type="number" id="otpnumber" placeholder="Enter 6 digit OTP" pattern="[0-9]{6}" name="otpnumber" maxlength="6" ng-model="data.otp" required/>
       </label>
 
       <!-- Show error from server -->
