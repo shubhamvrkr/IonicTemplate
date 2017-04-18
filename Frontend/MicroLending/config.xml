@@ -19,4 +19,5 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <allow-navigation href="http://10.244.51.105:8100"/>
 </widget>

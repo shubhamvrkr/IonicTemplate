@@ -25,7 +25,12 @@
       <div class="spacer" style="width: 290px; height: 10px;"></div>
       <hr style="border:2px dashed white">
       <div class="spacer" style="width: 290px; height: 20px;"></div>
-      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-small button-assertive  button-block">Import Existing Profile</button>
+
+      <input ng-show="false" id="fileLoader" type="file" onchange="angular.element(this).scope().fileNameChanged(this)" ng-model="myFile"
+        accept=".zip" />
+
+      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-small button-assertive  button-block"
+        ng-click="Export()">Import Existing Profile</button>
     </form>
 
   </ion-content>
