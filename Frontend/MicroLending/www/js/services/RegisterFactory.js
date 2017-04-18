@@ -107,6 +107,30 @@ angular.module('app.services')
        }
 
 
+     service.createAppDirectory = function (callback) {
+
+        if (window.cordova){
+        //create micro-lending folder inside the package
+         fileFactory.createDirectory("micro_lending","/",function(res){
+            //create contacts folder   
+            fileFactory.createDirectory("contacts","/micro_lending",function(res){
+               //create deals folder
+               fileFactory.createDirectory("deals","/micro_lending",function(res){
+               //create deals folder
+                  console.log(res)
+                  callback(res)
+            
+            })
+            
+         })
+       
+      })   
+   }else{
+   
+         callback({status:"1"})
+   
+   }
+}
 
       return service
 

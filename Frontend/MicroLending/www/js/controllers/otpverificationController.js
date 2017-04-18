@@ -11,7 +11,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                      console.log(userData)
                      registerFactory.registerUser(userData,function(response){
                      console.log("resent OTP user: ",response);
-                      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password,user_data:userData}})
+                      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:userData.password,user_data:userData}})
                })
       }
            
@@ -72,7 +72,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   //{kvs:'',email:,eth_addr:,seed_word:}
                   registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
                     
-                                    console.log(res)
+                                    console.log(local_data)
                                       
                                       if(window.cordova){
                                        
@@ -95,19 +95,21 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                       $http.post(apiUrl + "/api/users/"+response._id,new_data)
                            .success(function (response) {
 
-                           console.log(response)  
+                           console.log(response) 
+                     registerFactory.createAppDirectory(function(response){
+                          console.log("App creation",response)
                            $state.go('login')
+                           
+                        })                           
+                     
+                  });     
+              });
 
+          })
 
-                       });     
-                  });
+      })     
 
-               })
-
-           })     
-
-
-       })
+ })
                /*$ionicLoading.show({
                        templateUrl: 'templates/loading.html',
                        animation: 'fade-in',

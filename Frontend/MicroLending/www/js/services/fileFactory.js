@@ -68,17 +68,17 @@ angular.module('app.services')
     service.createZip = function (fileName,path,data,callback) {
        
        if (window.cordova){
-                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path,
+                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+fileName,
                   PathToResultZip     = cordova.file.externalApplicationStorageDirectory;
-                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:fileName},function(data){
+                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"abc"},function(data){
 
                      console.log("zipeed",data)
-                     callback({status:"1"})
+                      callback({status:"1",data:data})
 
              },function(error){
 
                      console.log("error",error)
-                     callback({status:"0"})
+                    callback({status:"0",data:error})
 
              })
        }
@@ -97,6 +97,29 @@ angular.module('app.services')
 
        }
 };
+  
+   service.unZip = function (fileName,path,callback) {
+       
+       if (window.cordova){
+                  var PathToFileInString  = path
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
+                  JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
+                     console.log(data)
+                      callback({status:"1",data:data})
+               },function(error){
+                     console.log(error)
+                      callback({status:"0",data:error})
+            })
+      }
+       
+      else{
+        
+            callback({status:"1",data:""})
+           
+       }
+};   
+   
+   
    
    
     

@@ -56,28 +56,31 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
          // create a JSON file with the user_profile content and zip it
          if(window.cordova)
          {
-               ss.get(
-                     function (value) { console.log('Success, got ' + value);user_data_content = value },
-                     function (error) { console.log('Error ' + error); },
-                     'user_data');
-            
-           fileFactory.createFile("user_profile.json","/",function(res){
-           
-               fileFactory.writeToFile("user_profile.json","/",user_data_content,function(result){
-               
-                  fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
-                  
-                     console.log(status)
-                     $ionicLoading.hide();
-                  
+                  ss.get(
+                        function (value) { 
+                           console.log('Success, got ' + value);
+                           user_data_content = value;
+
+               fileFactory.createFile("user_profile.json","/",function(res){
+
+                  fileFactory.writeToFile("user_profile.json","/",user_data_content,function(result){
+
+                     fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
+
+                        console.log(status)
+                        $ionicLoading.hide();
+
+                     })
+
+
                   })
-                                          
-               
-               })
-           
-         }) 
-            
-      }
+
+            })   
+
+         },
+            function (error) { console.log('Error ' + error); },
+               'user_data');    
+   }
          
          else
          {
