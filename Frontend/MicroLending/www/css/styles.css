@@ -1,4 +1,21 @@
+.background-app{
+  /*background: url(../img/background-blue.jpg) no-repeat center;
+  background-size:cover;*/
+  background-color: #397ef5;
+}
+
 .form-validation{
   color:chartreuse;
   font-weight:bold;
 }
+
+/* Hide up-down arrows for number fields - Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Hide up-down arrows for number fields - Chrome */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+

@@ -12,16 +12,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		&.top-input {
 			border-radius: 4px 4px 0px 0px;
 		}
-		
+
 		&.bottom-input {
 			border-radius: 0px 0px 4px 4px;
 		}
-		
+
 	}
 	.button-positive {
 		opacity: 0.9;
 	}
-	
+
 }
 .error-box {
 	padding: 10px;
@@ -33,7 +33,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		color: white;
 		margin: 0px;
 	}
-	
+
 }
 .item {
 	margin-bottom: 3px;
@@ -75,13 +75,13 @@ input: -ms-input-placeholder {
 		&.activated {
 			background: $SIDEMENU_TRANSPARENCY;
 		}
-		
+
 	}
 	&.active-page-highlight {
 		.item-content {
 			background: $SIDEMENU_TRANSPARENCY;
 		}
-		
+
 	}
 }
 
@@ -101,11 +101,9 @@ input: -ms-input-placeholder {
 		-moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
 		box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
 	}
-	
+
 }
 .eth-address {
 	padding-left: 7px;
 	padding-right: 7px;
 }
-
-
