@@ -62,7 +62,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory) {
         registerFactory.registerUser(user_data,function(response){
         
             console.log("register user: ",response);
-		      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password}});
+		      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password,user_data:user_data}});
         
         })
     

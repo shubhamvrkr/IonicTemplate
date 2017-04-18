@@ -19,7 +19,8 @@
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-
+    
+     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 
     <link href="css/ionic.app.css" rel="stylesheet">
 	  <link href="lib/ionic-toast/src/ionic-toast.css" rel="stylesheet">
@@ -54,7 +55,7 @@
       }
     </style>
 
-       <script src="js/lib/bundle.js"></script>
+    <script src="js/lib/bundle.js"></script>
     <script src="js/app.js"></script>
     <script src = "js/controllers/loginController.js"></script>
     <script src = "js/controllers/registerController.js"></script>
@@ -84,7 +85,10 @@
     <!-- Only required for Tab projects w/ pages in multiple tabs
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
     -->
-
+     
+   
+     
+     
   </head>
   <body ng-app="app" animation="slide-left-right-ios7">
   <div>
@@ -111,7 +115,24 @@
 		<ion-spinner class="light"></ion-spinner>
 		<br />
 		<span>Please wait...</span>
-    </script>
-
+    </script>   
+     
+   
+     
+   <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyDDBugjfUxGwTfeTKASjqesMXh-cgRrx4U",
+          authDomain: "resource-lending.firebaseapp.com",
+          databaseURL: "https://resource-lending.firebaseio.com",
+          storageBucket: "resource-lending.appspot.com",
+          messagingSenderId: "88868208571"
+        };
+         
+        firebase.initializeApp(config);
+       const messaging = firebase.messaging();
+      </script>
+     
+     
   </body>
 </html>

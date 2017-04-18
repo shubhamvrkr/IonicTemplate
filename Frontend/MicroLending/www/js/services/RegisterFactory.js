@@ -6,6 +6,7 @@ angular.module('app.services')
     
      service.registerUser = function (data,callback) {
        
+            console.log(data)
              var post_data = {}
 
              post_data.email = data.email
@@ -49,7 +50,16 @@ angular.module('app.services')
      
      service.saveUserDataLocally = function (data,callback) {
        
-             if (window.cordova) {    
+         /*ss.set(
+            
+               function ('user_data') { console.log('Set user_data'); },
+               function (error) { console.log('Error ' + error); },
+               'user_data', JSON.stringify(data)
+         ); */   
+        
+        
+        
+      if (window.cordova) {    
 
                 console.log('app',fileFactory)
                 
@@ -66,18 +76,19 @@ angular.module('app.services')
                 })
         }
 
-            else{
+      else{
                     console.log('web')
                     localStorage.setItem('user_data',JSON.stringify(data))
                     callback("abc")
-               }
-    }
+          }
+   }
+     
+     
      
      
         service.generateEthAccount = function (password,callback) {
        
-
-            //get the passphrase
+           //get the passphrase
            ethdapp.generateKeystore(password,null,function(error,result){
            
                if(error) {
@@ -91,6 +102,30 @@ angular.module('app.services')
            })
   
        }
+        
+        
+        
+        service.getFirebaseToken = function(callback){
+               
+               /*messaging.getToken()
+                   .then(function(currentToken) {
+                     if (currentToken) {
+                       callback({status:'1',token:currentToken});
+                      
+                     } else {
+                       // Show permission request.
+                       console.log('No Instance ID token available. Request permission to generate one.');
+                       // Show permission UI.
+                        callback({status:'0'})
+                      
+                     }
+                   }).catch(function(err) {
+                        console.log('An error occurred while retrieving token. ', err);
+                        callback({status:'0'})
+                       
+                      });*/
+                }
+          
     
 return service
       

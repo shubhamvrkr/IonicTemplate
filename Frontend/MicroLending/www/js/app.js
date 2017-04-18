@@ -10,8 +10,6 @@ mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','n
 var myApp = angular.module('app', ['ionic','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services',]);
 
 
-
-
 myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
   
 	$ionicConfigProvider.tabs.position('top');
@@ -31,6 +29,9 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+     
+       
+     
   });
 })
 
