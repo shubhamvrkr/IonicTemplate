@@ -1,5 +1,5 @@
 <ion-view title="Login" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page6">
-  <ion-content padding="true" style="background: url(img/background-blue.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
+  <ion-content padding="true" class="background-app manual-ios-statusbar-padding" scroll="false">
 
     <div class="spacer" style="width: 290px; height: 20px;"></div>
 
@@ -27,7 +27,10 @@
       <a ui-sref="register" id="login-button8" class="button button-light  button-block button-clear">Don't have an account? REGISTER!</a>
       <hr style="border:2px dashed white">
       <div class="spacer" style="width: 290px; height: 20px;"></div>
-      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-assertive  button-block">Import Existing Profile</button>
+	 
+	 <input ng-show="false" id="fileLoader" type="file" onchange="angular.element(this).scope().fileNameChanged(this)" ng-model="myFile" accept=".zip"/>
+	  
+      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-assertive  button-block" ng-click="Export()">Import Existing Profile</button>
     </form>
 
   </ion-content>
