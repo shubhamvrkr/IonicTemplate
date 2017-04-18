@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova']);
 
-var myApp = angular.module('app', ['ionic','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services',]);
+var myApp = angular.module('app', ['ionic','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services']);
 
 
 myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
@@ -21,6 +21,15 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+     
+      if (window.cordova){
+         ss = new cordova.plugins.SecureStorage(
+       function () { console.log('Success')},
+       function (error) { console.log('Error ' + error); },
+       'my_app');
+     }
+       
+     
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -31,6 +40,8 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
     }
      
        
+     
+     
      
   });
 })

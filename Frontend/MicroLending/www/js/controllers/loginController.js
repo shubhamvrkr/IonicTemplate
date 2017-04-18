@@ -17,21 +17,16 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
         if (window.cordova)
         {
             
-            fileFactory.readFile("abc.json","/",function(result){
-            
-                if (result.status == 0){console.log(result.error)}
-                else{
-
-                        console.log(result.data)
-                        
-                        login_data.ks = JSON.parse(result.data)
-                }
-			})
+            ss.get(
+                     function (value) { console.log('Success, got ' + value); login_data = JSON.parse(value) },
+                      function (error) { console.log('Error ' + error); },
+                      'user_data');
+                                      
         
         }else{
 		
             console.log(JSON.parse(localStorage.getItem('user_data')))
-            login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
+            login_data = JSON.parse(localStorage.getItem('user_data'))
             
         }
  

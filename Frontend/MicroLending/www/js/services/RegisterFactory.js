@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('registerFactory',['$http','fileFactory',function($http,fileFactory) {
+.factory('registerFactory',['$http','fileFactory','firebaseFactory',function($http,fileFactory,firebaseFactory) {
 
  var service = {};
 
@@ -29,37 +29,40 @@ angular.module('app.services')
 
 
      service.verifyOTP = function (data,callback) {
-
-
-          console.log("verify OTP ")
+          console.log("Inside verify OTP ")
 
           $http.post("http://10.51.230.147:3000/api/users/verify/"+data.tmp_id,data)
-                    .success(function (response) {
-
+                    .success(function (response,status) {
                     console.log(response)
-                    callback(response)
+                    callback(response,status)
 
-
-            }).catch(function(err){
-                    console.log(err)
+            }).catch(function(err,status){
+                    console.log(err,status)
           });
+}
 
 
-       }
+     service.saveUserDataLocally = function (data,key,callback) {
+
+         if (window.cordova) {    
+               ss.set(
+
+                     function (key) { console.log('Set user_data',key); },
+                     function (error) { console.log('Error ' + error); },
+                     'user_data', JSON.stringify(data)
+                ); 
+            
+            callback("abc")
+         }
+        
+         else{
+                    console.log('web')
+                    localStorage.setItem('user_data',JSON.stringify(data))
+                    callback("abc")
+          }
 
 
-     service.saveUserDataLocally = function (data,callback) {
-
-         /*ss.set(
-
-               function ('user_data') { console.log('Set user_data'); },
-               function (error) { console.log('Error ' + error); },
-               'user_data', JSON.stringify(data)
-         ); */
-
-
-
-      if (window.cordova) {
+      /*if (window.cordova) {
 
                 console.log('app',fileFactory)
 
@@ -80,7 +83,7 @@ angular.module('app.services')
                     console.log('web')
                     localStorage.setItem('user_data',JSON.stringify(data))
                     callback("abc")
-          }
+          }*/
    }
 
 
@@ -105,29 +108,7 @@ angular.module('app.services')
 
 
 
-        service.getFirebaseToken = function(callback){
-
-               messaging.getToken()
-                   .then(function(currentToken) {
-                     if (currentToken) {
-                       callback({status:'1',token:currentToken});
-
-                     } else {
-                       // Show permission request.
-                       console.log('No Instance ID token available. Request permission to generate one.');
-                       // Show permission UI.
-                        callback({status:'0'})
-
-                     }
-                   }).catch(function(err) {
-                        console.log('An error occurred while retrieving token. ', err);
-                        callback({status:'0'})
-
-                      });
-                }
-
-
-return service
+      return service
 
 
 }]);

@@ -60,8 +60,45 @@ angular.module('app.services')
                           console.log(error)
                            callback({status:"0",error:error})
                       });
-                };
+         };
     
+   
+   
+    
+    service.createZip = function (fileName,path,data,callback) {
+       
+       if (window.cordova){
+                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path,
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory;
+                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:fileName},function(data){
+
+                     console.log("zipeed",data)
+                     callback({status:"1"})
+
+             },function(error){
+
+                     console.log("error",error)
+                     callback({status:"0"})
+
+             })
+       }
+       
+      else{
+       
+            var zip = new JSZip();
+            zip.file(fileName, data);
+            //var img = zip.folder("images");
+            //img.file("smile.gif", imgData, {base64: true});
+            zip.generateAsync({type:"blob"}).then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "user.zip");
+            callback({status:"1"})
+         });
+
+       }
+};
+   
+   
     
 return service
       

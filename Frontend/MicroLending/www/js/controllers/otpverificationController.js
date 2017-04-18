@@ -1,9 +1,9 @@
-mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory','$http',
-                   function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,$http) {
+mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory','$http','firebaseFactory',
+                   function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,$http,firebaseFactory) {
                      
    
                       
-   $scope.ResendOTP = function(){
+   $scope.ResendOTP = function(data){
 
                      console.log("Resend OTP")
 
@@ -11,7 +11,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                      console.log(userData)
                      registerFactory.registerUser(userData,function(response){
                      console.log("resent OTP user: ",response);
-                     $state.go('emailVerification',{params:{temp_id:response._id,passphrase:userData.password}});
+                      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password,user_data:userData}})
                })
       }
            
@@ -27,38 +27,68 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   console.log($stateParams)
 
                   //call factory function verifyOTP to verify otp
-                  registerFactory.verifyOTP(otp_data,function(response){
+                  registerFactory.verifyOTP(otp_data,function(response,status){
 
                                  console.log(response)
                                  console.log("verify OTP")
+                              
+                              //re -register 
+                              if (status==404){
+                                 //retry 
+                                 return
+                              }
+                           //wrong otp
+                              
 
                   //if otp is verified then generate eth address and register with FCM
                   registerFactory.generateEthAccount($stateParams.params.passphrase,function(err,result){
-                                       if (err) console.log(err)
+                                     
+                                 console.log(" generateEthAccount Called")
+                                 if (err) console.log(err)
                                      //store the KVS in the localstorage;
                                       console.log("save the kvs", result)
                    
+                                       local_data = {}
+                                       local_data.fname = $stateParams.params.user_data.fname
+                                       local_data.lname =  $stateParams.params.user_data.lname
+                                       local_data.email =  $stateParams.params.user_data.email
+                                       local_data.address = result.address
+                                       local_data.ks =  result.ks
+                                       local_data.seedWord = result.seedPhrase
+                                       local_data.imagePath = ""
                                       
                   // get firebase token
-                   registerFactory.getFirebaseToken(function(result_token){
+                   firebaseFactory.getFirebaseToken(function(result_token){
                         
-                        if (result.status == '0'){
+                      console.log("getFirebaseToken Called")
+                        if (result_token.status == '0'){
                               console.log('Error')
                         
                         }
                       
-                      token = result_token.token
-                      console.log(token)
+                      //token = result_token.token
+                      //console.log(token)
                   //for mobile store it in a file && for browser on localStorage
                   //{kvs:'',email:,eth_addr:,seed_word:}
-                  registerFactory.saveUserDataLocally(result,function(res){
-                                      console.log(res)
-                                      console.log('local storage',localStorage.getItem('user_data'))
-
+                  registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
+                    
+                                    console.log(res)
+                                      
+                                      if(window.cordova){
+                                       
+                                         ss.get(
+                                           function (value) { console.log('Success, got ' + value); },
+                                           function (error) { console.log('Error ' + error); },
+                                           'user_data');
+                                      
+                                      }
+                                      else{
+                                             console.log('local storage',localStorage.getItem('user_data'))
+                                      }
                                       var new_data = {}
                                       new_data.name = response.name
                                       new_data.ethAccount = result.address
-                                      new_data.firebaseToken =token 
+                                      new_data.firebaseToken ='abc' 
 
 
                       //send to DB 
@@ -93,4 +123,4 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                    }, 2000);*/
    }
 
-       }])
+}])

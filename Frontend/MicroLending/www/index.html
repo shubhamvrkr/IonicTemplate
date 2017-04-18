@@ -64,6 +64,9 @@
   </style>
 
   <script src="js/lib/bundle.js"></script>
+  <script src="js/lib/jszip.min.js"></script>
+   <script src="js/lib/FileSaver.js"></script>
+   
   <script src="js/app.js"></script>
   <script src="js/controllers/loginController.js"></script>
   <script src="js/controllers/registerController.js"></script>
@@ -78,6 +81,8 @@
   <script src="js/services/RegisterFactory.js"></script>
   <script src="js/services/fileFactory.js"></script>
   <script src="js/services/LoginFactory.js"></script>
+  <script src="js/services/firebaseFactory.js"></script>
+
 
   <script>
     apiUrl = "http://10.51.230.147:3000"
@@ -134,6 +139,7 @@
               messagingSenderId: "88868208571"
             };
             firebase.initializeApp(config);
+            const messaging = firebase.messaging();
 
   </script>
 

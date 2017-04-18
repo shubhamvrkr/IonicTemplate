@@ -1,7 +1,7 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast','fileFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast) {
+function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory) {
 
 	console.log("menuCtrl")
  // .fromTemplateUrl() method
@@ -42,7 +42,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 	
   $scope.exportProfile = function(){
 	  
-	  console.log("exportProfile");
+      console.log("exportProfile");
 	  $scope.closePopover();
 	  $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
@@ -51,9 +51,53 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 				maxWidth: 200,
 				showDelay: 0
 	  });
+     
+     
+         // create a JSON file with the user_profile content and zip it
+         if(window.cordova)
+         {
+               ss.get(
+                     function (value) { console.log('Success, got ' + value);user_data_content = value },
+                     function (error) { console.log('Error ' + error); },
+                     'user_data');
+            
+           fileFactory.createFile("user_profile.json","/",function(res){
+           
+               fileFactory.writeToFile("user_profile.json","/",user_data_content,function(result){
+               
+                  fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
+                  
+                     console.log(status)
+                     $ionicLoading.hide();
+                  
+                  })
+                                          
+               
+               })
+           
+         }) 
+            
+      }
+         
+         else
+         {
+               console.log('local storage',localStorage.getItem('user_data'))
+               user_data_content = localStorage.getItem('user_data')
+               
+                fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
+                  
+                     console.log(status)
+                     $ionicLoading.hide();
+                  
+                  })
+         }
+        
+     
+     
+	  
 	  $timeout(function () {
 			
-			$ionicLoading.hide();
+			
 			ionicToast.show('Profile exported at /data/Micro-Lending/profile', 'bottom', true, 2500);
     
 	  }, 2000);
@@ -69,6 +113,6 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
   }
 	
 	
-	
+
 	
 }])

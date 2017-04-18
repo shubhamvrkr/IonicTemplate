@@ -5,7 +5,7 @@ angular.module('app.services')
  var service = {};
     
      service.login = function (data,callback) {
-       
+               console.log(data)       
             ethdapp.retrieveKeystore (data.username,data.password,data.ks,function(error,result){
            
                if(error) {
