@@ -5,7 +5,8 @@
 
       <div class="spacer" style="width: 300px; height: 20px;"></div>
       <div>
-        <img src="img/app_logo_white.jpg" style="display: block; width: 70%; height:70%; margin-left: auto; margin-right: auto;"/>
+        <img src="img/app_logo_white.jpg" style="display: block; width: 70%; height:70%; margin-left: auto; margin-right: auto;"
+        />
       </div>
       <h5 id="emailVerification-heading" style="color:#FFF;text-align:left;">We have sent a one time password to xyz@abc.com</h5>
       <div class="spacer" style="width: 300px; height: 20px;"></div>
@@ -14,11 +15,12 @@
         <input type="text" placeholder="Enter OTP" name="otpnumber" ng-model="data.otp" required/>
       </label>
 
-    <!-- Show error from server -->
-    <small ng-if="error">{{error}}</small>
+      <!-- Show error from server -->
+      <small ng-if="error">{{error}}</small>
 
-		<button id="emailVerification-button1" style="font-weight:600;border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block" ng-disabled="emailVerificationForm.$invalid" ng-click="Verify(data)">Verify</button>
-		<a id="login-button8" class="button button-light  button-block button-clear" ng-click="ResendOTP(data)">Resend OTP ?</a>
-	</form>
+      <button id="emailVerification-button1" style="font-weight:600;border-radius:15px 15px 15px 15px;" class="button button-balanced  button-block"
+        ng-disabled="emailVerificationForm.$invalid" ng-click="Verify(data)">Verify</button>
+      <a id="login-button8" class="button button-light  button-block button-clear" ng-click="ResendOTP(data)">Resend OTP ?</a>
+    </form>
   </ion-content>
 </ion-view>
