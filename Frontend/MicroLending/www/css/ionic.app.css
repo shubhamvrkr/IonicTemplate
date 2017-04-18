@@ -9861,10 +9861,10 @@ input:-ms-input-placeholder {
 
 .side-menu-gradient {
 
-  background: -webkit-linear-gradient(left top, #000, #484848);
-  background: -o-linear-gradient(bottom right, #000, #484848);
-  background: -moz-linear-gradient(bottom right, #000, #484848);
-  background: linear-gradient(to bottom right, #000, #484848);
+  background: -webkit-linear-gradient(left top, #000, #4885ed);
+  background: -o-linear-gradient(bottom right, #000, #4885ed);
+  background: -moz-linear-gradient(bottom right, #000, #4885ed);
+  background: linear-gradient(bottom right, #000, #4885ed);
 
 }
 
