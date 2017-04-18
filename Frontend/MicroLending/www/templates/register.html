@@ -4,16 +4,16 @@
     <div class="spacer" style="width: 290px; height: 20px;"></div>
     <form name="registerForm" class="list center-form form-validation" ng-submit="Register(data)">
       <div>
-        <img src="img/app_logo_white.jpg" style="display: block; width: 70%; height:70%; margin-left: auto; margin-right: auto;" />
+        <img src="img/app_logo_white.jpg" class="app-logo" />
       </div>
       <div class="list">
         <label class="item item-input top-input" id="registerFirstName">
-            <input type="text" placeholder="First Name" name="firstname" ng-model="data.firstname" ng-minlength="2" ng-maxlength="10" required/>
+            <input type="text" placeholder="First Name" name="firstname" ng-model="data.firstname" ng-minlength="2" ng-maxlength="15" required/>
           </label>
         <small ng-show="registerForm.firstname.$error.minlength">First name must be longer than 1 character</small>
 
         <label class="item item-input top-input" id="registerLastName">
-            <input type="text" placeholder="Last Name" name="lastname" ng-model="data.lastname" ng-minlength="2" ng-maxlength="10" required/>
+            <input type="text" placeholder="Last Name" name="lastname" ng-model="data.lastname" ng-minlength="2" ng-maxlength="15" required/>
           </label>
         <small ng-show="registerForm.lastname.$error.minlength">Last name must be longer than 1 character</small>
 
@@ -34,9 +34,10 @@
       <small ng-show="error">{{error}}</small>
 
       <div class="padding">
-        <button id="register-button9" style="border-radius:15px 15px 15px 15px;" class="button button-balanced button-block" ng-disabled="registerForm.$invalid">Register</button>
+        <button id="register-button9" style="border-radius:15px 15px 15px 15px;" class="button button-small button-balanced button-block"
+          ng-disabled="registerForm.$invalid">Register</button>
       </div>
-      <a ui-sref="login" id="register-button10" class="button button-light  button-block button-clear">Already have an account? LOGIN!</a>
+      <a ui-sref="login" id="register-button10">Already have an account? LOGIN!</a>
     </form>
   </ion-content>
 </ion-view>
