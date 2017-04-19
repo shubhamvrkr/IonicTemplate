@@ -84,9 +84,9 @@ angular.module('app.services')
     service.createZip = function (fileName,path,data,callback) {
        
        if (window.cordova){
-                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+fileName,
-                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory;
-                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"abc"},function(data){
+                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path,
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
+                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"user_profile"},function(data){
 
                      console.log("zipeed",data)
                       callback({status:"1",data:data})

@@ -3,7 +3,35 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopov
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory,$cordovaCamera, $cordovaFile) {
 
-	console.log("menuCtrl")
+	console.log("menuCtrl");
+   $scope.user = {}
+    //retrieve the use data from the localStorge
+    
+    if (window.cordova)
+    {
+    
+       ss.get(
+                function (value) { 
+                   console.log('Success, got ' + value);
+                   var user_data =JSON.parse(value);
+                   $scope.name = user_data.fname+" "+user_data.lname
+                   $scope.eth_address =user_data.address 
+                   $scope.email =user_data.email 
+               },
+                  function (error) { console.log('Error ' + error); },
+                  'user_data');  
+    }
+   else{
+    
+     console.log(JSON.parse(localStorage.getItem("user_data")));
+     var user_data = JSON.parse(localStorage.getItem("user_data"));
+      $scope.user.name = user_data.fname+" "+user_data.lname
+      $scope.user.eth_address =user_data.address 
+      $scope.user.email =user_data.email 
+    
+    }
+    
+    
  // .fromTemplateUrl() method
 	
   $ionicPopover.fromTemplateUrl('options-menu.html', {
@@ -62,11 +90,11 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
                            console.log('Success, got ' + value);
                            user_data_content = value;
 
-               fileFactory.createFile("user_profile.json","/",function(res){
+               fileFactory.createFile("user_profile.json","/micro_lending/user_data",function(res){
 
-                  fileFactory.writeToFile("user_profile.json","/",user_data_content,function(result){
+                  fileFactory.writeToFile("user_profile.json","/micro_lending/user_data",user_data_content,function(result){
 
-                     fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
+                     fileFactory.createZip("micro_lending/user_data","/micro_lending/user_data",user_data_content,function(status){
 
                         //TODO: delete the .json file as it is not needed anymore
                         console.log(status)
