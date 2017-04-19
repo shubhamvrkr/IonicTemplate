@@ -1,7 +1,14 @@
 .background-app{
   /*background: url(../img/background-blue.jpg) no-repeat center;
   background-size:cover;*/
-  background-color:  #0052cc;
+
+  /*background-color:  #0052cc;*/
+
+  /* Gradient of two colors */
+  background: -webkit-linear-gradient(bottom right, #000	, #0052cc);
+  background: -o-linear-gradient(bottom right, #000	, #0052cc);
+  background: -moz-linear-gradient(bottom right, #000	, #0052cc);
+  background: linear-gradient(bottom right, #000	, #0052cc);
 }
 
 .form-validation{
