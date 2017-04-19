@@ -7,6 +7,7 @@
 }
 @media screen and (min-width: 720px) {
 	.screenadjust{
+	
 		width:720px;
 		position: absolute;
 		left: 50%;
@@ -28,13 +29,4 @@
   right: 0;
   top: 5px;
   color: #bbb;
-}
-
-.center-div {
-
-  width: 200px;
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-10%, -10%); 
 }

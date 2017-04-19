@@ -1,7 +1,7 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast','fileFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast','fileFactory','$cordovaCamera', '$cordovaFile', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory) {
+function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory,$cordovaCamera, $cordovaFile) {
 
 	console.log("menuCtrl")
  // .fromTemplateUrl() method
@@ -43,6 +43,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
   $scope.exportProfile = function(){
 	  
       console.log("exportProfile");
+	  
 	  $scope.closePopover();
 	  $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
@@ -113,6 +114,66 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 	  $state.go('login');
   }
 	
+  $scope.uploadImage = function(){
+  
+  
+			console.log("Upload Image")
+			if(window.cordova){
+				
+				var options = {
+			
+						destinationType : Camera.DestinationType.FILE_URI,
+						sourceType : Camera.PictureSourceType.PHOTOLIBRARY, 
+						allowEdit : false,
+						encodingType: Camera.EncodingType.JPEG
+				};
+				$cordovaCamera.getPicture(options).then(function(imageData) {
+	 
+								console.log('ImageData: ',imageData)
+								onImageSuccess(imageData);
+	 
+							function onImageSuccess(fileURI) {
+									
+									console.log('fileURI: ',fileURI)
+									createFileEntry(fileURI);
+							}
+	 
+							function createFileEntry(fileURI) {
+					
+									window.FilePath.resolveNativePath(fileURI, copyFile);
+									
+							}
+	 
+							function copyFile(filepath) {
+				
+									console.log('filepath: ',filepath)
+									var name = filepath.substr(filepath.lastIndexOf('/') + 1);
+									console.log('name: ',name)
+									var filepath = filepath.substr(0,filepath.lastIndexOf('/'));
+									console.log('path: ',filepath);
+									
+									fileFactory.copyFile(filepath,name,"/micro_lending/user_data",function(response){
+									
+										console.log(response)
+									});
+									
+							}
+			
+							function fail(error) {
+								console.log("fail: " + error.code);
+							}
+	 
+				}, function(err) {
+				
+						console.log('camera error: ',err)
+				});
+				
+			}else{
+			
+			
+			}
+	
+  };
 	
 
 	

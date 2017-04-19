@@ -32,6 +32,22 @@ angular.module('app.services')
                       });
                 };
     
+	service.copyFile = function (fullpath,fileName,path,callback) {
+      
+	$cordovaFile.copyFile(fullpath, fileName, cordova.file.externalApplicationStorageDirectory+path, "user_pic.png")
+				.then(function (success) {
+						// success
+						callback({status:"1"})
+						
+						}, function (error) {
+							// error
+							callback({status:"0",error:error})
+						});
+					}
+		
+	
+	
+	
     
     service.writeToFile = function (fileName,path,data,callback) {
        

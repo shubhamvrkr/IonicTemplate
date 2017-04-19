@@ -4,10 +4,13 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams','$state
 function ($scope, $stateParams,$state) {
 
 	$scope.data = {};
-	//$scope.localcontacts = [{ email:"shubhamvrkr@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"bhubhamvrkr@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"shubhamvrkr@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"}]
-	
-	$scope.localcontacts = [];
+	//data from database
+
+	$scope.cachedata =[]
+	$scope.localcontacts = [{ email:"nits7@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"amolpednekar@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"shubhamvrkr@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"}];
 	$scope.availablecontacts = [];
+	$scope.data.filteredlocalcontacts = $scope.localcontacts;
+	$scope.data.filteredavailablecontacts = $scope.availablecontacts;
 	
 	$scope.Clear = function(){
 		
@@ -19,10 +22,28 @@ function ($scope, $stateParams,$state) {
 	$scope.searchTextChanged = function(searchText){
 
 		console.log(searchText)
+		if(searchText.length == 1){
+		
+			//postcall to get all the items with starting characters
+			//bind to scope.availablecontacts
+		
+		
+		}
+		
+				
 	}
-	$scope.deleteContact = function(index){
+	$scope.deleteContact = function(index,item){
 	
 		console.log(index)
+		console.log($scope.localcontacts)
+		console.log($scope.data.filteredlocalcontacts)
+		$scope.localcontacts.splice(index, 1);
+		console.log($scope.localcontacts)
+		$scope.data.filteredlocalcontacts.splice(index, 1);
+		console.log($scope.data.filteredlocalcontacts)
+		
+		//delete entry from database where item.email
+		
 	}
 	$scope.addContact = function(contact){
 	
