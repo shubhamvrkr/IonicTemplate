@@ -4,9 +4,12 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams','$state
 function ($scope, $stateParams,$state) {
 
 	$scope.data = {};
+	//data from database
+
+	$scope.cachedata =[]
 	$scope.localcontacts = [{ email:"nits7@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"amolpednekar@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"},{ email:"shubhamvrkr@gmail.com",ethadress:"0x123f681646d4a755815f9cb19e1acc8565a0c2ac"}]
-	
-	//$scope.localcontacts = [];
+	$scope.filteredlocalcontacts = $scope.localcontacts.length;
+	//$scope.localcontacts = $scope.cachedata;
 	$scope.availablecontacts = [];
 	
 	$scope.Clear = function(){
@@ -19,10 +22,10 @@ function ($scope, $stateParams,$state) {
 	$scope.searchTextChanged = function(searchText){
 
 		console.log(searchText)
-		if(searchText.length = 1){
+		if(searchText.length == 1){
 		
-		
-		
+			//postcall to get all the items with starting characters
+			//bind to scope.availablecontacts
 		
 		
 		}

@@ -12,9 +12,10 @@
 			
 		</div>
 		
-		<div ng-if="localcontacts.length>0">
+		
+		<div ng-if="localcontacts.length > 0 || filteredlocalcontacts.length ==0">
 			<div class="item item-divider">Phonebook contacts</div>
-			<div class="list card" ng-repeat="contact in localcontacts | filter:data.searchText | orderBy: 'email'">
+			<div class="list card" ng-repeat="contact in filteredlocalcontacts = ( localcontacts | filter:data.searchText | orderBy: 'email')">
 			
 			
 				<div class="item item-avatar">
@@ -26,13 +27,13 @@
 					<p class="item-icon-right" ng-click="deleteContact($index)"><i class="icon ion-trash-b"></i> </p>
 					
 				</div>
-			
+			{{filteredlocalcontacts.length}}
 			</div>
 		</div>
 		
-		<div ng-if="availablecontacts.length > 0">
+		<div ng-if="availablecontacts.length > 0 || filteredavailablecontacts.length ==0">
 			<div class="item item-divider">Available contacts</div>
-			<div class="list card" ng-repeat="acontact in availablecontacts">
+			<div class="list card" ng-repeat="acontact in filteredavailablecontacts = ( availablecontacts | filter:data.searchText | orderBy: 'email')">
 			
 			
 				<div class="item item-avatar">
@@ -47,8 +48,7 @@
 			
 			</div>
 		</div>
-		
-		<div ng-if="localcontacts.length==0 && availablecontacts.length==0" style="vertical-align: center;text-align: center;">
+		<div ng-if="(localcontacts.length==0 && availablecontacts.length==0)||(filteredlocalcontacts.length==0 && filteredavailablecontacts.length==0)" style="vertical-align: center;text-align: center;">
 				<h5>No contacts Available</h5>
 		</div>
 		
