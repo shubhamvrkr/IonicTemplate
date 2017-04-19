@@ -87,7 +87,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                                       var new_data = {}
                                       new_data.name = response.name
                                       new_data.ethAccount = result.address
-                                      new_data.firebaseToken =token 
+                                      new_data.firebaseToken =token
+                                      new_data.publicKey = result.publickey
 
 
                       //send to DB 
