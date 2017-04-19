@@ -1,7 +1,7 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory',"$cordovaZip", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory',"$cordovaZip",'registerFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory,$cordovaZip) {
+function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory,$cordovaZip,registerFactory) {
 
 
 	$scope.Login = function(data){
@@ -155,6 +155,15 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                fileFactory.unZip("",filepath,function(data){
                console.log(data)
                
+                    fileFactory.readFile("user_data,json",cordova.file.externalApplicationStorageDirectory+"/",function(status,data){
+                     
+                        if (status=="0"){console.log("Error reading file after zipping");}
+                     
+                             registerFactory.saveUserDataLocally(data,'user_data',function(res){
+                                             console.log(res);
+                                              $state.go('menu.allContracts');
+                                    });
+                           })
                })
 			 
 			 
@@ -183,10 +192,15 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
          //browser
         fileFactory.unZip("",element.files[0],function(data){
                console.log(data)
-         })
-       
-			console.log(element.files[0])
-			console.log(element.value)
-	}
+            //save the data in the localStorage
+           registerFactory.saveUserDataLocally(data.data,'user_data',function(res){
+                           console.log("saved in local Storage",res);
+              console.log(JSON.parse(localStorage.getItem("user_data")))
+                            $state.go('menu.allContracts');
+                          
+            });  
+               
+      })
+   }
 
 }]);

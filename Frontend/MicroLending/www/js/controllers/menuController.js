@@ -67,6 +67,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 
                      fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
 
+                        //TODO: delete the .json file as it is not needed anymore
                         console.log(status)
                         $ionicLoading.hide();
 
@@ -95,10 +96,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
                   })
          }
         
-     
-     
-	  
-	  $timeout(function () {
+   	  $timeout(function () {
 			
 			
 			ionicToast.show('Profile exported at /data/Micro-Lending/profile', 'bottom', true, 2500);
