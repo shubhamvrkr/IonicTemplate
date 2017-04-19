@@ -5,17 +5,34 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova','ngLetterAvatar']);
+mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova','ngLetterAvatar','ionic.cloud']);
 
 var myApp = angular.module('app', ['ionic','ngLetterAvatar','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services',]);
 
 
 
-myApp.config(function($ionicConfigProvider, $sceDelegateProvider){
+myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProvider){
   
 	$ionicConfigProvider.tabs.position('top');
    $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-
+    $ionicCloudProvider.init({
+    "core": {
+      "app_id": "048ed0c4"
+    },
+    "push": {
+      "sender_id": "88868208571",
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+        },
+        "android": {
+          "iconColor": "#343434"
+        }
+      }
+    }    
+       
+   })
 })
 
 .run(function($ionicPlatform) {

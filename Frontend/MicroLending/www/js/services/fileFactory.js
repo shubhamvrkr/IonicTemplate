@@ -105,6 +105,8 @@ angular.module('app.services')
                   PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
                   JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
                      console.log(data)
+                     
+                      // save the result in the SS storage.. frst read from file
                       callback({status:"1",data:data})
                },function(error){
                      console.log(error)
@@ -120,6 +122,7 @@ angular.module('app.services')
                
                 new_zip.file("user_profile.json").async("string").then(function(result){
                 
+                  // save the result in the local storage 
                   callback({status:"1",data:JSON.parse(result)}) 
                    
                 

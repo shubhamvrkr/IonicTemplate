@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('firebaseFactory',['$http',function($http) {
+.factory('firebaseFactory',['$http','$ionicPush',function($http,$ionicPush) {
 
          var service = {};
 
@@ -27,19 +27,51 @@ angular.module('app.services')
    }  
         
  service.getFirebaseToken = function(callback){
-     callback({status:'1'})
-             /*messaging.requestPermission()
+    
+      if (window.cordova)
+      {
+         $ionicPush.register().then(function(t) {
+            return $ionicPush.saveToken(t);
+            }).then(function(t) {
+               console.log('Token saved:', t.token);
+               callback({status:'1',token:t.token})
+                              
+
+         });
+      }
+    
+    else{
+    
+         messaging.requestPermission()
              .then(function() {
                console.log('Notification permission granted.');
-                getToken(callback)
-                        
-                     
-             })
+                  messaging.getToken()
+                   .then(function(currentToken) {
+                     if (currentToken) {
+                       callback({status:'1',token:currentToken});
+
+                     } else {
+                       // Show permission request.
+                       console.log('No Instance ID token available. Request permission to generate one.');
+                       // Show permission UI.
+                        //updateUIForPushPermissionRequired(callback)
+                        callback({status:'0'})
+
+                     }
+                   }).catch(function(err) {
+                        console.log('An error occurred while retrieving token. ', err);
+                        callback({status:'0'})
+
+                  });           
+            })
              .catch(function(err) {
                console.log('Unable to get permission to notify.', err);
                 callback({status:'0'})
-             });*/
-   
+             });
+    
+           
+      }
+            
  }
    
       function updateUIForPushPermissionRequired() {

@@ -56,7 +56,7 @@ angular.module('app.services')
         
          else{
                     console.log('web')
-                    localStorage.setItem('user_data',JSON.stringify(data))
+                    localStorage.setItem(key,JSON.stringify(data))
                     callback("abc")
           }
 
