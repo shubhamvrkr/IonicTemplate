@@ -27,8 +27,8 @@ angular.module('app.services')
    }  
         
  service.getFirebaseToken = function(callback){
-       callback({status:'1'})
-      /*if (window.cordova)
+      
+      if (window.cordova)
       {
          $ionicPush.register().then(function(t) {
             return $ionicPush.saveToken(t);
@@ -70,7 +70,7 @@ angular.module('app.services')
              });
     
            
-      }*/
+      }
             
  }
    
