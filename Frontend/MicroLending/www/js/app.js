@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova']);
+mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova','ngLetterAvatar']);
 
-var myApp = angular.module('app', ['ionic','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services']);
+var myApp = angular.module('app', ['ionic','ngLetterAvatar','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services',]);
+
 
 
 myApp.config(function($ionicConfigProvider, $sceDelegateProvider){

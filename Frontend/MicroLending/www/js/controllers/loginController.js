@@ -152,7 +152,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 			 console.log("File path: ",filepath);
 			 
 			 //handle unzipping here for android
-               service.unZip("",filepath,function(data){
+               fileFactory.unZip("",filepath,function(data){
                console.log(data)
                
                })
