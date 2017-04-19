@@ -5,7 +5,7 @@
 
       <div class="spacer" style="width: 300px; height: 20px;"></div>
       <div>
-        <img src="img/app_logo_white.jpg" class="app-logo"/>
+        <img src="img/app_logo_white.jpg" class="app-logo" />
       </div>
       <h5 id="emailVerification-heading" style="color:#FFF;text-align:left;">We have sent a one time password to xyz@abc.com</h5>
       <div class="spacer" style="width: 300px; height: 20px;"></div>
@@ -16,9 +16,10 @@
 
       <!-- Show error from server -->
       <small ng-if="error">{{error}}</small>
-
-      <button id="emailVerification-button1" style="font-weight:600;border-radius:15px 15px 15px 15px;" class="button button-small  button-balanced  button-block"
-        ng-disabled="emailVerificationForm.$invalid" ng-click="Verify(data)">Verify</button>
+      <div>
+        <button id="emailVerification-button1" class="button button-medium button-radius button-balanced button-block" ng-disabled="emailVerificationForm.$invalid"
+          ng-click="Verify(data)">Verify</button>
+      </div>
       <a id="login-button8" ng-click="ResendOTP(data)">Resend OTP ?</a>
     </form>
   </ion-content>

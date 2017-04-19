@@ -28,14 +28,13 @@
         <label class="item item-input bottom-input" id="registerConfirmPassword">
             <input type="password" placeholder="Confirm password" ng-model="data.confirmpassword" ng-minlength="6" ng-maxlength="20" required/>
           </label>
+        <!-- Show errors -->
+        <small ng-show="registerForm.firstname.$error.required || registerForm.lastname.$error.required || registerForm.emaildid.$error.required || registerForm.password.$error.required">All fields are mandatory</small>
+        <small ng-show="error">{{error}}</small>
       </div>
-      <!-- Show errors -->
-      <small ng-show="registerForm.firstname.$error.required || registerForm.lastname.$error.required || registerForm.emaildid.$error.required || registerForm.password.$error.required">All fields are mandatory</small>
-      <small ng-show="error">{{error}}</small>
 
-      <div class="padding">
-        <button id="register-button9" style="border-radius:15px 15px 15px 15px;" class="button button-small button-balanced button-block"
-          ng-disabled="registerForm.$invalid">Register</button>
+      <div>
+        <button id="register-button9" class="button button-medium button-radius button-balanced button-block" ng-disabled="registerForm.$invalid">Register</button>
       </div>
       <a ui-sref="login" id="register-button10">Already have an account? LOGIN!</a>
     </form>
