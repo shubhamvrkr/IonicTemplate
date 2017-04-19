@@ -22,7 +22,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
             
                   //take state params from the register controller
                   var otp_data ={} 
-                  otp_data.otp = data.otp
+                  otp_data.otp = data.otp.toString()
                   otp_data.tmp_id = $stateParams.params.temp_id
                   console.log($stateParams)
 
