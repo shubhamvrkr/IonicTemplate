@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('fileFactory',['$cordovaFile',function($cordovaFile) {
+.factory('fileFactory',['$cordovaFile','registerFactory',function($cordovaFile,registerFactory) {
  
  var service = {};
     
@@ -122,35 +122,43 @@ angular.module('app.services')
                   JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
                      console.log(data)
                      
-                      // save the result in the SS storage.. frst read from file
-                      callback({status:"1",data:data})
+                      // save the result in the SS storage.. first read from file
+                     
+                     readFile("user_data,json",PathToResultZip,function(status,data){
+                     
+                        if (status=="0"){console.log("Error reading file after zipping");callback({status:"0",data:data})}
+                     
+                             registerFactory.saveUserDataLocally(data,'user_data',function(res){
+                                             console.log(res)
+                                              callback(res)
+
+                                       });
+                           })
+                     
                },function(error){
                      console.log(error)
                       callback({status:"0",data:error})
-            })
-      }
+         })
+   }
        
       else{
                  
-            var new_zip = new JSZip();
-            new_zip.loadAsync(path)
-            .then(function(zip) {
-               
+               var new_zip = new JSZip();
+               new_zip.loadAsync(path)
+               .then(function(zip) {
+
                 new_zip.file("user_profile.json").async("string").then(function(result){
-                
-                  // save the result in the local storage 
-                  callback({status:"1",data:JSON.parse(result)}) 
-                   
-                
-                }); 
+                     // save the result in the local storage 
+                     registerFactory.saveUserDataLocally(result,'user_data',function(res){
+                                             console.log(res)
+                                              callback(res)
+                              });
+                    }); 
             });
-   }
+      }
 };   
    
-   
-   
-   
-    
+ 
 return service
       
 

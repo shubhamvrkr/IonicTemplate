@@ -88,7 +88,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                                       new_data.name = response.name
                                       new_data.ethAccount = result.address
                                       new_data.firebaseToken ='' ,
-									    new_data.publicKey =result.publickey 
+									  new_data.publicKey =result.publickey 
 
 
                       //send to DB 
@@ -96,7 +96,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                            .success(function (response) {
 
                            console.log(response) 
-                     registerFactory.createAppDirectory(function(response){
+                     
+						registerFactory.createAppDirectory(function(response){
                           console.log("App creation",response)
                            $state.go('login')
                            

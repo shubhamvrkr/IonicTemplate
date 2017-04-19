@@ -154,7 +154,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 									var filepath = filepath.substr(0,filepath.lastIndexOf('/'));
 									console.log('path: ',filepath);
 									
-									fileFactory.copyFile(filepath,name,"/micro_lending",function(response){
+									fileFactory.copyFile(filepath,name,"/micro_lending/user_data",function(response){
 									
 										console.log(response)
 									});

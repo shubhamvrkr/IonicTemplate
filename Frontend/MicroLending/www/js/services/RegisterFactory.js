@@ -46,18 +46,17 @@ angular.module('app.services')
          if (window.cordova) {    
                ss.set(
 
-                     function (key) { console.log('Set user_data',key); },
-                     function (error) { console.log('Error ' + error); },
+                     function (key) { console.log('Set user_data',key); callback({status:"1"})},
+                     function (error) { console.log('Error ' + error); callback({status:"0"}) },
                      'user_data', JSON.stringify(data)
                 ); 
             
-            callback("abc")
-         }
+            }
         
          else{
                     console.log('web')
                     localStorage.setItem(key,JSON.stringify(data))
-                    callback("abc")
+                    callback({status:"1"})
           }
 
 
