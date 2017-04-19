@@ -94,7 +94,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 
                   fileFactory.writeToFile("user_profile.json","/micro_lending/user_data",user_data_content,function(result){
 
-                     fileFactory.createZip("micro_lending/user_data","/micro_lending/user_data",user_data_content,function(status){
+                     fileFactory.createZip("micro_lending/user_data","micro_lending/user_data",user_data_content,function(status){
 
                         //TODO: delete the .json file as it is not needed anymore
                         console.log(status)

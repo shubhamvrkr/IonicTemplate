@@ -35,12 +35,12 @@ function ($scope, $stateParams,$state) {
 	$scope.deleteContact = function(index,item){
 	
 		console.log(index)
-		console.log($scope.localcontacts)
-		console.log($scope.data.filteredlocalcontacts)
+		console.log($scope.localcontacts.length)
+		console.log($scope.data.filteredlocalcontacts.length)
 		$scope.localcontacts.splice(index, 1);
-		console.log($scope.localcontacts)
+		console.log($scope.localcontacts.length)
 		$scope.data.filteredlocalcontacts.splice(index, 1);
-		console.log($scope.data.filteredlocalcontacts)
+		console.log($scope.data.filteredlocalcontacts.length)
 		
 		//delete entry from database where item.email
 		
