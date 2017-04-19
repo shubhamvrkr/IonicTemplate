@@ -84,7 +84,8 @@ angular.module('app.services')
     service.createZip = function (fileName,path,data,callback) {
        
        if (window.cordova){
-                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path,
+                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path;
+				  console.log("PathToFileInString: ",PathToFileInString)
                   PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
                   JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"user_profile"},function(data){
 
@@ -117,8 +118,13 @@ angular.module('app.services')
    service.unZip = function (fileName,path,callback) {
        
        if (window.cordova){
+					
+				  
                   var PathToFileInString  = path
-                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"micro_lending/";
+				  
+				  console.log("PathToResultZip: ",PathToResultZip)
+				  
                   JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
                      console.log(data)
                      
