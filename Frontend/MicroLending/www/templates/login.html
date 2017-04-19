@@ -12,24 +12,24 @@
         <label class="item item-input bottom-input" id="loginPassword">
           <input type="password" placeholder="Password" name="password" ng-model="data.password" required/>
         </label>
-
-        <!-- Show errors  -->
+        <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
+        <small ng-show="error">{{error}}</small>
       </div>
-      <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
-      <small ng-show="error">{{error}}</small>
+      <!-- Show errors  -->
 
-      <button id="login-button7" style="border-radius:15px 15px 15px 15px;" class="button button-small button-balanced button-block"
+
+      <button id="login-button7"  class="button  button-medium button-radius button-balanced button-block"
         ng-disabled="loginForm.$invalid" ng-click="Login(data)" outline>Log in</button>
       <div class="spacer" style="width: 290px; height: 10px;"></div>
       <a ui-sref="register" id="login-button8">Don't have an account? REGISTER!</a>
       <div class="spacer" style="width: 290px; height: 10px;"></div>
-      <hr style="border:2px dashed white">
+      <hr style="border:2px solid white">
       <div class="spacer" style="width: 290px; height: 20px;"></div>
 
       <input ng-show="false" id="fileLoader" type="file" onchange="angular.element(this).scope().fileNameChanged(this)" ng-model="myFile"
         accept=".zip" />
 
-      <button id="login-button11" style="border-radius:15px 15px 15px 15px;" class="button button-small button-assertive  button-block"
+      <button id="login-button11" class="button  button-medium button-radius  button-assertive  button-block"
         ng-click="Export()">Import Existing Profile</button>
     </form>
 
