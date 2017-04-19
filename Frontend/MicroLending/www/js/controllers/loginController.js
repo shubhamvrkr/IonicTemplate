@@ -7,6 +7,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 	$scope.Login = function(data){
 	
 		console.log("Login");
+		$state.go('menu.allContracts');
 		var user_name = data.username
         var password = data.password
         var login_data = {}

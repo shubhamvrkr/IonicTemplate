@@ -61,12 +61,12 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                    firebaseFactory.getFirebaseToken(function(result_token){
                         
                          console.log("getFirebaseToken Called")
-                           if (result_token.status == '0'){
-                                 console.log('Error')
-                           }
+                           //if (result_token.status == '0'){
+                           //      console.log('Error')
+                          // }
                       
-                      token = result_token.token
-                      console.log(token)
+                      //token = result_token.token
+                      //console.log(token)
                   //for mobile store it in a file && for browser on localStorage
                   //{kvs:'',email:,eth_addr:,seed_word:}
                   registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
@@ -87,7 +87,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                                       var new_data = {}
                                       new_data.name = response.name
                                       new_data.ethAccount = result.address
-                                      new_data.firebaseToken =token 
+                                      new_data.firebaseToken ='' ,
+									    new_data.publicKey =result.publickey 
 
 
                       //send to DB 
