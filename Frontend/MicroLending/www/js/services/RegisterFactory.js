@@ -91,8 +91,11 @@ angular.module('app.services')
                fileFactory.createDirectory("deals","/micro_lending",function(res){
                //create deals folder
                   console.log(res)
-                  callback(res)
-            
+                     //create user_data folder
+                      fileFactory.createDirectory("user_data","/micro_lending",function(res){
+                         console.log(res)
+                           callback(res)
+               })
             })
             
          })
