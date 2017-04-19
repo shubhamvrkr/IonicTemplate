@@ -178,7 +178,11 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
     }
 	$scope.fileNameChanged = function(element){
 		
-            //browser
+      //browser
+        fileFactory.unZip("",element.value,function(data){
+               console.log(data)
+         })
+       
 			console.log(element.files[0])
 			console.log(element.value)
 	}
