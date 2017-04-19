@@ -23,55 +23,57 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                         login_data.ks = JSON.parse(value).ks;
                         console.log(login_data.ks);
                         //check for the email validation
-       
-                    loginFactory.login(login_data,function(err,result){
-                        if (err) {
+                        
+                        /*if (login_data.username != JSON.parse(value).email || login_data.username != JSON.parse(value).address )
+                        {  console.log("incorrect email or address")
+                           return
+                        }*/
+                          loginFactory.login(login_data,function(err,result){
+                              if (err) {
+                                  console.log(err)
+                                  //console.log($scope.error)
+                                  return
+                                 }
 
-                            console.log(err)
-                            //console.log($scope.error)
-                            return
-                        }
-
-                        else{
-                                console.log("Login",result)
-                                $state.go('menu.allContracts');
-
-                        }
+                              else{
+                                      console.log("Login",result)
+                                      $state.go('menu.allContracts');
+                                  }
 
 
-                    })
+                          })
 
-                },
-                  function (error) { 
-                         console.log('Error ' + error); 
                       },
-                      'user_data');
+                        function (error) { 
+                              console.log('Error ' + error); 
+                        },
+                            'user_data');
                                       
         }else{
-		
-            console.log(JSON.parse(localStorage.getItem('user_data')))
-            login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
-            console.log(login_data.ks);
-           //check for the email validation
-       
-              loginFactory.login(login_data,function(err,result){
-                  if (err) {
 
-                      console.log(err)
-                      console.log($scope.error)
-                      return
-                  }
+                  console.log(JSON.parse(localStorage.getItem('user_data')))
+                  login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
+                  console.log(login_data.ks);
+                  //check for the email validation
 
-                  else{
-                          console.log("Login",result)
-                          $state.go('menu.allContracts');
+                     loginFactory.login(login_data,function(err,result){
+                           if (err) {
 
-                  }
+                                     console.log(err)
+                                     console.log($scope.error)
+                                     return
+                                 }
+
+                                 else{
+                                         console.log("Login",result)
+                                         $state.go('menu.allContracts');
+
+                                 }
 
 
-              })   
-            
-        }
+                             })   
+
+               }
  
        
 		
@@ -178,8 +180,8 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
     }
 	$scope.fileNameChanged = function(element){
 		
-      //browser
-        fileFactory.unZip("",element.value,function(data){
+         //browser
+        fileFactory.unZip("",element.files[0],function(data){
                console.log(data)
          })
        

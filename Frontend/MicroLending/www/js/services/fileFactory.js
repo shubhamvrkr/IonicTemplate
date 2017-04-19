@@ -113,20 +113,18 @@ angular.module('app.services')
       }
        
       else{
-        
+                 
             var new_zip = new JSZip();
-         
-         JSZipUtils.getBinaryContent(path, function(err, data) {
-                if(err) {
-                    console.log( err); 
-                }
-
-             JSZip.loadAsync(data).then(function(zip) {
-
-               console.log(new_zip.file("user_profile.json").async("string"));
-         });
-
-      })
+            new_zip.loadAsync(path)
+            .then(function(zip) {
+               
+                new_zip.file("user_profile.json").async("string").then(function(result){
+                
+                  callback({status:"1",data:JSON.parse(result)}) 
+                   
+                
+                }); 
+            });
    }
 };   
    
