@@ -15,31 +15,30 @@ angular.module('app.services')
 
              console.log("Register user ",post_data)
 
-            $http.post("http://10.51.230.147:3000/api/users",post_data)
+            $http.post(apiUrl+"/api/users",post_data)
                     .success(function (response) {
 
                     console.log(response)
                     callback(response)
-
-
-            })
-
-       }
+               })
+         }
 
 
 
      service.verifyOTP = function (data,callback) {
           console.log("Inside verify OTP ")
 
-          $http.post("http://10.51.230.147:3000/api/users/verify/"+data.tmp_id,data)
+          console.log(data)
+          $http.post(apiUrl+"/api/users/verify/"+data.tmp_id,data)
                     .success(function (response,status) {
                     console.log(response)
                     callback(response,status)
 
             }).catch(function(err,status){
                     console.log(err,status)
+                    callback(err,status)
           });
-}
+     }
 
 
      service.saveUserDataLocally = function (data,key,callback) {
@@ -62,32 +61,7 @@ angular.module('app.services')
           }
 
 
-      /*if (window.cordova) {
-
-                console.log('app',fileFactory)
-
-                fileFactory.createFile("abc.json","/",function(res){
-
-                        if (res.status == 1){
-                            fileFactory.writeToFile("abc.json","/",JSON.stringify(data),function(res){
-
-                                console.log(res)
-                               callback("abc")
-
-                       })
-                    }
-                })
-        }
-
-      else{
-                    console.log('web')
-                    localStorage.setItem('user_data',JSON.stringify(data))
-                    callback("abc")
-          }*/
-   }
-
-
-
+     }
 
         service.generateEthAccount = function (password,callback) {
 
