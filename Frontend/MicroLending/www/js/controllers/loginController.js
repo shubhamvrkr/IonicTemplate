@@ -17,41 +17,65 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
         if (window.cordova)
         {
             
-            fileFactory.readFile("abc.json","/",function(result){
-            
-                if (result.status == 0){console.log(result.error)}
-                else{
-
-                        console.log(result.data)
+            ss.get(
+                     function (value) {
+                        console.log('Success, got ' + value); 
+                        login_data.ks = JSON.parse(value).ks;
+                        console.log(login_data.ks);
+                        //check for the email validation
                         
-                        login_data.ks = JSON.parse(result.data)
-                }
-			})
-        
+                        /*if (login_data.username != JSON.parse(value).email || login_data.username != JSON.parse(value).address )
+                        {  console.log("incorrect email or address")
+                           return
+                        }*/
+                          loginFactory.login(login_data,function(err,result){
+                              if (err) {
+                                  console.log(err)
+                                  //console.log($scope.error)
+                                  return
+                                 }
+
+                              else{
+                                      console.log("Login",result)
+                                      $state.go('menu.allContracts');
+                                  }
+
+
+                          })
+
+                      },
+                        function (error) { 
+                              console.log('Error ' + error); 
+                        },
+                            'user_data');
+                                      
         }else{
-		
-            console.log(JSON.parse(localStorage.getItem('user_data')))
-            login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
-            
-        }
+
+                  console.log(JSON.parse(localStorage.getItem('user_data')))
+                  login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
+                  console.log(login_data.ks);
+                  //check for the email validation
+
+                     loginFactory.login(login_data,function(err,result){
+                           if (err) {
+
+                                     console.log(err)
+                                     console.log($scope.error)
+                                     return
+                                 }
+
+                                 else{
+                                         console.log("Login",result)
+                                         $state.go('menu.allContracts');
+
+                                 }
+
+
+                             })   
+
+               }
  
-        loginFactory.login(login_data,function(err,result){
-            if (err) {
-                
-                console.log(err)
-            
-                console.log($scope.error)
-                return
-            }
-            
-            else{
-                    console.log("Login",result)
-                    $state.go('menu.allContracts');
-                
-            }
-        
-        
-        })
+       
 		
 		/* $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
@@ -118,15 +142,20 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
             }else{
 			
 				resolveNativePath()
-			}
+			   }
         }
+       
 		function resolveNativePath(){
 			
 			window.FilePath.resolveNativePath(data, function(filepath){
 			
 			 console.log("File path: ",filepath);
 			 
-			 //handle unzipping here
+			 //handle unzipping here for android
+               service.unZip("",filepath,function(data){
+               console.log(data)
+               
+               })
 			 
 			 
 			}, function(code,message){
@@ -151,6 +180,11 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
     }
 	$scope.fileNameChanged = function(element){
 		
+         //browser
+        fileFactory.unZip("",element.files[0],function(data){
+               console.log(data)
+         })
+       
 			console.log(element.files[0])
 			console.log(element.value)
 	}

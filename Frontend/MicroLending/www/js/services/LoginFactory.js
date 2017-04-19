@@ -5,12 +5,13 @@ angular.module('app.services')
  var service = {};
     
      service.login = function (data,callback) {
-       
+               console.log(data.ks);
+               console.log(data.username);
             ethdapp.retrieveKeystore (data.username,data.password,data.ks,function(error,result){
            
                if(error) {
                    
-                        console.log(error)
+                        console.log("Error in bundle",error)
                         callback(error,null)    
                }
                 else{

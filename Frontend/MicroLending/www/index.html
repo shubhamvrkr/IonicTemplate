@@ -70,6 +70,10 @@
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
   <script src="js/lib/bundle.js"></script>
+  <script src="js/lib/jszip.min.js"></script>
+   <script src="js/lib/FileSaver.js"></script>
+   <script type="text/javascript" src="js/lib/jszip-utils.min.js"></script>
+   
   <script src="js/app.js"></script>
   <script src="js/controllers/loginController.js"></script>
   <script src="js/controllers/registerController.js"></script>
@@ -84,6 +88,8 @@
   <script src="js/services/RegisterFactory.js"></script>
   <script src="js/services/fileFactory.js"></script>
   <script src="js/services/LoginFactory.js"></script>
+  <script src="js/services/firebaseFactory.js"></script>
+
 
   <!-- Custom script for UI Validations-->
   <script src="js/script.js"></script>
@@ -142,6 +148,7 @@
               messagingSenderId: "88868208571"
             };
             firebase.initializeApp(config);
+            const messaging = firebase.messaging();
 
   </script>
 

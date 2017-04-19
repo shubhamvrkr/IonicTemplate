@@ -60,8 +60,77 @@ angular.module('app.services')
                           console.log(error)
                            callback({status:"0",error:error})
                       });
-                };
+         };
     
+   
+   
+    
+    service.createZip = function (fileName,path,data,callback) {
+       
+       if (window.cordova){
+                  var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+fileName,
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory;
+                  JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"abc"},function(data){
+
+                     console.log("zipeed",data)
+                      callback({status:"1",data:data})
+
+             },function(error){
+
+                     console.log("error",error)
+                    callback({status:"0",data:error})
+
+             })
+       }
+       
+      else{
+       
+            var zip = new JSZip();
+            zip.file(fileName, data);
+            //var img = zip.folder("images");
+            //img.file("smile.gif", imgData, {base64: true});
+            zip.generateAsync({type:"blob"}).then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "user.zip");
+            callback({status:"1"})
+         });
+
+       }
+};
+  
+   service.unZip = function (fileName,path,callback) {
+       
+       if (window.cordova){
+                  var PathToFileInString  = path
+                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
+                  JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
+                     console.log(data)
+                      callback({status:"1",data:data})
+               },function(error){
+                     console.log(error)
+                      callback({status:"0",data:error})
+            })
+      }
+       
+      else{
+                 
+            var new_zip = new JSZip();
+            new_zip.loadAsync(path)
+            .then(function(zip) {
+               
+                new_zip.file("user_profile.json").async("string").then(function(result){
+                
+                  callback({status:"1",data:JSON.parse(result)}) 
+                   
+                
+                }); 
+            });
+   }
+};   
+   
+   
+   
+   
     
 return service
       
