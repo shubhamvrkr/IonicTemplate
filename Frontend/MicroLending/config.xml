@@ -21,6 +21,6 @@
     </feature>
     <allow-navigation href="http://10.244.51.105:8100" />
     <plugin name="phonegap-plugin-push" spec="~1.10.2">
-        <variable name="SENDER_ID" value="88868208571" />
+        <variable name="SENDER_ID" value="117610834096" />
     </plugin>
 </widget>

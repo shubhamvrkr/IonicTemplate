@@ -1,5 +1,5 @@
-mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory','$http','firebaseFactory',
-                   function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,$http,firebaseFactory) {
+mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory','$http','firebaseFactory','ionicToast',
+                   function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,$http,firebaseFactory,ionicToast) {
                      
    
                       
@@ -61,11 +61,11 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                    firebaseFactory.getFirebaseToken(function(result_token){
                         
                          
-                    
+						ionicToast.show(result_token, 'bottom', true, 2500);
                      
                   //for mobile store it in a file && for browser on localStorage
                   //{kvs:'',email:,eth_addr:,seed_word:}
-                  registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
+					registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
                     
                                     console.log(local_data)
                                       
@@ -102,7 +102,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   });     
               });
 
-          })
+          });
 
       })     
 

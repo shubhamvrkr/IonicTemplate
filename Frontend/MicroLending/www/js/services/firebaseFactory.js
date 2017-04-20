@@ -1,10 +1,9 @@
 angular.module('app.services')
-
 .factory('firebaseFactory',['$http','$ionicPush',function($http,$ionicPush) {
 
          var service = {};
 
- function getToken (callback){
+	function getToken (callback){
 
                messaging.getToken()
                    .then(function(currentToken) {
@@ -27,17 +26,26 @@ angular.module('app.services')
    }  
         
  service.getFirebaseToken = function(callback){
-       callback({status:'1'})
-      /*if (window.cordova)
+      
+      if (window.cordova)
       {
-         $ionicPush.register().then(function(t) {
-            return $ionicPush.saveToken(t);
+		 console.log("callback")
+		 
+		  callback({status:'1',token:"dummytoken"})
+		  
+         /*$ionicPush.register().then(function(t) {
+		 
+				console.log('Token saved1:', t.token);
+				return $ionicPush.saveToken(t);
+			
             }).then(function(t) {
+			
                console.log('Token saved:', t.token);
+			   alert(t.token)
                callback({status:'1',token:t.token})
                               
 
-         });
+         });*/
       }
     
     else{
@@ -70,7 +78,7 @@ angular.module('app.services')
              });
     
            
-      }*/
+      }
             
  }
    
