@@ -66,7 +66,7 @@ angular.module('app.services')
     
      service.readFile = function (fileName,path,callback) {
        
-       $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/",fileName)
+       $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+path,fileName)
                     .then(function (success) {
                         // success
                          console.log('file read',success);

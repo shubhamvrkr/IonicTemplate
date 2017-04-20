@@ -65,7 +65,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                      
                   //for mobile store it in a file && for browser on localStorage
                   //{kvs:'',email:,eth_addr:,seed_word:}
-					registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
+					registerFactory.saveUserDataLocally(JSON.stringify(local_data),'user_data',function(res){
                     
                                     console.log(local_data)
                                       

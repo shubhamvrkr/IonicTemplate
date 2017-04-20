@@ -157,11 +157,12 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                
                      console.log("unzip status",data)
                
-                    fileFactory.readFile("user_profile.json",cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/",function(status,data){
+                    fileFactory.readFile("user_profile.json","micro_lending/user_data/",function(data){
                      
-                        if (status=="0"){console.log("Error reading file after zipping");}
+                        if (data.status=="0"){console.log("Error reading file after zipping");}
                      
-                             registerFactory.saveUserDataLocally(data,'user_data',function(res){
+							console.log(data)
+                             registerFactory.saveUserDataLocally(data.data,'user_data',function(res){
                                              console.log(res);
                                               $state.go('menu.allContracts');
                                     });
