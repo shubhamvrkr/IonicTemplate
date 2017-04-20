@@ -122,7 +122,7 @@ angular.module('app.services')
             //img.file("smile.gif", imgData, {base64: true});
             zip.generateAsync({type:"blob"}).then(function(content) {
             // see FileSaver.js
-            saveAs(content, "user.zip");
+            saveAs(content, "user_profile.zip");
             callback({status:"1"})
          });
 
@@ -168,23 +168,24 @@ angular.module('app.services')
         	
        
       else{
-                 
+               console.log(path) 
                var new_zip = new JSZip();
                new_zip.loadAsync(path)
                .then(function(zip) {
 
                 new_zip.file("user_profile.json").async("string").then(function(result){
-                  callback({status:"1",data:JSON.parse(result)})
+                  console.log(JSON.parse(result))
+				  
+				  data = JSON.parse(result)
+				  callback({status:"1",data:data});
                    
                      // save the result in the local storage 
                      /*registerFactory.saveUserDataLocally(result,'user_data',function(res){
                                              console.log(res)
                                               callback(res)
                               });*/
-                    }).catch(function(err){
-                           console.log(err)
-                           callback({status:"0",data:err})
-                }); 
+                    })
+                
             }).catch(function(err){
                            console.log(err)
                            callback({status:"0",data:err})

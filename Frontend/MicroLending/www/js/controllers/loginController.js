@@ -1,7 +1,7 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory',"$cordovaZip",'registerFactory','$ionicPush', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','fileFactory','loginFactory',"$cordovaZip",'registerFactory','$ionicPush','ionicToast', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory,$cordovaZip,registerFactory,$ionicPush) {
+function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFactory,$cordovaZip,registerFactory,$ionicPush,ionicToast) {
 
 
 	$scope.Login = function(data){
@@ -14,34 +14,56 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
         login_data.username = data.username
         login_data.password = data.password
         
+		console.log(login_data);
+		
+		$ionicLoading.show({
+				templateUrl: 'templates/loading.html',
+				animation: 'fade-in',
+				showBackdrop: true,
+				maxWidth: 200,
+				showDelay: 0
+		});
+		
         if (window.cordova)
         {
             
             ss.get(
                      function (value) {
-                        console.log('Success, got ' + value); 
+                        
+						console.log('Success, got ' + value); 
                         login_data.ks = JSON.parse(value).ks;
                         console.log(login_data.ks);
                         //check for the email validation
                         
-                        /*if (login_data.username != JSON.parse(value).email || login_data.username != JSON.parse(value).address )
-                        {  console.log("incorrect email or address")
-                           return
-                        }*/
-                          loginFactory.login(login_data,function(err,result){
+                        if (login_data.username ==JSON.parse(value).email || login_data.username == JSON.parse(value).address )
+                        {  
+						 loginFactory.login(login_data,function(err,result){
                               if (err) {
+							  
+								 $ionicLoading.hide(); 
+								 $scope.error = err;
                                   console.log(err)
                                   //console.log($scope.error)
                                   return
-                                 }
-
-                              else{
-                                      console.log("Login",result)
+                            }else{
+                                        $ionicLoading.hide();
+									  console.log("Login",result)
                                       $state.go('menu.allContracts');
-                                  }
+                            }
 
 
                           })
+						
+							
+                        }else{
+						
+						$ionicLoading.hide();
+							$scope.error = "Incorrect username or password";
+							console.log("incorrect email or address")
+                            return
+						
+						}
+                         
 
                       },
                         function (error) { 
@@ -51,13 +73,20 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                                       
         }else{
 
-                  login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
-                  console.log(login_data.ks);
+				
+                  value = JSON.parse(localStorage.getItem('user_data'))
+				  login_data.ks = value.ks
+                  console.log(value);
                   //check for the email validation
-
-                     loginFactory.login(login_data,function(err,result){
+				  console.log(value.email)
+				  console.log(login_data.username == value.email)
+					if (login_data.username == value.email || login_data.username == value.address){  
+							
+                      loginFactory.login(login_data,function(err,result){
                            if (err) {
-
+						   
+								
+									 $scope.error = err;
                                      console.log("Login error",err)
                                      
                                  }
@@ -67,30 +96,26 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                                          $state.go('menu.allContracts');
 
                                     }
+								
+									$ionicLoading.hide();
 
-
-                             }); 
-               }
- 
-       		
-		/* $ionicLoading.show({
-				templateUrl: 'templates/loading.html',
-				animation: 'fade-in',
-				showBackdrop: true,
-				maxWidth: 200,
-				showDelay: 0
-		});
-		
-		$timeout(function () {
-			
-			$ionicLoading.hide();
-			$state.go('menu.allContracts');
-    
-		}, 2000);*/
-
-		
-	}
+                      }); 
+					  
+					}else{
+					
+							$ionicLoading.hide();
+							$scope.error = "Incorrect username or password";
+					
+							console.log("incorrect email or address")
+                            return
+					}
+					
+		}
+    }
 	
+	$scope.onchangeinput = function(){
+		$scope.error = "";
+	}
 	$scope.Export = function(){
 	
 			if(window.cordova){
@@ -147,7 +172,15 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 			
 			 console.log("File path: ",filepath);
 			 
-            //create a directory micro_lending   
+            //create a directory micro_lending
+			$ionicLoading.show({
+					templateUrl: 'templates/loading.html',
+					animation: 'fade-in',
+					showBackdrop: true,
+					maxWidth: 200,
+					showDelay: 0
+			});			
+			
               fileFactory.createDirectory("micro_lending","/",function(res){
                
                  console.log("App creation",res)
@@ -155,20 +188,33 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 			 //handle unzipping here for android
                fileFactory.unZip("",filepath,function(data){
                
-                     console.log("unzip status",data)
+                     console.log("unzip status",data);
+					 if(data.status=="0")
+					 {
+						$ionicLoading.hide();
+						ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
+					 }
                
                     fileFactory.readFile("user_profile.json","micro_lending/user_data/",function(data){
                      
-                        if (data.status=="0"){console.log("Error reading file after zipping");}
+                        if (data.status=="0"){
+						
+							console.log("Error reading file after zipping");
+							$ionicLoading.hide();
+							ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
+						
+						}
                      
-							console.log(data)
-                             registerFactory.saveUserDataLocally(data.data,'user_data',function(res){
+						console.log(data)
+                        registerFactory.saveUserDataLocally(data.data,'user_data',function(res){
                                              console.log(res);
+											 $ionicLoading.hide();
+											ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
                                               $state.go('menu.allContracts');
-                                    });
-                              })
-                        })
-               })
+                        });
+                    })
+                  })
+              })
 			 
                }, function(code,message){
 
@@ -194,15 +240,37 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 		
        
          //browser
+		$ionicLoading.show({
+					templateUrl: 'templates/loading.html',
+					animation: 'fade-in',
+					showBackdrop: true,
+					maxWidth: 200,
+					showDelay: 0
+		});		
+		
         fileFactory.unZip("",element.files[0],function(data){
-               console.log(data)
-            //save the data in the localStorage
-           registerFactory.saveUserDataLocally(data.data,'user_data',function(res){
-                           console.log("saved in local Storage",res);
-              console.log(JSON.parse(localStorage.getItem("user_data")))
+		
+		
+            if(data.status=="0")
+			{
+				$ionicLoading.hide();
+				 ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
+			
+			}else{
+			
+					  registerFactory.saveUserDataLocally(JSON.stringify(data.data),'user_data',function(res){
+							
+								$ionicLoading.hide();
+							console.log("saved in local Storage",res)
+							ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
                             $state.go('menu.allContracts');
                           
-            });  
+						});  
+			
+			
+			}
+		
+          
                
       })
    }

@@ -1,10 +1,10 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast','fileFactory','$cordovaCamera', '$cordovaFile', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams','$ionicPopover','$state','$ionicLoading','$timeout','ionicToast','fileFactory','$cordovaCamera', '$cordovaFile','registerFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory,$cordovaCamera, $cordovaFile) {
+function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionicToast,fileFactory,$cordovaCamera, $cordovaFile,registerFactory) {
 
 	console.log("menuCtrl");
-   $scope.user = {}
+    $scope.user = {}
     //retrieve the use data from the localStorge
     
     if (window.cordova){
@@ -13,21 +13,24 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
                 function (value) { 
                    console.log('Success, got ' + value);
                    var user_data =JSON.parse(value);
-                   $scope.name = user_data.fname+" "+user_data.lname
-                   $scope.eth_address =user_data.address 
-                   $scope.email =user_data.email 
+				  
+					
+                   $scope.user.name = user_data.fname+" "+user_data.lname
+                   $scope.user.eth_address =user_data.address 
+                   $scope.user.email =user_data.email 
+				   $scope.user.imagesrc = user_data.imagePath;
                },
                   function (error) { console.log('Error ' + error); },
-                  'user_data');  
-    }
-   else{
+                  'user_data');
+				  
+	}else{
     
-     console.log(JSON.parse(localStorage.getItem("user_data")));
-     var user_data = JSON.parse(localStorage.getItem("user_data"));
-     $scope.user.name = user_data.fname+" "+user_data.lname
-     $scope.user.eth_address =user_data.address 
-     $scope.user.email =user_data.email 
-    
+			 console.log(localStorage.getItem("user_data"));
+			 var user_data = JSON.parse(localStorage.getItem("user_data"));
+			 $scope.user.name = user_data.fname+" "+user_data.lname
+			 $scope.user.eth_address =user_data.address 
+			 $scope.user.email =user_data.email
+			 $scope.user.imagesrc = null;
     }
     
     
@@ -72,6 +75,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
       console.log("exportProfile");
 	  
 	  $scope.closePopover();
+	  
 	  $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
 				animation: 'fade-in',
@@ -97,7 +101,16 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 
                         //TODO: delete the .json file as it is not needed anymore
                         console.log(status)
-                        $ionicLoading.hide();
+                        if(status.status=="0")
+					 {
+						$ionicLoading.hide();
+						ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
+					 }else{
+					 
+					 	$ionicLoading.hide();
+						ionicToast.show('Profile Exported at '+cordova.file.externalApplicationStorageDirectory+'micro_lending/user_profile.zip', 'bottom', true, 2500);
+					 
+						}
 
                      })
 
@@ -119,17 +132,22 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
                 fileFactory.createZip("user_profile.json","/",user_data_content,function(status){
                   
                      console.log(status)
-                     $ionicLoading.hide();
+					 if(status.status=="0")
+					 {
+						$ionicLoading.hide();
+						ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
+					 }else{
+					 
+					 	$ionicLoading.hide();
+						ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
+					 
+						}
+                     
                   
                   })
          }
         
-   	  $timeout(function () {
-			
-			
-			ionicToast.show('Profile exported at /data/Micro-Lending/profile', 'bottom', true, 2500);
-    
-	  }, 2000);
+   	 
 	  
   }
   
@@ -181,10 +199,31 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
 									
 									fileFactory.copyFile(filepath,name,"/micro_lending/user_data",function(response){
 									
-										console.log(response)
-									});
+										
+										$scope.user.imagesrc = cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/user_pic.png";
+										console.log(response);
+										
+										ss.get(
+                                           function (value) { 
+										   console.log('Success, got ' + value);
+										   old_ss = JSON.parse(value);
+										   old_ss.imagePath = cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/user_pic.png"
+										   //again store the user_data in the SS.
+										   registerFactory.saveUserDataLocally(JSON.stringify(old_ss),'user_data',function(res){
+										   
+											console.log("image path set successfully.")
+										   
+										   });
+										   
+										},
+                                           function (error) { console.log('Error ' + error); },
+                                           'user_data');
+										});
+								}
+										
 									
-							}
+									
+				
 			
 							function fail(error) {
 								console.log("fail: " + error.code);

@@ -19,8 +19,16 @@ angular.module('app.services')
                     .success(function (response) {
 
                     console.log(response)
-                    callback(response)
-               })
+                   callback({status:"1",data: response})
+					
+               }).catch(function(err){
+					
+					console.log(err)
+                    callback({status:"0",data: err})
+			   
+			   
+			   });
+				
          }
 
 
@@ -56,7 +64,8 @@ angular.module('app.services')
         
          else{
                     console.log('web')
-                    localStorage.setItem(key,JSON.stringify(data))
+					console.log("data local storage: ",data)
+                    localStorage.setItem(key,data)
                     callback({status:"1"})
           }
 

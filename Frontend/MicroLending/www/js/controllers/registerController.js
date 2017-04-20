@@ -9,7 +9,14 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,fir
          console.log(data)
         
 		//Fetch all the data from the view
-	
+		$ionicLoading.show({
+				templateUrl: 'templates/loading.html',
+				animation: 'fade-in',
+				showBackdrop: true,
+				maxWidth: 200,
+				showDelay: 0
+		});
+		
         var user_data = {}
         user_data.fname = data.firstname;
         user_data.lname = data.lastname;
@@ -61,9 +68,19 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,fir
         
         registerFactory.registerUser(user_data,function(response){
         
-            console.log("register user: ",response);
-		      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:user_data.password,user_data:user_data}});
+			if(response.status=="0"){
+			  $ionicLoading.hide();
+			  $scope.error = "Email ID already exits!! "
+			
+			}else{
+			 
+				$ionicLoading.hide();
+				console.log("register user: ",response);
+				$state.go('emailVerification',{params:{temp_id:response.data._id,passphrase:user_data.password,user_data:user_data}});
         
+			
+			}
+           
         })
     
         
