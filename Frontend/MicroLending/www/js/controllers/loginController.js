@@ -6,8 +6,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 
 	$scope.Login = function(data){
 	
-		console.log("Login");
-		$state.go('menu.allContracts');
+		console.log("Login")
 		var user_name = data.username
         var password = data.password
         var login_data = {}
@@ -60,17 +59,17 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                            if (err) {
 
                                      console.log("Login error",err)
-                                     return;
+                                     
                                  }
 
                                  else{
                                          console.log("Login",result)
-                                         $state.go('menu.allContracts');
+                                         //$state.go('menu.allContracts');
 
                                     }
 
 
-                             }) 
+                             }); 
                }
  
        		
@@ -192,6 +191,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
     }
 	$scope.fileNameChanged = function(element){
 		
+       
          //browser
         fileFactory.unZip("",element.files[0],function(data){
                console.log(data)
