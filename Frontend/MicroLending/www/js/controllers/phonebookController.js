@@ -32,17 +32,14 @@ function ($scope, $stateParams,$state) {
 		
 				
 	}
-	$scope.deleteContact = function(index,item){
+	$scope.deleteContact = function(item){
 	
-		console.log(index)
-		console.log($scope.localcontacts.length)
-		console.log($scope.data.filteredlocalcontacts.length)
-		$scope.localcontacts.splice(index, 1);
-		console.log($scope.localcontacts.length)
-		$scope.data.filteredlocalcontacts.splice(index, 1);
-		console.log($scope.data.filteredlocalcontacts.length)
-		
-		//delete entry from database where item.email
+		  console.log(item)
+		  var index1 = $scope.localcontacts.indexOf(item);
+		  $scope.localcontacts.splice(index1, 1); 
+		  console.log(index1)
+		  //delete data from db where email = item.email;
+		 
 		
 	}
 	$scope.addContact = function(contact){

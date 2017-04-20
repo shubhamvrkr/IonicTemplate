@@ -84,6 +84,7 @@ angular.module('app.services')
     service.createZip = function (fileName,path,data,callback) {
        
        if (window.cordova){
+	   
                   var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path;
 				  console.log("PathToFileInString: ",PathToFileInString)
                   PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";

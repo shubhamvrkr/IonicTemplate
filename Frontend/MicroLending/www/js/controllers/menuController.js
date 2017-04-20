@@ -7,8 +7,7 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
    $scope.user = {}
     //retrieve the use data from the localStorge
     
-    if (window.cordova)
-    {
+    if (window.cordova){
     
        ss.get(
                 function (value) { 
@@ -23,11 +22,11 @@ function ($scope, $stateParams,$ionicPopover,$state,$ionicLoading,$timeout,ionic
     }
    else{
     
-     console.log(JSON.parse(localStorage.getItem("user_data")));
+     /*console.log(JSON.parse(localStorage.getItem("user_data")));
      var user_data = JSON.parse(localStorage.getItem("user_data"));
-      $scope.user.name = user_data.fname+" "+user_data.lname
-      $scope.user.eth_address =user_data.address 
-      $scope.user.email =user_data.email 
+     $scope.user.name = user_data.fname+" "+user_data.lname
+     $scope.user.eth_address =user_data.address 
+     $scope.user.email =user_data.email */
     
     }
     
