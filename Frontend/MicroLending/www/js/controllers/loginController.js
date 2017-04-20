@@ -64,7 +64,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 
                                  else{
                                          console.log("Login",result)
-                                         //$state.go('menu.allContracts');
+                                         $state.go('menu.allContracts');
 
                                     }
 
@@ -155,9 +155,9 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 			 //handle unzipping here for android
                fileFactory.unZip("",filepath,function(data){
                
-                     console.log(data)
+                     console.log("unzip status",data)
                
-                    fileFactory.readFile("user_data.json",cordova.file.externalApplicationStorageDirectory+"micro_lending/",function(status,data){
+                    fileFactory.readFile("user_profile.json",cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/",function(status,data){
                      
                         if (status=="0"){console.log("Error reading file after zipping");}
                      

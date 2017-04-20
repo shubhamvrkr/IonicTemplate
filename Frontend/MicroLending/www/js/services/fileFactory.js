@@ -66,7 +66,7 @@ angular.module('app.services')
     
      service.readFile = function (fileName,path,callback) {
        
-       $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+path,fileName)
+       $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+"micro_lending/user_data/",fileName)
                     .then(function (success) {
                         // success
                          console.log('file read',success);
@@ -131,25 +131,41 @@ angular.module('app.services')
   
    service.unZip = function (fileName,path,callback) {
        
-       if (window.cordova){
+       if (window.cordova)
+	   {
+		PathToResultZip = cordova.file.externalApplicationStorageDirectory+"micro_lending";
+		 Zeep.unzip({
+        from : path,
+        to   : PathToResultZip
+    }, function() {
+        console.log('unzip success!');
+		callback({status:"1"})
+    }, function(e) {
+        console.log('unzip error: ', e);
+		callback({status:"0"})
+    });
+	}
+		
+	
+        
+   
+					
 					
 				  // check if the folder micro_lending is present or not
-                  var PathToFileInString  = path
-                  PathToResultZip = cordova.file.externalApplicationStorageDirectory+"micro_lending/";
+                  /*var PathToFileInString  = path
+                  PathToResultZip = cordova.file.externalApplicationStorageDirectory;
 				  
 				  console.log("PathToResultZip: ",PathToResultZip)
 				  
-                  JJzip.unzip(PathToFileInString, {target:PathToResultZip},function(data){
+                  JJzip.unzip(PathToFileInString,{target:PathToResultZip},function(data){
                      console.log(data)
-                     
-                      callback({status:1,data:data})
-                  })
-                     
-               ,function(error){
-                     console.log(error)
-                      callback({status:"0",data:error})
+                     callback({status:1,data:data})
                   }
-         }
+                     ,function(error){
+					  console.log(error)
+                      callback({status:"0",data:error})
+                  })*/
+        	
        
       else{
                  
