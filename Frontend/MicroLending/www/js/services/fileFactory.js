@@ -79,7 +79,19 @@ angular.module('app.services')
          };
     
    
-   
+     service.checkDirectory = function (path,directory,callback) {
+       
+       $cordovaFile.checkDir(path,directory)
+                    .then(function (success) {
+                        // success
+                         console.log('directory is present',success);
+                            callback({status:"1",data:success})
+                    }, function (error) {
+                        // error
+                          console.log(error)
+                           callback({status:"0",error:error})
+                      });
+         };
     
     service.createZip = function (fileName,path,data,callback) {
        
@@ -87,7 +99,8 @@ angular.module('app.services')
 	   
                   var PathToFileInString  = cordova.file.externalApplicationStorageDirectory+path;
 				  console.log("PathToFileInString: ",PathToFileInString)
-                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"/";
+
+                  var PathToResultZip =cordova.file.externalApplicationStorageDirectory+"micro_lending/" 
                   JJzip.zip(PathToFileInString, {target:PathToResultZip,name:"user_profile"},function(data){
 
                      console.log("zipeed",data)
@@ -120,9 +133,9 @@ angular.module('app.services')
        
        if (window.cordova){
 					
-				  
+				  // check if the folder micro_lending is present or not
                   var PathToFileInString  = path
-                  PathToResultZip     = cordova.file.externalApplicationStorageDirectory+"micro_lending/";
+                  PathToResultZip = cordova.file.externalApplicationStorageDirectory+"micro_lending/";
 				  
 				  console.log("PathToResultZip: ",PathToResultZip)
 				  
@@ -131,24 +144,12 @@ angular.module('app.services')
                      
                       callback({status:1,data:data})
                   })
-                      // save the result in the SS storage.. first read from file
-                     
-                    // readFile("user_data,json",PathToResultZip,function(status,data){
-                     
-                        /*if (status=="0"){console.log("Error reading file after zipping");callback({status:"0",data:data})}
-                     
-                             registerFactory.saveUserDataLocally(data,'user_data',function(res){
-                                             console.log(res)
-                                              callback(res)
-
-                                       });*/
-                          // })
                      
                ,function(error){
                      console.log(error)
                       callback({status:"0",data:error})
+                  }
          }
-   }
        
       else{
                  

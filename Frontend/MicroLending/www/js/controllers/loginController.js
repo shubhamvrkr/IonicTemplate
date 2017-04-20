@@ -6,8 +6,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 
 	$scope.Login = function(data){
 	
-		console.log("Login");
-		$state.go('menu.allContracts');
+		console.log("Login")
 		var user_name = data.username
         var password = data.password
         var login_data = {}
@@ -52,7 +51,6 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                                       
         }else{
 
-                  console.log(JSON.parse(localStorage.getItem('user_data')))
                   login_data.ks = JSON.parse(localStorage.getItem('user_data')).ks
                   console.log(login_data.ks);
                   //check for the email validation
@@ -60,24 +58,21 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                      loginFactory.login(login_data,function(err,result){
                            if (err) {
 
-                                     console.log(err)
-                                     console.log($scope.error)
-                                     return
+                                     console.log("Login error",err)
+                                     
                                  }
 
                                  else{
                                          console.log("Login",result)
-                                         $state.go('menu.allContracts');
+                                         //$state.go('menu.allContracts');
 
-                                 }
+                                    }
 
 
-                             })   
-
+                             }); 
                }
  
-       
-		
+       		
 		/* $ionicLoading.show({
 				templateUrl: 'templates/loading.html',
 				animation: 'fade-in',
@@ -152,11 +147,17 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
 			
 			 console.log("File path: ",filepath);
 			 
+            //create a directory micro_lending   
+              fileFactory.createDirectory("micro_lending","/",function(res){
+               
+                 console.log("App creation",res)
+                     
 			 //handle unzipping here for android
                fileFactory.unZip("",filepath,function(data){
-               console.log(data)
                
-                    fileFactory.readFile("user_data,json",cordova.file.externalApplicationStorageDirectory+"/",function(status,data){
+                     console.log(data)
+               
+                    fileFactory.readFile("user_data.json",cordova.file.externalApplicationStorageDirectory+"micro_lending/",function(status,data){
                      
                         if (status=="0"){console.log("Error reading file after zipping");}
                      
@@ -164,18 +165,18 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
                                              console.log(res);
                                               $state.go('menu.allContracts');
                                     });
-                           })
+                              })
+                        })
                })
 			 
-			 
-			}, function(code,message){
-			
-				console.log(code);
-				console.log(message);
-				
-			});
+               }, function(code,message){
+
+                   console.log(code);
+                   console.log(message);
+
+               });
 		} 
-    };
+};
 	
     var error = function(msg) {
         
@@ -190,6 +191,7 @@ function ($scope, $stateParams,$state,$ionicLoading,$timeout,fileFactory,loginFa
     }
 	$scope.fileNameChanged = function(element){
 		
+       
          //browser
         fileFactory.unZip("",element.files[0],function(data){
                console.log(data)
