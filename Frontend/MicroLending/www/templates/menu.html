@@ -37,16 +37,16 @@
 
       <div class="spacer" style="width: 268px; height: 20px;"></div>
       <div class="profile-image">
-        <img ng-click="uploadImage()" src="img/placeholder-user.png" style="display: block; width: 50%; height: auto; margin-left: auto; margin-right: auto;"/>
+        <img ng-click="uploadImage()" src="{{user.imagesrc=='null'?'img/placeholder-user.png' : user.imagesrc }}" style="display: block; width: 50%; height: auto; margin-left: auto; margin-right: auto;"/>
       </div>
 
       <div class="spacer" style="width: 268px; height: 5px;"></div>
-      <h4 id="menu-heading1" style="color:#F8F8F8;text-align:center;">Default User</h4>
-      <h6 id="menu-heading5" style="color:#D3D3D3;text-align:center;">default@psl.com</h6>
+      <h4 id="menu-heading1" style="color:#F8F8F8;text-align:center;">{{user.name}}</h4>
+      <h6 id="menu-heading5" style="color:#D3D3D3;text-align:center;">{{user.email}}</h6>
       <div class="spacer" style="width: 268px; height: 10px;"></div>
-      <h6 id="menu-heading2" style="color:#D3D3D3;font-weight:normal;text-align:center;" class="eth-address">0x123f681646d4a755815f9cb19e1acc8565a0c2ac</h6>
+      <h6 id="menu-heading2" style="color:#D3D3D3;font-weight:normal;text-align:center;" class="eth-address">{{user.eth_address}}</h6>
       <div class="spacer" style="width: 268px; height: 20px;"></div>
-      <h3 id="menu-heading3" style="color:#FFF;font-weight:400;text-align:center;" class="eth-balance">Balance: 1000 ETH</h3>
+      <h3 id="menu-heading3" style="color:#FFF;font-weight:400;text-align:center;" class="eth-balance">Balance: 0 ETH</h3>
 
     </ion-content>
   </ion-side-menu>

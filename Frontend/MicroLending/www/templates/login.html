@@ -7,10 +7,10 @@
       </div>
       <div class="list">
         <label class="item item-input top-input" id="loginUsername">
-          <input type="text" placeholder="Username | Eth address" name="username" ng-model="data.username" required/>
+          <input type="text" placeholder="Username | Eth address" name="username" ng-model="data.username" ng-change = "onchangeinput()" required/>
         </label>
         <label class="item item-input bottom-input" id="loginPassword">
-          <input type="password" placeholder="Password" name="password" ng-model="data.password" required/>
+          <input type="password" placeholder="Password" name="password" ng-model="data.password" ng-change = "onchangeinput()" required/>
         </label>
         <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
         <small ng-show="error">{{error}}</small>

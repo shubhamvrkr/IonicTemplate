@@ -1,19 +1,45 @@
 mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams','$state','$ionicLoading','$timeout','registerFactory','$http','firebaseFactory','ionicToast',
                    function ($scope, $stateParams,$state,$ionicLoading,$timeout,registerFactory,$http,firebaseFactory,ionicToast) {
                      
-   
+    var userData = $stateParams.params.user_data;
+	
+    console.log(userData)
+	console.log($stateParams.params.temp_id)
                       
-   $scope.ResendOTP = function(data){
+	$scope.ResendOTP = function(data){
 
-                     console.log("Resend OTP")
+                    console.log("Resend OTP")
 
-                     var userData = $stateParams.params.user_data
-                     console.log(userData)
-                     registerFactory.registerUser(userData,function(response){
-                     console.log("resent OTP user: ",response);
-                      $state.go('emailVerification',{params:{temp_id:response._id,passphrase:userData.password,user_data:userData}})
-               })
-      }
+                   
+                    console.log(userData)
+					 
+					$ionicLoading.show({
+						templateUrl: 'templates/loading.html',
+						animation: 'fade-in',
+						showBackdrop: true,
+						maxWidth: 200,
+						showDelay: 0
+					});
+					 
+                    registerFactory.registerUser(userData,function(response){
+					 
+						if(response.status=="0"){
+							
+								$ionicLoading.hide();
+								$scope.error = "Email ID already exits!! "
+			
+						}else{
+			 
+							 console.log("resent OTP user: ",response);
+							 $ionicLoading.hide();
+							 ionicToast.show('New OTP has been sent to you email id!!', 'bottom', false, 2500);
+        
+			
+						}
+					     $state.go('emailVerification',{params:{temp_id:response._id,passphrase:userData.password,user_data:userData}})
+						
+					});
+    }
            
    
    
@@ -26,6 +52,14 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   otp_data.tmp_id = $stateParams.params.temp_id
                   console.log($stateParams)
 
+				  $ionicLoading.show({
+						templateUrl: 'templates/loading.html',
+						animation: 'fade-in',
+						showBackdrop: true,
+						maxWidth: 200,
+						showDelay: 0
+				  });
+					
                   //call factory function verifyOTP to verify otp
                   registerFactory.verifyOTP(otp_data,function(response,status){
 
@@ -44,7 +78,11 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   registerFactory.generateEthAccount($stateParams.params.passphrase,function(err,result){
                                      
                                  console.log(" generateEthAccount Called")
-                                 if (err) console.log(err)
+                                 if (err){
+									
+									console.log(err)
+								
+								}
                                      //store the KVS in the localstorage;
                                       console.log("save the kvs", result)
                    
@@ -55,17 +93,16 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                                        local_data.address = result.address
                                        local_data.ks =  result.ks
                                        local_data.seedWord = result.seedPhrase
-                                       local_data.imagePath = ""
-                                      
+									  
+									   local_data.imagePath = "null"
+									  
                   // get firebase token
                    firebaseFactory.getFirebaseToken(function(result_token){
                         
-                         
-						ionicToast.show(result_token, 'bottom', true, 2500);
                      
                   //for mobile store it in a file && for browser on localStorage
                   //{kvs:'',email:,eth_addr:,seed_word:}
-					registerFactory.saveUserDataLocally(local_data,'user_data',function(res){
+					registerFactory.saveUserDataLocally(JSON.stringify(local_data),'user_data',function(res){
                     
                                     console.log(local_data)
                                       
@@ -80,6 +117,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                                       else{
                                              console.log('local storage',localStorage.getItem('user_data'))
                                       }
+									  
                                       var new_data = {}
                                       new_data.name = response.name
                                       new_data.ethAccount = result.address
@@ -92,10 +130,12 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                            .success(function (response) {
 
                            console.log(response) 
-                     
+						 
 						registerFactory.createAppDirectory(function(response){
-                          console.log("App creation",response)
-                           $state.go('login')
+							
+						   console.log("App creation",response)
+						   $ionicLoading.hide();
+                           $state.go('menu.allContracts');
                            
                         })                           
                      

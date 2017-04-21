@@ -19,8 +19,16 @@ angular.module('app.services')
                     .success(function (response) {
 
                     console.log(response)
-                    callback(response)
-               })
+                   callback({status:"1",data: response})
+					
+               }).catch(function(err){
+					
+					console.log(err)
+                    callback({status:"0",data: err})
+			   
+			   
+			   });
+				
          }
 
 
@@ -42,20 +50,22 @@ angular.module('app.services')
 
 
      service.saveUserDataLocally = function (data,key,callback) {
-
+	 
+	 console.log("type of ",typeof data)
          if (window.cordova) {    
                ss.set(
 
                      function (key) { console.log('Set user_data',key); callback({status:"1"})},
                      function (error) { console.log('Error ' + error); callback({status:"0"}) },
-                     'user_data', JSON.stringify(data)
+                     'user_data', data
                 ); 
             
             }
         
          else{
                     console.log('web')
-                    localStorage.setItem(key,JSON.stringify(data))
+					console.log("data local storage: ",data)
+                    localStorage.setItem(key,data)
                     callback({status:"1"})
           }
 
