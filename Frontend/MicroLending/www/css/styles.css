@@ -15,9 +15,12 @@
 
   color:chartreuse;
   font-weight:bold;
-  
+
 }
 
+.input-label{
+  font-weight: bold;
+}
 .app-logo{
   display: block;
   width: 70%;
@@ -27,7 +30,7 @@
 }
 
 .button-medium{
-    
+
 	line-height: 8px !important;
     height: 30px !important;
     margin:auto;

@@ -1,6 +1,49 @@
 <ion-view title="Create Contract" id="page3">
   <ion-content padding="true" class="has-header">
-    <div>Create Contract</div>
+    <div class="screenadjust">
+      <div class="row">
+        <div class="col">
+          <form class="form" >
+            <!-- Search Phonebook -->
+
+            <label class="item item-stacked-label">
+              <span class="input-label" style="padding-bottom:3px;">Select Counterparty</span>
+              <div class="item item-input">
+                <input ng-model="data.searchText" type="text" placeholder="Search Phonebook" />
+                <i class="icon ion-search"></i>
+              </div>
+            </label>
+            <!-- Form Fields -->
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Deal ID</span>
+              <input type="text" placeholder="Enter any unique ID">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Asset Name</span>
+              <input type="text" placeholder="What are you lending? Eg. Camera, Book, CD">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Asset ID</span>
+              <input type="text" placeholder="Unique Asset Identifier">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Start Date</span>
+              <input type="date" placeholder="">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">End Date</span>
+              <input type="date" placeholder="">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Description</span>
+              <textarea placeholder="Additional Terms & Conditions"></textarea>
+            </label>
+            <div>
+              <button id="create-deal" class="button button-large button-radius button-balanced button-block">Create Deal</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
-
