@@ -9,10 +9,10 @@
   <title></title>
 
 
-	<script src="lib/bluebird.min.js"></script>
+  <script src="lib/bluebird.min.js"></script>
   <script src="lib/ionic/js/ionic.bundle.js"></script>
-   <script src="lib/ionic.cloud.min.js"></script>
-   
+  <script src="lib/ionic.cloud.min.js"></script>
+
   <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
   <script src="lib/angular/angular.min.js"></script>
   <script src="lib/ng-letter-avatar/dist/ngletteravatar.min.js"></script>
@@ -29,7 +29,7 @@
   <link href="css/ionic.app.css" rel="stylesheet">
   <link href="lib/ionic-toast/src/ionic-toast.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
-   <link href="css/phonebook.css" rel="stylesheet">
+  <link href="css/phonebook.css" rel="stylesheet">
 
   <style type="text/css">
     .platform-ios .manual-ios-statusbar-padding {
@@ -67,15 +67,12 @@
       padding-left: 40px;
     }
   </style>
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.js"
-  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="js/lib/bundle.js"></script>
   <script src="js/lib/jszip.min.js"></script>
-   <script src="js/lib/FileSaver.js"></script>
-   <script type="text/javascript" src="js/lib/jszip-utils.min.js"></script>
-   
+  <script src="js/lib/FileSaver.js"></script>
+  <script type="text/javascript" src="js/lib/jszip-utils.min.js"></script>
+
   <script src="js/app.js"></script>
   <script src="js/controllers/loginController.js"></script>
   <script src="js/controllers/registerController.js"></script>
@@ -122,13 +119,11 @@
 
   <script id="options-menu.html" type="text/ng-template">
     <ion-popover-view>
-      <ion-content>
+      <ion-content overflow-scroll="true">
         <div class="list item-divider">
-         
-		  <div class="item item-icon-left" ng-click="exportProfile()"><i class="icon ion-android-archive " style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Export Profile </span></div>
-		  <div class="item item-icon-left" ng-click="Logout()"><i class="icon ion-power" style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Logout </span></div>
-       
-		</div>
+          <div class="item item-icon-left" ng-click="exportProfile()"><i class="icon ion-android-archive " style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Export Profile </span></div>
+          <div class="item item-icon-left" ng-click="Logout()"><i class="icon ion-power" style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Logout </span></div>
+        </div>
       </ion-content>
     </ion-popover-view>
   </script>
@@ -141,17 +136,16 @@
 
   <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
   <script>
-            // Initialize Firebase
-            var config = {
-              apiKey: "AIzaSyDDBugjfUxGwTfeTKASjqesMXh-cgRrx4U",
-              authDomain: "resource-lending.firebaseapp.com",
-              databaseURL: "https://resource-lending.firebaseio.com",
-              storageBucket: "resource-lending.appspot.com",
-              messagingSenderId: "88868208571"
-            };
-            firebase.initializeApp(config);
-            const messaging = firebase.messaging();
-
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDDBugjfUxGwTfeTKASjqesMXh-cgRrx4U",
+      authDomain: "resource-lending.firebaseapp.com",
+      databaseURL: "https://resource-lending.firebaseio.com",
+      storageBucket: "resource-lending.appspot.com",
+      messagingSenderId: "88868208571"
+    };
+    firebase.initializeApp(config);
+    const messaging = firebase.messaging();
   </script>
 
 </body>

@@ -159,7 +159,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   //take password and try to decrypt the key-store. call login service module
                   var login_data = {};
                   login_data.username = JSON.parse(data.data).email;
-
+                  login_data.ks = JSON.parse(data.data).ks;
                   $ionicPopup.prompt({
                     title: 'Password',
                     subTitle: 'Enter your password to decrypt file',
@@ -171,6 +171,8 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                       ionicToast.show('You need to enter password!', 'bottom', false, 2500);
                       return;
                     }
+                    login_data.password = pass;
+                    console.log(login_data.ks);
                     loginFactory.login(login_data, function(err, result) {
                       if (err) {
                         console.error(err);
@@ -223,7 +225,8 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
           $ionicLoading.hide();
           ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
         } else {
-          login_data.username = JSON.parse(data.data).email;
+          login_data.username = data.data.email;
+          login_data.ks = data.data.ks;
 
           $ionicPopup.prompt({
             title: 'Password',
