@@ -1,0 +1,27 @@
+1. Resolve native file paths from content URLs for Cordova platforms
+- cordova plugin add cordova-plugin-filepath
+
+2. File Chooser
+- cordova plugin add http://github.com/don/cordova-filechooser.git
+
+3. Zip compression/decompression on the Apache Cordova / PhoneGap platform
+- cordova plugin add cordova-plugin-zeep
+
+4. A plugin to zip and unzip files or directories
+- cordova plugin add cordova-zip-plugin
+
+5. SecureStorage plugin for Apache Cordova
+- cordova plugin add cordova-plugin-secure-storage
+
+6 . For supporting Android new permissions checking mechanism.
+- cordova plugin add cordova-plugin-android-permissions
+
+7. For remaining backwards compatible with previous versions of Cordova.
+- cordova plugin add cordova-plugin-compat
+
+8. This plugin implements a File API allowing read/write access to files residing on the device.
+- cordova plugin add cordova-plugin-file
+
+9. This plugin implements a whitelist policy for navigating the application webview on Cordova 4.0
+- cordova plugin add cordova-plugin-whitelist
+
