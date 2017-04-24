@@ -12,10 +12,10 @@ var myApp = angular.module('app', ['ionic','ngLetterAvatar','ionic-toast','app.c
 
 
 myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProvider){
-  
+
 	$ionicConfigProvider.tabs.position('top');
    $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-   
+
    $ionicCloudProvider.init({
     "core": {
       "app_id": "0c593f4c"
@@ -33,8 +33,10 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
       }
     }
   });
-  
-  
+
+
+
+
 })
 
 .run(function($ionicPlatform) {
@@ -43,15 +45,15 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-     
+
       if (window.cordova){
          ss = new cordova.plugins.SecureStorage(
        function () { console.log('Success')},
        function (error) { console.log('Error ' + error); },
        'my_app');
      }
-       
-     
+
+
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -60,12 +62,29 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-     
-       
-     
-     
-     
-  });
+
+    if (window.cordova)
+    {
+        contact_db = new PouchDB('contacts.db', {adapter: 'cordova-sqlite',location:'default'});
+       console.log(contact_db);
+      contact_db.createIndex({
+        index: {
+          fields: ['email']
+        }
+      }).then(function (resposne) {
+          console.log(resposne)
+      });
+
+    }
+
+   else
+   {
+       contact_db = new PouchDB('contacts');
+      console.log(contact_db.adapter)
+
+   }
+
+});
 })
 
 /*
@@ -74,7 +93,7 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
 */
 .directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function($ionicSideMenuDelegate, $rootScope) {
     return {
-        restrict: "A",  
+        restrict: "A",
         controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
             function stopDrag(){
@@ -109,7 +128,7 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
       attrs.$observe('hrefInappbrowser', function(val){
         href = val;
       });
-      
+
       element.bind('click', function (event) {
 
         window.open(href, '_system', 'location=yes');

@@ -12,7 +12,7 @@
 	<script src="lib/bluebird.min.js"></script>
   <script src="lib/ionic/js/ionic.bundle.js"></script>
    <script src="lib/ionic.cloud.min.js"></script>
-   
+
   <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
   <script src="lib/angular/angular.min.js"></script>
   <script src="lib/ng-letter-avatar/dist/ngletteravatar.min.js"></script>
@@ -20,6 +20,10 @@
   <!-- cordova script (this will be a 404 during development) -->
   <script src="js/ng-cordova.min.js"></script>
   <script src="cordova.js"></script>
+  <script src="js/lib/pouchdb-6.2.0.min.js"></script>
+  <script src="js/lib/pouchdb.find.js"></script>
+  <script src="js/lib/pouchdb.cordova-sqlite.js"></script>
+
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -75,7 +79,7 @@
   <script src="js/lib/jszip.min.js"></script>
    <script src="js/lib/FileSaver.js"></script>
    <script type="text/javascript" src="js/lib/jszip-utils.min.js"></script>
-   
+
   <script src="js/app.js"></script>
   <script src="js/controllers/loginController.js"></script>
   <script src="js/controllers/registerController.js"></script>
@@ -91,6 +95,7 @@
   <script src="js/services/fileFactory.js"></script>
   <script src="js/services/LoginFactory.js"></script>
   <script src="js/services/firebaseFactory.js"></script>
+   <script src="js/services/databaseFactory.js"></script>
 
 
   <!-- Custom script for UI Validations-->
@@ -124,10 +129,10 @@
     <ion-popover-view>
       <ion-content>
         <div class="list item-divider">
-         
+
 		  <div class="item item-icon-left" ng-click="exportProfile()"><i class="icon ion-android-archive " style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Export Profile </span></div>
 		  <div class="item item-icon-left" ng-click="Logout()"><i class="icon ion-power" style="font-size:25px;"></i> <span style="font-size:15px;margin-left:5px;"> Logout </span></div>
-       
+
 		</div>
       </ion-content>
     </ion-popover-view>

@@ -1,62 +1,62 @@
 <ion-view title="Phone Book" id="page2">
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
-	
+
 	<div class ="screenadjust">
-		
+
 		<div class="list list-inset">
 			<div class="item item-input border">
 				<i class="icon ion-search placeholder-icon"></i>
 				<input ng-model="data.searchText" type="text" placeholder="Search Contacts" ng-change="searchTextChanged(data.searchText)" />
 				<button type="button" ng-click="Clear()" ng-if="data.searchText.length" class="button-icon ion-android-close" > </button>
 			</div>
-			
+
 		</div>
-		
-		
+
+
 		<div ng-show="localcontacts.length > 0 && data.filteredlocalcontacts.length > 0 ">
-			
+
 			<div class="item item-divider">Phonebook contacts</div>
 			<div class="list card" ng-repeat="contact in data.filteredlocalcontacts = ( localcontacts | filter:data.searchText)">
-			
-			
+
+
 				<div class="item item-avatar">
-					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{contact.email}}" shape="round"></ng-letter-avatar>
+					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{contact._id}}" shape="round"></ng-letter-avatar>
 					<div class = "ethadress-display">
-						<h3 style="font-size:15px;font-style:bold;color:#000">{{contact.email}}</h3>
-						<h4 style="font-size:12px;color:#696969">{{contact.ethadress}}</h4>
+						<h3 style="font-size:15px;font-style:bold;color:#000">{{contact._id}}</h3>
+						<h4 style="font-size:12px;color:#696969">{{contact.eth_adress}}</h4>
 					</div>
-					<p class="item-icon-right" ng-click="deleteContact(contact)"><i class="icon ion-trash-b"></i> </p>
-					
+					<p class="item-icon-right" ng-click="deleteContact(contact.doc)"><i class="icon ion-trash-b"></i> </p>
+
 				</div>
 			</div>
-			
+
 		</div>
 		{{data.filteredlocalcontacts.length}}
 		<div ng-show="availablecontacts.length > 0 && data.filteredavailablecontacts.length > 0">
 			<div class="item item-divider">Available contacts</div>
-			<div class="list card" ng-repeat="acontact in data.filteredavailablecontacts = ( availablecontacts | filter:data.searchText | orderBy: 'email')">
-			
-			
+			<div class="list card" ng-repeat="acontact in data.filteredavailablecontacts = ( availablecontacts | filter:data.searchText | orderBy: '_id')">
+
+
 				<div class="item item-avatar">
 					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{acontact.email}}" shape="round"></ng-letter-avatar>
 					<div class = "ethadress-display">
 						<h3 style="font-size:15px;font-style:bold;color:#000">{{acontact.email}}</h3>
-						<h4 style="font-size:12px;color:#696969">{{acontact.ethadress}}</h4>
+						<h4 style="font-size:12px;color:#696969">{{acontact.ethAccount}}</h4>
 					</div>
 					<p class="item-icon-right" ng-click="addContact(acontact)"><i class="icon md-person-add"></i> </p>
-					
+
 				</div>
-			
+
 			</div>
 		</div>
 		{{data.filteredavailablecontacts.length}}
-		
+
 		<div style="vertical-align: center;text-align: center;">
 				<h5>No contacts Available</h5>
 		</div>
-		
+
 	</div>
-				
+
   </ion-content>
 </ion-view>
 
