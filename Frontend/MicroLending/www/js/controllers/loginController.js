@@ -1,10 +1,10 @@
 mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', '$ionicPush', 'ionicToast', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup) {
+  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup) {
 
 
-    $scope.Login = function(data) {
+    $scope.Login = function (data) {
 
       console.log("Login");
       var user_name = data.username;
@@ -26,14 +26,14 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
       if (window.cordova) {
         ss.get(
-          function(value) {
+          function (value) {
             console.log('Success, got ' + value);
             login_data.ks = JSON.parse(value).ks;
             console.log(login_data.ks);
             //check for the email validation
 
             if (login_data.username == JSON.parse(value).email || login_data.username == JSON.parse(value).address) {
-              loginFactory.login(login_data, function(err, result) {
+              loginFactory.login(login_data, function (err, result) {
                 if (err) {
                   $ionicLoading.hide();
                   $scope.error = err;
@@ -53,7 +53,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
               return;
             }
           },
-          function(error) {
+          function (error) {
             console.log('Error ' + error);
           },
           'user_data');
@@ -66,7 +66,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         console.log(login_data.username == value.email);
         if (login_data.username == value.email || login_data.username == value.address) {
 
-          loginFactory.login(login_data, function(err, result) {
+          loginFactory.login(login_data, function (err, result) {
             if (err) {
               $scope.error = err;
               console.log("Login error", err);
@@ -87,10 +87,10 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
       }
     };
 
-    $scope.onchangeinput = function() {
+    $scope.onchangeinput = function () {
       $scope.error = "";
     };
-    $scope.Import = function() {
+    $scope.Import = function () {
 
       if (window.cordova) {
         console.log("Device");
@@ -103,7 +103,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         input.click();
       }
     };
-    var success = function(data) {
+    var success = function (data) {
       console.log("new Data: ", data);
       var permissions = cordova.plugins.permissions;
       console.log(permissions);
@@ -115,7 +115,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         if (!status.hasPermission) {
           permissions.requestPermission(
             permissions.READ_EXTERNAL_STORAGE,
-            function(status) {
+            function (status) {
               if (!status.hasPermission) {
                 errorCallback();
               } else {
@@ -129,27 +129,20 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
       }
 
       function resolveNativePath() {
-        window.FilePath.resolveNativePath(data, function(filepath) {
+        window.FilePath.resolveNativePath(data, function (filepath) {
           console.log("File path: ", filepath);
           //create a directory micro_lending
-          $ionicLoading.show({
-            templateUrl: 'templates/loading.html',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
-          });
-          fileFactory.createDirectory("micro_lending", "/", function(res) {
+          fileFactory.createDirectory("micro_lending", "/", function (res) {
             console.log("App creation", res);
             //handle unzipping here for android
-            fileFactory.unZip("", filepath, function(data) {
+            fileFactory.unZip("", filepath, function (data) {
               console.log("unzip status", data);
               if (data.status == "0") {
                 $ionicLoading.hide();
                 ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
               }
-              fileFactory.readFile("user_profile.json", "micro_lending/user_data/", function(data) {
 
+              fileFactory.readFile("user_profile.json", "micro_lending/user_data/", function (data) {
                 if (data.status == "0") {
                   console.log("Error reading file after zipping");
                   $ionicLoading.hide();
@@ -160,6 +153,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   var login_data = {};
                   login_data.username = JSON.parse(data.data).email;
                   login_data.ks = JSON.parse(data.data).ks;
+                  $ionicLoading.hide();
                   $ionicPopup.prompt({
                     title: 'Password',
                     subTitle: 'Enter your password to decrypt file',
@@ -172,13 +166,22 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                       return;
                     }
                     login_data.password = pass;
-                    console.log(login_data.ks);
-                    loginFactory.login(login_data, function(err, result) {
+
+                    // Show loading animation
+                    $ionicLoading.show({
+                      templateUrl: 'templates/loading.html',
+                      animation: 'fade-in',
+                      showBackdrop: true,
+                      maxWidth: 200,
+                      showDelay: 0
+                    });
+
+                    loginFactory.login(login_data, function (err, result) {
                       if (err) {
                         console.error(err);
                       } else {
                         // +save the pwderived key in SS.
-                        registerFactory.saveUserDataLocally(data.data, 'user_data', function(res) {
+                        registerFactory.saveUserDataLocally(data.data, 'user_data', function (res) {
                           console.log(res);
                           $ionicLoading.hide();
                           ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
@@ -191,23 +194,23 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
               });
             });
           });
-        }, function(code, message) {
+        }, function (code, message) {
           console.log(code);
           console.log(message);
         });
       }
     };
 
-    var error = function(msg) {
+    var error = function (msg) {
       console.error("error: ", msg);
 
     };
-    var errorCallback = function() {
+    var errorCallback = function () {
       //user didnt grant permission
       //tell him export couldnot be done
       console.warn('Storage permission is not turned on');
     };
-    $scope.fileNameChanged = function(element) {
+    $scope.fileNameChanged = function (element) {
       //browser
       $ionicLoading.show({
         templateUrl: 'templates/loading.html',
@@ -217,7 +220,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         showDelay: 0
       });
 
-      fileFactory.unZip("", element.files[0], function(data) {
+      fileFactory.unZip("", element.files[0], function (data) {
         //take password and then call login service to check if the password is correct or wrong. IF password is incorrect - display incorrect key-store
 
         var login_data = {};
@@ -227,7 +230,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         } else {
           login_data.username = data.data.email;
           login_data.ks = data.data.ks;
-
+          $ionicLoading.hide();
           $ionicPopup.prompt({
             title: 'Password',
             subTitle: 'Enter your password to decrypt file',
@@ -241,12 +244,22 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
             }
 
             login_data.password = pass;
-            loginFactory.login(login_data, function(err, result) {
+
+            // Show loading animation
+            $ionicLoading.show({
+              templateUrl: 'templates/loading.html',
+              animation: 'fade-in',
+              showBackdrop: true,
+              maxWidth: 200,
+              showDelay: 0
+            });
+
+            loginFactory.login(login_data, function (err, result) {
               if (err) {
                 console.error(err);
               } else {
                 // +save the pwderived key in secure storage
-                registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function(res) {
+                registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function (res) {
 
                   $ionicLoading.hide();
                   console.log("saved in local Storage", res);
