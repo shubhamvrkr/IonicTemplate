@@ -20,7 +20,7 @@ const messaging = firebase.messaging();
 // background (Web app is closed or not in browser focus) then you should
 // implement this optional method.
 // [START background_handler]
-messaging.setBackgroundMessageHandler(function(payload) {
+messaging.setBackgroundMessageHandler(function (payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   const notificationTitle = 'Background Message Title';
@@ -30,6 +30,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
   };
 
   return self.registration.showNotification(notificationTitle,
-      notificationOptions);
+    notificationOptions);
 });
 // [END background_handler]

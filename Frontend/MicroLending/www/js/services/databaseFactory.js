@@ -1,68 +1,70 @@
 angular.module('app.services')
 
-.factory('databaseFactory',[function() {
+  .factory('databaseFactory', [function () {
 
- var service = {};
+    var service = {};
 
-     service.putData = function (db,payload,callback) {
+    service.putData = function (db, payload, callback) {
 
-        db.put(payload)
+      db.put(payload)
 
-               .then(function (response) {
-                    console.log(response);
-                     callback({status:"1",data:response})
-                  })
-                  .catch(function (err) {
-                     console.log(err);
-                     callback({status:"0",data:err})
-            });
-     }
+        .then(function (response) {
+          console.log(response);
+          callback({ status: "1", data: response })
+        })
+        .catch(function (err) {
+          console.log(err);
+          callback({ status: "0", data: err })
+        });
+    }
 
 
-     service.getAllData = function(db,searchText,callback){
+    service.getAllData = function (db, searchText, callback) {
 
-         db.allDocs({include_docs: true,
-               startkey:searchText,
-              endkey: searchText + '\uffff'
-         }).then(function (result) {
-            console.log(result);
-          callback({status:"1",data:result})
-         }).catch(function (err) {
-               console.log(err);
-            callback({status:"0",data:err})
+      db.allDocs({
+        include_docs: true,
+        startkey: searchText,
+        endkey: searchText + '\uffff'
+      }).then(function (result) {
+        console.log(result);
+        callback({ status: "1", data: result })
+      }).catch(function (err) {
+        console.log(err);
+        callback({ status: "0", data: err })
       });
 
     }
 
 
-      service.getDoc = function(db,indexData,callback){
+    service.getDoc = function (db, indexData, callback) {
 
-        db.find({selector: indexData,
-              //sort: ['name']
-              }).then(function (result) {
-                console.log(result);
-                callback({status:"1",data:result})
-            }).catch(function (err) {
-               console.log(err);
-               callback({status:"0",data:err})
+      db.find({
+        selector: indexData,
+        //sort: ['name']
+      }).then(function (result) {
+        console.log(result);
+        callback({ status: "1", data: result })
+      }).catch(function (err) {
+        console.log(err);
+        callback({ status: "0", data: err })
 
-          });
+      });
     }
 
-      service.deleteDoc = function(db,doc,callback){
+    service.deleteDoc = function (db, doc, callback) {
 
-        db.remove(doc).then(function(result){
+      db.remove(doc).then(function (result) {
 
-          console.log(result);
-          callback({status:"1",data:result});
-        }).catch(function(err){
-            console.log(err);
-            callback({status:"0",data:err})
+        console.log(result);
+        callback({ status: "1", data: result });
+      }).catch(function (err) {
+        console.log(err);
+        callback({ status: "0", data: err })
 
-        })
+      })
     }
 
-return service
+    return service
 
 
-}]);
+  }]);
