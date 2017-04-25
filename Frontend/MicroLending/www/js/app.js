@@ -5,18 +5,18 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-mycontrollerModule = angular.module('app.controllers', ['ionic','ionic-toast','ngCordova','ngLetterAvatar','ionic.cloud']);
+mycontrollerModule = angular.module('app.controllers', ['ionic', 'ionic-toast', 'ngCordova', 'ngLetterAvatar', 'ionic.cloud']);
 
-var myApp = angular.module('app', ['ionic','ngLetterAvatar','ionic-toast','app.controllers', 'app.routes', 'app.directives','app.services','ionic.cloud']);
+var myApp = angular.module('app', ['ionic', 'ngLetterAvatar', 'ionic-toast', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'ionic.cloud']);
 
 
 
-myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProvider){
+myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudProvider) {
 
-	$ionicConfigProvider.tabs.position('top');
-   $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+  $ionicConfigProvider.tabs.position('top');
+  $sceDelegateProvider.resourceUrlWhitelist(['self', '*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
 
-   $ionicCloudProvider.init({
+  $ionicCloudProvider.init({
     "core": {
       "app_id": "0c593f4c"
     },
@@ -39,104 +39,105 @@ myApp.config(function($ionicConfigProvider, $sceDelegateProvider,$ionicCloudProv
 
 })
 
-.run(function($ionicPlatform) {
+  .run(function ($ionicPlatform) {
 
 
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+    $ionicPlatform.ready(function () {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
 
-      if (window.cordova){
-         ss = new cordova.plugins.SecureStorage(
-       function () { console.log('Success')},
-       function (error) { console.log('Error ' + error); },
-       'my_app');
-     }
+      if (window.cordova) {
+        ss = new cordova.plugins.SecureStorage(
+          function () { console.log('Success') },
+          function (error) { console.log('Error ' + error); },
+          'my_app');
+      }
 
 
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
 
-    if (window.cordova)
-    {
-        contact_db = new PouchDB('contacts.db', {adapter: 'cordova-sqlite',location:'default'});
-       console.log(contact_db);
-      contact_db.createIndex({
-        index: {
-          fields: ['email']
-        }
-      }).then(function (resposne) {
-          console.log(resposne)
-      });
+      if (window.cordova) {
+        contact_db = new PouchDB('contacts.db', { adapter: 'cordova-sqlite', location: 'default' });
+        console.log(contact_db);
 
-    }
 
-   else
-   {
-       contact_db = new PouchDB('contacts');
-      console.log(contact_db.adapter)
+      }
 
-   }
+      else {
+        contact_db = new PouchDB('contacts');
+        console.log(contact_db.adapter)
 
-});
-})
 
-/*
-  This directive is used to disable the "drag to open" functionality of the Side-Menu
-  when you are dragging a Slider component.
-*/
-.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function($ionicSideMenuDelegate, $rootScope) {
+        // Clear DB
+        // contact_db.destroy().then(function  (response)  {
+        //     // success
+        //   console.log(response)
+        // }).catch(function  (err)  {
+        //     console.log(err);
+        // });
+
+      }
+
+    });
+  })
+
+  /*
+    This directive is used to disable the "drag to open" functionality of the Side-Menu
+    when you are dragging a Slider component.
+  */
+  .directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
     return {
-        restrict: "A",
-        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+      restrict: "A",
+      controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
-            function stopDrag(){
-              $ionicSideMenuDelegate.canDragContent(false);
-            }
+        function stopDrag() {
+          $ionicSideMenuDelegate.canDragContent(false);
+        }
 
-            function allowDrag(){
-              $ionicSideMenuDelegate.canDragContent(true);
-            }
+        function allowDrag() {
+          $ionicSideMenuDelegate.canDragContent(true);
+        }
 
-            $rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
-            $element.on('touchstart', stopDrag);
-            $element.on('touchend', allowDrag);
-            $element.on('mousedown', stopDrag);
-            $element.on('mouseup', allowDrag);
+        $rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
+        $element.on('touchstart', stopDrag);
+        $element.on('touchend', allowDrag);
+        $element.on('mousedown', stopDrag);
+        $element.on('mouseup', allowDrag);
 
-        }]
+      }]
     };
-}])
+  }])
 
-/*
-  This directive is used to open regular and dynamic href links inside of inappbrowser.
-*/
-.directive('hrefInappbrowser', function() {
-  return {
-    restrict: 'A',
-    replace: false,
-    transclude: false,
-    link: function(scope, element, attrs) {
-      var href = attrs['hrefInappbrowser'];
+  /*
+    This directive is used to open regular and dynamic href links inside of inappbrowser.
+  */
+  .directive('hrefInappbrowser', function () {
+    return {
+      restrict: 'A',
+      replace: false,
+      transclude: false,
+      link: function (scope, element, attrs) {
+        var href = attrs['hrefInappbrowser'];
 
-      attrs.$observe('hrefInappbrowser', function(val){
-        href = val;
-      });
+        attrs.$observe('hrefInappbrowser', function (val) {
+          href = val;
+        });
 
-      element.bind('click', function (event) {
+        element.bind('click', function (event) {
 
-        window.open(href, '_system', 'location=yes');
+          window.open(href, '_system', 'location=yes');
 
-        event.preventDefault();
-        event.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
 
-      });
-    }
-  };
-});
+        });
+      }
+    };
+  });

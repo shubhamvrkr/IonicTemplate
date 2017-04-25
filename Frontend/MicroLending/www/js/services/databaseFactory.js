@@ -19,9 +19,12 @@ angular.module('app.services')
      }
 
 
-     service.getAllData = function(db,callback){
+     service.getAllData = function(db,searchText,callback){
 
-         db.allDocs({include_docs: true}).then(function (result) {
+         db.allDocs({include_docs: true,
+               startkey:searchText,
+              endkey: searchText + '\uffff'
+         }).then(function (result) {
             console.log(result);
           callback({status:"1",data:result})
          }).catch(function (err) {
