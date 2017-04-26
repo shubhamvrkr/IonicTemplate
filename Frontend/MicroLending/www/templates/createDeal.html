@@ -39,7 +39,10 @@
               <textarea placeholder="Additional Terms & Conditions"></textarea>
             </label>
             <div>
-              <button id="create-deal" class="button button-large button-radius button-balanced button-block">Create Deal</button>
+              <button id="create-deal" class="button button-large button-radius button-balanced button-block" ng-click="CreateDeal(data)">
+                <ion-spinner ng-hide="spinnerFlag" class="spiral"></ion-spinner>
+                <i class="loginText" ng-hide="textFlag">Create Deal<i>
+              </button>
             </div>
           </form>
         </div>
