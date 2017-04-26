@@ -3,40 +3,40 @@
     <div class="screenadjust">
       <div class="row">
         <div class="col">
-          <form class="form" >
+          <form class="form" ng-submit="createDeal(contract)">
             <!-- Search Phonebook -->
 
             <label class="item item-stacked-label">
               <span class="input-label" style="padding-bottom:3px;">Select Counterparty</span>
-              <div class="item item-input">
-                <input ng-model="data.searchText" type="text" placeholder="Search Phonebook" />
+              <div class="item item-input" ng-click="selectCounterparty()">
+                <input type="text" placeholder="Search Phonebook" ng-model= "contract.counterparty" value = {{selectedContact.email}}/>
                 <i class="icon ion-search"></i>
               </div>
             </label>
             <!-- Form Fields -->
             <label class="item item-input item-stacked-label">
-              <span class="input-label">Deal ID</span>
-              <input type="text" placeholder="Enter any unique ID">
+              <span class="input-label">Contract ID</span>
+              <input type="text" placeholder="Enter any unique ID" ng-model="contract.contarctid">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Asset Name</span>
-              <input type="text" placeholder="What are you lending? Eg. Camera, Book, CD">
+              <input type="text" placeholder="What are you lending? Eg. Camera, Book, CD" ng-model="contract.assetname">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Asset ID</span>
-              <input type="text" placeholder="Unique Asset Identifier">
+              <input type="text" placeholder="Unique Asset Identifier" ng-model="contract.assetid">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Start Date</span>
-              <input type="date" placeholder="">
+              <input type="date" placeholder="" ng-model="contract.startdate">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">End Date</span>
-              <input type="date" placeholder="">
+              <input type="date" placeholder="" ng-model="contract.enddate">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Description</span>
-              <textarea placeholder="Additional Terms & Conditions"></textarea>
+              <textarea placeholder="Additional Terms & Conditions" ng-model="contract.description"></textarea>
             </label>
             <div>
               <button id="create-deal" class="button button-large button-radius button-balanced button-block">Create Deal</button>

@@ -2,7 +2,11 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function ($scope, $stateParams, $state, databaseFactory, $http,$ionicLoading) {
-
+ 
+	console.log("Stateparams: ",$stateParams)
+	
+	$scope.visibilityflag = $stateParams.flag
+	 
     $scope.data = {};
     //data from database
 
@@ -58,7 +62,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
           console.log(response.data.rows)
 		  
           response.data.rows.forEach(function (item) {
-			console.log(item.doc)
+			
              $scope.localcontacts.push(item.doc)
 			
           })
@@ -153,6 +157,15 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
       })
 
     }
+	
+	$scope.selectContact = function(contact){
+	
+		if(contact._id.includes("@")){
+			
+			contact.email=contact._id;
+		}
+		console.log(contact)
+		$state.go('menu.createdeal',{  contact: contact } )
+	}
 
-  }
-])
+  }])

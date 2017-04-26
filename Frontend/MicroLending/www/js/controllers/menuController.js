@@ -281,6 +281,20 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     };
 
-
+	$scope.loadDataforAllContacts = function(){
+	
+		$state.go('menu.allContracts')
+	
+	}
+	$scope.loadDataforPhonebook = function(){
+	
+		$state.go('menu.phonebook',{  flag: false } )
+	
+	}
+	$scope.loadDataforCreateDeal = function(){
+	
+		$state.go('menu.createdeal',{  contact: null } )
+	
+	}
 
   }])

@@ -1,9 +1,11 @@
 mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'registerFactory', '$http', 'firebaseFactory', 'ionicToast',
   function ($scope, $stateParams, $state, $ionicLoading, $timeout, registerFactory, $http, firebaseFactory, ionicToast) {
 
+	
     var userData = $stateParams.params.user_data;
 
     console.log(userData)
+	console.log($stateParams)
     console.log($stateParams.params.temp_id)
 	
 	function bufferToBase64(buf) {

@@ -7,16 +7,17 @@ angular.module('app.routes', [])
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
     $stateProvider
-
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'loginCtrl'
+        controller: 'loginCtrl',
+		cache: false
       })
       .state('register', {
         url: '/register',
         templateUrl: 'templates/register.html',
-        controller: 'registerCtrl'
+        controller: 'registerCtrl',
+		cache: false
       })
       .state('emailVerification', {
         url: '/emailVerify',
@@ -24,7 +25,8 @@ angular.module('app.routes', [])
         controller: 'emailVerificationCtrl',
         params: {
           params: null
-        }
+        },
+		cache: false
       })
       .state('menu', {
         url: '/tabs',
@@ -38,7 +40,9 @@ angular.module('app.routes', [])
             templateUrl: 'templates/allContracts.html',
             controller: 'allContractsCtrl'
           }
-        }
+        },
+		cache: false
+	
       })
       .state('menu.phonebook', {
         url: '/phonebook',
@@ -47,7 +51,11 @@ angular.module('app.routes', [])
             templateUrl: 'templates/phoneBook.html',
             controller: 'phoneBookCtrl'
           }
-        }
+        },
+		params: {
+          flag: false
+        },
+		cache: false
       })
       .state('menu.createdeal', {
         url: '/createdeal',
@@ -56,7 +64,11 @@ angular.module('app.routes', [])
             templateUrl: 'templates/createDeal.html',
             controller: 'createDealCtrl'
           }
-        }
+        },
+		params: {
+          contact: null
+        },
+		cache: false
       })
 
     $urlRouterProvider.otherwise('/login')
