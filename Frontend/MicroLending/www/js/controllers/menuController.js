@@ -4,9 +4,10 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
   function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory) {
 
     console.log("menuCtrl");
+	var symmetricKey = null;
     $scope.user = {}
     //retrieve the use data from the localStorge
-
+	
     if (window.cordova) {
 
       ss.get(
@@ -19,9 +20,22 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
           $scope.user.eth_address = user_data.address
           $scope.user.email = user_data.email
           $scope.user.imagesrc = user_data.imagePath;
+		  
+		  
         },
         function (error) { console.log('Error ' + error); },
         'user_data');
+		
+		ss.get(
+        function (value) {
+		
+		  symmetricKey = value;
+          console.log('symmetricKey ' + symmetricKey);
+		
+        },
+        function (error) { console.log('Error ' + error); },
+        'symkey');
+
 
     } else {
 
@@ -30,7 +44,12 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       $scope.user.name = user_data.fname + " " + user_data.lname
       $scope.user.eth_address = user_data.address
       $scope.user.email = user_data.email
-      $scope.user.imagesrc = null;
+      $scope.user.imagesrc = "null";
+	  
+	  symmetricKey = localStorage.getItem("symkey");
+	  console.log('symmetricKey :' , symmetricKey);
+	
+	  
     }
 
 
@@ -72,6 +91,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     $scope.exportProfile = function () {
 
+	  console.log(symmetricKey)
       console.log("exportProfile");
 
       $scope.closePopover();
@@ -89,14 +109,25 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       if (window.cordova) {
         ss.get(
           function (value) {
-            console.log('Success, got ' + value);
+            
+			console.log('Success, got ' + value);
             user_data_content = value;
 
             fileFactory.createFile("user_profile.json", "/micro_lending/user_data", function (res) {
 
-              fileFactory.writeToFile("user_profile.json", "/micro_lending/user_data", user_data_content, function (result) {
+			
+			  //encrypt user_data_content
+			 // var symKey = EthWallet.encryption_sign.getSymmetricKey256();
+			//  console.log("symKey: ",symKey);
+		
+			  EthWallet.encryption_sign.symEncrypt(user_data_content, symmetricKey, function (err, result){
+			  
+			  
+			  console.log("Encrypted data: ",result)
+			  
+              fileFactory.writeToFile("user_profile.json", "/micro_lending/user_data", result, function (result) {
 
-                fileFactory.createZip("micro_lending/user_data", "micro_lending/user_data", user_data_content, function (status) {
+                fileFactory.createZip("micro_lending/user_data", "micro_lending/user_data", result, function (status) {
 
                   //TODO: delete the .json file as it is not needed anymore
                   console.log(status)
@@ -113,7 +144,9 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
                 })
 
 
-              })
+               });
+			  
+			  });
 
             })
 
@@ -123,24 +156,35 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       }
 
       else {
+	  
         console.log('local storage', localStorage.getItem('user_data'))
         user_data_content = localStorage.getItem('user_data')
 
-        fileFactory.createZip("user_profile.json", "/", user_data_content, function (status) {
+		//var symKey = EthWallet.encryption_sign.getSymmetricKey256();
+		//console.log("symKey: ",symKey);
+		
+		EthWallet.encryption_sign.symEncrypt(user_data_content, symmetricKey, function (err, result){
+        
+			console.log(err)
+			console.log(result)
+			fileFactory.createZip("user_profile.json", "/", result, function (status) {
 
-          console.log(status)
-          if (status.status == "0") {
-            $ionicLoading.hide();
-            ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
-          } else {
+			  console.log(status)
+			  if (status.status == "0") {
+				$ionicLoading.hide();
+				ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
+			  } else {
 
-            $ionicLoading.hide();
-            ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
+				$ionicLoading.hide();
+				ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
 
-          }
+			  }
 
 
-        })
+			})
+			
+		});
+		
       }
 
 

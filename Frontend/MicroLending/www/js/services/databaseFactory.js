@@ -5,7 +5,7 @@ angular.module('app.services')
     var service = {};
 
     service.putData = function (db, payload, callback) {
-
+	
       db.put(payload)
 
         .then(function (response) {
@@ -19,12 +19,10 @@ angular.module('app.services')
     }
 
 
-    service.getAllData = function (db, searchText, callback) {
+    service.getAllData = function (db, callback) {
 
       db.allDocs({
-        include_docs: true,
-        startkey: searchText,
-        endkey: searchText + '\uffff'
+        include_docs: true
       }).then(function (result) {
         console.log(result);
         callback({ status: "1", data: result })
@@ -52,8 +50,10 @@ angular.module('app.services')
     }
 
     service.deleteDoc = function (db, doc, callback) {
+	
+	
 
-      db.remove(doc).then(function (result) {
+		db.remove(doc._id, doc._rev).then(function (result) {
 
         console.log(result);
         callback({ status: "1", data: result });

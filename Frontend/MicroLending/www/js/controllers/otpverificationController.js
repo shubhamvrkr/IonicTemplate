@@ -5,7 +5,16 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
     console.log(userData)
     console.log($stateParams.params.temp_id)
-
+	
+	function bufferToBase64(buf) {
+	
+			var binstr = Array.prototype.map.call(buf, function (ch) {
+				return String.fromCharCode(ch);
+			}).join('');
+			return btoa(binstr);
+	}
+	
+	
     $scope.ResendOTP = function (data) {
 
       console.log("Resend OTP")
@@ -85,7 +94,9 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
           }
           //store the KVS in the localstorage;
           console.log("save the kvs", result)
-
+			
+		  console.log("Verified: ",result.pwDerivedKey)
+		  
           local_data = {}
           local_data.fname = $stateParams.params.user_data.fname
           local_data.lname = $stateParams.params.user_data.lname
@@ -93,8 +104,9 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
           local_data.address = result.address
           local_data.ks = result.ks
           local_data.seedWord = result.seedPhrase
-
-          local_data.imagePath = "null"
+          
+          local_data.imagePath = "null";
+		  
 
           // get firebase token
           firebaseFactory.getFirebaseToken(function (result_token) {
@@ -104,62 +116,56 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
             //{kvs:'',email:,eth_addr:,seed_word:}
             registerFactory.saveUserDataLocally(JSON.stringify(local_data), 'user_data', function (res) {
 
-              console.log(local_data)
+					  
+                      symKey = bufferToBase64(result.pwDerivedKey)
+					  console.log("encoded base64: ",symKey);
+					  
+					  registerFactory.saveSymmetricKeyDataLocally(symKey,"symkey",function(res1){
+			  
+					  if (window.cordova) {
 
-              if (window.cordova) {
+						ss.get(
+						  function (value) { console.log('Success, got ' + value); },
+						  function (error) { console.log('Error ' + error); },
+						  'user_data');
 
-                ss.get(
-                  function (value) { console.log('Success, got ' + value); },
-                  function (error) { console.log('Error ' + error); },
-                  'user_data');
+					  }
+					  else {
+						console.log('local storage', localStorage.getItem('user_data'))
+					  }
 
-              }
-              else {
-                console.log('local storage', localStorage.getItem('user_data'))
-              }
-
-              var new_data = {}
-              new_data.name = response.name
-              new_data.ethAccount = result.address
-              new_data.firebaseToken = '',
-                new_data.publicKey = result.publickey
+					  var new_data = {}
+					  new_data.name = response.name
+					  new_data.ethAccount = result.address
+					  new_data.firebaseToken = '',
+					  new_data.publicKey = result.publickey
 
 
-              //send to DB
-              $http.post(apiUrl + "/api/users/" + response._id, new_data)
-                .success(function (response) {
+					//send to DB
+					  $http.post(apiUrl + "/api/users/" + response._id, new_data)
+						.success(function (response) {
 
-                  console.log(response)
+						  console.log(response)
 
-                  registerFactory.createAppDirectory(function (response) {
+							  registerFactory.createAppDirectory(function (response) {
 
-                    console.log("App creation", response)
-                    $ionicLoading.hide();
-                    $state.go('menu.allContracts');
+								console.log("App creation", response)
+								$ionicLoading.hide();
+								$state.go('menu.allContracts');
 
-                  })
+							  })
 
-                });
+						});
+				});
+				
+					});
+					//end of main
+				
             });
 
           });
 
         })
-
-      })
-      /*$ionicLoading.show({
-              templateUrl: 'templates/loading.html',
-              animation: 'fade-in',
-              showBackdrop: true,
-              maxWidth: 200,
-              showDelay: 0
-          });
-          $timeout(function () {
-
-              $ionicLoading.hide();
-              $state.go('menu.allContracts');
-
-          }, 2000);*/
     }
 
   }])

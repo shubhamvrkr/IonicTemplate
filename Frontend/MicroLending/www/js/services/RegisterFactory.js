@@ -117,6 +117,29 @@ angular.module('app.services')
 
       }
     }
+	
+    service.saveSymmetricKeyDataLocally = function (data, key, callback) {
+
+      console.log("type of ", typeof data)
+	  
+      if (window.cordova) {
+        ss.set(
+
+          function (key) { console.log('Set user_data', key); callback({ status: "1" }) },
+          function (error) { console.log('Error ' + error); callback({ status: "0" }) },
+          key,data
+        );
+
+      }
+      else {
+        console.log('web')
+        console.log("data local storage: ", data)
+        localStorage.setItem(key, data)
+        callback({ status: "1" })
+      }
+
+
+    }
 
     return service
 

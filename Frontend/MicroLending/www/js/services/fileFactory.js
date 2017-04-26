@@ -173,9 +173,8 @@ console.log(error)
           .then(function (zip) {
 
             new_zip.file("user_profile.json").async("string").then(function (result) {
-              console.log(JSON.parse(result))
-
-              data = JSON.parse(result)
+             
+              data = result
               callback({ status: "1", data: data });
 
               // save the result in the local storage

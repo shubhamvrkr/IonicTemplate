@@ -1,7 +1,7 @@
-mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$state', 'databaseFactory', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$state', 'databaseFactory', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $state, databaseFactory, $http) {
+  function ($scope, $stateParams, $state, databaseFactory, $http,$ionicLoading) {
 
     $scope.data = {};
     //data from database
@@ -15,10 +15,11 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
     localContactsLength = 0;
     contactsLoadFlag = 0;
     // Fetch contacts onLoad
-    contactsFromLocalDB("");
+    contactsFromLocalDB();
 
     //fetch contacts from the server
     function contactsFromServer(data) {
+	
       $scope.availablecontacts = [];
       $http.get(apiUrl + "/api/users?email=" + data)
         .success(function (response) {
@@ -38,31 +39,34 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
     }
 
     //fetch contacts from the local DB
-    function contactsFromLocalDB(searchText) {
-      $scope.availablecontacts = [];
+    function contactsFromLocalDB() {
+      
+	  $scope.availablecontacts = [];
       $scope.localcontacts = [];
       $scope.data.filteredlocalcontacts = $scope.localcontacts;
       $scope.data.filteredavailablecontacts = $scope.availablecontacts;
+	  console.log($scope.localcontacts);
+	  console.log($scope.data.filteredlocalcontacts);
+		
 
-
-
-      databaseFactory.getAllData(contact_db, searchText, function (response) {
+      databaseFactory.getAllData(contact_db, function (response) {
 
         if (response.status == "0") {
           console.log(response.data)
         } else {
 
           console.log(response.data.rows)
-          localContactsLength = response.data.rows.length;
-
-          console.log("Length on lc inside fn:" + localContactsLength + "Flag" + contactsLoadFlag);
-          console.log($scope.localcontacts);
+		  
           response.data.rows.forEach(function (item) {
-            console.log(item);
-            $scope.localcontacts.push(item.doc)
+			console.log(item.doc)
+             $scope.localcontacts.push(item.doc)
+			
           })
         }
       })
+	  
+	  
+	  
     }
 
 
@@ -79,28 +83,36 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
       console.log("Length of lc" + localContactsLength);
       console.log("Filter Length: " + $scope.data.filteredlocalcontacts.length)
-      if ($scope.data.filteredlocalcontacts.length < 1) {
+	  
+      if ($scope.data.filteredlocalcontacts.length < 1 && searchText.length > 0 ) {
         //postcall to get all the items with starting characters
         //bind to scope.availablecontacts
-        contactsFromServer(searchText)
-      }
+			contactsFromServer(searchText)
+		
+      }else {
+			 $scope.availablecontacts = [];
+	  }
+	  
     }
 
     $scope.deleteContact = function (item) {
 
       console.log(item)
       var index1 = $scope.localcontacts.indexOf(item);
-      $scope.localcontacts.splice(index1, 1);
+    
       console.log(index1)
       //delete data from db where email = item.email;
 
 
-      databaseFactory.putData(contact_db, item, function (response) {
+      databaseFactory.deleteDoc(contact_db, item, function (response) {
 
         if (response.status == "0") {
+		  
           console.log(response.data);
         } else {
 
+		  $scope.localcontacts.splice(index1, 1);
+		  $scope.$apply();
           console.log(response.data);
 
         }
@@ -110,22 +122,33 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
     $scope.addContact = function (contact) {
 
-      console.log(contact);
+      $ionicLoading.show({
+        templateUrl: 'templates/loading.html',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+	  
       contactEntry = {
         "_id": contact.email,
         "eth_address": contact.ethAccount,
         "name": contact.name,
         "publicKey": "123"
       }
+	  console.log("contactEntry: ",contactEntry)
+	  
       databaseFactory.putData(contact_db, contactEntry, function (response) {
 
         if (response.status == "0") {
           console.log(response.data);
         } else {
           $scope.localcontacts.push(contactEntry);
-          console.log(response.data);
-          console.log($scope.localcontacts.length);
-
+		  $scope.$apply();
+		 $ionicLoading.hide();
+          console.log("response add: ",response.data);
+          console.log("local contacts after adding: ",$scope.localcontacts.length);
+		
         }
       })
 
