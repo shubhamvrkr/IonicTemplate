@@ -11,10 +11,10 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 
   $ionicCloudProvider.init({
     "core": {
-      "app_id": "0c593f4c"
+      "app_id": "05b27b18"
     },
     "push": {
-      "sender_id": "117610834096",
+      "sender_id": "1078648460837",
       "pluginConfig": {
         "ios": {
           "badge": true,
@@ -32,12 +32,18 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 
 })
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform, $ionicPush) {
 
 
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
+
+      $ionicPush.register().then(function (t) {
+        return $ionicPush.saveToken(t);
+      }).then(function (t) {
+        console.log('Token saved:', t.token);
+      });
 
       if (window.cordova) {
         ss = new cordova.plugins.SecureStorage(
