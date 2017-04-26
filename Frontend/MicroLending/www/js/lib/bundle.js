@@ -23982,14 +23982,6 @@ var asymDecrypt = function (ciphertext, ks, pwDerivedKey, thierPubKey, myPubKey,
 
 };
 
-//get key from password 
-var deriveKeyFromPassword = function (password,callback) {
-
-    lightwallet.keystore.deriveKeyFromPassword(password,function(err,pwDerivedKey){
-		callback(err,pwDerivedKey);
-	});;
-
-};
 
 //get symmteric key 256 bit 
 var getSymmetricKey256 = function () {
@@ -24059,7 +24051,11 @@ var symDecrypt = function (ciphertext, symmetricKey, callback) {
 var signMsg = function (keystore, pwDerivedKey, rawMsg, signingAddress, callback) {
 
     if (keystore && pwDerivedKey && rawMsg && signingAddress) {
-        try {
+	    try {
+            
+            
+            signingAddress=[ signingAddress.substring(2,signingAddress.length)];
+//console.log("in lib",signingAddress);
             var signature_object = lightwallet.signing.signMsg(keystore, pwDerivedKey, rawMsg, signingAddress)
 
             signature_object.signaturehex = lightwallet.signing.concatSig(signature_object)
@@ -24080,7 +24076,9 @@ var verifyMsg = function (address, rawMsg, v, r, s, callback) {
     if (address && rawMsg && v && r && s) {
         try {
             var recoveredAddress = lightwallet.signing.recoverAddress(rawMsg, v, r, s);
-
+            console.log(recoveredAddress )
+                 address=[ address.substring(2,address.length)];
+                 	console.log("address in lib",address);
             if (recoveredAddress.toString('hex') == address)
                 callback(null, true);
             else
@@ -24093,6 +24091,12 @@ var verifyMsg = function (address, rawMsg, v, r, s, callback) {
     else callback(null, new Error("agrument is empty"));
 };
 
+//get key from password 
+var deriveKeyFromPassword = function (password,callback) {
+
+    lightwallet.keystore.deriveKeyFromPassword(password,callback);
+
+};
 
 
 
@@ -24105,9 +24109,9 @@ module.exports = {
     symDecrypt: symDecrypt,
     getSymmetricKey256: getSymmetricKey256,
     getSymmetricKey128: getSymmetricKey128,
-    deriveKeyFromPassword:deriveKeyFromPassword,
     verifyMsg: verifyMsg,
-    signMsg: signMsg
+    signMsg: signMsg,
+	deriveKeyFromPassword:deriveKeyFromPassword
 };
 
 
@@ -24202,7 +24206,7 @@ Ethdapp.prototype.generateKeystore = function (password, recoverySeed, callback)
 				ks.addHdDerivationPath(hdPath, pwDerivedKey, { curve: 'curve25519', purpose: 'asymEncrypt' });
 				ks.generateNewEncryptionKeys(pwDerivedKey, 1, hdPath);
 				var publicKey = ks.getPubKeys(hdPath);
-        response.keystore = ks;
+				response.keystore=ks;
 				response.ks = ks.serialize();
 				response.publickey = publicKey;
 				callback(null, response);
