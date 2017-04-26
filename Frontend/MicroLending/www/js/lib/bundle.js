@@ -23982,6 +23982,14 @@ var asymDecrypt = function (ciphertext, ks, pwDerivedKey, thierPubKey, myPubKey,
 
 };
 
+//get key from password 
+var deriveKeyFromPassword = function (password,callback) {
+
+    lightwallet.keystore.deriveKeyFromPassword(password,function(err,pwDerivedKey){
+		callback(err,pwDerivedKey);
+	});;
+
+};
 
 //get symmteric key 256 bit 
 var getSymmetricKey256 = function () {
@@ -24097,6 +24105,7 @@ module.exports = {
     symDecrypt: symDecrypt,
     getSymmetricKey256: getSymmetricKey256,
     getSymmetricKey128: getSymmetricKey128,
+    deriveKeyFromPassword:deriveKeyFromPassword,
     verifyMsg: verifyMsg,
     signMsg: signMsg
 };
@@ -24193,6 +24202,7 @@ Ethdapp.prototype.generateKeystore = function (password, recoverySeed, callback)
 				ks.addHdDerivationPath(hdPath, pwDerivedKey, { curve: 'curve25519', purpose: 'asymEncrypt' });
 				ks.generateNewEncryptionKeys(pwDerivedKey, 1, hdPath);
 				var publicKey = ks.getPubKeys(hdPath);
+        response.keystore = ks;
 				response.ks = ks.serialize();
 				response.publickey = publicKey;
 				callback(null, response);

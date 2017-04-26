@@ -84,6 +84,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
 
         //if otp is verified then generate eth address and register with FCM
+		console.log("Password: ",$stateParams.params.passphrase);
+		
         registerFactory.generateEthAccount($stateParams.params.passphrase, function (err, result) {
 
           console.log(" generateEthAccount Called")
@@ -117,7 +119,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
             registerFactory.saveUserDataLocally(JSON.stringify(local_data), 'user_data', function (res) {
 
 					  
-                      symKey = bufferToBase64(result.pwDerivedKey)
+                      symKey = bufferToBase64("temp_password")
 					  console.log("encoded base64: ",symKey);
 					  
 					  registerFactory.saveSymmetricKeyDataLocally(symKey,"symkey",function(res1){
