@@ -3,6 +3,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams','$stat
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams,$state,$ionicModal) {
 
+    $scope.spinnerFlag = true;
+    $scope.textFlag = false;
 	console.log("Stateparams: ",$stateParams)
 	$scope.contract = {};
 	if($stateParams.contact!=null){
@@ -14,7 +16,5 @@ function ($scope, $stateParams,$state,$ionicModal) {
 		$state.go('menu.phonebook',{  flag: true } )
 
     };
-	
 
 }])
- 

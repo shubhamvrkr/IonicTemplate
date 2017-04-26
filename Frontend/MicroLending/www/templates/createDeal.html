@@ -9,7 +9,7 @@
             <label class="item item-stacked-label">
               <span class="input-label" style="padding-bottom:3px;">Select Counterparty</span>
               <div class="item item-input" ng-click="selectCounterparty()">
-                <input type="text" placeholder="Search Phonebook" ng-model= "contract.counterparty" value = {{selectedContact.email}}/>
+                <input type="text" placeholder="Search Phonebook" ng-model= "contract.counterparty"/>
                 <i class="icon ion-search"></i>
               </div>
             </label>
@@ -39,7 +39,10 @@
               <textarea placeholder="Additional Terms & Conditions" ng-model="contract.description"></textarea>
             </label>
             <div>
-              <button id="create-deal" class="button button-large button-radius button-balanced button-block">Create Deal</button>
+              <button id="create-deal" class="button button-large button-radius button-balanced button-block" ng-click="CreateDeal(data)">
+                <ion-spinner ng-hide="spinnerFlag" class="spiral"></ion-spinner>
+                <i class="loginText" ng-hide="textFlag">Create Deal<i>
+              </button>
             </div>
           </form>
         </div>

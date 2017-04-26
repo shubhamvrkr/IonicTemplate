@@ -15,20 +15,23 @@
         <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
         <small ng-show="error">{{error}}</small>
       </div>
-      <!-- Show errors  -->
-      <button id="login-button7"  class="button  button-medium button-radius button-calm button-block" ng-disabled="loginForm.$invalid" ng-click="Login(data)" outline>Log in</button>
 
-	  <div class="spacer" style="width: 290px; height: 10px;"></div>
-      <a ui-sref="register" id="login-button8" style = "color: #E3E3E3;text-decoration: none; font-size:15px;font-style:normal;font-weight: normal;" >Don't have an account? REGISTER!</a>
+      <!-- Login Buton -->
+      <button id="login-button7" class="button  button-medium button-radius button-calm button-block" ng-disabled="loginForm.$invalid"
+        ng-click="Login(data)" outline>Login<i>
+      </button>
+
+      <div class="spacer" style="width: 290px; height: 10px;"></div>
+      <a ui-sref="register" id="login-button8" style="color: #E3E3E3;text-decoration: none; font-size:15px;font-style:normal;font-weight: normal;">Don't have an account? REGISTER!</a>
       <div class="spacer" style="width: 290px; height: 10px;"></div>
       <hr style="border:1px solid #7e7e7e">
       <div class="spacer" style="height: 10px;"></div>
 
-      <input ng-show="false" id="fileLoader" type="file" onchange="angular.element(this).scope().fileNameChanged(this)" ng-model="myFile" accept=".zip" />
+      <input ng-show="false" id="fileLoader" type="file" onchange="angular.element(this).scope().fileNameChanged(this)" ng-model="myFile"
+        accept=".zip" />
 
       <button id="login-button11" class="button  button-medium button-radius  button-positive  button-block" ng-click="Import()">Import Existing Profile</button>
 
     </form>
-
   </ion-content>
 </ion-view>

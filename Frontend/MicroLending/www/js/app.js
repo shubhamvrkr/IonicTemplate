@@ -39,11 +39,6 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
 
-      $ionicPush.register().then(function (t) {
-        return $ionicPush.saveToken(t);
-      }).then(function (t) {
-        console.log('Token saved:', t.token);
-      });
 
       if (window.cordova) {
         ss = new cordova.plugins.SecureStorage(
