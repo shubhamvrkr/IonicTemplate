@@ -7,7 +7,7 @@ angular.module('app.services')
     service.getallPendingContracts = function(callback) {
 
 		
-		 databaseFactory.getDoc(deal_db,"pending",callback))
+		 databaseFactory.getDoc(deal_db,"pending",callback);
 		
 
     };
@@ -15,15 +15,15 @@ angular.module('app.services')
 	service.getallActiveContracts = function(callback) {
 
 		
-		 databaseFactory.getDoc(deal_db,"active",callback))
+		 databaseFactory.getDoc(deal_db,"active",callback)
 		
 
     };
 	service.getallCompletedContracts = function(callback) {
 
 		
-		 databaseFactory.getDoc(deal_db,"completed",callback))
-		
+		 databaseFactory.getDoc(deal_db,"completed",callback)
+	
 
     };
 

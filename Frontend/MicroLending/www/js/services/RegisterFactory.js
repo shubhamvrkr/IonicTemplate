@@ -40,11 +40,11 @@ angular.module('app.services')
       $http.post(apiUrl + "/api/users/verify/" + data.tmp_id, data)
         .success(function (response, status) {
           console.log(response)
-          callback(response, status)
+           callback({status:"1",data:response})
 
         }).catch(function (err, status) {
           console.log(err, status)
-          callback(err, status)
+          callback({status:"0",data:err})
         });
     }
 
@@ -117,11 +117,11 @@ angular.module('app.services')
 
       }
     }
-	
+
     service.saveSymmetricKeyDataLocally = function (data, key, callback) {
 
       console.log("type of ", typeof data)
-	  
+
       if (window.cordova) {
         ss.set(
 
