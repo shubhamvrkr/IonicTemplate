@@ -312,7 +312,21 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 						loginFactory.login(login_data, function (err, result) {
 
-						  console.log("android login result: ",result)
+						  console.log("android login result: ",result);
+
+
+                      $rootScope.globals = {
+                            currentUser: {
+                                address: address,
+                                pwDerivedKey: result.pwDerivedKey,
+                                keystore: result.ks,
+                                email:emailId
+                                //mongoId:'',
+                                // emailId:
+                            }
+                        };
+
+
 						  if (err) {
 							console.error(err);
 						  } else {
@@ -446,7 +460,22 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 						loginFactory.login(login_data, function (err, result) {
 
-							console.log("browser login result: ",result)
+							console.log("browser login result: ",result);
+
+                    $rootScope.globals = {
+                            currentUser: {
+                                address: address,
+                                pwDerivedKey: result.pwDerivedKey,
+                                keystore: result.ks,
+                                email:emailId
+                                //mongoId:'',
+                                // emailId:
+                            }
+                        };
+
+
+
+
 
 							if (err) {
 

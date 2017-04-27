@@ -4,6 +4,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
   function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope) {
 
     //fetch the localStorage data
+
+    console.log($rootScope.globals)
     if (window.cordova) {
 
       ss.get(
@@ -14,8 +16,9 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
           from_eth_address = user_data.address;
           from_email = user_data.email;
-          ks_local = user_data.ks;
-          pwDerivedKey = user_data.pwDerivedKey
+          ks_local = $rootScope.globals.currentUser.keystore;
+          pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
+          current_user_key = user_data.publicKey;
 
 
         },
@@ -31,9 +34,10 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       var user_data = JSON.parse(localStorage.getItem("user_data"));
       from_eth_address = user_data.address;
       from_email = user_data.email;
-      ks_local = user_data.ks;
-      pwDerivedKey = user_data.pwDerivedKey
-
+      ks_local = $rootScope.globals.currentUser.keystore;
+      pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
+      current_user_key = user_data.publicKey;
+      console.log(pwDerivedKey)
     }
 
 
@@ -54,7 +58,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     };
 
-    $scope.createDeal = function(data) {
+    $scope.CreateDeal = function(data) {
 
 
       console.log(data);
@@ -66,13 +70,13 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
       contract_data.to_email = $stateParams.contact.email;
-      contract_data.start_date = data.startdate;
-      contract_data.end_date = data.enddate;
+      contract_data.start_date ='213423443';
+      contract_data.end_date = '12321333';
       contract_data.asset_id = data.assetid;
       contract_data.asset_name = data.assetname;
       contract_data.description = data.description;
 
-      var pwDerivedKey = pwDerivedKey;
+      var pwDerivedKey1 = pwDerivedKey;
       var ks = ks_local;
       var addr = contract_data.from_ethAddress;
       counterparty_publickKey = $stateParams.contact.publicKey;
@@ -81,11 +85,11 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       console.log(contract_data);
 
       // call the createFactory to sign, encrypt, and send the transaction
-      /*createContractFactory.createContract(contract_data, pwDerivedKey, ks, addr , counterparty_publickKey ,function(res) {
+      createContractFactory.createContract(contract_data, pwDerivedKey1, ks, addr , counterparty_publickKey ,current_user_key,function(res) {
 
         console.log(res);
 
-      });*/
+      });
 
     };
 
