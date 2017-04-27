@@ -41,27 +41,33 @@
     .platform-ios .manual-ios-statusbar-padding {
       padding-top: 20px;
     }
+
     .manual-remove-top-padding {
       padding-top: 0px;
     }
+
     .manual-remove-top-padding .scroll {
       padding-top: 0px !important;
     }
+
     ion-list.manual-list-fullwidth div.list,
     .list.card.manual-card-fullwidth {
       margin-left: -10px;
       margin-right: -10px;
     }
+
     ion-list.manual-list-fullwidth div.list>.item,
     .list.card.manual-card-fullwidth>.item {
       border-radius: 0px;
       border-left: 0px;
       border-right: 0px;
     }
+
     .show-list-numbers-and-dots ul {
       list-style-type: disc;
       padding-left: 40px;
     }
+
     .show-list-numbers-and-dots ol {
       list-style-type: decimal;
       padding-left: 40px;
@@ -70,7 +76,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="js/lib/bundle.js"></script>
   <script src="js/lib/jszip.min.js"></script>
-   <script src="js/lib/buffer.js"></script>
+  <script src="js/lib/buffer.js"></script>
 
 
   <script src="js/lib/FileSaver.js"></script>
@@ -101,9 +107,9 @@
   <script>
     apiUrl = "http://10.51.230.147:3000"
     //var ABI = [{ "constant": false, "inputs": [{ "name": "counterparty", "type": "address" }, { "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "createDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptSettleDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "settleDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptDeal", "outputs": [], "payable": false, "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "lender", "type": "address" }, { "indexed": false, "name": "borrower", "type": "address" }, { "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "createDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "settleDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptSettleDealEvent", "type": "event" }]
-    
-	var ABI = [{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"acceptContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"counterparty","type":"address"},{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"createContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"initiateSettleContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"acceptSettleContract","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lender","type":"address"},{"indexed":false,"name":"borrower","type":"address"},{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"createContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"acceptContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"settleContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"acceptSettleContractEvent","type":"event"}]
-	ethdapp = new EthWallet.EthDapp("http://10.51.229.240:8545", ABI, "0x1ff5b9fc90ac45358340cf9b0d756a4512dc4fb7");
+
+    var ABI = [{ "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "counterparty", "type": "address" }, { "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "createContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "initiateSettleContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptSettleContract", "outputs": [], "payable": false, "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "lender", "type": "address" }, { "indexed": false, "name": "borrower", "type": "address" }, { "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "createContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "settleContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptSettleContractEvent", "type": "event" }]
+    ethdapp = new EthWallet.EthDapp("http://10.51.229.240:8545", ABI, "0x1ff5b9fc90ac45358340cf9b0d756a4512dc4fb7");
     console.log(ethdapp.web3.isConnected());
   </script>
 
@@ -141,17 +147,20 @@
   </script>
 
   <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+
   <script>
     // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyDDBugjfUxGwTfeTKASjqesMXh-cgRrx4U",
-      authDomain: "resource-lending.firebaseapp.com",
-      databaseURL: "https://resource-lending.firebaseio.com",
-      storageBucket: "resource-lending.appspot.com",
-      messagingSenderId: "88868208571"
+      apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
+      authDomain: "lending-16a7a.firebaseapp.com",
+      databaseURL: "https://lending-16a7a.firebaseio.com",
+      projectId: "lending-16a7a",
+      storageBucket: "lending-16a7a.appspot.com",
+      messagingSenderId: "1078648460837"
     };
     firebase.initializeApp(config);
     const messaging = firebase.messaging();
+
   </script>
 
 </body>

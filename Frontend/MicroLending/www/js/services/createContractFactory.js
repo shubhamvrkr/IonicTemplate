@@ -4,7 +4,7 @@ angular.module('app.services')
     var service = {};
     //load addr,ks,pwdervedkey from ss or localstorage
 
-    service.createContract = function(contract_data, pwDerivedKey, ks, addr, publicKey, callback) {
+    service.createContract = function(contract_data, pwDerivedKey, ks, addr, counterparty_Key, current_user_key,callback) {
 
       //call the encrypt function to encrypt the contract_data
 
@@ -18,20 +18,25 @@ angular.module('app.services')
       console.log("Symmteric key", symKey);
 
       //encrypt symmetric key using couteparties public key
-      EthWallet.encryption_sign.asymEncrypt(symKey, ks, pwDerivedKey, publicKey, function(err, sym_encrpyt) {
+      EthWallet.encryption_sign.asymEncrypt(symKey, ks, pwDerivedKey, current_user_key,counterparty_Key ,function(err_enc, sym_encrpyt) {
 
-        if (err) {
+          console.log(current_user_key)
+          console.log(counterparty_Key)
+        if (err_enc) {
 
-          console.log("Symmetric key Encryption Error", err);
+          console.log("Symmetric key Encryption Error", err_enc);
 
         } else {
 
-          EthWallet.encryption_sign.asymDecrypt(result, ks, pwDerivedKey, publicKey, publicKey, function(err, dec) {
-            if (err) console.log(err);
-            console.log(result); //  returns plaintext
+
+          console.log("Symmetric key after encryption: ", sym_encrpyt); //  returns cipertext
+
+          EthWallet.encryption_sign.asymDecrypt(sym_encrpyt, ks, pwDerivedKey,counterparty_Key, current_user_key, function(err_dec, dec) {
+            if (err_dec) console.log(err_dec);
+            console.log(dec); //  returns plaintext
             console.log("asym plaintext", dec); //  returns cipertext
 
-            console.log("Symmetric key after encryption: ", sym_encrpyt); //  returns cipertext
+
 
 
             console.log('actual data', JSON.stringify(contract_data));
@@ -133,8 +138,7 @@ angular.module('app.services')
               }
             });
           });
-
-        }
+    }
       });
 
 
