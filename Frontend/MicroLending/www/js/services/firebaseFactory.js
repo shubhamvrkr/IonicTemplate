@@ -3,37 +3,13 @@ angular.module('app.services')
 
     var service = {};
 
-    function getToken(callback) {
-
-      messaging.getToken()
-        .then(function (currentToken) {
-          if (currentToken) {
-            callback({ status: '1', token: currentToken });
-
-          } else {
-            // Show permission request.
-            console.log('No Instance ID token available. Request permission to generate one.');
-            // Show permission UI.
-            //updateUIForPushPermissionRequired(callback)
-            callback({ status: '0' })
-
-          }
-        }).catch(function (err) {
-          console.log('An error occurred while retrieving token. ', err);
-          callback({ status: '0' })
-
-        });
-    }
-
     service.getFirebaseToken = function (callback) {
 
       if (window.cordova) {
-        
-		console.log("callback")
 
-        callback({ status: '1', token: "dummytoken" })
+        console.log("getFirebaseToken");
 
-        /*$ionicPush.register().then(function (t) {
+        $ionicPush.register().then(function (t) {
 
           console.log('Token saved1:', t.token);
           return $ionicPush.saveToken(t);
@@ -45,7 +21,7 @@ angular.module('app.services')
           callback({ status: '1', token: t.token })
 
 
-        });*/
+        });
       }
 
       else {
@@ -56,6 +32,7 @@ angular.module('app.services')
             messaging.getToken()
               .then(function (currentToken) {
                 if (currentToken) {
+                  console.log(currentToken)
                   callback({ status: '1', token: currentToken });
 
                 } else {

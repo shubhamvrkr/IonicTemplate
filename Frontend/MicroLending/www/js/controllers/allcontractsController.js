@@ -4,7 +4,43 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$st
 function ($scope, $stateParams,$state) {
 	
 	$scope.pendingcontracts = [];
-	var contract = {
+	$scope.activecontracts = [];
+	$scope.completedcontracts = [];
+	
+	/*for(i=0;i<3;i++){
+		
+		var pcontract = {};
+	
+		
+		if(i==1){
+			
+				pcontract.deal_id="AQ89435"
+				pcontract.asset_name="Bike"
+				pcontract.counter_party="nits@gmail.com"
+				pcontract.creation_date="1493265745"
+				pcontract.status="pending"
+				pcontract.symkey="AAAAAAAAQ=="
+				pcontract.nots_flag=false
+				pcontract.txs=["one","two","three"]
+				
+				$scope.pendingcontracts.push(pcontract)
+		}else{
+		
+			pcontract.deal_id="AQ89435"
+				pcontract.asset_name="Bike"
+				pcontract.counter_party="nits@gmail.com"
+				pcontract.creation_date="1493265745"
+				pcontract.status="pending"
+				pcontract.symkey="AAAAAAAAQ=="
+				pcontract.nots_flag=false
+				pcontract.txs=["one"]
+				$scope.pendingcontracts.push(pcontract)
+		}
+		
+		console.log($scope.pendingcontracts)
+	}
+	
+	var acontract = {
 	
 		deal_id:"AQ89435",
 		asset_name:"Bike",
@@ -12,16 +48,32 @@ function ($scope, $stateParams,$state) {
 		creation_date:"1493265745",
 		status:"pending",
 		symkey:"AAAAAAAAQ==",
-		nots_flag:"0",
-		tx:["first"]
+		nots_flag:false,
+		txs:["first","second"]
 
 	}
-	for(i=0;i<5;i++){
-	
-		$scope.pendingcontracts.push(contract)
+	for(i=0;i<3;i++){
+		
+		$scope.activecontracts.push(acontract)
 	
 	}
 	
+	var ccontract = {
+	
+		deal_id:"AQ89435",
+		asset_name:"Bike",
+		counter_party:"nits@gmail.com",
+		creation_date:"1493265745",
+		status:"pending",
+		symkey:"AAAAAAAAQ==",
+		nots_flag:false,
+		txs:["first","second","third","fourth"]
 
+	}
+	for(i=0;i<2;i++){
+		
+		$scope.completedcontracts.push(pcontract)
+	
+	}*/
 
 }])
