@@ -22,15 +22,20 @@
 								<h4 style="font-size:13px;color:#595959" >{{pcontract.deal_id}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{pcontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
 							</div>
+							
 					</div>
-					
-					<div class="item item-divider tabs">
-							  <a ng-if = "pcontract.txs.length == 1" class = "tab-item " style = "color:#26734d; font-weight: 500;">ACCEPT</a>
-							  <a ng-if = "pcontract.txs.length == 1" class = "tab-item " style = "color:#26734d; font-weight: 500;">REJECT</a>
-							  <a ng-if = "pcontract.txs.length == 3" class = "tab-item " style = "color:#26734d; font-weight: 500;">ACCEPT SETTLEMENT</a>
-							  <a class = "tab-item" style = "color:#008ae6; font-weight: 500;">MORE DETAILS</a>
+					<div class="card-action" style="margin-top:5px;">
+							
+							<div style="float:left; width:60%;">
+								<a ng-click="acceptContract(pcontract)" ng-if = "pcontract.txs.length == 1"  style = "color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
+								<a ng-click="rejectContract(pcontract)" ng-if = "pcontract.txs.length == 1"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
+								<a ng-click="acceptSettlement(pcontract)" ng-if = "pcontract.txs.length == 3"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
+							</div>
+							<div style="float:right;width:40%;">
+								<a ng-click="moreDetails(pcontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+							</div>
 					</div>
-					
+							
 				</div>
 			</div>
 			
@@ -56,11 +61,17 @@
 						</div>
 						
 					</div>
-					
-					<div class="item item-divider tabs">
-							  <a ng-if = "acontract.txs.length == 2" class = "tab-item " style = "color:#26734d; font-weight: 500;">SETTLE CONTRACT</a>
-							  <a class = "tab-item" style = "color:#008ae6;font-weight: 500;">MORE DETAILS</a>
+					<div class="card-action" style="margin-top:5px;">
+							
+							<div style="float:left; width:60%;">
+								
+								<a ng-click="settleContract(acontract)" ng-if = "acontract.txs.length == 2"  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+							</div>
+							<div style="float:right;width:40%;">
+								<a ng-click="moreDetails(acontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+							</div>
 					</div>
+			
 					
 				</div>
 				
@@ -87,10 +98,11 @@
 								<h4 style="font-size:13px;color:#595959" >{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
 							</div>
 					</div>
-					<div class="item item-divider tabs">
-					
-							  <a class = "tab-item" style = "color:#008ae6; font-weight: 500;">MORE DETAILS</a>
-							  
+					<div class="card-action" style="margin-top:5px;">
+							
+							<div style="float:right;">
+								<a ng-click="moreDetails(ccontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+							</div>
 					</div>
 					
 				</div>

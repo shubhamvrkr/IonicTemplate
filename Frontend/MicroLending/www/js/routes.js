@@ -70,6 +70,19 @@ angular.module('app.routes', [])
         },
 		cache: false
       })
+	  .state('moredetails', {
+        url: '/moredetails',
+        views: {
+          'moredetails': {
+            templateUrl: 'templates/moredetails.html',
+            controller: 'moredetailsCtrl'
+          }
+        },
+		params: {
+          contract: null
+        },
+		cache: false
+      })
 
     $urlRouterProvider.otherwise('/login')
 
