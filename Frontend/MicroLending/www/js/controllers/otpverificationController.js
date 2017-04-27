@@ -1,7 +1,7 @@
 mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'registerFactory', '$http', 'firebaseFactory', 'ionicToast',
   function ($scope, $stateParams, $state, $ionicLoading, $timeout, registerFactory, $http, firebaseFactory, ionicToast) {
 
-	
+
     var userData = $stateParams.params.user_data;
 
     console.log(userData)
@@ -142,7 +142,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                 new_data.name = response.name
                 new_data.ethAccount = result.address
                 new_data.firebaseToken = result_token.token
-                new_data.publicKey = result.publickey
+                new_data.publicKey = result.publickey[0];
 
 
                 //send to DB

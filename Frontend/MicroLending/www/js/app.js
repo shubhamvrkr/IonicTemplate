@@ -61,12 +61,17 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
         contact_db = new PouchDB('contacts.db', { adapter: 'cordova-sqlite', location: 'default' });
         console.log(contact_db);
 
+        deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
+        console.log(deal_db);
 
       }
 
       else {
         contact_db = new PouchDB('contacts');
-        console.log(contact_db.adapter)
+        console.log(contact_db.adapter);
+
+        deal_db = new PouchDB('deals');
+        console.log(deal_db.adapter)
 
 
         // Clear DB

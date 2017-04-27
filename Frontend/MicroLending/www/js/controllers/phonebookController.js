@@ -2,11 +2,11 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function ($scope, $stateParams, $state, databaseFactory, $http,$ionicLoading) {
- 
+
 	console.log("Stateparams: ",$stateParams)
-	
+
 	$scope.visibilityflag = $stateParams.flag
-	 
+
     $scope.data = {};
     //data from database
 
@@ -23,54 +23,54 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
     //fetch contacts from the server
     function contactsFromServer(data) {
-	
+
       $scope.availablecontacts = [];
       $http.get(apiUrl + "/api/users?email=" + data)
         .success(function (response) {
 
-          console.log(response)
+          console.log(response);
           response.forEach(function (item) {
-            $scope.availablecontacts.push(item)
-          })
+            $scope.availablecontacts.push(item);
+          });
           //$scope.availablecontacts.push(response)
 
 
         }).catch(function (err) {
 
-          console.log(err)
+          console.log(err);
 
         });
     }
 
     //fetch contacts from the local DB
     function contactsFromLocalDB() {
-      
+
 	  $scope.availablecontacts = [];
       $scope.localcontacts = [];
       $scope.data.filteredlocalcontacts = $scope.localcontacts;
       $scope.data.filteredavailablecontacts = $scope.availablecontacts;
 	  console.log($scope.localcontacts);
 	  console.log($scope.data.filteredlocalcontacts);
-		
+
 
       databaseFactory.getAllData(contact_db, function (response) {
 
         if (response.status == "0") {
-          console.log(response.data)
+          console.log(response.data);
         } else {
 
-          console.log(response.data.rows)
-		  
+          console.log(response.data.rows);
+
           response.data.rows.forEach(function (item) {
-			
-             $scope.localcontacts.push(item.doc)
-			
-          })
+
+             $scope.localcontacts.push(item.doc);
+
+          });
         }
-      })
-	  
-	  
-	  
+      });
+
+
+
     }
 
 
@@ -87,23 +87,23 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
       console.log("Length of lc" + localContactsLength);
       console.log("Filter Length: " + $scope.data.filteredlocalcontacts.length)
-	  
+
       if ($scope.data.filteredlocalcontacts.length < 1 && searchText.length > 0 ) {
         //postcall to get all the items with starting characters
         //bind to scope.availablecontacts
 			contactsFromServer(searchText)
-		
+
       }else {
 			 $scope.availablecontacts = [];
 	  }
-	  
+
     }
 
     $scope.deleteContact = function (item) {
 
       console.log(item)
       var index1 = $scope.localcontacts.indexOf(item);
-    
+
       console.log(index1)
       //delete data from db where email = item.email;
 
@@ -111,7 +111,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
       databaseFactory.deleteDoc(contact_db, item, function (response) {
 
         if (response.status == "0") {
-		  
+
           console.log(response.data);
         } else {
 
@@ -133,15 +133,15 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
         maxWidth: 200,
         showDelay: 0
       });
-	  
+
       contactEntry = {
         "_id": contact.email,
         "eth_address": contact.ethAccount,
         "name": contact.name,
-        "publicKey": "123"
+        "publicKey": contact.publicKey
       }
 	  console.log("contactEntry: ",contactEntry)
-	  
+
       databaseFactory.putData(contact_db, contactEntry, function (response) {
 
         if (response.status == "0") {
@@ -152,16 +152,16 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 		 $ionicLoading.hide();
           console.log("response add: ",response.data);
           console.log("local contacts after adding: ",$scope.localcontacts.length);
-		
+
         }
       })
 
     }
-	
+
 	$scope.selectContact = function(contact){
-	
+
 		if(contact._id.includes("@")){
-			
+
 			contact.email=contact._id;
 		}
 		console.log(contact)

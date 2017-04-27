@@ -4,7 +4,7 @@ angular.module('app.services')
     var service = {};
     //load addr,ks,pwdervedkey from ss or localstorage
 
-    service.createContract = function(contract_data, pwDerivedKey, ks, addr, callback) {
+    service.createContract = function(contract_data, pwDerivedKey, ks, addr, publicKey, callback) {
 
       //call the encrypt function to encrypt the contract_data
 
@@ -18,109 +18,125 @@ angular.module('app.services')
       console.log("Symmteric key", symKey);
 
       //encrypt symmetric key using couteparties public key
-     // EthWallet.encryption_sign.asymEncrypt(symKey, ks, pwDerivedKey, publicKey, function(err, result) {
-       // if (err) throw err;
-       // console.log("asym cipertext", result); //  returns cipertext
+      EthWallet.encryption_sign.asymEncrypt(symKey, ks, pwDerivedKey, publicKey, function(err, sym_encrpyt) {
+
+        if (err) {
+
+          console.log("Symmetric key Encryption Error", err);
+
+        } else {
+
+          EthWallet.encryption_sign.asymDecrypt(result, ks, pwDerivedKey, publicKey, publicKey, function(err, dec) {
+            if (err) console.log(err);
+            console.log(result); //  returns plaintext
+            console.log("asym plaintext", dec); //  returns cipertext
+
+            console.log("Symmetric key after encryption: ", sym_encrpyt); //  returns cipertext
 
 
-        console.log('actual data', JSON.stringify(contract_data));
-        // encrypt
-        EthWallet.encryption_sign.symEncrypt(JSON.stringify(contract_data), symKey, function(err, result) {
+            console.log('actual data', JSON.stringify(contract_data));
+            // encrypt
+            EthWallet.encryption_sign.symEncrypt(JSON.stringify(contract_data), symKey, function(err, result) {
 
-          if (err) {
+              if (err) {
 
-            console.log("Encryption Error", err);
+                console.log("Encryption Error", err);
 
-          } else {
-
-            console.log("after encryption :cipertext", result);
-
-            // sign the contract_object
-
-            EthWallet.encryption_sign.signMsg(ks, pwDerivedKey, JSON.stringify(contract_data), addr, function(err1, result1) {
-
-              if (err1) {
-
-                console.log("Signing Error", err1);
               } else {
 
-                signature = result1;
-                console.log('signature', signature);
+                console.log("after encryption :cipertext", result);
 
-                //convert to hex format
-                var s_hex = buffer.from(signature.s, 'hex');
+                // sign the contract_object
 
-                var r_hex = buffer.from(signature.r, 'hex');
+                EthWallet.encryption_sign.signMsg(ks, pwDerivedKey, JSON.stringify(contract_data), addr, function(err1, result1) {
 
-                console.log(s_hex);
+                  if (err1) {
 
-                //back to Unint array
-                var r_hex_e = buffer.from(r_hex.toString('hex'), 'hex');
+                    console.log("Signing Error", err1);
+                  } else {
 
-                var s_hex_e = buffer.from(s_hex.toString('hex'), 'hex');
+                    signature = result1;
+                    console.log('signature', signature);
 
-                console.log(s_hex_e);
-                //create object to store in the contract and call send transaction with args[to,payload,deal_id]
+                    //convert to hex format
+                    var s_hex = buffer.from(signature.s, 'hex');
 
+                    var r_hex = buffer.from(signature.r, 'hex');
 
-                var payload = {};
-                payload.sig_s = s_hex.toString('hex');
-                payload.sig_r = r_hex.toString('hex');
-                payload.sig_v = signature.v.toString();
-                payload.contract_data = result;
-                payload.from = contract_data.to_ethAddress;
-                payload.to = contract_data.to_ethAddress;
+                    console.log(s_hex);
 
-                ethdapp.sendTransaction("createContract", [addr, JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function(error, tx_hash) {
+                    //back to Unint array
+                    var r_hex_e = buffer.from(r_hex.toString('hex'), 'hex');
 
-                  if ("Transaction Sending err", error) {
-                    console.log(error);
-                  }
-                  console.log(tx_hash);
+                    var s_hex_e = buffer.from(s_hex.toString('hex'), 'hex');
 
-                  // get the TxID and populate the deal_database.db
-                  //fields: deal_id,asset_name,counter_party_address,counter_party_email,creation_date,symmteric_key,status,nots_flag,tx[],expiry_date
-
-                  // call database factory to put doc
-                  console.log(contract_data);
-                  var doc = {};
-                  doc._id = contract_data.deal_id.toString();
-                  doc.asset_name = contract_data.asset_name;
-                  doc.counter_party_address = contract_data.to_ethAddress;
-                  doc.counter_party_email = contract_data.to_email;
-                  doc.creation_date = contract_data.start_date;
-                  doc.end_date = contract_data.end_date;
-                  doc.symmteric_key = contract_data.end_date;
-                  doc.status = contract_data.end_date;
-                  doc.tx = [tx_hash];
-
-                  databaseFactory.putData(deal_db, doc, function(res) {
-
-                    console.log(res);
+                    console.log(s_hex_e);
+                    //create object to store in the contract and call send transaction with args[to,payload,deal_id]
 
 
-                    // test data in db
-                    databaseFactory.getAllData(deal_db, function(response) {
+                    var payload = {};
+                    payload.sig_s = s_hex.toString('hex');
+                    payload.sig_r = r_hex.toString('hex');
+                    payload.sig_v = signature.v.toString();
+                    payload.contract_data = result;
+                    payload.from = contract_data.to_ethAddress;
+                    payload.to = contract_data.to_ethAddress;
+                    payload.key_symmteric = sym_encrpyt;
 
-                      console.log(response);
-                      callback({
-                        status: "1"
+                    ethdapp.sendTransaction("createContract", [addr, JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function(error, tx_hash) {
+
+                      if ("Transaction Sending err", error) {
+                        console.log(error);
+                      }
+                      console.log(tx_hash);
+
+                      // get the TxID and populate the deal_database.db
+                      //fields: deal_id,asset_name,counter_party_address,counter_party_email,creation_date,symmteric_key,status,nots_flag,tx[],expiry_date
+
+                      // call database factory to put doc
+                      console.log(contract_data);
+                      var doc = {};
+                      doc._id = contract_data.deal_id.toString();
+                      doc.asset_name = contract_data.asset_name;
+                      doc.counter_party_address = contract_data.to_ethAddress;
+                      doc.counter_party_email = contract_data.to_email;
+                      doc.creation_date = contract_data.start_date;
+                      doc.end_date = contract_data.end_date;
+                      doc.symmteric_key = contract_data.end_date;
+                      doc.status = contract_data.end_date;
+                      doc.tx = [tx_hash];
+
+                      databaseFactory.putData(deal_db, doc, function(res) {
+
+                        console.log(res);
+
+
+                        // test data in db
+                        databaseFactory.getAllData(deal_db, function(response) {
+
+                          console.log(response);
+                          callback({
+                            status: "1"
+                          });
+
+                        });
+
                       });
 
                     });
 
-                  });
+
+                  }
+
 
                 });
-
-
               }
-
-
             });
-          }
-        //});
+          });
+
+        }
       });
+
 
     };
 
