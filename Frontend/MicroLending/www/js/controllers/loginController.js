@@ -454,19 +454,19 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
           }else{
 
             console.log("Decrypted data: ",result);
-            data.data = JSON.parse(result)
+            data.data = JSON.parse(result);
             login_data.username = data.data.email;
             login_data.ks = data.data.ks;
 
-            loginFactory.login(login_data, function (err, result) {
+            loginFactory.login(login_data, function (err, login_result) {
 
               console.log("browser login result: ",result);
 
                     $rootScope.globals = {
                             currentUser: {
-                                address: address,
-                                pwDerivedKey: result.pwDerivedKey,
-                                keystore: result.ks,
+                                address: login_result.address,
+                                pwDerivedKey: login_result.pwDerivedKey,
+                                keystore: login_result.ks,
                                 email:emailId
                                 //mongoId:'',
                                 // emailId:
