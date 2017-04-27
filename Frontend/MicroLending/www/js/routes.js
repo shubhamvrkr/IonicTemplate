@@ -72,12 +72,8 @@ angular.module('app.routes', [])
       })
 	  .state('moredetails', {
         url: '/moredetails',
-        views: {
-          'moredetails': {
-            templateUrl: 'templates/moredetails.html',
-            controller: 'moredetailsCtrl'
-          }
-        },
+		templateUrl: 'templates/moredetails.html',
+        controller: 'moredetailsCtrl',
 		params: {
           contract: null
         },
