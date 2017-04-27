@@ -1,80 +1,13 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$state','allContractFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state) {
+function ($scope, $stateParams,$statem,allContractFactory) {
 	
 	$scope.pendingcontracts = [];
 	$scope.activecontracts = [];
 	$scope.completedcontracts = [];
 	
-	for(i=0;i<3;i++){
-		
-		var pcontract = {};
-	
-		
-		if(i==1){
-			
-				pcontract.deal_id="AQ89435"
-				pcontract.asset_name="Bike"
-				pcontract.counter_party="nits@gmail.com"
-				pcontract.creation_date="1493265745"
-				pcontract.status="pending"
-				pcontract.symkey="AAAAAAAAQ=="
-				pcontract.nots_flag=false
-				pcontract.txs=["one","two","three"]
-				
-				$scope.pendingcontracts.push(pcontract)
-		}else{
-		
-			pcontract.deal_id="AQ89435"
-				pcontract.asset_name="Bike"
-				pcontract.counter_party="nits@gmail.com"
-				pcontract.creation_date="1493265745"
-				pcontract.status="pending"
-				pcontract.symkey="AAAAAAAAQ=="
-				pcontract.nots_flag=false
-				pcontract.txs=["one"]
-				$scope.pendingcontracts.push(pcontract)
-		}
-		
-		console.log($scope.pendingcontracts)
-	}
-	
-	var acontract = {
-	
-		deal_id:"AQ89435",
-		asset_name:"Bike",
-		counter_party:"nits@gmail.com",
-		creation_date:"1493265745",
-		status:"pending",
-		symkey:"AAAAAAAAQ==",
-		nots_flag:false,
-		txs:["first","second"]
-
-	}
-	for(i=0;i<3;i++){
-		
-		$scope.activecontracts.push(acontract)
-	
-	}
-	
-	var ccontract = {
-	
-		deal_id:"AQ89435",
-		asset_name:"Bike",
-		counter_party:"nits@gmail.com",
-		creation_date:"1493265745",
-		status:"pending",
-		symkey:"AAAAAAAAQ==",
-		nots_flag:false,
-		txs:["first","second","third","fourth"]
-
-	}
-	for(i=0;i<2;i++){
-		
-		$scope.completedcontracts.push(pcontract)
-	
-	}
+	loadDealsfromDB();
 	
 	$scope.moreDetails = function(contract){
 	
@@ -105,6 +38,48 @@ function ($scope, $stateParams,$state) {
 	$scope.acceptContract = function(contract){
 	
 		console.log("acceptContract: ",contract);
+	
+	}
+	
+	function loadDealsfromDB(){
+	
+			allContractFactory.getallPendingContracts(function(response){
+				
+				console.log("Pending Contracts: ",response.result);
+				
+				if(response.status=="1"){
+				
+					$scope.pendingcontracts = response.result
+					$scope.$apply();
+				
+				}
+			
+			});
+			allContractFactory.getallActiveContracts(function(response){
+			
+				console.log("Active Contracts: ",response.result);
+				
+				if(response.status=="1"){
+				
+					$scope.activecontracts = response.result;
+				    $scope.$apply();
+				
+				}
+			
+			});
+			allContractFactory.getallCompletedContracts(function(response){
+			
+				console.log("Completed Contracts: ",response.result);
+				
+				if(response.status=="1"){
+				
+					$scope.completedcontracts = response.result
+					$scope.$apply();
+				}
+			
+			});
+	
+	
 	
 	}
 

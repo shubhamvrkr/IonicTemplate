@@ -6,7 +6,7 @@
 			<div ng-show="pendingcontracts.length > 0 ">
 				
 				<div class="item item-divider">Pending Contracts</div>
-				<div class="list card" ng-repeat="pcontract in pendingcontracts track by $index">
+				<div class="list card" style = "margin:5px 0 5px 0; !important;"ng-repeat="pcontract in pendingcontracts track by $index">
 					
 					<div class="item">
 							<div style = "float:left">
@@ -41,8 +41,8 @@
 			
 			<div ng-show="activecontracts.length > 0 ">
 				
-				<div class="item item-divider">Active Contracts</div>
-				<div class="list card" ng-repeat="acontract in activecontracts track by $index">
+				<div class="item item-divider" style = "margin:10px 0 0 0; !important;">Active Contracts</div>
+				<div class="list card" style = "margin:5px 0 5px 0; !important;" ng-repeat="acontract in activecontracts track by $index">
 					
 					<div class="item">
 
@@ -79,8 +79,8 @@
 			
 			<div ng-show="completedcontracts.length > 0 ">
 				
-				<div class="item item-divider">Completed Contracts</div>
-				<div class="list card" ng-repeat="ccontract in completedcontracts track by $index">
+				<div class="item item-divider" style = "margin:10px 0 0 0; !important;">Completed Contracts</div>
+				<div class="list card" style = "margin:5px 0 5px 0; !important;" ng-repeat="ccontract in completedcontracts track by $index">
 					
 					<div class="item">
 

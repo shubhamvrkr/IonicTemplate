@@ -63,17 +63,17 @@ angular.module('app.services')
     };
 
 
-service.updateDoc = function (db, doc, callback) {
+	service.updateDoc = function (db, doc, callback) {
 
-    db.remove(doc._id, doc._rev).then(function (result) {
+		db.remove(doc._id, doc._rev).then(function (result) {
 
-        console.log(result);
-        callback({ status: "1", data: result });
-      }).catch(function (err) {
-        console.log(err);
-        callback({ status: "0", data: err });
+			console.log(result);
+			callback({ status: "1", data: result });
+		  }).catch(function (err) {
+			console.log(err);
+			callback({ status: "0", data: err });
 
-      });
+		  });
     };
 
 
