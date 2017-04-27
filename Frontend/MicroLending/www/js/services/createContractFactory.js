@@ -104,6 +104,7 @@ angular.module('app.services')
                     payload.sig_v = signature.v.toString();
                     payload.contract_data = result;
                     // payload.from = contract_data.to_ethAddress;
+                    console.log('to',contract_data.to_ethAddress);
                     payload.to = contract_data.to_ethAddress;
                     payload.key_symmteric = sym_encrpyt;
 

@@ -112,7 +112,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.creation_date = contract_data.start_date;
               doc.end_date = contract_data.end_date;
               doc.symmteric_key = res.key;
-              doc.status = "true";
+              doc.status = "pending";
+              doc.notification_flag = "false";
               doc.tx = [txHash];
 
               databaseFactory.putData(deal_db, doc, function(res) {
