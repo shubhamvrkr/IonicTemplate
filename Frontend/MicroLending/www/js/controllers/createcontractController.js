@@ -44,7 +44,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     if ($stateParams.contact != null) {
 
-      $scope.data.counterparty = $stateParams.contact.email;
+       $scope.data.counterparty = $stateParams.contact.email;
     }
     $scope.selectCounterparty = function() {
 

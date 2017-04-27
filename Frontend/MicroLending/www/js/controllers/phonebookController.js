@@ -64,6 +64,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
           response.data.rows.forEach(function (item) {
 
              $scope.localcontacts.push(item.doc);
+			 $scope.$apply();
 
           });
         }

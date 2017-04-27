@@ -1,27 +1,104 @@
 <ion-view title="All Contracts" id="page1">
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
-       <div class ="screenadjust">
+ 
+	   <div class ="screenadjust">
 	   
 			<div ng-show="pendingcontracts.length > 0 ">
 				
 				<div class="item item-divider">Pending Contracts</div>
-				<div class="list card" ng-repeat="contract in pendingcontracts track by $index">
+				<div class="list card" ng-repeat="pcontract in pendingcontracts track by $index">
 					
 					<div class="item">
-
-							<h4 style="font-size:13px;color:#191919">Counter Party: <label style= "margin-left:7px" >{{contract.counter_party}}</label></h4>
-							<h4 style="font-size:13px;color:#191919">Asset Name: <label style= "margin-left:7px" >{{contract.asset_name}}</label></h4>
-							<h4 style="font-size:13px;color:#191919">Deal ID: <label style= "margin-left:7px" >{{contract.deal_id}}</label></h4>
-							<h4 style="font-size:13px;color:#191919">Created On: <label style= "margin-left:7px" >{{contract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</label></h4>
-		
+							<div style = "float:left">
+							<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+							<h4 style="font-size:13px;color:#191919">Asset Name: </h4>
+							<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+							<h4 style="font-size:13px;color:#191919">Created On: </h4>
+							</div>
+							
+							<div style = "float:left;margin-left:10px;">
+								<h4 style="font-size:13px;color:#595959" >{{pcontract.counter_party}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{pcontract.asset_name}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{pcontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{pcontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+							</div>
 					</div>
+					
 					<div class="item item-divider tabs">
-							  <a class = "tab-item" style = "color:#26734d;">ACCEPT</a>
-							  <a class = "tab-item" style = "color:#26734d;">REJECT</a>
-							  <a class = "tab-item" style = "color:#008ae6;">MORE DETAILS</a>
+							  <a ng-if = "pcontract.txs.length == 1" class = "tab-item " style = "color:#26734d; font-weight: 500;">ACCEPT</a>
+							  <a ng-if = "pcontract.txs.length == 1" class = "tab-item " style = "color:#26734d; font-weight: 500;">REJECT</a>
+							  <a ng-if = "pcontract.txs.length == 3" class = "tab-item " style = "color:#26734d; font-weight: 500;">ACCEPT SETTLEMENT</a>
+							  <a class = "tab-item" style = "color:#008ae6; font-weight: 500;">MORE DETAILS</a>
 					</div>
 					
 				</div>
+			</div>
+			
+			<div ng-show="activecontracts.length > 0 ">
+				
+				<div class="item item-divider">Active Contracts</div>
+				<div class="list card" ng-repeat="acontract in activecontracts track by $index">
+					
+					<div class="item">
+
+						<div style = "float:left">
+							<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+							<h4 style="font-size:13px;color:#191919">Asset Name: </h4>
+							<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+							<h4 style="font-size:13px;color:#191919">Created On:</h4>
+						</div>
+						
+						<div style = "float:left;margin-left:10px;">
+								<h4 style="font-size:13px;color:#595959" >{{acontract.counter_party}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{acontract.asset_name}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{acontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+						</div>
+						
+					</div>
+					
+					<div class="item item-divider tabs">
+							  <a ng-if = "acontract.txs.length == 2" class = "tab-item " style = "color:#26734d; font-weight: 500;">SETTLE CONTRACT</a>
+							  <a class = "tab-item" style = "color:#008ae6;font-weight: 500;">MORE DETAILS</a>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div ng-show="completedcontracts.length > 0 ">
+				
+				<div class="item item-divider">Completed Contracts</div>
+				<div class="list card" ng-repeat="ccontract in completedcontracts track by $index">
+					
+					<div class="item">
+
+							<div style = "float:left">
+								<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+								<h4 style="font-size:13px;color:#191919">Asset Name:</h4>
+								<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+								<h4 style="font-size:13px;color:#191919">Created On:</h4>
+								
+							</div>
+							<div style = "float:left;margin-left:10px;">
+								<h4 style="font-size:13px;color:#595959" >{{ccontract.counter_party}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{ccontract.asset_name}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{ccontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+							</div>
+					</div>
+					<div class="item item-divider tabs">
+					
+							  <a class = "tab-item" style = "color:#008ae6; font-weight: 500;">MORE DETAILS</a>
+							  
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="ng-hide" ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0)" style="vertical-align: center;text-align: center; margin-top:22%;">
+				No Contracts created 
 			</div>
 			
 	   </div>
