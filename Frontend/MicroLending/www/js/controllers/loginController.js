@@ -464,10 +464,10 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                     $rootScope.globals = {
                             currentUser: {
-                                address: login_result.address,
+                                address: data.data.address,
                                 pwDerivedKey: login_result.pwDerivedKey,
                                 keystore: login_result.ks,
-                                email:emailId
+                                email:data.data.email
                                 //mongoId:'',
                                 // emailId:
                             }
