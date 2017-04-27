@@ -106,8 +106,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
           local_data.lname = $stateParams.params.user_data.lname
           local_data.email = $stateParams.params.user_data.email
           local_data.address = result.address
-          local_data.ks = result.ks
-          local_data.seedWord = result.seedPhrase
+          local_data.ks = result.ks;
+          local_data.publicKey = result.publickey[0];
 
           local_data.imagePath = "null";
 

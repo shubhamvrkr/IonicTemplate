@@ -84,10 +84,12 @@ angular.module('app.services')
                     payload.sig_r = r_hex.toString('hex');
                     payload.sig_v = signature.v.toString();
                     payload.contract_data = result;
-                    payload.from = contract_data.to_ethAddress;
+                   // payload.from = contract_data.to_ethAddress;
                     payload.to = contract_data.to_ethAddress;
                     payload.key_symmteric = sym_encrpyt;
 
+
+                    console.log("Payload ",payload);
                     ethdapp.sendTransaction("createContract", [addr, JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function(error, tx_hash) {
 
                       if ("Transaction Sending err", error) {
