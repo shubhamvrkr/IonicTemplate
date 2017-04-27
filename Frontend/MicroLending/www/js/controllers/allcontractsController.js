@@ -7,7 +7,7 @@ function ($scope, $stateParams,$state) {
 	$scope.activecontracts = [];
 	$scope.completedcontracts = [];
 	
-	/*for(i=0;i<3;i++){
+	for(i=0;i<3;i++){
 		
 		var pcontract = {};
 	
@@ -74,6 +74,6 @@ function ($scope, $stateParams,$state) {
 		
 		$scope.completedcontracts.push(pcontract)
 	
-	}*/
+	}
 
 }])

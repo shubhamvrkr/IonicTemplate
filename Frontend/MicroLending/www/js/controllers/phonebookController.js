@@ -5,8 +5,8 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
 	console.log("Stateparams: ",$stateParams)
 
-	$scope.visibilityflag = $stateParams.flag
-
+	$scope.visibilityflag = $stateParams.flag;
+	
     $scope.data = {};
     //data from database
 
@@ -168,5 +168,5 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 		console.log(contact)
 		$state.go('menu.createdeal',{  contact: contact } )
 	}
-
+	
   }])

@@ -89,5 +89,4 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     };
 
-  }
-]);
+  }]);
