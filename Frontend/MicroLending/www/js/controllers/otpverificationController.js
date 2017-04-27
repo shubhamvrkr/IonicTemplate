@@ -138,26 +138,26 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   console.log('local storage', localStorage.getItem('user_data'))
                 }
 
-                var new_data = {}
-                new_data.name = response.name
-                new_data.ethAccount = result.address
-                new_data.firebaseToken = result_token.token
+                var new_data = {};
+                new_data.name = response.name;
+                new_data.ethAccount = result.address;
+                new_data.firebaseToken = result_token.token;
                 new_data.publicKey = result.publickey[0];
 
 
                 //send to DB
-                $http.post(apiUrl + "/api/users/" + response._id, new_data)
+                $http.post(apiUrl + "/api/users/" + response._id+"/account", new_data)
                   .success(function (response) {
 
-                    console.log(response)
+                    console.log(response);
 
                     registerFactory.createAppDirectory(function (response) {
 
-                      console.log("App creation", response)
+                      console.log("App creation", response);
                       $ionicLoading.hide();
                       $state.go('menu.allContracts');
 
-                    })
+                    });
 
                   });
               });
@@ -169,7 +169,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
         });
 
-      })
-    }
+      });
+    };
 
-  }])
+  }]);

@@ -5,18 +5,18 @@ angular.module('app.services')
     var service = {};
 
     service.putData = function (db, payload, callback) {
-	
+
       db.put(payload)
 
         .then(function (response) {
           console.log(response);
-          callback({ status: "1", data: response })
+          callback({ status: "1", data: response });
         })
         .catch(function (err) {
           console.log(err);
-          callback({ status: "0", data: err })
+          callback({ status: "0", data: err });
         });
-    }
+    };
 
 
     service.getAllData = function (db, callback) {
@@ -25,13 +25,13 @@ angular.module('app.services')
         include_docs: true
       }).then(function (result) {
         console.log(result);
-        callback({ status: "1", data: result })
+        callback({ status: "1", data: result });
       }).catch(function (err) {
         console.log(err);
-        callback({ status: "0", data: err })
+        callback({ status: "0", data: err });
       });
 
-    }
+    };
 
 
     service.getDoc = function (db, indexData, callback) {
@@ -41,17 +41,15 @@ angular.module('app.services')
         //sort: ['name']
       }).then(function (result) {
         console.log(result);
-        callback({ status: "1", data: result })
+        callback({ status: "1", data: result });
       }).catch(function (err) {
         console.log(err);
-        callback({ status: "0", data: err })
+        callback({ status: "0", data: err });
 
       });
-    }
+    };
 
     service.deleteDoc = function (db, doc, callback) {
-	
-	
 
 		db.remove(doc._id, doc._rev).then(function (result) {
 
@@ -59,12 +57,27 @@ angular.module('app.services')
         callback({ status: "1", data: result });
       }).catch(function (err) {
         console.log(err);
-        callback({ status: "0", data: err })
+        callback({ status: "0", data: err });
 
-      })
-    }
+      });
+    };
 
-    return service
+
+service.updateDoc = function (db, doc, callback) {
+
+    db.remove(doc._id, doc._rev).then(function (result) {
+
+        console.log(result);
+        callback({ status: "1", data: result });
+      }).catch(function (err) {
+        console.log(err);
+        callback({ status: "0", data: err });
+
+      });
+    };
+
+
+    return service;
 
 
   }]);
