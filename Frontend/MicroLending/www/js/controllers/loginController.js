@@ -460,7 +460,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
             loginFactory.login(login_data, function (err, login_result) {
 
-              console.log("browser login result: ",result);
+              console.log("browser login result: ",login_result);
 
                     $rootScope.globals = {
                             currentUser: {
