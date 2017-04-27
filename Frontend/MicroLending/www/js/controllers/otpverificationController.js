@@ -146,7 +146,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
 
                 //send to DB
-                $http.post(apiUrl + "/api/users/" + response._id, new_data)
+                $http.post(apiUrl + "/api/users/" + response._id+"/account", new_data)
                   .success(function (response) {
 
                     console.log(response)
