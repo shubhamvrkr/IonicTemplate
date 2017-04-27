@@ -25,7 +25,7 @@
 						<h3 style="font-size:15px;font-style:bold;color:#000">{{contact._id}}</h3>
 						<h4 style="font-size:12px;color:#696969">{{contact.eth_address}}</h4>
 					</div>
-					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="deleteContact(contact)"><i class="icon ion-trash-b"></i> </p>
+					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="deleteContact(contact);$event.stopPropagation();"><i class="icon ion-trash-b"></i> </p>
 
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 						<h3 style="font-size:15px;font-style:bold;color:#000">{{acontact.email}}</h3>
 						<h4 style="font-size:12px;color:#696969">{{acontact.ethAccount}}</h4>
 					</div>
-					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="addContact(acontact)"><i class="icon ion-person-add"></i> </p>
+					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="addContact(acontact);$event.stopPropagation();"><i class="icon ion-person-add"></i> </p>
 				</div>
 			</div>
 		</div>

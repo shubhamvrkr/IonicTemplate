@@ -40,11 +40,11 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
     $scope.spinnerFlag = true;
     $scope.textFlag = false;
     console.log("Stateparams: ", $stateParams);
-    $scope.contract = {};
+    $scope.data = {};
 
     if ($stateParams.contact != null) {
 
-      $scope.contract.counterparty = $stateParams.contact.email;
+      $scope.data.counterparty = $stateParams.contact.email;
     }
     $scope.selectCounterparty = function() {
 

@@ -1,6 +1,30 @@
 <ion-view title="All Contracts" id="page1">
-  <ion-content padding="true" class="has-header">
-       <div>All Contracts</div>
+  <ion-content padding="true" class="has-header" style="background:#F5F5F5">
+       <div class ="screenadjust">
+	   
+			<div ng-show="pendingcontracts.length > 0 ">
+				
+				<div class="item item-divider">Pending Contracts</div>
+				<div class="list card" ng-repeat="contract in pendingcontracts track by $index">
+					
+					<div class="item">
+
+							<h4 style="font-size:13px;color:#191919">Counter Party: <label style= "margin-left:7px" >{{contract.counter_party}}</label></h4>
+							<h4 style="font-size:13px;color:#191919">Asset Name: <label style= "margin-left:7px" >{{contract.asset_name}}</label></h4>
+							<h4 style="font-size:13px;color:#191919">Deal ID: <label style= "margin-left:7px" >{{contract.deal_id}}</label></h4>
+							<h4 style="font-size:13px;color:#191919">Created On: <label style= "margin-left:7px" >{{contract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</label></h4>
+		
+					</div>
+					<div class="item item-divider tabs">
+							  <a class = "tab-item" style = "color:#26734d;">ACCEPT</a>
+							  <a class = "tab-item" style = "color:#26734d;">REJECT</a>
+							  <a class = "tab-item" style = "color:#008ae6;">MORE DETAILS</a>
+					</div>
+					
+				</div>
+			</div>
+			
+	   </div>
   </ion-content>
 </ion-view>
 
