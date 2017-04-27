@@ -1,7 +1,10 @@
-<ion-view title="Create Contract" id="page3">
-  <ion-content padding="true" class="has-header">
+<ion-view title="Create Contract" id="page2">
+  <ion-content padding="true" class="has-header" style="background:#F5F5F5">
+  
     <div class="screenadjust">
+	
       <div class="row">
+	  
         <div class="col">
 
           <form name="createContractForm" class="form form-validation createContract" ng-submit="CreateDeal(data)">
@@ -38,14 +41,18 @@
             </label>
             <small style="color:red; font-weight:bold">All fields are mandatory</small>
             <div>
-              <button id="create-deal" class="button button-medium button-radius button-balanced button-block" ng-disabled="createContractForm.$invalid">
+                <button id="create-deal" class="button button-medium button-radius button-balanced button-block" ng-disabled="createContractForm.$invalid">
                 <ion-spinner ng-hide="spinnerFlag" class="spiral">Mining</ion-spinner>
-                <i class="loginText" ng-hide="textFlag">Create Deal<i>
+                <label class="loginText" ng-hide="textFlag">Create Deal<label>
               </button>
             </div>
+			
           </form>
+		  
         </div>
+		
       </div>
+	  
     </div>
   </ion-content>
 </ion-view>

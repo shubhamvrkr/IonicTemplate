@@ -7,7 +7,7 @@ function ($scope, $stateParams,$state) {
 	$scope.activecontracts = [];
 	$scope.completedcontracts = [];
 	
-	/*for(i=0;i<3;i++){
+	for(i=0;i<3;i++){
 		
 		var pcontract = {};
 	
@@ -74,6 +74,38 @@ function ($scope, $stateParams,$state) {
 		
 		$scope.completedcontracts.push(pcontract)
 	
-	}*/
+	}
+	
+	$scope.moreDetails = function(contract){
+	
+	
+		console.log("Moredetails: ",contract);
+		
+		$state.go('moredetails',{  contract: contract } )
+	
+	
+	}
+	$scope.settleContract = function(contract){
+	
+	
+		console.log("settleContract: ",contract);
+	
+	
+	}
+	$scope.acceptSettlement = function(contract){
+	
+		console.log("acceptSettlement: ",contract);
+	
+	}
+	$scope.rejectContract = function(contract){
+	
+		console.log("rejectContract: ",contract);
+	
+	}
+	$scope.acceptContract = function(contract){
+	
+		console.log("acceptContract: ",contract);
+	
+	}
 
 }])
