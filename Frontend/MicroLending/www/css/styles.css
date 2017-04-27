@@ -18,6 +18,11 @@
 
 }
 
+.item > small{
+  color: red;
+  font-weight: bold;
+}
+
 .input-label{
   font-weight: bold;
 }
