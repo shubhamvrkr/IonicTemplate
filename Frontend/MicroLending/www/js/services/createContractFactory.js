@@ -7,7 +7,8 @@ angular.module('app.services')
     service.createContract = function(contract_data, pwDerivedKey, ks, addr, counterparty_Key, current_user_key, callback) {
 
       //call the encrypt function to encrypt the contract_data
-
+      data_for_sign = contract_data;
+      data_for_sign.nonce = new Date().getTime().toString();
       console.log(pwDerivedKey);
       console.log(ks);
       console.log(addr);
@@ -68,7 +69,7 @@ angular.module('app.services')
 
                 // sign the contract_object
 
-                EthWallet.encryption_sign.signMsg(ks, pwDerivedKey, JSON.stringify(contract_data), addr, function(err1, result1) {
+                EthWallet.encryption_sign.signMsg(ks, pwDerivedKey, JSON.stringify(data_for_sign), addr, function(err1, result1) {
 
                   if (err1) {
 
@@ -103,6 +104,7 @@ angular.module('app.services')
                     payload.sig_r = r_hex.toString('hex');
                     payload.sig_v = signature.v.toString();
                     payload.contract_data = result;
+                    payload.nonce = data_for_sign.nonce;
                     // payload.from = contract_data.to_ethAddress;
                     console.log('to',contract_data.to_ethAddress);
                     payload.to = contract_data.to_ethAddress;
