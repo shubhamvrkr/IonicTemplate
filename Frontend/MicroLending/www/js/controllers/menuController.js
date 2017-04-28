@@ -1,12 +1,14 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory) {
+  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory,$rootScope) {
 
     console.log("menuCtrl");
 	var symmetricKey = null;
     $scope.user = {}
     //retrieve the use data from the localStorge
+	getBalance();
+	
 	
     if (window.cordova) {
 
@@ -301,4 +303,12 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 	
 	}
 
+
+	function getBalance(){
+	
+			console.log($scope.user)
+			$rootScope.balance  =  ethdapp.web3.eth.getBalance($scope.user.eth_addres);
+			
+	}
+	
   }])

@@ -162,12 +162,33 @@
       messagingSenderId: "1078648460837"
     };
     firebase.initializeApp(config);
+	
     const messaging = firebase.messaging();
 	messaging.onMessage(function(payload) {
     
 		console.log("Message received. ", payload);
 
 	});
+	if ('serviceWorker' in navigator){
+	 
+		console.log("SW present !!! ");
+
+		navigator.serviceWorker.register('sw.js', {
+		  //scope: '/toto/'
+		}).then(function(registration){
+			 
+			registration.update();
+			console.log("registered")
+			messaging.useServiceWorker(registration);
+		    console.log('Service worker registered : ', registration.scope);
+			
+		})
+		.catch(function(err){
+		  console.log("Service worker registration failed : ", err);
+		});
+
+  }
+	
 
   </script>
 
