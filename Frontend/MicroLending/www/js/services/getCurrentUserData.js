@@ -21,7 +21,7 @@ angular.module('app.services')
             current_user_data.from_email = user_data.email;
             var r_hex_e = buffer.from(sessionStorage.getItem("pwDerivedKey").toString('hex'), 'hex');
            current_user_data.pwDerivedKey =  r_hex_e;
-            current_user_data.current_user_key = user_data.publickey;
+            current_user_data.current_user_key = user_data.publicKey;
 
 
             ethdapp.importKeystore(user_data.ks, function(error, result) {
@@ -51,7 +51,7 @@ angular.module('app.services')
 
         var r_hex_e = buffer.from(sessionStorage.getItem("pwDerivedKey").toString('hex'), 'hex');
            current_user_data.pwDerivedKey =  r_hex_e;
-        current_user_data.current_user_key = user_data.publickey;
+        current_user_data.current_user_key = user_data.publicKey;
         ethdapp.importKeystore(user_data.ks, function(error, result) {
           console.log("DeSerialized keystore is");
           console.log(result);

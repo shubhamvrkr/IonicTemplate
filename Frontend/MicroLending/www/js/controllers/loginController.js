@@ -448,6 +448,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
             //generate same symmetric key and convert to base 64
             EthWallet.encryption_sign.deriveKeyFromPassword(pass, function(err, pwDerivedKey) {
 
+			  console.log(err);
               //decrypt the data
               console.log(pwDerivedKey);
               var symKey = bufferToBase64("temp_password");
@@ -456,6 +457,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
               EthWallet.encryption_sign.symDecrypt(data.data, symKey, function(err, result) {
 
+			   
                 if (err != null) {
 
                   console.log("Error ind ecrypting data: ", err);
@@ -471,55 +473,56 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                   loginFactory.login(login_data, function(err, login_result) {
 
-                    console.log("browser login result: ", login_result);
+						console.log(err);
+						console.log("browser login result: ", login_result);
 
 
-                    currentUser = {};
+						currentUser = {};
 
-                    currentUser.address = data.data.address;
-                    currentUser.pwDerivedKey = login_result.pwDerivedKey;
-                    currentUser.keystore = login_result.ks;
-                    currentUser.email = data.data.email;
-                     currentUser.publicKey =data.data.publickey;
+						currentUser.address = data.data.address;
+						currentUser.pwDerivedKey = login_result.pwDerivedKey;
+						currentUser.keystore = login_result.ks;
+						currentUser.email = data.data.email;
+						currentUser.publicKey =data.data.publickey;
 
-                  var s_hex = buffer.from(result.pwDerivedKey, 'hex');
-              console.log('S_HEX: ',s_hex.toString('hex'));
-               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+						var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
+						console.log('S_HEX: ',s_hex.toString('hex'));
+						sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
                   // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
-                    if (err) {
+						if (err) {
 
-                      console.error(err);
-                      $ionicLoading.hide();
-                      ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
+						  console.error(err);
+						  $ionicLoading.hide();
+						  ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
 
-                    } else {
+						} else {
 
-                      registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function(res) {
-
-
-                        registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function(response) {
-
-                          if (response.status == "0") {
-
-                            $scope.error = "Oops something went wrong..Please try again!!!";
-                            $ionicLoading.hide();
-
-                          } else {
-
-                            $ionicLoading.hide();
-                            console.log("saved in local Storage", res);
-                            ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
-                            $state.go('menu.allContracts');
-
-                          }
-
-                        });
+						  registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function(res) {
 
 
-                      });
-                    }
+							registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function(response) {
+
+							  if (response.status == "0") {
+
+								$scope.error = "Oops something went wrong..Please try again!!!";
+								$ionicLoading.hide();
+
+							  } else {
+
+								$ionicLoading.hide();
+								console.log("saved in local Storage", res);
+								ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+								$state.go('menu.allContracts');
+
+							  }
+
+							});
+
+
+						  });
+						}
                   });
 
                 }
