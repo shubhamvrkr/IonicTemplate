@@ -71,16 +71,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   console.log("Login", result);
 
 
-                      $rootScope.globals = {
-                            currentUser: {
-                                address: address,
-                                pwDerivedKey: result.pwDerivedKey,
-                                keystore: result.ks,
-                                email:emailId
-                                //mongoId:'',
-                                // emailId:
-                            }
-                        };
+                   
 
 
 

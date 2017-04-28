@@ -18,7 +18,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
           from_email = user_data.email;
           ks_local = $rootScope.globals.currentUser.keystore;
           pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-          current_user_key = user_data.publickey;
+          current_user_key = user_data.publicKey;
 
 
         },
@@ -34,7 +34,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       from_email = user_data.email;
       ks_local = $rootScope.globals.currentUser.keystore;
       pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-      current_user_key = user_data.publickey;
+      current_user_key = user_data.publicKey;
       console.log(user_data);
     }
 

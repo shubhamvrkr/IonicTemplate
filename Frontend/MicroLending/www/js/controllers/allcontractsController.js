@@ -1,19 +1,18 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$state','allContractFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$state','allContractFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$statem,allContractFactory) {
+function ($scope, $stateParams,$statem,allContractFactory,$rootScope) {
 	
 	$scope.pendingcontracts = [];
 	$scope.activecontracts = [];
 	$scope.completedcontracts = [];
-	
+	console.log("rootScope: ",$rootScope.globals);
 	loadDealsfromDB();
 	
 	$scope.moreDetails = function(contract){
 	
 	
 		console.log("Moredetails: ",contract);
-		
 		$state.go('moredetails',{  contract: contract } )
 	
 	
@@ -45,11 +44,11 @@ function ($scope, $stateParams,$statem,allContractFactory) {
 	
 			allContractFactory.getallPendingContracts(function(response){
 				
-				console.log("Pending Contracts: ",response.result);
+				console.log("Pending Contracts: ",response.data.docs);
 				
 				if(response.status=="1"){
 				
-					$scope.pendingcontracts = response.result
+					$scope.pendingcontracts = response.data.docs
 					$scope.$apply();
 				
 				}
@@ -57,11 +56,11 @@ function ($scope, $stateParams,$statem,allContractFactory) {
 			});
 			allContractFactory.getallActiveContracts(function(response){
 			
-				console.log("Active Contracts: ",response.result);
+				console.log("Active Contracts: ",response.data.docs);
 				
 				if(response.status=="1"){
 				
-					$scope.activecontracts = response.result;
+					$scope.activecontracts = response.data.docs;
 				    $scope.$apply();
 				
 				}
@@ -69,11 +68,11 @@ function ($scope, $stateParams,$statem,allContractFactory) {
 			});
 			allContractFactory.getallCompletedContracts(function(response){
 			
-				console.log("Completed Contracts: ",response.result);
+				console.log("Completed Contracts: ",response.data.docs);
 				
 				if(response.status=="1"){
 				
-					$scope.completedcontracts = response.result
+					$scope.completedcontracts = response.data.docs
 					$scope.$apply();
 				}
 			

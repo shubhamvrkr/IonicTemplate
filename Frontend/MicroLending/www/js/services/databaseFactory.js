@@ -37,7 +37,7 @@ angular.module('app.services')
     service.getDoc = function (db, indexData, callback) {
 
       db.find({
-        selector: indexData,
+        selector: indexData
         //sort: ['name']
       }).then(function (result) {
         console.log(result);

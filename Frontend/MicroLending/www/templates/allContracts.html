@@ -17,9 +17,9 @@
 							</div>
 							
 							<div style = "float:left;margin-left:10px;">
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.counter_party}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{pcontract.counter_party_email}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{pcontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{pcontract._id}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{pcontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
 							</div>
 							
@@ -27,9 +27,9 @@
 					<div class="card-action" style="margin-top:5px;">
 							
 							<div style="float:left; width:60%;">
-								<a ng-click="acceptContract(pcontract)" ng-if = "pcontract.txs.length == 1"  style = "color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
-								<a ng-click="rejectContract(pcontract)" ng-if = "pcontract.txs.length == 1"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
-								<a ng-click="acceptSettlement(pcontract)" ng-if = "pcontract.txs.length == 3"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
+								<a ng-click="acceptContract(pcontract)" ng-if = "pcontract.tx.length == 1 && ( pcontract.counter_party_email == globals.currentUser.email || pcontract.counter_party_address == globals.currentUser.address)"  style = "color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
+								<a ng-click="rejectContract(pcontract)" ng-if = "pcontract.tx.length == 1 && ( pcontract.counter_party_email == globals.currentUser.email || pcontract.counter_party_address == globals.currentUser.address)"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
+								<a ng-click="acceptSettlement(pcontract)" ng-if = "pcontract.tx.length == 3"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
 							</div>
 							<div style="float:right;width:40%;">
 								<a ng-click="moreDetails(pcontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
@@ -54,9 +54,9 @@
 						</div>
 						
 						<div style = "float:left;margin-left:10px;">
-								<h4 style="font-size:13px;color:#595959" >{{acontract.counter_party}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{acontract.counter_party_email}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{acontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{acontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{acontract._id}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
 						</div>
 						
@@ -65,7 +65,7 @@
 							
 							<div style="float:left; width:60%;">
 								
-								<a ng-click="settleContract(acontract)" ng-if = "acontract.txs.length == 2"  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+								<a ng-click="settleContract(acontract)" ng-if = "acontract.tx.length == 2"  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
 							</div>
 							<div style="float:right;width:40%;">
 								<a ng-click="moreDetails(acontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
@@ -94,7 +94,7 @@
 							<div style = "float:left;margin-left:10px;">
 								<h4 style="font-size:13px;color:#595959" >{{ccontract.counter_party}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{ccontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{ccontract.deal_id}}</h4>
+								<h4 style="font-size:13px;color:#595959" >{{ccontract._id}}</h4>
 								<h4 style="font-size:13px;color:#595959" >{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
 							</div>
 					</div>
