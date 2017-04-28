@@ -5,8 +5,9 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 
     $scope.$on('cloud:push:notification', function(event, data) {
+      console.log('success')
       var msg = data.message;
-      console.log(msg.title + ': ' + msg.text);
+      console.log(msg);
       console.log("Inside notification listener");
       var msg1 = data.message;
       $state.go('menu.allContracts');
@@ -143,7 +144,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
               console.log("Login", result);
 
-            
+
               var s_hex = buffer.from(result.pwDerivedKey, 'hex');
               console.log('S_HEX: ',s_hex.toString('hex'));
                sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
