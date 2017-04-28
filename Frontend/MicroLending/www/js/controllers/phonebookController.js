@@ -134,7 +134,8 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
         maxWidth: 200,
         showDelay: 0
       });
-
+		
+	  
       contactEntry = {
         "_id": contact.email,
         "eth_address": contact.ethAccount,
@@ -161,12 +162,35 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
 	$scope.selectContact = function(contact){
 
-		if(contact._id.includes("@")){
+		console.log("contact phonebook: ",contact)
+		
+		if(!contact._id.includes("@")){
+		
+				var contactEntry = {
+					"_id": contact.email,
+					"eth_address": contact.ethAccount,
+					"name": contact.name,
+					"publicKey": contact.publicKey
+				}
+				databaseFactory.putData(contact_db, contactEntry, function (response) {
 
-			contact.email=contact._id;
+						if (response.status == "0") {
+									console.log(response.data);
+						} else {
+         
+									$scope.localcontacts.push(contactEntry);
+									$scope.$apply();
+									$state.go('menu.createdeal',{  contact: contactEntry } )
+    
+						}
+				});
+			
+		}else{
+			
+				$state.go('menu.createdeal',{  contact: contact } )
 		}
-		console.log(contact)
-		$state.go('menu.createdeal',{  contact: contact } )
-	}
+		
+	};
+	
 	
   }])

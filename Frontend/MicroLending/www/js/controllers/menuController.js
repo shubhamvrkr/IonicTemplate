@@ -1,12 +1,14 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory) {
+
+  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory,$rootScope) {
+
 
     console.log("menuCtrl");
     var symmetricKey = null;
     $scope.user = {}
-      //retrieve the use data from the localStorge
+
 
     if (window.cordova) {
 
@@ -20,7 +22,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
           $scope.user.eth_address = user_data.address
           $scope.user.email = user_data.email
           $scope.user.imagesrc = user_data.imagePath;
-
+		  getBalance(user_data.address);
 
         },
         function(error) {
@@ -52,6 +54,8 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
       symmetricKey = localStorage.getItem("symkey");
       console.log('symmetricKey :', symmetricKey);
+	  
+	  getBalance(user_data.address);
 
 
     }
@@ -284,30 +288,34 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       }
 
     };
+	
+	$scope.loadDataforAllContacts = function(){
+	
+		console.log("loadDataforAllContacts")
+		$state.go('menu.allContracts')
+			
+	
+	};
+	$scope.loadDataforPhonebook = function(){
+	
+		console.log("loadDataforPhonebook")
+		$state.go('menu.phonebook',{  flag: false } )
+	
+	};
+	$scope.loadDataforCreateDeal = function(){
+		
+		console.log("loadDataforCreateDeal")
+		$state.go('menu.createdeal',{  contact: null } )
+	
+	};
 
-    $scope.loadDataforAllContacts = function() {
 
-      console.log("loadDataforAllContacts")
-      $state.go('menu.allContracts')
+	function getBalance(address){
+	
+			console.log(address)
+			$rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address),'ether').toString();
+			
+	};
+	
+  }])
 
-
-    }
-    $scope.loadDataforPhonebook = function() {
-
-      console.log("loadDataforPhonebook")
-      $state.go('menu.phonebook', {
-        flag: false
-      })
-
-    }
-    $scope.loadDataforCreateDeal = function() {
-
-      console.log("loadDataforCreateDeal")
-      $state.go('menu.createdeal', {
-        contact: null
-      })
-
-    }
-
-  }
-])

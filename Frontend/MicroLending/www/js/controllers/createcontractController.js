@@ -29,7 +29,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     if ($stateParams.contact != null) {
 
-      $scope.data.counterparty = $stateParams.contact.email;
+      $scope.data.counterparty = $stateParams.contact._id;
+	  
     }
     $scope.selectCounterparty = function() {
 
@@ -51,7 +52,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.from_ethAddress = from_eth_address;
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
-      contract_data.to_email = $stateParams.contact.email;
+      contract_data.to_email = $stateParams.contact._id;
       contract_data.start_date = '213423443';
       contract_data.end_date = '12321333';
       contract_data.asset_id = data.assetid;
