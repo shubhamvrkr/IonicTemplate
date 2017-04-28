@@ -17,18 +17,22 @@ $(document).ready(function ($) {
 
   // Date checks for create contract
   var today = new Date().toISOString().split('T')[0];
-  console.log(typeof today);
-  if(!today){
-    console.log("Do nothing");
-  }else{
-    document.getElementsByName("startdate")[0].setAttribute('min', today);
-  }
-  tomorrow = new Date();
+  var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow = tomorrow.toISOString().split('T')[0];
-  if(!tomorrow){
-    console.log("Do nothing");
-  }else{
-    document.getElementsByName("enddate")[0].setAttribute('min', tomorrow);
+
+  var startDate = document.getElementsByName("startdate")[0];
+  var endDate = document.getElementsByName("enddate")[0];
+
+  if (typeof (startDate) != 'undefined') {
+    console.log("Date check")
+    startDate.setAttribute('min', today);
   }
+
+
+  if (typeof (startDate) != 'undefined') {
+    console.log("Date check")
+    endDate.setAttribute('min', tomorrow);
+  }
+
 });
