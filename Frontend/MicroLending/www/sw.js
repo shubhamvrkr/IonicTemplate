@@ -14,8 +14,8 @@ messaging.setBackgroundMessageHandler(function (payload) {
  
   console.log(payload.data.body)
   // Customize notification here
-  notificationTitle = 'Resource Lending Notification!!';
-  notificationOptions = {
+	notificationTitle = 'Resource Lending Notification!!';
+	notificationOptions = {
     body: payload.data.body
   };
 
@@ -25,18 +25,18 @@ messaging.setBackgroundMessageHandler(function (payload) {
   })
   .then((windowClients) => {
   
-    for (let i = 0; i < windowClients.length; i++) {
-      const windowClient = windowClients[i];
-      windowClient.postMessage(data);
-    }
+		for (let i = 0; i < windowClients.length; i++) {
+		  const windowClient = windowClients[i];
+		  windowClient.postMessage(payload.data.body);
+		}
   })
   .then(() => {
   
-    return self.registration.showNotification(notificationTitle, notificationOptions);
+		return self.registration.showNotification(notificationTitle, notificationOptions);
 	
   });
   
-  return promiseChain;
+  //return self.registration.showNotification(notificationTitle, notificationOptions);
  
 });
 // [END background_handler]
