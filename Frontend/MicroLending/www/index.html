@@ -103,6 +103,7 @@
   <script src="js/services/databaseFactory.js"></script>
   <script src="js/services/createContractFactory.js"></script>
   <script src="js/services/allContractFactory.js"></script>
+   <script src="js/services/getCurrentUserData.js"></script>
 
 
   <!-- Custom script for UI Validations-->
@@ -165,7 +166,7 @@
 	
     const messaging = firebase.messaging();
 	messaging.onMessage(function(payload) {
-    
+
 		console.log("Message received. ", payload);
 
 	});
@@ -189,6 +190,16 @@
 
   }
 	
+
+ messaging.onMessage(function(payload) {
+    console.log("Message received. ", payload);
+    console.log(JSON.stringify(payload, null, 2));
+    // [START_EXCLUDE]
+    // Update the UI to include the received message.
+   // appendMessage(payload);
+    // [END_EXCLUDE]
+  });
+
 
   </script>
 

@@ -1,20 +1,90 @@
 <ion-view title="Contract Details" id="page6">
-	<ion-nav-bar class="bar-positive">
+  <ion-nav-bar class="bar-positive">
 
-		 <ion-nav-buttons side="left">
-				<button ng-click = "backButtonPress()" class="button button-icon button-clear ion-ios-arrow-back"></button>
-		 </ion-nav-buttons>
-  
-    </ion-nav-bar>
+    <ion-nav-buttons side="left">
+      <button ng-click="backButtonPress()" class="button button-icon button-clear ion-ios-arrow-back"></button>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
- 
-	   <div class ="screenadjust">
-	   
-			More details
-			
-			
-			
-	   </div>
+
+    <div class="screenadjust more-details">
+
+      <!--<div class="list card">
+        <div class="row">
+          <h4 class = "col col-50">Deal ID: </h4>
+          <h4 class = "col col-50">Counter Party: </h4>
+          <h4 class = "col col-50">Asset Name: </h4>
+          <h4 class = "col col-50">Created On: </h4>
+          <h4 class = "col col-50">Terminated On: </h4>
+          <h4 class = "col col-50">Status: </h4>
+          <h4 class = "col col-50">Status: </h4>
+        </div>
+
+        <div class="row">
+          <h4>{{dealData.deal_id}}</h4>
+          <h4>{{dealData.counter_party}}</h4>
+          <h4>{{dealData.asset_name}}</h4>
+          <h4>{{dealData.asset_id}}</h4>
+          <h4>{{dealData.creation_date}}</h4>
+          <h4>{{dealData.termination_date}}</h4>
+          <h4>{{dealData.status}}</h4>
+          <h4>{{dealData.description}}</h4>
+        </div>-->
+
+      <div class="item item-divider" data="{{contract.asset_name}}">
+        Deal Information
+      </div>
+      <div class="item item-text-wrap" data="{{contract.asset_name}}">
+        Deal ID: <span>{{dealData.deal_id}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Counter-Party: <span>{{dealData.counter_party}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Asset Name: <span>{{dealData.asset_name}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Asset ID: <span>{{dealData.asset_id}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Contract Start Date: <span>{{dealData.creation_date}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Contract End Date:<span>{{dealData.termination_date}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Current Status: <span>{{dealData.status}}</span>
+      </div>
+      <div class="item item-text-wrap">
+        Description: <span>{{dealData.description}}</span>
+      </div>
+
+      <!-- Two Buttons -->
+      <div class="item-input-inset" ng-hide="false">
+        <button style="margin-left: 10%; width:40%" class="button button-balanced"> Accept</button>
+        <div class="button-divider"></div>
+        <button style="margin-right: 10%;width:40%" class="button button-assertive"> Reject</button>
+      </div>
+
+      <!-- Single Button -->
+      <div class="item-input-inset" ng-hide="true">
+        <button style="margin-left: 30%;" class="button button-balanced">Accept Settlement</button>
+      </div>
+
+      <div class="list card">
+        <div class="item item-divider">
+          Transactions
+        </div>
+        <div class="item item-text-wrap">
+          TX ID 1: <span>{{txData.tx1}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          TX ID 2: <span>{{txData.tx2}}</span>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
   </ion-content>
 </ion-view>
-

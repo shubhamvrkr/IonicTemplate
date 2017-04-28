@@ -1,42 +1,25 @@
-mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory) {
+  function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory,getCurrentUserData) {
 
     //fetch the localStorage data
 
-    console.log($rootScope.globals);
-    if (window.cordova) {
 
-      ss.get(
-        function(value) {
-
-          console.log('Success, got ' + value);
-          var user_data = JSON.parse(value);
-
-          from_eth_address = user_data.address;
-          from_email = user_data.email;
-          ks_local = $rootScope.globals.currentUser.keystore;
-          pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-          current_user_key = user_data.publicKey;
+    getCurrentUserData.getData(function(data) {
 
 
-        },
-        function(error) {
-          console.log('Error fetching local data ' + error);
-        },
-        'user_data');
-    } else {
-
-      console.log(localStorage.getItem("user_data"));
-      var user_data = JSON.parse(localStorage.getItem("user_data"));
-      from_eth_address = user_data.address;
-      from_email = user_data.email;
-      ks_local = $rootScope.globals.currentUser.keystore;
-      pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-      current_user_key = user_data.publicKey;
+      user_data = data.data;
       console.log(user_data);
-    }
+      from_eth_address = user_data.from_eth_address;
+      from_email = user_data.from_email;
+      ks_local = user_data.ks_local;
+      pwDerivedKey =  user_data.pwDerivedKey;
+      current_user_key = user_data.current_user_key;
+
+      console.log(pwDerivedKey);
+
+    });
 
 
     $scope.spinnerFlag = true;
@@ -46,7 +29,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     if ($stateParams.contact != null) {
 
-      $scope.data.counterparty = $stateParams.contact.email;
+      $scope.data.counterparty = $stateParams.contact._id;
+	  
     }
     $scope.selectCounterparty = function() {
 
@@ -68,7 +52,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.from_ethAddress = from_eth_address;
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
-      contract_data.to_email = $stateParams.contact.email;
+      contract_data.to_email = $stateParams.contact._id;
       contract_data.start_date = '213423443';
       contract_data.end_date = '12321333';
       contract_data.asset_id = data.assetid;
@@ -124,7 +108,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
                   console.log(response);
                   clearInterval(id1);
-                  // $ionicLoading.hide();
+                  $ionicLoading.hide();
                   ionicToast.show('Mined Successfully', 'bottom', false, 2500);
                 });
 
@@ -157,4 +141,5 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     };
 
-  }]);
+  }
+]);
