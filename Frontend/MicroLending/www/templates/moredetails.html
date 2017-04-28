@@ -10,8 +10,8 @@
 
     <div class="screenadjust more-details">
 
-      <!--<div class="list card">
-        <div class="row">
+      <div class="list card">
+        <!--<div class="row">
           <h4 class = "col col-50">Deal ID: </h4>
           <h4 class = "col col-50">Counter Party: </h4>
           <h4 class = "col col-50">Asset Name: </h4>
@@ -32,34 +32,35 @@
           <h4>{{dealData.description}}</h4>
         </div>-->
 
-      <div class="item item-divider" data="{{contract.asset_name}}">
-        Deal Information
-      </div>
-      <div class="item item-text-wrap" data="{{contract.asset_name}}">
-        Deal ID: <span>{{dealData.deal_id}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Counter-Party: <span>{{dealData.counter_party}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Asset Name: <span>{{dealData.asset_name}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Asset ID: <span>{{dealData.asset_id}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Contract Start Date: <span>{{dealData.creation_date}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Contract End Date:<span>{{dealData.termination_date}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Current Status: <span>{{dealData.status}}</span>
-      </div>
-      <div class="item item-text-wrap">
-        Description: <span>{{dealData.description}}</span>
-      </div>
+        <div class="item item-divider" data="{{contract.asset_name}}">
+          Deal Information
+        </div>
+        <div class="item item-text-wrap" data="{{contract.asset_name}}">
+          Deal ID: <span>{{dealData._id}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Counter-Party: <span>{{dealData.counter_party_email}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Asset Name: <span>{{dealData.asset_name}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Asset ID: <span>{{dealData.asset_id}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Contract Start Date: <span>{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Contract End Date:<span>{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Current Status: <span>{{dealData.status}}</span>
+        </div>
+        <div class="item item-text-wrap">
+          Description: <span>{{dealData.description}}</span>
+        </div>
 
+      </div>
       <!-- Two Buttons -->
       <div class="item-input-inset" ng-hide="false">
         <button style="margin-left: 10%; width:40%" class="button button-balanced"> Accept</button>
@@ -83,7 +84,6 @@
           TX ID 2: <span>{{txData.tx2}}</span>
         </div>
       </div>
-    </div>
     </div>
     </div>
   </ion-content>

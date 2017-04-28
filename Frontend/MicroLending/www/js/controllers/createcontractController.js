@@ -46,8 +46,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
       console.log(data);
 
-
-
       var deal_id = Math.round((Math.random() * 10000) * 10000);
       contract_data = {};
       contract_data.deal_id = deal_id;
@@ -55,8 +53,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
       contract_data.to_email = $stateParams.contact._id;
-      contract_data.start_date = '213423443';
-      contract_data.end_date = '12321333';
+      contract_data.start_date = Math.round(data.startdate/1000);
+      contract_data.end_date = Math.round(data.enddate/1000);
       contract_data.asset_id = data.assetid;
       contract_data.asset_name = data.assetname;
       contract_data.description = data.description;
@@ -95,7 +93,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.asset_name = contract_data.asset_name;
               doc.counter_party_address = contract_data.to_ethAddress;
               doc.counter_party_email = contract_data.to_email;
-              doc.creation_date = contract_data.start_date;
+              doc.creation_date =  new Date().getTime().toString();
+              doc.start_date = contract_data.start_date;
               doc.end_date = contract_data.end_date;
               doc.from_address = contract_data.from_ethAddress;
               doc.from_email = contract_data.from_email;
