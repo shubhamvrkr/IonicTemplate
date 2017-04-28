@@ -1,8 +1,5 @@
 mycontrollerModule = angular.module('app.controllers', ['ionic', 'ionic-toast', 'ngCordova', 'ngLetterAvatar', 'ionic.cloud']);
-
 var myApp = angular.module('app', ['ionic', 'ngLetterAvatar', 'ionic-toast', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'ionic.cloud']);
-
-
 
 myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudProvider) {
 
@@ -27,24 +24,68 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
     }
   });
 
+}).run(function ($ionicPlatform, $ionicPush) {
+	
+	if(!window.cordova){
+	
+		 console.log("browser firebase")
+		 
+		 var config = {
+		  apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
+		  authDomain: "lending-16a7a.firebaseapp.com",
+		  databaseURL: "https://lending-16a7a.firebaseio.com",
+		  projectId: "lending-16a7a",
+		  storageBucket: "lending-16a7a.appspot.com",
+		  messagingSenderId: "1078648460837"
+		};
+		
+		firebase.initializeApp(config);
+		messaging = firebase.messaging();
+		messaging.onMessage(function(payload) {
 
+			console.log("Message received. ", payload);
+			
+		});
+		if ('serviceWorker' in navigator){
+		 
+			console.log("SW present !!! ");
 
+			navigator.serviceWorker.register('sw.js', {
+			  //scope: '/toto/'
+			}).then(function(registration){
+				 
+				registration.update();
+				console.log("registered")
+				messaging.useServiceWorker(registration);
+				console.log('Service worker registered : ', registration.scope);
+				
+			})
+			.catch(function(err){
+			  console.log("Service worker registration failed : ", err);
+			});
 
-})
-
-  .run(function ($ionicPlatform, $ionicPush) {
-
-
+		}
+	
+		navigator.serviceWorker.addEventListener('message', function(event) {
+		
+		console.log('Received a message from service worker: ', event.data);
+		
+	  });
+	}
+	
+	
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
 
 
       if (window.cordova) {
-        ss = new cordova.plugins.SecureStorage(
+	  
+          ss = new cordova.plugins.SecureStorage(
           function () { console.log('Success') ;},
           function (error) { console.log('Error ' + error); },
           'my_app');
+		  
       }
 
 
@@ -64,9 +105,8 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
         deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
         console.log(deal_db);
 
-      }
-
-      else {
+      }else {
+	  
         contact_db = new PouchDB('contacts');
         console.log(contact_db.adapter);
 
@@ -74,13 +114,13 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
         console.log(deal_db.adapter);
         deal_db.createIndex({index: { fields: ['status'] }
 
-      }).then(function (result) {
-          console.log(result);
-      }).catch(function (err) {
+		}).then(function (result) {
+            console.log(result);
+		}).catch(function (err) {
 
-        console.log(err);
+			console.log(err);
 
-    });
+		});
 
 
         // Clear DB
@@ -94,13 +134,9 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
       }
 
     });
-  })
-
-  /*
-    This directive is used to disable the "drag to open" functionality of the Side-Menu
-    when you are dragging a Slider component.
-  */
-  .directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
+	
+	
+  }).directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
     return {
       restrict: "A",
       controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
@@ -121,12 +157,8 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 
       }]
     };
-  }])
-
-  /*
-    This directive is used to open regular and dynamic href links inside of inappbrowser.
-  */
-  .directive('hrefInappbrowser', function () {
+	
+  }]).directive('hrefInappbrowser', function () {
     return {
       restrict: 'A',
       replace: false,
@@ -148,4 +180,5 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
         });
       }
     };
-  });
+ 
+});

@@ -73,6 +73,7 @@
       padding-left: 40px;
     }
   </style>
+  
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="js/lib/bundle.js"></script>
   <script src="js/lib/jszip.min.js"></script>
@@ -104,7 +105,7 @@
   <script src="js/services/createContractFactory.js"></script>
   <script src="js/services/allContractFactory.js"></script>
    <script src="js/services/getCurrentUserData.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 
   <!-- Custom script for UI Validations-->
   <script src="js/script.js"></script>
@@ -150,9 +151,9 @@
     <span>Please wait...</span>
   </script>
 
-  <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+  
 
-  <script>
+ <!--  <script>
     // Initialize Firebase
     var config = {
       apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
@@ -168,7 +169,7 @@
 	messaging.onMessage(function(payload) {
 
 		console.log("Message received. ", payload);
-
+		
 	});
 	if ('serviceWorker' in navigator){
 	 
@@ -190,7 +191,6 @@
 
   }
 	
-
  messaging.onMessage(function(payload) {
     console.log("Message received. ", payload);
     console.log(JSON.stringify(payload, null, 2));
@@ -202,7 +202,7 @@
 
 
   </script>
-
+ -->
 </body>
 
 </html>

@@ -323,13 +323,6 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                         console.log("android login result: ", result);
 
 
-                        currentUser = {};
-
-                        currentUser.address = JSON.parse(dec_result).address;
-                        currentUser.pwDerivedKey = result.pwDerivedKey;
-                        currentUser.keystore = result.ks;
-                        currentUser.email = JSON.parse(dec_result).email;
-                         currentUser.publicKey =JSON.parse(dec_result).publickey;
 
                        var s_hex = buffer.from(result.pwDerivedKey, 'hex');
               console.log('S_HEX: ',s_hex.toString('hex'));
@@ -477,13 +470,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 						console.log("browser login result: ", login_result);
 
 
-						currentUser = {};
-
-						currentUser.address = data.data.address;
-						currentUser.pwDerivedKey = login_result.pwDerivedKey;
-						currentUser.keystore = login_result.ks;
-						currentUser.email = data.data.email;
-						currentUser.publicKey =data.data.publickey;
+			
 
 						var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
 						console.log('S_HEX: ',s_hex.toString('hex'));
