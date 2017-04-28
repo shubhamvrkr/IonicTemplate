@@ -28,6 +28,11 @@ function ($scope, $stateParams,$state,allContractFactory,$rootScope) {
 
 		console.log("acceptSettlement: ",contract);
 
+    //1. prepare the data for sigining with nonce.
+    //payload should include s,r,v,nonce
+
+
+
 	}
 	$scope.rejectContract = function(contract){
 

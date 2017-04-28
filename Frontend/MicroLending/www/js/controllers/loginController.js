@@ -6,8 +6,10 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
     $scope.$on('cloud:push:notification', function(event, data) {
       console.log('success')
+
       var msg = data.message;
-      console.log(msg);
+
+      notificationData = JSON.parse(msg.text);
       console.log("Inside notification listener");
       var msg1 = data.message;
       $state.go('menu.allContracts');
