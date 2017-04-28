@@ -12,11 +12,22 @@
 }
 
 .form-validation{
-
   color:chartreuse;
   font-weight:bold;
-
 }
+
+.more-details > .list > .item {
+  font-weight: bold;
+}
+.button-divider{
+    width:2em;
+    height:auto;
+    display:inline-block;
+}
+.more-details > .list > .item > span{
+  font-weight: 100;
+}
+
 
 .item > small{
   color: red;
@@ -45,6 +56,7 @@
 
 .button-radius{
   border-radius: 7px 7px 7px 7px;
+
 }
 
 a{
