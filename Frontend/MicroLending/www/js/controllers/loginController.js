@@ -472,8 +472,6 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 
 
-
-
               if (err) {
 
                 console.error(err);

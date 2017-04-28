@@ -72,7 +72,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 
         deal_db = new PouchDB('deals');
         console.log(deal_db.adapter);
-        db.createIndex({index: { fields: ['status'] }
+        deal_db.createIndex({index: { fields: ['status'] }
       }).then(function (result) {
           console.log(result)
       }).catch(function (err) {

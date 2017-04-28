@@ -163,6 +163,16 @@
     firebase.initializeApp(config);
     const messaging = firebase.messaging();
 
+ messaging.onMessage(function(payload) {
+    console.log("Message received. ", payload);
+    console.log(JSON.stringify(payload, null, 2));
+    // [START_EXCLUDE]
+    // Update the UI to include the received message.
+   // appendMessage(payload);
+    // [END_EXCLUDE]
+  });
+
+
   </script>
 
 </body>
