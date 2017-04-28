@@ -178,7 +178,9 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                          currentUser.publicKey = result.publickey[0];
 
 
-                       sessionStorage.setItem('pwDerivedKey', JSON.stringify( currentUser.pwDerivedKey));
+                       var s_hex = buffer.from(result.pwDerivedKey, 'hex');
+              console.log('S_HEX: ',s_hex.toString('hex'));
+               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
 
                        // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
