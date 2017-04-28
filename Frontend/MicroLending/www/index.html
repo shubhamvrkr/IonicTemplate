@@ -102,6 +102,7 @@
   <script src="js/services/firebaseFactory.js"></script>
   <script src="js/services/databaseFactory.js"></script>
   <script src="js/services/createContractFactory.js"></script>
+  <script src="js/services/allContractFactory.js"></script>
 
 
   <!-- Custom script for UI Validations-->
@@ -162,6 +163,11 @@
     };
     firebase.initializeApp(config);
     const messaging = firebase.messaging();
+	messaging.onMessage(function(payload) {
+    
+		console.log("Message received. ", payload);
+
+	});
 
  messaging.onMessage(function(payload) {
     console.log("Message received. ", payload);

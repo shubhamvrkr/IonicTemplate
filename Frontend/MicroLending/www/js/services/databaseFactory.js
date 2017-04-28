@@ -37,7 +37,7 @@ angular.module('app.services')
     service.getDoc = function (db, indexData, callback) {
 
       db.find({
-        selector: indexData,
+        selector: indexData
         //sort: ['name']
       }).then(function (result) {
         console.log(result);
@@ -63,20 +63,17 @@ angular.module('app.services')
     };
 
 
-
-// to update pass {_id:doc._id,_rev:doc._rev,tx['','']}
-//for tx_array get all the previous tx_id from array then update
 service.updateDoc = function (db, doc, callback) {
 
      db.put(doc).then(function (result) {
 
-        console.log(result);
-        callback({ status: "1", data: result });
-      }).catch(function (err) {
-        console.log(err);
-        callback({ status: "0", data: err });
+			console.log(result);
+			callback({ status: "1", data: result });
+		  }).catch(function (err) {
+			console.log(err);
+			callback({ status: "0", data: err });
 
-      });
+		  });
     };
 
 

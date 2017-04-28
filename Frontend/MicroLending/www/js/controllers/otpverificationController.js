@@ -1,5 +1,5 @@
-mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'registerFactory', '$http', 'firebaseFactory', 'ionicToast',
-  function($scope, $stateParams, $state, $ionicLoading, $timeout, registerFactory, $http, firebaseFactory, ionicToast) {
+mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'registerFactory', '$http', 'firebaseFactory', 'ionicToast','$rootScope',
+  function($scope, $stateParams, $state, $ionicLoading, $timeout, registerFactory, $http, firebaseFactory, ionicToast,$rootScope) {
 
 
     var userData = $stateParams.params.user_data;
@@ -106,6 +106,8 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
             console.log("save the kvs", result);
 
             console.log("Verified: ", result.pwDerivedKey);
+			
+			
 
             local_data = {};
             local_data.fname = $stateParams.params.user_data.fname;
@@ -153,7 +155,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                   new_data.firebaseToken = result_token.token;
                   new_data.publicKey = result.publickey[0];
 
-
+				console.log(apiUrl + "/api/users/" + response._id + "/account")
                   //send to DB
                   $http.post(apiUrl + "/api/users/" + response._id + "/account", new_data)
                     .success(function(post_response) {
@@ -164,11 +166,24 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                         console.log("App creation", response);
                         $ionicLoading.hide();
+						
+						   $rootScope.globals = {
+                            currentUser: {
+                                address: result.address,
+                                pwDerivedKey: result.pwDerivedKey,
+                                keystore: result.ks,
+                                email:$stateParams.params.user_data.email
+                                //mongoId:'',
+                                // emailId:
+                            }
+                        };
+						
+						
                         $state.go('menu.allContracts');
 
                       });
 
-                    }).cacth(function(error){
+                    }).catch(function(error){
 
                          $ionicLoading.hide();
                           console.log(error);

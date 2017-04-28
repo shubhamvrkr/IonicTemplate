@@ -4,7 +4,8 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
   function ($scope, $stateParams, $state, $ionicLoading, $timeout,$ionicHistory) {
 	
 	console.log("more details")
-  
+	console.log($stateParams)
+	var obj = $stateParams.contract;
 
 	$scope.backButtonPress = function(){
 	
