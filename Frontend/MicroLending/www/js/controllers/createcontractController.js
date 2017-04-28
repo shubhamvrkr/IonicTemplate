@@ -1,7 +1,7 @@
 mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory,getCurrentUserData) {
+  function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
 
     //fetch the localStorage data
 
@@ -14,7 +14,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       from_eth_address = user_data.from_eth_address;
       from_email = user_data.from_email;
       ks_local = user_data.ks_local;
-      pwDerivedKey =  user_data.pwDerivedKey;
+      pwDerivedKey = user_data.pwDerivedKey;
       current_user_key = user_data.current_user_key;
 
       console.log(pwDerivedKey);
@@ -30,7 +30,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
     if ($stateParams.contact != null) {
 
       $scope.data.counterparty = $stateParams.contact._id;
-	  
+
     }
     $scope.selectCounterparty = function() {
 
@@ -53,8 +53,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
       contract_data.to_email = $stateParams.contact._id;
-      contract_data.start_date = '213423443';
-      contract_data.end_date = '12321333';
+      contract_data.start_date = Math.round(data.startdate/1000);
+      contract_data.end_date = Math.round(data.enddate/1000);
       contract_data.asset_id = data.assetid;
       contract_data.asset_name = data.assetname;
       contract_data.description = data.description;
@@ -93,8 +93,16 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.asset_name = contract_data.asset_name;
               doc.counter_party_address = contract_data.to_ethAddress;
               doc.counter_party_email = contract_data.to_email;
-              doc.creation_date = contract_data.start_date;
+              doc.creation_date =  new Date().getTime().toString();
+              doc.start_date = contract_data.start_date;
               doc.end_date = contract_data.end_date;
+              doc.from_address = contract_data.from_ethAddress;
+              doc.from_email = contract_data.from_email;
+              doc.description = contract_data.description;
+              doc.asset_id = contract_data.asset_id;
+
+
+
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -136,6 +144,9 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         } else {
 
           console.log(res.data);
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
+
 
         }
 

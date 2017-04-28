@@ -22,7 +22,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
           $scope.user.eth_address = user_data.address
           $scope.user.email = user_data.email
           $scope.user.imagesrc = user_data.imagePath;
-		  getBalance(user_data.address);
+		     getBalance(user_data.address);
 
         },
         function(error) {
@@ -54,7 +54,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
       symmetricKey = localStorage.getItem("symkey");
       console.log('symmetricKey :', symmetricKey);
-	  
+
 	  getBalance(user_data.address);
 
 
@@ -288,35 +288,35 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       }
 
     };
-	
+
 	$scope.loadDataforAllContacts = function(){
-	
+
 		console.log("loadDataforAllContacts")
 		$state.go('menu.allContracts')
-			
-	
+
+
 	};
 	$scope.loadDataforPhonebook = function(){
-	
+
 		console.log("loadDataforPhonebook")
 		$state.go('menu.phonebook',{  flag: false } )
-	
+
 	};
 	$scope.loadDataforCreateDeal = function(){
-		
+
 		console.log("loadDataforCreateDeal")
 		$state.go('menu.createdeal',{  contact: null } )
-	
+
 	};
 
 
 	function getBalance(address){
-	
+
 			console.log(address)
 			$rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address),'ether').toString();
 			console.log(ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address),'ether').toString())
-			
+
 	};
-	
+
   }])
 
