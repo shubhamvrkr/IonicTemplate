@@ -37,7 +37,7 @@ angular.module('app.services')
     service.getDoc = function (db, indexData, callback) {
 
       db.find({
-        selector: indexData,
+        selector: indexData
         //sort: ['name']
       }).then(function (result) {
         console.log(result);
@@ -65,15 +65,15 @@ angular.module('app.services')
 
 service.updateDoc = function (db, doc, callback) {
 
-    db.remove(doc._id, doc._rev).then(function (result) {
+     db.put(doc).then(function (result) {
 
-        console.log(result);
-        callback({ status: "1", data: result });
-      }).catch(function (err) {
-        console.log(err);
-        callback({ status: "0", data: err });
+			console.log(result);
+			callback({ status: "1", data: result });
+		  }).catch(function (err) {
+			console.log(err);
+			callback({ status: "0", data: err });
 
-      });
+		  });
     };
 
 

@@ -18,7 +18,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
           from_email = user_data.email;
           ks_local = $rootScope.globals.currentUser.keystore;
           pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-          current_user_key = user_data.publickey;
+          current_user_key = user_data.publicKey;
 
 
         },
@@ -34,7 +34,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       from_email = user_data.email;
       ks_local = $rootScope.globals.currentUser.keystore;
       pwDerivedKey = $rootScope.globals.currentUser.pwDerivedKey;
-      current_user_key = user_data.publickey;
+      current_user_key = user_data.publicKey;
       console.log(user_data);
     }
 
@@ -112,7 +112,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.creation_date = contract_data.start_date;
               doc.end_date = contract_data.end_date;
               doc.symmteric_key = res.key;
-              doc.status = "true";
+              doc.status = "pending";
+              doc.notification_flag = "false";
               doc.tx = [txHash];
 
               databaseFactory.putData(deal_db, doc, function(res) {
