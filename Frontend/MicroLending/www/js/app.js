@@ -24,11 +24,12 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
     }
   });
 
-}).run(function ($ionicPlatform, $ionicPush) {
+});
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory) {
 	
-	if(!window.cordova){
 	
-		 console.log("browser firebase")
+	
+		console.log("browser firebase")
 		 
 		 var config = {
 		  apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
@@ -44,6 +45,8 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 		messaging.onMessage(function(payload) {
 
 			console.log("Message received. ", payload);
+			storeDatainDatabase(payload)
+			
 			
 		});
 		if ('serviceWorker' in navigator){
@@ -65,15 +68,20 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 			});
 
 		}
-	
+		
 		navigator.serviceWorker.addEventListener('message', function(event) {
 		
-		console.log('Received a message from service worker: ', event.data);
+			console.log('Message from Service Worker: ', event.data);
+			storeDatainDatabase(event.data)
+			
+		});
 		
-	  });
-	}
-	
-	
+		function storeDatainDatabase(data){
+		
+			console.log('Message from Service Worker: ', event.data);
+		
+		}
+
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -81,13 +89,35 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
 
       if (window.cordova) {
 	  
-          ss = new cordova.plugins.SecureStorage(
-          function () { console.log('Success') ;},
-          function (error) { console.log('Error ' + error); },
-          'my_app');
+			  ss = new cordova.plugins.SecureStorage(
+			  function () { console.log('Success') ;},
+			  function (error) { console.log('Error ' + error); },
+			  'my_app');
 		  
-      }
+			contact_db = new PouchDB('contacts.db', { adapter: 'cordova-sqlite', location: 'default' });
+			console.log(contact_db);
 
+			deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
+			console.log(deal_db);
+		  
+      }else {
+	  
+			contact_db = new PouchDB('contacts');
+			console.log(contact_db.adapter);
+
+			deal_db = new PouchDB('deals');
+			console.log(deal_db.adapter);
+			deal_db.createIndex({index: { fields: ['status'] }
+
+			}).then(function (result) {
+				console.log(result);
+			}).catch(function (err) {
+
+				console.log(err);
+
+			});
+
+      }
 
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -98,45 +128,14 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
         StatusBar.styleDefault();
       }
 
-      if (window.cordova) {
-        contact_db = new PouchDB('contacts.db', { adapter: 'cordova-sqlite', location: 'default' });
-        console.log(contact_db);
-
-        deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
-        console.log(deal_db);
-
-      }else {
-	  
-        contact_db = new PouchDB('contacts');
-        console.log(contact_db.adapter);
-
-        deal_db = new PouchDB('deals');
-        console.log(deal_db.adapter);
-        deal_db.createIndex({index: { fields: ['status'] }
-
-		}).then(function (result) {
-            console.log(result);
-		}).catch(function (err) {
-
-			console.log(err);
-
-		});
-
-
-        // Clear DB
-        // contact_db.destroy().then(function  (response)  {
-        //     // success
-        //   console.log(response)
-        // }).catch(function  (err)  {
-        //     console.log(err);
-        // });
-
-      }
+      
 
     });
 	
 	
-  }).directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
+});
+  
+myApp.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
     return {
       restrict: "A",
       controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
@@ -158,7 +157,9 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
       }]
     };
 	
-  }]).directive('hrefInappbrowser', function () {
+  }]);
+  
+myApp.directive('hrefInappbrowser', function () {
     return {
       restrict: 'A',
       replace: false,
