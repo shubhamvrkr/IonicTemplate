@@ -14,6 +14,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
       ss.get(
         function(value) {
+		
           console.log('Success, got ' + value);
           var user_data = JSON.parse(value);
 
@@ -45,7 +46,8 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     } else {
 
-      console.log(localStorage.getItem("user_data"));
+      console.log("sucees, got: ",JSON.parse(localStorage.getItem("user_data")));
+	  
       var user_data = JSON.parse(localStorage.getItem("user_data"));
       $scope.user.name = user_data.fname + " " + user_data.lname
       $scope.user.eth_address = user_data.address
@@ -314,7 +316,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
 			console.log(address)
 			$rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address),'ether').toString();
-		
+			console.log(ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address),'ether').toString())
 		
 
 	};

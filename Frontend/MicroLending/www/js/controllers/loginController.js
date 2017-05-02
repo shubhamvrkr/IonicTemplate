@@ -3,19 +3,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
 
-
-    $scope.$on('cloud:push:notification', function(event, data) {
-      var msg = data.message;
-      console.log(msg.title + ': ' + msg.text);
-      console.log("Inside notification listener");
-      var msg1 = data.message;
-      $state.go('menu.allContracts');
-      if (msg1.app.asleep || msg1.app.closed) {
-        // the app was asleep or was closed, so do the redirect
-        $state.go('menu.allContracts');
-      }
-    });
-
+  
     function bufferToBase64(buf) {
 
       var binstr = Array.prototype.map.call(buf, function(ch) {
