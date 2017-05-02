@@ -27,7 +27,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
   
 });
 
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state) {
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$rootScope) {
 
 
 
@@ -408,11 +408,11 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 												doc1.status = "completed";
 											}
 											doc1.notification_flag = "true";
-											doc1.tx = doc.tx.push(NotiData.transactionHash);
-											doc1._id = doc._id;
-											doc1._rev = doc._rev;
+											doc1.tx = response.data.tx.push(NotiData.transactionHash);
+											doc1._id = response.data._id;
+											doc1._rev = response.data._rev;
 											
-											console.log("Doc: ",doc)
+											console.log("Doc: ",response.data)
 											
 											databaseFactory.putData(deal_db, doc1, function(res) {
 											
