@@ -21,8 +21,8 @@ angular.module('app.services')
       //encrypt symmetric key using couteparties public key
       EthWallet.encryption_sign.asymEncrypt(symKey, ks, pwDerivedKey, current_user_key, counterparty_Key, function(err_enc, sym_encrpyt) {
 
-        console.log(current_user_key)
-        console.log(counterparty_Key)
+        console.log(current_user_key);
+        console.log(counterparty_Key);
         if (err_enc) {
 
           console.log("Symmetric key Encryption Error", err_enc);
@@ -36,20 +36,8 @@ angular.module('app.services')
 
           console.log("Symmetric key after encryption: ", sym_encrpyt); //  returns cipertext
 
-          EthWallet.encryption_sign.asymDecrypt(sym_encrpyt, ks, pwDerivedKey, counterparty_Key, current_user_key, function(err_dec, dec) {
+          //EthWallet.encryption_sign.asymDecrypt(sym_encrpyt, ks, pwDerivedKey, counterparty_Key, current_user_key, function(err_dec, dec) {
 
-            if (err_dec) {
-
-              console.log(err_dec);
-              callback({
-                status: "0",
-                data: err_dec
-              });
-
-
-            }
-            console.log(dec); //  returns plaintext
-            console.log("asym plaintext", dec); //  returns cipertext
 
             console.log('actual data', JSON.stringify(contract_data));
             // encrypt
@@ -105,8 +93,8 @@ angular.module('app.services')
                     payload.sig_v = signature.v.toString();
                     payload.contract_data = result;
                     payload.nonce = data_for_sign.nonce;
-                    // payload.from = contract_data.to_ethAddress;
-                    console.log('to',contract_data.to_ethAddress);
+                    payload.from = contract_data.from_ethAddress;
+                    console.log('to', contract_data.to_ethAddress);
                     payload.to = contract_data.to_ethAddress;
                     payload.key_symmteric = sym_encrpyt;
 
@@ -129,42 +117,11 @@ angular.module('app.services')
                         callback({
                           status: "1",
                           data: tx_hash,
-                          key:sym_encrpyt
+                          key: sym_encrpyt
                         });
                       }
 
-                      //start the loader and after successfull insert into dataasbe
 
-                      // get the TxID and populate the deal_database.db
-                      //fields: deal_id,asset_name,counter_party_address,counter_party_email,creation_date,symmteric_key,status,nots_flag,tx[],expiry_date
-
-                      // call database factory to put doc
-                      /*console.log(contract_data);
-                      var doc = {};
-                      doc._id = contract_data.deal_id.toString();
-                      doc.asset_name = contract_data.asset_name;
-                      doc.counter_party_address = contract_data.to_ethAddress;
-                      doc.counter_party_email = contract_data.to_email;
-                      doc.creation_date = contract_data.start_date;
-                      doc.end_date = contract_data.end_date;
-                      doc.symmteric_key = contract_data.end_date;
-                      doc.status = contract_data.end_date;
-                      doc.tx = [tx_hash];
-
-                      databaseFactory.putData(deal_db, doc, function(res) {
-
-                        console.log(res);
-
-
-                        // test data in db
-                        databaseFactory.getAllData(deal_db, function(response) {
-
-                          console.log(response);
-
-
-                        });
-
-                      });*/
 
                     });
 
@@ -175,7 +132,7 @@ angular.module('app.services')
                 });
               }
             });
-          });
+         // });
         }
       });
 
