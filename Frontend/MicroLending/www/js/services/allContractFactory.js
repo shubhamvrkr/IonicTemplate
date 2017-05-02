@@ -29,7 +29,7 @@ angular.module('app.services')
     };
 
     //make it send response. take function name as param.
-    service.acceptContract = function (contract, callback) {
+    service.acceptContract = function (contract, addr,ks,pwDerivedKey,callback) {
 
       contract_data = {};
       contract_data.deal_id = contract._id;

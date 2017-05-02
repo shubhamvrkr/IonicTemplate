@@ -3,6 +3,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	// TIP: Access Route Parameters for your page via $stateParams.parameterName
 	function ($scope, $stateParams, $state, allContractFactory, $rootScope) {
 
+
+
+
 		$scope.pendingcontracts = [];
 		$scope.activecontracts = [];
 		$scope.completedcontracts = [];
@@ -30,7 +33,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 			//1. prepare the data for sigining with nonce. from and to are the sender
 			//payload should include s,r,v,nonce.
-			allContractFactory.acceptContract(contract, function (response) {
+			allContractFactory.acceptContract(contract, $scope.from_eth_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
 				if (response.status == "1") {
 
