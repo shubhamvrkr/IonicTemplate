@@ -59,29 +59,28 @@
         <div class="item item-text-wrap">
           Description: <span>{{dealData.description}}</span>
         </div>
-
       </div>
-      <!-- Two Buttons -->
-      <div class="item-input-inset" ng-hide="false">
-        <button style="margin-left: 10%; width:40%" class="button button-balanced"> Accept</button>
+
+      <div class="item-input-inset" ng-if="dealData.tx.length == 1">
+        <button style="margin-left: 10%; width:40%" class="button button-balanced">Accept Deal</button>
         <div class="button-divider"></div>
-        <button style="margin-right: 10%;width:40%" class="button button-assertive"> Reject</button>
+        <button style="margin-right: 10%;width:40%" class="button button-assertive">Reject Deal</button>
       </div>
 
-      <!-- Single Button -->
-      <div class="item-input-inset" ng-hide="true">
+      <div class="item-input-inset" ng-if="dealData.tx.length == 2">
+        <button style="margin-left: 30%;" class="button button-balanced">Create Settlement</button>
+      </div>
+
+      <div class="item-input-inset" ng-if="dealData.tx.length == 3">
         <button style="margin-left: 30%;" class="button button-balanced">Accept Settlement</button>
       </div>
 
       <div class="list card">
-        <div class="item item-divider">
+        <div class="item item-divider" >
           Transactions
         </div>
-        <div class="item item-text-wrap">
-          TX ID 1: <span>{{txData.tx1}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          TX ID 2: <span>{{txData.tx2}}</span>
+        <div class="item item-text-wrap" ng-repeat="tx in dealData.tx">
+          Transaction ID {{$index+1}} - <span>{{tx}}</span>
         </div>
       </div>
     </div>

@@ -36,6 +36,14 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
   $rootScope.$on('cloud:push:notification', function(event, data) {
       
 	  console.log("Data recieved ",data);
+	  var response = data.message.text;
+	  var data = {
+	  
+			body:response
+	  }
+	  console.log(data);
+	  storeDatainDatabase(data);
+	  
 	  
    });
    
