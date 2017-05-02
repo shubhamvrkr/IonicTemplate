@@ -62,10 +62,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 							var tx_array = []
 							tx_array = contract.tx;
 							tx_array.push(txHash)
-							var doc = {};
-							doc._id = contract._id;
-							doc._rev = contract._rev;
-
+							var doc = contract;
+							
 							doc.status = "active";
 							doc.notification_flag = "false";
 							doc.tx = tx_array;
@@ -79,7 +77,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 									console.log(response);
 									clearInterval(id1);
 									//$ionicLoading.hide();
-									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
+									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_address), 'ether').toString();
 									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
 								});
