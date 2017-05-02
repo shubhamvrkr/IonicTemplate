@@ -27,8 +27,9 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
   
 });
 
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state) {
 
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,$rootScope) {
+
 
 	//firebaseFactory.recieveNotification();
 
@@ -95,6 +96,19 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,$rootScope) {
 	   }
 	   
 	   	console.log("Notification Handler Messages");
+		getCurrentUserData.getData(function(response){
+				
+			userKeyStore = response.data;
+			
+			console.log(userKeyStore)
+			if(userKeyStore!=null){
+			
+				$timeout(function(){
+					$state.go("menu.allContracts")
+				})
+			}
+		
+		})
 		
 		var config = {
 			  apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",

@@ -1,10 +1,17 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope','getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 	// You can include any angular dependencies as parameters for this function
 	// TIP: Access Route Parameters for your page via $stateParams.parameterName
-	function ($scope, $stateParams, $state, allContractFactory, $rootScope) {
 
+	function ($scope, $stateParams, $state, allContractFactory, $rootScope,getCurrentUserData) {
 
-
+		getCurrentUserData.getData(function(response){
+				
+			$scope.user_email = response.data.from_email;
+			$scope.user_address = response.data.from_eth_address;
+			$scope.ks_local = response.data.ks_local;
+			$scope.pwDerivedKey = response.data.pwDerivedKey;
+		})
+		
 
 		$scope.pendingcontracts = [];
 		$scope.activecontracts = [];
@@ -33,7 +40,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 			//1. prepare the data for sigining with nonce. from and to are the sender
 			//payload should include s,r,v,nonce.
-			allContractFactory.acceptContract(contract, $scope.from_eth_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+			allContractFactory.acceptContract(contract, $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
 				if (response.status == "1") {
 
