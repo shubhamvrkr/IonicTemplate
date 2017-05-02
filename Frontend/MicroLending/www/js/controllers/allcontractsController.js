@@ -104,7 +104,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
 
-
 			});
 
 

@@ -1,6 +1,25 @@
 mycontrollerModule = angular.module('app.controllers', ['ionic', 'ionic-toast', 'ngCordova', 'ngLetterAvatar', 'ionic.cloud']);
 var myApp = angular.module('app', ['ionic', 'ngLetterAvatar', 'ionic-toast', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'ionic.cloud']);
 
+myApp.controller('app',['$scope',function($scope){
+
+$scope.$on('cloud:push:notification', function(event, data) {
+      console.log("Inside notification listener");
+      var msg = data.message;
+
+      notificationData = JSON.parse(msg.text);
+      console.log("notificationData ",notificationData)
+   
+      var msg1 = data.message;
+      $state.go('menu.allContracts');
+      if (msg1.app.asleep || msg1.app.closed) {
+        // the app was asleep or was closed, so do the redirect
+        $state.go('menu.allContracts');
+      }
+    });
+
+
+}]);
 myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudProvider) {
 
   $ionicConfigProvider.tabs.position('top');
@@ -25,9 +44,9 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
   });
 
 });
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory) {
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory) {
 
-firebaseFactory.recieveNotification();
+
 		console.log("browser firebase")
 
 		 var config = {
