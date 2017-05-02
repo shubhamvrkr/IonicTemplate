@@ -3,9 +3,6 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
 
-
-   
-
     function bufferToBase64(buf) {
 
       var binstr = Array.prototype.map.call(buf, function(ch) {

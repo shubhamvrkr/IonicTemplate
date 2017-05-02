@@ -1,5 +1,8 @@
 angular.module('app.services')
-  .factory('firebaseFactory', ['$http','$ionicPush',function ($http,$ionicPush) {
+
+ 
+  .factory('firebaseFactory', ['$http','$state','$ionicPush', function ($http,$state,$ionicPush) {
+
 
     var service = {};
 
@@ -59,7 +62,7 @@ angular.module('app.services')
 
     }
 
-service.recieveNotification = function() {
+/*service.recieveNotification = function() {
 
  /*  $scope.$on('cloud:push:notification', function(event, data) {
       console.log("Inside notification listener");
@@ -76,7 +79,7 @@ service.recieveNotification = function() {
       }
     });*/
   
-}
+
     function updateUIForPushPermissionRequired() {
       showHideDiv(tokenDivId, false);
       showHideDiv(permissionDivId, true);

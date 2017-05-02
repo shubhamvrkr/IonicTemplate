@@ -138,7 +138,9 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   console.log(response);
                   clearInterval(id1);
                   $ionicLoading.hide();
-                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
+
+				  $rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address),'ether').toString();
+				  $scope.$apply();
                   ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
                 });
