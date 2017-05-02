@@ -94,12 +94,13 @@ angular.module('app.services')
                     payload.contract_data = result;
                     payload.nonce = data_for_sign.nonce;
                     payload.from = contract_data.from_ethAddress;
-                    console.log('to', contract_data.to_ethAddress);
+                    console.log('to ', contract_data.to_ethAddress);
+                    console.log('from ', contract_data.from_ethAddress);
                     payload.to = contract_data.to_ethAddress;
                     payload.key_symmteric = sym_encrpyt;
 
 
-                    console.log("deal_id ", addr);
+
 
                     console.log(JSON.stringify(payload));
                     ethdapp.sendTransaction("createContract", [addr, JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function(error, tx_hash) {

@@ -6,19 +6,19 @@ angular.module('app.services')
 
     service.registerUser = function (data, callback) {
 
-      console.log(data)
-      var post_data = {}
+      console.log(data);
+      var post_data = {};
 
-      post_data.email = data.email
-      post_data.name = data.fname + data.lname
+      post_data.email = data.email;
+      post_data.name = data.fname + data.lname;
 
 
-      console.log("Register user ", post_data)
+      console.log("Register user ", post_data);
 
       $http.post(apiUrl + "/api/users", post_data)
         .success(function (response) {
 
-          console.log(response)
+          console.log(response);
           callback({ status: "1", data: response })
 
         }).catch(function (err) {
@@ -29,22 +29,22 @@ angular.module('app.services')
 
         });
 
-    }
+    };
 
 
 
     service.verifyOTP = function (data, callback) {
-      console.log("Inside verify OTP ")
+      console.log("Inside verify OTP ");
 
-      console.log(data)
+      console.log(data);
       $http.post(apiUrl + "/api/users/verify/" + data.tmp_id, data)
         .success(function (response, status) {
           console.log(response)
-           callback({status:"1",data:response})
+           callback({status:"1",data:response});
 
         }).catch(function (err, status) {
-          console.log(err, status)
-          callback({status:"0",data:err})
+          console.log(err, status);
+          callback({status:"0",data:err});
         });
     }
 
