@@ -12,11 +12,11 @@ messaging.setBackgroundMessageHandler(function (payload) {
   
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
  
-  console.log(payload.data.body)
+  console.log(payload.data)
   // Customize notification here
 	notificationTitle = 'Resource Lending Notification!!';
 	notificationOptions = {
-    body: payload.data.body
+    body: payload.data
   };
 
   const promiseChain = clients.matchAll({
@@ -26,8 +26,10 @@ messaging.setBackgroundMessageHandler(function (payload) {
   .then((windowClients) => {
   
 		for (let i = 0; i < windowClients.length; i++) {
-		  const windowClient = windowClients[i];
-		  windowClient.postMessage(payload.data.body);
+		  
+			const windowClient = windowClients[i];
+			console.log("post")
+			windowClient.postMessage(payload.data);
 		}
   })
   .then(() => {

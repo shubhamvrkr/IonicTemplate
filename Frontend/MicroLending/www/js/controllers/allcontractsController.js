@@ -1,57 +1,141 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams','$state','allContractFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$state,allContractFactory,$rootScope) {
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope','getCurrentUserData','databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+	// You can include any angular dependencies as parameters for this function
+	// TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-	$scope.pendingcontracts = [];
-	$scope.activecontracts = [];
-	$scope.completedcontracts = [];
-	console.log("rootScope: ",$rootScope.globals);
-	loadDealsfromDB();
+	function ($scope, $stateParams, $state, allContractFactory, $rootScope,getCurrentUserData,databaseFactory) {
 
-	$scope.moreDetails = function(contract){
+		getCurrentUserData.getData(function(response){
+				
+			$scope.user_email = response.data.from_email;
+			$scope.user_address = response.data.from_eth_address;
+			$scope.ks_local = response.data.ks_local;
+			$scope.pwDerivedKey = response.data.pwDerivedKey;
+		})
+		
 
+		$scope.pendingcontracts = [];
+		$scope.activecontracts = [];
+		$scope.completedcontracts = [];
+		console.log("rootScope: ", $rootScope.globals);
+		loadDealsfromDB();
 
-		console.log("Moredetails: ",contract);
-		$state.go('moredetails',{  contract: contract } )
-
-
-	}
-	$scope.settleContract = function(contract){
-
-
-		console.log("settleContract: ",contract);
-
-
-	}
-	$scope.acceptSettlement = function(contract){
-
-		console.log("acceptSettlement: ",contract);
-
-    //1. prepare the data for sigining with nonce.
-    //payload should include s,r,v,nonce
+		$scope.moreDetails = function (contract) {
 
 
+			console.log("Moredetails: ", contract);
+			$state.go('moredetails', { contract: contract })
 
-	}
-	$scope.rejectContract = function(contract){
 
-		console.log("rejectContract: ",contract);
+		}
+		$scope.settleContract = function (contract) {
 
-	}
-	$scope.acceptContract = function(contract){
 
-		console.log("acceptContract: ",contract);
+			console.log("settleContract: ", contract);
 
-	}
 
-	function loadDealsfromDB(){
+		}
+		$scope.acceptContract = function (contract) {
 
-			allContractFactory.getallPendingContracts(function(response){
+			console.log("acceptSettlement: ", contract);
 
-				console.log("Pending Contracts: ",response.data.docs);
+			//1. prepare the data for sigining with nonce. from and to are the sender
+			//payload should include s,r,v,nonce.
+			allContractFactory.acceptContract(contract, $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-				if(response.status=="1"){
+				if (response.status == "1") {
+
+					console.log(response.data);
+					txHash = response.data;
+					var count1 = 0;
+					var id1 = setInterval(function () {
+
+						console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+
+						if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+							console.log("ohh yes");
+
+							//insert into database
+							$scope.spinnerFlag = true;
+							$scope.textFlag = false;
+
+							//update status, notification_flag, tx_hash
+							var tx_array = []
+							tx_array = contract.tx;
+							tx_array.push(txHash)
+							var doc = contract;
+							
+							doc.status = "active";
+							doc.notification_flag = "false";
+							doc.tx = tx_array;
+							//update call.. 3 items 
+							databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+								console.log(res);
+								// test data in db
+								databaseFactory.getAllData(deal_db, function (response) {
+
+									console.log(response);
+									clearInterval(id1);
+									//$ionicLoading.hide();
+									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+
+								});
+
+							});
+
+							// $state.go('registerSuccess');
+							//  TemplateVar.set(template, 'state', { isMining: false });
+							//   TemplateVar.set(template, 'state', { isMined: true });
+
+							// TemplateVar.set(template,'state', {isUserInactive: true});
+						} else {
+							//console.log("ohh no");
+							if (count1 == 40) {
+								clearInterval(id1);
+								// TemplateVar.set(template, 'state', { isError: true });
+							}
+							count1++;
+						}
+					}, 4000);
+
+
+
+				} else {
+
+					console.log(res.data);
+					$ionicLoading.hide();
+					ionicToast.show(res.data, 'bottom', false, 2500);
+
+
+				}
+
+
+
+			});
+
+
+		}
+
+
+		$scope.rejectContract = function (contract) {
+
+			console.log("rejectContract: ", contract);
+
+		}
+		$scope.acceptSettlement = function (contract) {
+
+			console.log("acceptContract: ", contract);
+
+		}
+
+		function loadDealsfromDB() {
+
+			allContractFactory.getallPendingContracts(function (response) {
+
+				console.log("Pending Contracts: ", response.data.docs);
+
+				if (response.status == "1") {
 
 					$scope.pendingcontracts = response.data.docs
 					$scope.$apply();
@@ -59,23 +143,23 @@ function ($scope, $stateParams,$state,allContractFactory,$rootScope) {
 				}
 
 			});
-			allContractFactory.getallActiveContracts(function(response){
+			allContractFactory.getallActiveContracts(function (response) {
 
-				console.log("Active Contracts: ",response.data.docs);
+				console.log("Active Contracts: ", response.data.docs);
 
-				if(response.status=="1"){
+				if (response.status == "1") {
 
 					$scope.activecontracts = response.data.docs;
-				    $scope.$apply();
+					$scope.$apply();
 
 				}
 
 			});
-			allContractFactory.getallCompletedContracts(function(response){
+			allContractFactory.getallCompletedContracts(function (response) {
 
-				console.log("Completed Contracts: ",response.data.docs);
+				console.log("Completed Contracts: ", response.data.docs);
 
-				if(response.status=="1"){
+				if (response.status == "1") {
 
 					$scope.completedcontracts = response.data.docs
 					$scope.$apply();
@@ -85,6 +169,6 @@ function ($scope, $stateParams,$state,allContractFactory,$rootScope) {
 
 
 
-	}
+		}
 
-}])
+	}])

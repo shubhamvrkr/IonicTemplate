@@ -1,4 +1,4 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory',
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout','$ionicHistory',
   function ($scope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory) {
 
     console.log("more details")

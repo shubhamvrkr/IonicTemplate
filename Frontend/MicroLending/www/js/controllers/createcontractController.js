@@ -148,7 +148,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       console.log(data.enddate);
       var deal_id = Math.round((Math.random() * 10000) * 10000);
       contract_data = {};
-      contract_data.deal_id = deal_id;
+      contract_data.deal_id = deal_id.toString();
       contract_data.from_ethAddress = from_eth_address;
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
@@ -202,7 +202,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.asset_id = contract_data.asset_id;
 
 
-
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -217,7 +216,9 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   console.log(response);
                   clearInterval(id1);
                   $ionicLoading.hide();
-                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
+
+				  $rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address),'ether').toString();
+				  $scope.$apply();
                   ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
                 });

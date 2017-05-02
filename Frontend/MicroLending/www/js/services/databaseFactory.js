@@ -63,9 +63,22 @@ angular.module('app.services')
     };
 
 
-service.updateDoc = function (db, doc, callback) {
+	service.updateDoc = function (db, doc, callback) {
 
      db.put(doc).then(function (result) {
+
+			console.log(result);
+			callback({ status: "1", data: result });
+		  }).catch(function (err) {
+			console.log(err);
+			callback({ status: "0", data: err });
+
+		  });
+    };
+	
+	service.getDocById = function (db, id, callback) {
+
+     db.get(id).then(function (result) {
 
 			console.log(result);
 			callback({ status: "1", data: result });
