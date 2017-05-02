@@ -3,7 +3,6 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
 
-  
     function bufferToBase64(buf) {
 
       var binstr = Array.prototype.map.call(buf, function(ch) {
@@ -131,7 +130,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
               console.log("Login", result);
 
-            
+
               var s_hex = buffer.from(result.pwDerivedKey, 'hex');
               console.log('S_HEX: ',s_hex.toString('hex'));
                sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
