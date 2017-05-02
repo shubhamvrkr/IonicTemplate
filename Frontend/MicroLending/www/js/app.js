@@ -25,10 +25,9 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
   });
 
 });
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory) {
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory) {
 
-
-
+firebaseFactory.recieveNotification();
 		console.log("browser firebase")
 
 		 var config = {

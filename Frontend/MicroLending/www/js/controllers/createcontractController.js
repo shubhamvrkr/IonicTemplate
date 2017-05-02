@@ -70,7 +70,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
       var deal_id = Math.round((Math.random() * 10000) * 10000);
       contract_data = {};
-      contract_data.deal_id = deal_id;
+      contract_data.deal_id = deal_id.toString();
       contract_data.from_ethAddress = from_eth_address;
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;

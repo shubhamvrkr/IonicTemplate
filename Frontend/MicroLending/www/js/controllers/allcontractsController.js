@@ -24,7 +24,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
 		}
-		$scope.acceptSettlement = function (contract) {
+		$scope.acceptContract = function (contract) {
 
 			console.log("acceptSettlement: ", contract);
 
@@ -116,7 +116,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 			console.log("rejectContract: ", contract);
 
 		}
-		$scope.acceptContract = function (contract) {
+		$scope.acceptSettlement = function (contract) {
 
 			console.log("acceptContract: ", contract);
 
