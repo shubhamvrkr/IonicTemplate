@@ -1,12 +1,34 @@
 mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
+  function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
 
     //fetch the localStorage data
 
+    $scope.$on("$ionicView.beforeEnter", function () {
 
-    getCurrentUserData.getData(function(data) {
+      //Put your script in here!
+      var today = new Date().toISOString().split('T')[0];
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow = tomorrow.toISOString().split('T')[0];
+
+      var startDate = document.getElementsByName("startdate")[0];
+      var endDate = document.getElementsByName("enddate")[0];
+
+      if (typeof (startDate) != 'undefined') {
+        console.log("Start Date check");
+        startDate.setAttribute('min', today);
+      }
+
+      if (typeof (startDate) != 'undefined') {
+        console.log("End Date check")
+        endDate.setAttribute('min', tomorrow);
+      }
+    });
+
+
+    getCurrentUserData.getData(function (data) {
 
 
       user_data = data.data;
@@ -32,7 +54,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       $scope.data.counterparty = $stateParams.contact._id;
 
     }
-    $scope.selectCounterparty = function() {
+    $scope.selectCounterparty = function () {
 
       $state.go('menu.phonebook', {
         flag: true
@@ -40,7 +62,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     };
 
-    $scope.CreateDeal = function(data) {
+    $scope.CreateDeal = function (data) {
       $scope.spinnerFlag = false;
       $scope.textFlag = true;
 
@@ -53,8 +75,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       contract_data.to_ethAddress = $stateParams.contact.eth_address;
       contract_data.from_email = from_email;
       contract_data.to_email = $stateParams.contact._id;
-      contract_data.start_date = Math.round(data.startdate/1000);
-      contract_data.end_date = Math.round(data.enddate/1000);
+      contract_data.start_date = Math.round(data.startdate / 1000);
+      contract_data.end_date = Math.round(data.enddate / 1000);
       contract_data.asset_id = data.assetid;
       contract_data.asset_name = data.assetname;
       contract_data.description = data.description;
@@ -68,7 +90,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       console.log(contract_data);
 
       // call the createFactory to sign, encrypt, and send the transaction
-      createContractFactory.createContract(contract_data, pwDerivedKey1, ks, addr, counterparty_publickKey, current_user_key, function(res) {
+      createContractFactory.createContract(contract_data, pwDerivedKey1, ks, addr, counterparty_publickKey, current_user_key, function (res) {
 
         if (res.status == "1") {
 
@@ -77,7 +99,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
           //start the loading logic here
 
           var count1 = 0;
-          var id1 = setInterval(function() {
+          var id1 = setInterval(function () {
 
             console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
 
@@ -93,7 +115,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.asset_name = contract_data.asset_name;
               doc.counter_party_address = contract_data.to_ethAddress;
               doc.counter_party_email = contract_data.to_email;
-              doc.creation_date =  new Date().getTime().toString();
+              doc.creation_date = new Date().getTime().toString();
               doc.start_date = contract_data.start_date;
               doc.end_date = contract_data.end_date;
               doc.from_address = contract_data.from_ethAddress;
@@ -108,16 +130,16 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.notification_flag = "false";
               doc.tx = [txHash];
 
-              databaseFactory.putData(deal_db, doc, function(res) {
+              databaseFactory.putData(deal_db, doc, function (res) {
 
                 console.log(res);
                 // test data in db
-                databaseFactory.getAllData(deal_db, function(response) {
+                databaseFactory.getAllData(deal_db, function (response) {
 
                   console.log(response);
                   clearInterval(id1);
                   $ionicLoading.hide();
-				  $rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address),'ether').toString();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
                   ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
                 });
