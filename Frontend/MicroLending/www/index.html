@@ -30,12 +30,12 @@
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-
-
   <link href="css/ionic.app.css" rel="stylesheet">
   <link href="lib/ionic-toast/src/ionic-toast.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <link href="css/phonebook.css" rel="stylesheet">
+  <!-- For jquery datepicker -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
   <style type="text/css">
     .platform-ios .manual-ios-statusbar-padding {
@@ -75,7 +75,13 @@
   </style>
 
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script
+			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+			  crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+  <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
   <!-- Custom script for UI Validations-->
   <script src="js/script.js"></script>
 
@@ -115,7 +121,7 @@
     apiUrl = "http://10.51.229.240:3000"
     //var ABI = [{ "constant": false, "inputs": [{ "name": "counterparty", "type": "address" }, { "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "createDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptSettleDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "settleDeal", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptDeal", "outputs": [], "payable": false, "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "lender", "type": "address" }, { "indexed": false, "name": "borrower", "type": "address" }, { "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "createDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "settleDealEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptSettleDealEvent", "type": "event" }]
 
-    var ABI = [{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"acceptContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"counterparty","type":"address"},{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"createContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"initiateSettleContract","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"data","type":"string"},{"name":"deal_id","type":"uint32"}],"name":"acceptSettleContract","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lender","type":"address"},{"indexed":false,"name":"borrower","type":"address"},{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"createContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"acceptContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"settleContractEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"data","type":"string"},{"indexed":true,"name":"deal_id","type":"uint32"}],"name":"acceptSettleContractEvent","type":"event"}];
+    var ABI = [{ "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "counterparty", "type": "address" }, { "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "createContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "initiateSettleContract", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "data", "type": "string" }, { "name": "deal_id", "type": "uint32" }], "name": "acceptSettleContract", "outputs": [], "payable": false, "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "lender", "type": "address" }, { "indexed": false, "name": "borrower", "type": "address" }, { "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "createContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "settleContractEvent", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "data", "type": "string" }, { "indexed": true, "name": "deal_id", "type": "uint32" }], "name": "acceptSettleContractEvent", "type": "event" }];
     ethdapp = new EthWallet.EthDapp("http://10.51.229.240:8545", ABI, "0x8d7425c643602d1767608f7ea62b4e1189008122");
     console.log(ethdapp.web3.isConnected());
   </script>
@@ -155,7 +161,7 @@
 
 
 
- <!--  <script>
+  <!--  <script>
     // Initialize Firebase
     var config = {
       apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
