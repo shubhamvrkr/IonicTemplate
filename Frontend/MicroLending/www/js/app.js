@@ -27,7 +27,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudPr
   
 });
 
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state) {
+myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$rootScope) {
 
 
 
