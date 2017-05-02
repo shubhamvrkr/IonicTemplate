@@ -1,5 +1,8 @@
 angular.module('app.services')
+
+ 
   .factory('firebaseFactory', ['$http','$state','$ionicPush', function ($http,$state,$ionicPush) {
+
 
     var service = {};
 
@@ -61,7 +64,7 @@ angular.module('app.services')
 
 /*service.recieveNotification = function() {
 
-   $scope.$on('cloud:push:notification', function(event, data) {
+ /*  $scope.$on('cloud:push:notification', function(event, data) {
       console.log("Inside notification listener");
       var msg = data.message;
 
@@ -74,9 +77,9 @@ angular.module('app.services')
         // the app was asleep or was closed, so do the redirect
         $state.go('menu.allContracts');
       }
-    });
+    });*/
   
-}*/
+
     function updateUIForPushPermissionRequired() {
       showHideDiv(tokenDivId, false);
       showHideDiv(permissionDivId, true);
