@@ -33,7 +33,7 @@ angular.module('app.services')
 
       contract_data = {};
       contract_data.deal_id = contract._id;
-      contract_data.from_ethAddress = contract.from_eth_address;
+      contract_data.from_ethAddress = contract.from_address;
       contract_data.to_ethAddress = contract.counter_party_address;
       contract_data.from_email = contract.from_email;
       contract_data.to_email = contract.counter_party_email;
@@ -68,8 +68,8 @@ angular.module('app.services')
           payload.sig_r = r_hex.toString('hex');
           payload.sig_v = signature.v.toString();
           payload.nonce = contract_data.nonce;
-          payload.from = contract_data.from_ethAddress;
-          payload.to = contract_data.to_ethAddress;
+          payload.to = contract_data.from_ethAddress;
+          payload.from = contract_data.to_ethAddress;
           console.log(JSON.stringify(payload));
 
           //create a transaction

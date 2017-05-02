@@ -1,8 +1,8 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope','getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope','getCurrentUserData','databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 	// You can include any angular dependencies as parameters for this function
 	// TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-	function ($scope, $stateParams, $state, allContractFactory, $rootScope,getCurrentUserData) {
+	function ($scope, $stateParams, $state, allContractFactory, $rootScope,getCurrentUserData,databaseFactory) {
 
 		getCurrentUserData.getData(function(response){
 				
@@ -44,7 +44,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 				if (response.status == "1") {
 
-					console.log(responseres.data);
+					console.log(response.data);
 					txHash = response.data;
 					var count1 = 0;
 					var id1 = setInterval(function () {
@@ -78,9 +78,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 									console.log(response);
 									clearInterval(id1);
-									$ionicLoading.hide();
+									//$ionicLoading.hide();
 									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
-									ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
 								});
 
