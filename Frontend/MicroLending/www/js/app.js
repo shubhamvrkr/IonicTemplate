@@ -393,7 +393,9 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 										if(verifiedResult){
 										
 											
-											var doc1 = {};
+											var doc1 = response.data;
+											var arr = response.data.tx;
+											arr.push(NotiData.transactionHash);
 											
 											if(eventName == "acceptContractEvent"){
 											
@@ -408,10 +410,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 												doc1.status = "completed";
 											}
 											doc1.notification_flag = "true";
-											doc1.tx = response.data.tx.push(NotiData.transactionHash);
-											doc1._id = response.data._id;
-											doc1._rev = response.data._rev;
-											
+											doc1.tx = arr;
 											console.log("Doc: ",response.data)
 											
 											databaseFactory.putData(deal_db, doc1, function(res) {
