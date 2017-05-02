@@ -124,7 +124,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.asset_id = contract_data.asset_id;
 
 
-
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
