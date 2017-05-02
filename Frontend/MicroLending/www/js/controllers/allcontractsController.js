@@ -77,7 +77,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 									console.log(response);
 									clearInterval(id1);
 									//$ionicLoading.hide();
-									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_address), 'ether').toString();
+									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
 									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
 								});
