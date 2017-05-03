@@ -29,7 +29,7 @@ angular.module('app.services')
     };
 
     //make it send response. take function name as param.
-    service.acceptContract = function (contract, addr,ks,pwDerivedKey,callback) {
+    service.sendResponseForNotification = function (contract,fn_name ,addr,ks,pwDerivedKey,callback) {
 
       contract_data = {};
       contract_data.deal_id = contract._id;
@@ -73,7 +73,7 @@ angular.module('app.services')
           console.log(JSON.stringify(payload));
 
           //create a transaction
-          ethdapp.sendTransaction("acceptContract", [JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function (error, tx_hash) {
+          ethdapp.sendTransaction(fn_name, [JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function (error, tx_hash) {
 
             if ("Transaction Sending err", error) {
               console.log(error);

@@ -5,7 +5,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     //fetch the localStorage data
 
-    $scope.$on("$ionicView.beforeEnter", function () {
+    /*$scope.$on("$ionicView.beforeEnter", function () {
 
 
       jQuery.uaMatch = function (ua) {
@@ -94,7 +94,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         console.log("End Date check");
         endDate.setAttribute('min', tomorrow);
       }
-    });
+    });*/
 
     // document.getElementById("startDate").onchange = function () { myFunction(); };
 
