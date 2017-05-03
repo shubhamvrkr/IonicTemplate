@@ -52,8 +52,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               dt1.setDate(dt1.getDate() + 1);
               console.log(dt1);
               $('#endDate').datepicker('option', { minDate: dt1 });
-
               console.log("Start set" + document.getElementById("startDate").value);
+              $scope.$apply();
             }
 
 
@@ -73,6 +73,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               // if (dt2 <= dt1) {
               //   $('#endDate').datepicker('setDate', minDate);
               // }
+              $scope.$apply();
               console.log("End set" + document.getElementById("endDate").value);
             }
           },
@@ -83,12 +84,23 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         }
       }
 
+      // Date validation for chrome/opera
+
       if (matched.browser == "chrome") {
-        // Date validation for chrome/opera
+
         // Set min attr of start date to current date
+        var startDateChrome = document.getElementById("startDate");
+        var endDateChrome = document.getElementById("endDate");
         if (typeof (startDateChrome) != 'undefined') {
+          today = new Date();
+          today = today.toISOString().split('T')[0];
           console.log("Start Date check" + today);
           startDateChrome.setAttribute('min', today);
+
+          today = new Date();
+          today.setDate(today.getDate() + 1);
+          today = today.toISOString().split('T')[0];
+          endDateChrome.setAttribute('min', today);
         }
 
         document.getElementById("startDate").onchange = function () { setEndDate(); };
@@ -117,17 +129,16 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
       // Update end date based on start date
       function setStartDate() {
-        console.log("Start Date Changed");
+        console.log("End Date Changed");
         var startDateChrome = document.getElementById("startDate");
         var endDateChrome = document.getElementById("endDate");
         console.log(startDateChrome.value);
         if (endDateChrome.value != "") {
-          var startDateSet = new Date(endDateChrome.value);
+          var startDateSet = new Date();
           console.log(startDateSet);
-          startDateSet.setDate(startDateSet.getDate() - 1);
           startDateSet = startDateSet.toISOString().split('T')[0];
           startDateChrome.setAttribute('min', startDateSet);
-          startDateChrome.value = startDateSet;
+          //startDateChrome.value = startDateSet;
         }
       }
 
