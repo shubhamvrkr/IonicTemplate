@@ -55,10 +55,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 							$scope.spinnerFlag = true;
 							$scope.textFlag = false;
 
-							//update status, notification_flag, tx_hash
-							var tx_array = []
+							//update status, notification_flag, tx_hash array
+							var tx_object = {};
+							var tx_array = [];
+							 tx_object.caller = $scope.user_address;
+            				  tx_object.txHash =txHash ;
 							tx_array = contract.tx;
-							tx_array.push(txHash)
+							tx_array.push(tx_object)
 							var doc = contract;
 
 							doc.status = "pending";
@@ -140,10 +143,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 							$scope.spinnerFlag = true;
 							$scope.textFlag = false;
 
-							//update status, notification_flag, tx_hash
-							var tx_array = []
+							//update status, notification_flag, tx_hash array
+							var tx_object = {};
+							var tx_array = [];
+							 tx_object.caller = $scope.user_address;
+            				  tx_object.txHash =txHash ;
 							tx_array = contract.tx;
-							tx_array.push(txHash)
+							tx_array.push(tx_object)
 							var doc = contract;
 
 							doc.status = "active";
@@ -227,10 +233,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 							$scope.spinnerFlag = true;
 							$scope.textFlag = false;
 
-							//update status, notification_flag, tx_hash
-							var tx_array = []
+							//update status, notification_flag, tx_hash array
+							var tx_object = {};
+							var tx_array = [];
+							 tx_object.caller = $scope.user_address;
+            				  tx_object.txHash =txHash ;
 							tx_array = contract.tx;
-							tx_array.push(txHash)
+							tx_array.push(tx_object)
 							var doc = contract;
 
 							doc.status = "completed";

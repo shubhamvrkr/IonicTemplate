@@ -239,7 +239,10 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
-              doc.tx = [txHash];
+              var tx_object = {}
+              tx_object.caller = contract_data.from_email;
+              tx_object.txHash =txHash ;
+              doc.tx = [tx_object];
 
               databaseFactory.putData(deal_db, doc, function (res) {
 
