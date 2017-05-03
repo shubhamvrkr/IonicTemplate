@@ -1,126 +1,127 @@
 <ion-view title="All Contracts" id="page1">
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
+    <div class="screenadjust">
 
-	   <div class ="screenadjust">
+      <div ng-show="pendingcontracts.length > 0 ">
 
-			<div ng-show="pendingcontracts.length > 0 ">
+        <div class="item item-divider">Pending Contracts</div>
+        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="pcontract in pendingcontracts track by $index">
 
-				<div class="item item-divider">Pending Contracts</div>
-				<div class="list card" style = "margin:5px 0 5px 0; !important;"ng-repeat="pcontract in pendingcontracts track by $index">
+          <div class="item">
+            <div style="float:left">
+              <h4 style="font-size:13px;color:#191919">From: </h4>
+              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+              <h4 style="font-size:13px;color:#191919">Asset Name: </h4>
+              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+              <h4 style="font-size:13px;color:#191919">Created On: </h4>
+            </div>
 
-					<div class="item">
-							<div style = "float:left">
-							<h4 style="font-size:13px;color:#191919">From: </h4>
-							<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-							<h4 style="font-size:13px;color:#191919">Asset Name: </h4>
-							<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-							<h4 style="font-size:13px;color:#191919">Created On: </h4>
-							</div>
+            <div style="float:left;margin-left:10px;">
+              <h4 style="font-size:13px;color:#595959">{{pcontract.from_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{pcontract.counter_party_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{pcontract.asset_name}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{pcontract._id}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{pcontract.start_date*1000 | date:" dd/MM/yyyy "}}</h4>
+            </div>
 
-							<div style = "float:left;margin-left:10px;">
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.from_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.counter_party_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{pcontract._id}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{pcontract.start_date*1000 | date:" dd/MM/yyyy "}}</h4>
-							</div>
+          </div>
+          <div class="card-action" style="margin-top:5px;">
 
-					</div>
-					<div class="card-action" style="margin-top:5px;">
+            <div style="float:left; width:60%;">
+              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
+                style="color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
+              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
+                style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
+              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
+              <ion-spinner icon="dots" class="allContractsSpinner" ng-hide="dealInProgress"></ion-spinner>
+            </div>
+            <div style="float:right;width:40%;">
+              <a ng-click="moreDetails(pcontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+            </div>
+          </div>
 
-							<div style="float:left; width:60%;">
-								<a ng-click="acceptContract(pcontract)" ng-if = "pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"  style = "color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
-								<a ng-click="rejectContract(pcontract)" ng-if = "pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"  style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
-								<a ng-click="acceptSettlement(pcontract)" ng-if = "pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " style = "color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
-							</div>
-							<div style="float:right;width:40%;">
-								<a ng-click="moreDetails(pcontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
-							</div>
-					</div>
+        </div>
+      </div>
 
-				</div>
-			</div>
+      <div ng-show="activecontracts.length > 0 ">
 
-			<div ng-show="activecontracts.length > 0 ">
+        <div class="item item-divider" style="margin:10px 0 0 0; !important;">Active Contracts</div>
+        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="acontract in activecontracts track by $index">
 
-				<div class="item item-divider" style = "margin:10px 0 0 0; !important;">Active Contracts</div>
-				<div class="list card" style = "margin:5px 0 5px 0; !important;" ng-repeat="acontract in activecontracts track by $index">
+          <div class="item">
 
-					<div class="item">
+            <div style="float:left">
+              <h4 style="font-size:13px;color:#191919">From: </h4>
+              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+              <h4 style="font-size:13px;color:#191919">Asset Name: </h4>
+              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+              <h4 style="font-size:13px;color:#191919">Created On:</h4>
+            </div>
 
-						<div style = "float:left">
-							<h4 style="font-size:13px;color:#191919">From: </h4>
-							<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-							<h4 style="font-size:13px;color:#191919">Asset Name: </h4>
-							<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-							<h4 style="font-size:13px;color:#191919">Created On:</h4>
-						</div>
+            <div style="float:left;margin-left:10px;">
+              <h4 style="font-size:13px;color:#595959">{{acontract.from_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{acontract.counter_party_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{acontract.asset_name}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{acontract._id}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+            </div>
 
-						<div style = "float:left;margin-left:10px;">
-								<h4 style="font-size:13px;color:#595959" >{{acontract.from_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{acontract.counter_party_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{acontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{acontract._id}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
-						</div>
-					
-					</div>
-				
-					<div class="card-action" style="margin-top:5px;">
+          </div>
 
-							<div style="float:left; width:60%;">
+          <div class="card-action" style="margin-top:5px;">
 
-								<a ng-click="settleContract(acontract)" ng-if = "acontract.tx.length == 2 "  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
-							</div>
-							<div style="float:right;width:40%;">
-								<a ng-click="moreDetails(acontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
-							</div>
-					</div>
+            <div style="float:left; width:60%;">
 
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " style="color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+              <ion-spinner icon="dots" class="allContractsSpinner" ng-hide="dealInProgress"></ion-spinner>
+            </div>
+            <div style="float:right;width:40%;">
+              <a ng-click="moreDetails(acontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+            </div>
+          </div>
 
-				</div>
+        </div>
 
-			</div>
+      </div>
 
-			<div ng-show="completedcontracts.length > 0 ">
+      <div ng-show="completedcontracts.length > 0 ">
 
-				<div class="item item-divider" style = "margin:10px 0 0 0; !important;">Completed Contracts</div>
-				<div class="list card" style = "margin:5px 0 5px 0; !important;" ng-repeat="ccontract in completedcontracts track by $index">
+        <div class="item item-divider" style="margin:10px 0 0 0; !important;">Completed Contracts</div>
+        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="ccontract in completedcontracts track by $index">
 
-					<div class="item">
+          <div class="item">
 
-							<div style = "float:left">
-								<h4 style="font-size:13px;color:#191919">From: </h4>
-								<h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-								<h4 style="font-size:13px;color:#191919">Asset Name:</h4>
-								<h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-								<h4 style="font-size:13px;color:#191919">Created On:</h4>
+            <div style="float:left">
+              <h4 style="font-size:13px;color:#191919">From: </h4>
+              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
+              <h4 style="font-size:13px;color:#191919">Asset Name:</h4>
+              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
+              <h4 style="font-size:13px;color:#191919">Created On:</h4>
 
-							</div>
-							<div style = "float:left;margin-left:10px;">
-								<h4 style="font-size:13px;color:#595959" >{{ccontract.from_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{ccontract.counter_party_email}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{ccontract.asset_name}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{ccontract._id}}</h4>
-								<h4 style="font-size:13px;color:#595959" >{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
-							</div>
-					</div>
-					<div class="card-action" style="margin-top:5px;">
+            </div>
+            <div style="float:left;margin-left:10px;">
+              <h4 style="font-size:13px;color:#595959">{{ccontract.from_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{ccontract.counter_party_email}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{ccontract.asset_name}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{ccontract._id}}</h4>
+              <h4 style="font-size:13px;color:#595959">{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+            </div>
+          </div>
+          <div class="card-action" style="margin-top:5px;">
 
-							<div style="float:right;">
-								<a ng-click="moreDetails(ccontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
-							</div>
-					</div>
+            <div style="float:right;">
+              <a ng-click="moreDetails(ccontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+            </div>
+          </div>
 
-				</div>
+        </div>
 
-			</div>
+      </div>
 
-			<div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0)" style="vertical-align: center;text-align: center; margin-top:22%;">
-				No contracts created
-			</div>
+      <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0)" style="vertical-align: center;text-align: center; margin-top:22%;">
+        No contracts created
+      </div>
 
-	   </div>
+    </div>
   </ion-content>
 </ion-view>
-

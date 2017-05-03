@@ -70,11 +70,19 @@ div.spinner {
   z-index: 100 !important;
   opacity: 0.8;
 }
+
 .spinner svg {
   width: 19% !important;
   height: 85px !important;
   stroke: #0052cc !important;
 }
+
+.allContractsSpinner svg{
+  width: 20% !important;
+  height: 40px !important;
+  stroke: #0052cc !important;
+}
+
 .button-radius{
   border-radius: 7px 7px 7px 7px;
 }
@@ -87,11 +95,6 @@ a{
 }
 a:hover{
   color:greenyellow ;
-}
-
-.spinner svg {
-  width: 19% !important;
-  height: 85px !important;
 }
 
 /* Hide up-down arrows for number fields - Firefox */
