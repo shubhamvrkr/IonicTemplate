@@ -66,11 +66,12 @@
 						</div>
 
 					</div>
+					{{acontract.tx[2].caller}}
 					<div class="card-action" style="margin-top:5px;">
 
 							<div style="float:left; width:60%;">
 
-								<a ng-click="settleContract(acontract)" ng-if = "acontract.tx.length == 2"  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+								<a ng-click="settleContract(acontract)" ng-if = "acontract.tx.length == 2 && acontract.tx[2].caller!=user_email"  style = "color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
 							</div>
 							<div style="float:right;width:40%;">
 								<a ng-click="moreDetails(acontract)" style = "color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>

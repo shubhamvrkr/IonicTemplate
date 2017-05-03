@@ -194,7 +194,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 							
 								console.log("Get Call: ",response.data);
 								var publicKeyInvoker = response.data.publicKey;
-								ProcessNotificationData(NotiData,publicKeyInvoker);
+								ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
 								
 								contactEntry = {
 									"_id": response.data.email,
@@ -218,7 +218,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						
 							var publicKeyInvoker = response.data.publicKey;
 							console.log("publicKeyInvoker: ",publicKeyInvoker);
-							ProcessNotificationData(NotiData,publicKeyInvoker);
+							ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
 						
 						}
 						
@@ -231,7 +231,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				}
 		}
 			
-		function ProcessNotificationData(NotiData,publicKey){
+		function ProcessNotificationData(NotiData,publicKey,invoker){
 				
 				console.log("NotiData: ",NotiData);
 				console.log("publicKey",publicKey);
@@ -243,6 +243,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				var sig_nonce = NotiData.nonce;
 				
 				console.log(userKeyStore)
+				
 				if(userKeyStore == null){
 				
 					getCurrentUserData.getData(function(response){
@@ -333,7 +334,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 													 doc.symmteric_key = decryptedKey;
 													 doc.status = "pending";
 													 doc.notification_flag = "true";
-													 doc.tx = [NotiData.transactionHash];
+													 doc.tx = [{caller:invoker,txHash:NotiData.transactionHash}];
 												
 													 console.log(doc)
 													 databaseFactory.putData(deal_db, doc, function(res) {
@@ -418,7 +419,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 											
 											var doc1 = response.data;
 											var arr = response.data.tx;
-											arr.push(NotiData.transactionHash);
+											arr.push({caller:invoker,txHash:NotiData.transactionHash});
 											
 											if(eventName == "acceptContractEvent"){
 											
