@@ -9,7 +9,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
       $timeout(function () {
         $state.go('menu.allContracts');
       }, 0);
-    } 
+    }
 
 else{
       getCurrentUserData.getData(function (currentUser) {
@@ -17,7 +17,7 @@ else{
         $scope.currentUserEmail = currentUser.data.from_email;
         $scope.currentUserAddress = currentUser.data.from_eth_address;
  });
-}
+
 
    $scope.dealData = $stateParams.contract;
         console.log($stateParams.contract);
@@ -37,7 +37,7 @@ else{
           else{
             console.log("it is there")
           var data = ethdapp.web3.eth.getTransactionReceipt(tx_array[k].txHash);
-            
+
           var event_data = data.logs[0].data;
           var log = data.logs[0];
 
@@ -60,9 +60,9 @@ else{
           if (event != null) {
             var sig_data=null;
             console.log(event)
-          
+
             var inputs = event.inputs.map(function (input) { return input.type; });
-            
+
             var data = solidity.decodeParams(inputs, log.data.replace("0x", ""));
             console.log(data);
            // console.log(JSON.parse(data[2]));
@@ -101,7 +101,7 @@ else{
 
 
             databaseFactory.getDocById(contact_db, tx_array[k].caller, function (response) {
-                  
+
               if (response.status == "0") {
 
                 console.log("contact with email not found : ");
@@ -128,7 +128,7 @@ else{
           }
         }
         }
-     
+     }
      //console.log(ethdapp.web3.toAscii(event_data));
 
     $scope.backButtonPress = function () {
