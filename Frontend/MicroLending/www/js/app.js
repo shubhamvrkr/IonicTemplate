@@ -236,6 +236,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						var symmetric_key = NotiData.key_symmteric;
 						console.log(symmetric_key)
 						console.log(userKeyStore)
+						console.log(publicKey)
 						EthWallet.encryption_sign.asymDecrypt(symmetric_key, userKeyStore.ks_local, userKeyStore.pwDerivedKey, publicKey,userKeyStore.current_user_key, function (err, decryptedKey) {
 							
 							if (err){

@@ -29,7 +29,7 @@ angular.module('app.services')
     };
 
     //make it send response. take function name as param.
-    service.acceptContract = function (contract, addr,ks,pwDerivedKey,callback) {
+    service.sendResponseForNotification = function (contract,fn_name ,addr,ks,pwDerivedKey,callback) {
 
       contract_data = {};
       contract_data.deal_id = contract._id;
@@ -68,12 +68,20 @@ angular.module('app.services')
           payload.sig_r = r_hex.toString('hex');
           payload.sig_v = signature.v.toString();
           payload.nonce = contract_data.nonce;
-          payload.to = contract_data.from_ethAddress;
-          payload.from = contract_data.to_ethAddress;
+         
+          payload.from = addr;
+
+          if (addr==contract_data.from_ethAddress)
+          {
+            payload.to = contract_data.to_ethAddress;
+          }else
+          {
+            payload.to = contract_data.from_ethAddress;
+          }
           console.log(JSON.stringify(payload));
 
           //create a transaction
-          ethdapp.sendTransaction("acceptContract", [JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function (error, tx_hash) {
+          ethdapp.sendTransaction(fn_name, [JSON.stringify(payload), contract_data.deal_id.toString()], ks, pwDerivedKey, function (error, tx_hash) {
 
             if ("Transaction Sending err", error) {
               console.log(error);
@@ -92,7 +100,6 @@ angular.module('app.services')
                
               });
             }
-
 
 
           });

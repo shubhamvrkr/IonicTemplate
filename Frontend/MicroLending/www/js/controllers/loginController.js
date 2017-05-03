@@ -43,7 +43,6 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
             if (login_data.username == JSON.parse(value).email || login_data.username == JSON.parse(value).address) {
 
-
               loginFactory.login(login_data, function(err, result) {
                 if (err) {
                   $ionicLoading.hide();

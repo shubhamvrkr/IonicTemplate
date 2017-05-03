@@ -3,8 +3,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
 
-    $scope.$on("$ionicView.beforeEnter", function () {
 
+    $scope.$on("$ionicView.beforeEnter", function () {
 
       jQuery.uaMatch = function (ua) {
         ua = ua.toLowerCase();
@@ -272,7 +272,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
           console.log(res.data);
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
-
 
         }
 
