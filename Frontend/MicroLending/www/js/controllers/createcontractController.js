@@ -98,18 +98,21 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         setEndDate();
 
       }
+
       // Update end date based on start date
       function setEndDate() {
         console.log("Start Date Changed");
         var startDateChrome = document.getElementById("startDate");
         var endDateChrome = document.getElementById("endDate");
         console.log(startDateChrome.value);
-        var terminationDate = new Date(startDateChrome.value);
-        console.log(terminationDate);
-        terminationDate.setDate(terminationDate.getDate() + 1);
-        terminationDate = terminationDate.toISOString().split('T')[0];
-        endDateChrome.setAttribute('min', terminationDate);
-        endDateChrome.value = terminationDate;
+        if (startDateChrome.value != "") {
+          var terminationDate = new Date(startDateChrome.value);
+          console.log(terminationDate);
+          terminationDate.setDate(terminationDate.getDate() + 1);
+          terminationDate = terminationDate.toISOString().split('T')[0];
+          endDateChrome.setAttribute('min', terminationDate);
+          endDateChrome.value = terminationDate;
+        }
       }
 
       // Update end date based on start date
@@ -118,12 +121,14 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         var startDateChrome = document.getElementById("startDate");
         var endDateChrome = document.getElementById("endDate");
         console.log(startDateChrome.value);
-        var startDateSet = new Date(endDateChrome.value);
-        console.log(startDateSet);
-        startDateSet.setDate(startDateSet.getDate() - 1);
-        startDateSet = startDateSet.toISOString().split('T')[0];
-        startDateChrome.setAttribute('min', startDateSet);
-        startDateChrome.value = startDateSet;
+        if (endDateChrome.value != "") {
+          var startDateSet = new Date(endDateChrome.value);
+          console.log(startDateSet);
+          startDateSet.setDate(startDateSet.getDate() - 1);
+          startDateSet = startDateSet.toISOString().split('T')[0];
+          startDateChrome.setAttribute('min', startDateSet);
+          startDateChrome.value = startDateSet;
+        }
       }
 
     });
