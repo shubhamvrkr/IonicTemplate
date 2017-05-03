@@ -35,7 +35,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 
   $rootScope.$on('cloud:push:notification', function(event, data) {
       
-	  console.log("Data recieved ",data);
+	console.log("Data recieved ",data);
 	  alert(data)
 	 /* var response = data.message.text;
 	  var data = {
@@ -177,6 +177,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				console.log('Message ', data);
 				var NotiData = JSON.parse(data.body);
 				var invoker = NotiData.invoker;
+				console.log(invoker)
 				
 				try{
 					
@@ -188,18 +189,18 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						if(response.status=="0"){
 						
 							console.log("Contact not found in database");
-							$http.get(apiUrl+"/api/users?email="+invoker).then(function(response) {
+							$http.get(apiUrl+"/api/users/"+invoker).then(function(response) {
 							
 							
-								//console.log("Get Call: ",response.data[0]);
-								var publicKeyInvoker = response.data[0].publicKey;
+								console.log("Get Call: ",response.data);
+								var publicKeyInvoker = response.data.publicKey;
 								ProcessNotificationData(NotiData,publicKeyInvoker);
 								
 								contactEntry = {
-									"_id": response.data[0].email,
-									"eth_address": response.data[0].ethAccount,
-									"name": response.data[0].name,
-									"publicKey": response.data[0].publicKey
+									"_id": response.data.email,
+									"eth_address": response.data.ethAccount,
+									"name": response.data.name,
+									"publicKey": response.data.publicKey
 								}
 								databaseFactory.putData(contact_db, contactEntry, function (response) {
 
@@ -241,6 +242,8 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				var deal_id = NotiData.dealId;
 				var sig_nonce = NotiData.nonce;
 				
+				console.log(userKeyStore)
+				
 				try{
 				
 					
@@ -250,7 +253,6 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						var contract_data = NotiData.contract_data;
 						var symmetric_key = NotiData.key_symmteric;
 						console.log(symmetric_key)
-					
 						EthWallet.encryption_sign.asymDecrypt(symmetric_key, userKeyStore.ks_local, userKeyStore.pwDerivedKey, publicKey,userKeyStore.current_user_key, function (err, decryptedKey) {
 							
 							if (err){
