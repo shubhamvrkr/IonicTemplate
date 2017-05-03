@@ -37,13 +37,13 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
       
 	console.log("Data recieved ",data);
 	  alert(data)
-	 /* var response = data.message.text;
+	  var response = data.message.text;
 	  var data = {
 	  
 			body:response
 	  }
 	  console.log(data);
-	  storeDatainDatabase(data);*/
+	  storeDatainDatabase(data);
 	  
 	  
    });
@@ -243,15 +243,8 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				var sig_nonce = NotiData.nonce;
 				
 				console.log(userKeyStore)
-				
-				if(userKeyStore == null){
-				
-					getCurrentUserData.getData(function(response){
-				
-						userKeyStore = response.data;
-						if(userKeyStore!=null){
-						
-							try{
+	
+				try{
 				
 					
 					if(NotiData.contract_data != null && NotiData.key_symmteric!=null){
@@ -473,15 +466,6 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 					console.log("Exception: ",err)
 				
 				}
-							
-						}
-		
-				});
-				
-				
-				}
-				
-				
 		}
 
 
