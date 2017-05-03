@@ -108,7 +108,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				})
 			}
 		
-		})
+		});
 		
 		var config = {
 			  apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
@@ -171,7 +171,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 
     });
 	
-	function storeDatainDatabase(data){
+		function storeDatainDatabase(data){
 
 			
 				console.log('Message ', data);
@@ -243,8 +243,14 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				var sig_nonce = NotiData.nonce;
 				
 				console.log(userKeyStore)
+				if(userKeyStore == null){
 				
-				try{
+					getCurrentUserData.getData(function(response){
+				
+						userKeyStore = response.data;
+						if(userKeyStore!=null){
+						
+							try{
 				
 					
 					if(NotiData.contract_data != null && NotiData.key_symmteric!=null){
@@ -466,6 +472,15 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 					console.log("Exception: ",err)
 				
 				}
+							
+						}
+		
+				});
+				
+				
+				}
+				
+				
 		}
 
 
