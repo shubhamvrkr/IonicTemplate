@@ -94,6 +94,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         console.log("End Date check");
         endDate.setAttribute('min', tomorrow);
       }
+	  
     });
 
     // document.getElementById("startDate").onchange = function () { myFunction(); };
@@ -107,14 +108,21 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
     // }
     getCurrentUserData.getData(function (data) {
 
+	  if(data.data!=null){
+	  
+		user_data = data.data;
+		console.log(user_data);
+		from_eth_address = user_data.from_eth_address;
+		from_email = user_data.from_email;
+		ks_local = user_data.ks_local;
+		pwDerivedKey = user_data.pwDerivedKey;
+		current_user_key = user_data.current_user_key;
 
-      user_data = data.data;
-      console.log(user_data);
-      from_eth_address = user_data.from_eth_address;
-      from_email = user_data.from_email;
-      ks_local = user_data.ks_local;
-      pwDerivedKey = user_data.pwDerivedKey;
-      current_user_key = user_data.current_user_key;
+	  }else{
+	  
+			$state.go('login');
+	  }
+      
 
       console.log(pwDerivedKey);
 

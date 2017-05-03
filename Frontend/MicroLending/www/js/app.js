@@ -36,13 +36,14 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
   $rootScope.$on('cloud:push:notification', function(event, data) {
       
 	  console.log("Data recieved ",data);
-	  var response = data.message.text;
+	  alert(data)
+	 /* var response = data.message.text;
 	  var data = {
 	  
 			body:response
 	  }
 	  console.log(data);
-	  storeDatainDatabase(data);
+	  storeDatainDatabase(data);*/
 	  
 	  
    });
@@ -67,7 +68,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 
 			deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
 			console.log(deal_db);
-      	deal_db.createIndex({index: { fields: ['status'] }
+			deal_db.createIndex({index: { fields: ['status'] }
 
 			}).then(function (result) {
 				console.log(result);
@@ -99,8 +100,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 		getCurrentUserData.getData(function(response){
 				
 			userKeyStore = response.data;
-			
-			console.log(userKeyStore)
+			console.log("Key Store: ",userKeyStore)
 			if(userKeyStore!=null){
 			
 				$timeout(function(){
@@ -120,43 +120,58 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 		};
 		firebase.initializeApp(config);
 		messaging = firebase.messaging();
+		if(!window.cordova){
 		
-		if ('serviceWorker' in navigator){
+			if ('serviceWorker' in navigator){
 
-				console.log("SW present !!! ");
-				navigator.serviceWorker.register('sw.js', {}).then(function(registration){
+					console.log("SW present !!! ");
+					navigator.serviceWorker.register('sw.js', {}).then(function(registration){
 
-					registration.update();
-					console.log("registered");
-					messaging.useServiceWorker(registration);
-					console.log('Service worker registered : ', registration.scope);
+						registration.update();
+						console.log("registered");
+						messaging.useServiceWorker(registration);
+						console.log('Service worker registered : ', registration.scope);
 
-				}).catch(function(err){
-				 
-					console.log("Service worker registration failed : ", err);
-				});
+					}).catch(function(err){
+					 
+						console.log("Service worker registration failed : ", err);
+					});
+
+			}
+		
+			messaging.onMessage(function(payload) {
+
+				console.log("On Message: ",payload.data)
+				//console.log(payload.data)
+				if(payload.data.body!=null){
+					storeDatainDatabase(payload.data)
+				}
+			});
+		
+			navigator.serviceWorker.addEventListener('message', function(event) {
+			
+				console.log("Event Listener: ",event.data)
+				if(event.data.body!=null){
+					storeDatainDatabase(event.data)
+				}
+			});	
 
 		}
-		
-		messaging.onMessage(function(payload) {
 
-			console.log("On Message: ",payload.data)
-			//console.log(payload.data)
-			if(payload.data.body!=null){
-				storeDatainDatabase(payload.data)
-			}
-		});
-		
-		navigator.serviceWorker.addEventListener('message', function(event) {
-		
-			console.log("Event Listener: ",event.data)
-			if(event.data.body!=null){
-				storeDatainDatabase(event.data)
-			}
-		});			
-		
-		
-		function storeDatainDatabase(data){
+		if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+			cordova.plugins.Keyboard.disableScroll(true);
+		}
+		if (window.StatusBar) {
+			// org.apache.cordova.statusbar required
+			StatusBar.styleDefault();
+		}
+
+
+
+    });
+	
+	function storeDatainDatabase(data){
 
 			
 				console.log('Message ', data);
@@ -235,7 +250,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						var contract_data = NotiData.contract_data;
 						var symmetric_key = NotiData.key_symmteric;
 						console.log(symmetric_key)
-						console.log(userKeyStore)
+					
 						EthWallet.encryption_sign.asymDecrypt(symmetric_key, userKeyStore.ks_local, userKeyStore.pwDerivedKey, publicKey,userKeyStore.current_user_key, function (err, decryptedKey) {
 							
 							if (err){
@@ -450,19 +465,6 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 				
 				}
 		}
-
-		if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-			cordova.plugins.Keyboard.disableScroll(true);
-		}
-		if (window.StatusBar) {
-			// org.apache.cordova.statusbar required
-			StatusBar.styleDefault();
-		}
-
-
-
-    });
 
 
 });

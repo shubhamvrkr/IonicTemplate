@@ -6,10 +6,16 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 		getCurrentUserData.getData(function(response){
 				
-			$scope.user_email = response.data.from_email;
-			$scope.user_address = response.data.from_eth_address;
-			$scope.ks_local = response.data.ks_local;
-			$scope.pwDerivedKey = response.data.pwDerivedKey;
+			if(response.data!=null){
+				$scope.user_email = response.data.from_email;
+				$scope.user_address = response.data.from_eth_address;
+				$scope.ks_local = response.data.ks_local;
+				$scope.pwDerivedKey = response.data.pwDerivedKey;
+			}else{
+			
+				$state.go('login');
+				
+			}
 		})
 		
 

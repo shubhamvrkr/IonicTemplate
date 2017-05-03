@@ -193,7 +193,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                       $ionicLoading.hide();
                       console.log(error);
-                      $scope.error = error;
+                      $scope.error = error.message;
 
                     });
                 });
