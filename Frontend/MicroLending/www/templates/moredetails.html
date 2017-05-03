@@ -1,41 +1,87 @@
 <ion-view title="Contract Details" id="page6">
   <ion-nav-bar class="bar-positive">
-
     <ion-nav-buttons side="left">
       <button ng-click="backButtonPress()" class="button button-icon button-clear ion-ios-arrow-back"></button>
     </ion-nav-buttons>
-
   </ion-nav-bar>
+
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
-
     <div class="screenadjust more-details">
+        <div class="card moreDetails" style="margin:5px 0 5px 0; !important;">
 
-      <div class="list card">
-        <!--<div class="row">
-          <h4 class = "col col-50">Deal ID: </h4>
-          <h4 class = "col col-50">Counter Party: </h4>
-          <h4 class = "col col-50">Asset Name: </h4>
-          <h4 class = "col col-50">Created On: </h4>
-          <h4 class = "col col-50">Terminated On: </h4>
-          <h4 class = "col col-50">Status: </h4>
-          <h4 class = "col col-50">Status: </h4>
+          <div class="list card" style="float:left; margin-left:25px; font-weight:bold">
+            <div class="item">
+              Deal ID
+            </div>
+            <div class="item">
+              Counter-Party
+            </div>
+            <div class="item">
+              Asset Name
+            </div>
+            <div class="item">
+              Asset ID
+            </div>
+            <div class="item">
+              Contract Start Date
+            </div>
+            <div class="item">
+              Contract End Date
+            </div>
+            <div class="item">
+              Current Status
+            </div>
+            <div class="item">
+              Description
+            </div>
+          </div>
+
+          <div class="list card" style="margin-left:20px;margin-right:25px;">
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData._id}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.counter_party_email}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.asset_name}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.asset_id}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.status}}
+            </div>
+            <div class="item">
+              - &nbsp&nbsp&nbsp{{dealData.description}}
+            </div>
+
+          </div>
         </div>
-
-        <div class="row">
-          <h4>{{dealData.deal_id}}</h4>
-          <h4>{{dealData.counter_party}}</h4>
+          <!--<div class="item item-divider">
+            Deal Information
+          </div>
+          <h4>Deal ID: {{dealData._id}}</h4>
+          <h4>Counter-Party: {{dealData.counter_party_email}}</h4>
+          Asset Name:
           <h4>{{dealData.asset_name}}</h4>
+          Asset ID:
           <h4>{{dealData.asset_id}}</h4>
-          <h4>{{dealData.creation_date}}</h4>
-          <h4>{{dealData.termination_date}}</h4>
+          Contract Start Date:
+          <h4>{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}</h4>
+          Contract End Date:
+          <h4>{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}</h4>
+          Current Status:
           <h4>{{dealData.status}}</h4>
-          <h4>{{dealData.description}}</h4>
-        </div>-->
-
-        <div class="item item-divider" data="{{contract.asset_name}}">
-          Deal Information
-        </div>
-        <div class="item item-text-wrap" data="{{contract.asset_name}}">
+          Description:
+          <h4>{{dealData.description}}</h4>-->
+          <!--<div class="item item-text-wrap">
           Deal ID: <span>{{dealData._id}}</span>
         </div>
         <div class="item item-text-wrap">
@@ -58,32 +104,30 @@
         </div>
         <div class="item item-text-wrap">
           Description: <span>{{dealData.description}}</span>
+        </div>-->
+
+        <div class="item-input-inset" ng-if="dealData.tx.length == 1">
+          <button style="margin-left: 10%; width:40%" class="button button-balanced">Accept Deal</button>
+          <div class="button-divider"></div>
+          <button style="margin-right: 10%;width:40%" class="button button-assertive">Reject Deal</button>
+        </div>
+
+        <div class="item-input-inset" ng-if="dealData.tx.length == 2">
+          <button style="margin-left: 30%;" class="button button-balanced">Create Settlement</button>
+        </div>
+
+        <div class="item-input-inset" ng-if="dealData.tx.length == 3">
+          <button style="margin-left: 30%;" class="button button-balanced">Accept Settlement</button>
+        </div>
+
+        <div class="list card">
+          <div class="item item-divider">
+            Transactions
+          </div>
+          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx">
+            Transaction ID {{$index+1}} - <span>{{tx}}</span>
+          </div>
         </div>
       </div>
-
-      <div class="item-input-inset" ng-if="dealData.tx.length == 1">
-        <button style="margin-left: 10%; width:40%" class="button button-balanced">Accept Deal</button>
-        <div class="button-divider"></div>
-        <button style="margin-right: 10%;width:40%" class="button button-assertive">Reject Deal</button>
-      </div>
-
-      <div class="item-input-inset" ng-if="dealData.tx.length == 2">
-        <button style="margin-left: 30%;" class="button button-balanced">Create Settlement</button>
-      </div>
-
-      <div class="item-input-inset" ng-if="dealData.tx.length == 3">
-        <button style="margin-left: 30%;" class="button button-balanced">Accept Settlement</button>
-      </div>
-
-      <div class="list card">
-        <div class="item item-divider" >
-          Transactions
-        </div>
-        <div class="item item-text-wrap" ng-repeat="tx in dealData.tx">
-          Transaction ID {{$index+1}} - <span>{{tx}}</span>
-        </div>
-      </div>
-    </div>
-    </div>
   </ion-content>
 </ion-view>
