@@ -3,122 +3,116 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
 
-    //fetch the localStorage data
 
-    /*$scope.$on("$ionicView.beforeEnter", function () {
+    $scope.$on("$ionicView.beforeEnter", function () {
+
+      // jQuery.uaMatch = function (ua) {
+      //   ua = ua.toLowerCase();
+
+      //   var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+      //     /(webkit)[ \/]([\w.]+)/.exec(ua) ||
+      //     /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+      //     /(msie) ([\w.]+)/.exec(ua) ||
+      //     ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+      //     [];
+
+      //   return {
+      //     browser: match[1] || "",
+      //     version: match[2] || "0"
+      //   };
+      // };
+      // browser = {};
+
+      // matched = jQuery.uaMatch(navigator.userAgent);
+      // console.log(matched.browser)
+      // if (matched.browser) {
+      //   browser[matched.browser] = true;
+      //   browser.version = matched.version;
+      // }
+
+      // // Chrome is Webkit, but Webkit is also Safari.
+      // if (browser.chrome) {
+      //   browser.webkit = true;
+      // } else if (browser.webkit) {
+      //   browser.safari = true;
+      // }
+
+      // jQuery.browser = browser;
+      // var startDate = $('#startDate');
+      // if (startDate.length > 0) {
+      //   if (!Modernizr.inputtypes.date) {
+      //     // If not native HTML5 support, fallback to jQuery datePicker
+      //     $('#startDate').datepicker({
+      //       // Consistent format with the HTML5 picker
+      //       dateFormat: 'dd/mm/yy',
+      //       minDate: 0,
+
+      //     },
+      //       // Localization
+      //       $.datepicker.regional['en-GB']
+      //     );
+
+      //     $('#endDate').datepicker({
+      //       // Consistent format with the HTML5 picker
+      //       dateFormat: 'dd/mm/yy',
+      //       minDate: 0,
+      //       onClose: function () {
+      //         var dt1 = $('#startDate').datepicker('getDate');
+      //         console.log(dt1);
+      //         var dt2 = $('#endDate').datepicker('getDate');
+      //         if (dt2 <= dt1) {
+      //           var minDate = $('#endDate').datepicker('option', 'minDate');
+      //           $('#endDate').datepicker('setDate', minDate);
+      //         }
+      //       }
+      //     },
+      //       // Localization
+      //       $.datepicker.regional['en-GB']
+      //     );
+
+      //   }
+      // }
 
 
-      jQuery.uaMatch = function (ua) {
-        ua = ua.toLowerCase();
-
-        var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-          /(webkit)[ \/]([\w.]+)/.exec(ua) ||
-          /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-          /(msie) ([\w.]+)/.exec(ua) ||
-          ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-          [];
-
-        return {
-          browser: match[1] || "",
-          version: match[2] || "0"
-        };
-      };
-      browser = {};
-
-      matched = jQuery.uaMatch(navigator.userAgent);
-      console.log(matched.browser)
-      if (matched.browser) {
-        browser[matched.browser] = true;
-        browser.version = matched.version;
+      // Date validation for chrome/opera
+      // Set min attr of start date to current date
+      if (typeof (startDateChrome) != 'undefined') {
+        console.log("Start Date check" + today);
+        startDateChrome.setAttribute('min', today);
       }
 
-      // Chrome is Webkit, but Webkit is also Safari.
-      if (browser.chrome) {
-        browser.webkit = true;
-      } else if (browser.webkit) {
-        browser.safari = true;
+      document.getElementById("startDate").onchange = function () { setEndDate(); };
+
+      // Update end date based on start date
+      function setEndDate() {
+        console.log("Start Date Changed");
+        var startDateChrome = document.getElementById("startDate");
+        var endDateChrome = document.getElementById("endDate");
+        console.log(startDateChrome.value);
+        var terminationDate = new Date(startDateChrome.value);
+        console.log(terminationDate);
+        terminationDate.setDate(terminationDate.getDate() + 1);
+        terminationDate = terminationDate.toISOString().split('T')[0];
+        endDateChrome.setAttribute('min', terminationDate);
       }
-
-      jQuery.browser = browser;
-      var startDate = $('#startDate');
-      if (startDate.length > 0) {
-        if (!Modernizr.inputtypes.date) {
-          // If not native HTML5 support, fallback to jQuery datePicker
-          $('#startDate').datepicker({
-            // Consistent format with the HTML5 picker
-            dateFormat: 'dd/mm/yy',
-            minDate: 0,
-
-          },
-            // Localization
-            $.datepicker.regional['en-GB']
-          );
-
-          $('#endDate').datepicker({
-            // Consistent format with the HTML5 picker
-            dateFormat: 'dd/mm/yy',
-            minDate: 0,
-            onClose: function () {
-              var dt1 = $('#startDate').datepicker('getDate');
-              console.log(dt1);
-              var dt2 = $('#endDate').datepicker('getDate');
-              if (dt2 <= dt1) {
-                var minDate = $('#endDate').datepicker('option', 'minDate');
-                $('#endDate').datepicker('setDate', minDate);
-              }
-            }
-          },
-            // Localization
-            $.datepicker.regional['en-GB']
-          );
-
-        }
-      }
-
-
-
-
-      var startDate = document.getElementsByName("startdate")[0];
-      var endDate = document.getElementsByName("enddate")[0];
-      today = new Date().toISOString().split('T')[0];
-      if (typeof (startDate) != 'undefined') {
-
-        console.log("Start Date check");
-        startDate.setAttribute('min', today);
-      }
-
-      if (typeof (startDate) != 'undefined') {
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow = tomorrow.toISOString().split('T')[0];
-        console.log("End Date check");
-        endDate.setAttribute('min', tomorrow);
-      }
-    });*/
-
-    // document.getElementById("startDate").onchange = function () { myFunction(); };
-
-    // function myFunction() {
-    //   var endDate = document.getElementsByName("enddate")[0];
-    //   var tomorrow = new Date();
-    //   tomorrow.setDate(today.getDate() + 1);
-    //   tomorrow = tomorrow.toISOString().split('T')[0];
-    //   endDate.setAttribute('min', tomorrow);
-    // }
-    getCurrentUserData.getData(function (data) {
-
-
-      user_data = data.data;
-      console.log(user_data);
-      from_eth_address = user_data.from_eth_address;
-      from_email = user_data.from_email;
-      ks_local = user_data.ks_local;
-      pwDerivedKey = user_data.pwDerivedKey;
-      current_user_key = user_data.current_user_key;
-
-      console.log(pwDerivedKey);
-
     });
+
+
+      //fetch the localStorage data
+
+      getCurrentUserData.getData(function (data) {
+
+        user_data = data.data;
+        console.log(user_data);
+        from_eth_address = user_data.from_eth_address;
+        from_email = user_data.from_email;
+        ks_local = user_data.ks_local;
+        pwDerivedKey = user_data.pwDerivedKey;
+        current_user_key = user_data.current_user_key;
+
+        console.log(pwDerivedKey);
+
+      });
 
 
     $scope.spinnerFlag = true;
@@ -138,6 +132,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       });
 
     };
+
 
     $scope.CreateDeal = function (data) {
       $scope.spinnerFlag = false;
@@ -217,8 +212,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   clearInterval(id1);
                   $ionicLoading.hide();
 
-				  $rootScope.balance  =  ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address),'ether').toString();
-				  $scope.$apply();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
+                  $scope.$apply();
                   ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
                 });
@@ -254,6 +249,5 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
       });
 
     };
-
   }
 ]);

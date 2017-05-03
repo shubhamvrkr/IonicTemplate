@@ -1,4 +1,6 @@
 $(document).ready(function ($) {
+
+  console.log("scripts.js loaded");
   // Script to allow only 6 characters for OTP Verification
   $("#otpnumber").keypress(function (e) {
     var maxChars = 6;
