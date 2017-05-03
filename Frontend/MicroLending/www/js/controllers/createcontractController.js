@@ -6,82 +6,98 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     $scope.$on("$ionicView.beforeEnter", function () {
 
-      // jQuery.uaMatch = function (ua) {
-      //   ua = ua.toLowerCase();
+      jQuery.uaMatch = function (ua) {
+        ua = ua.toLowerCase();
 
-      //   var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-      //     /(webkit)[ \/]([\w.]+)/.exec(ua) ||
-      //     /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-      //     /(msie) ([\w.]+)/.exec(ua) ||
-      //     ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-      //     [];
+        var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+          /(webkit)[ \/]([\w.]+)/.exec(ua) ||
+          /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+          /(msie) ([\w.]+)/.exec(ua) ||
+          ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+          [];
 
-      //   return {
-      //     browser: match[1] || "",
-      //     version: match[2] || "0"
-      //   };
-      // };
-      // browser = {};
+        return {
+          browser: match[1] || "",
+          version: match[2] || "0"
+        };
+      };
+      browser = {};
 
-      // matched = jQuery.uaMatch(navigator.userAgent);
-      // console.log(matched.browser)
-      // if (matched.browser) {
-      //   browser[matched.browser] = true;
-      //   browser.version = matched.version;
-      // }
-
-      // // Chrome is Webkit, but Webkit is also Safari.
-      // if (browser.chrome) {
-      //   browser.webkit = true;
-      // } else if (browser.webkit) {
-      //   browser.safari = true;
-      // }
-
-      // jQuery.browser = browser;
-      // var startDate = $('#startDate');
-      // if (startDate.length > 0) {
-      //   if (!Modernizr.inputtypes.date) {
-      //     // If not native HTML5 support, fallback to jQuery datePicker
-      //     $('#startDate').datepicker({
-      //       // Consistent format with the HTML5 picker
-      //       dateFormat: 'dd/mm/yy',
-      //       minDate: 0,
-
-      //     },
-      //       // Localization
-      //       $.datepicker.regional['en-GB']
-      //     );
-
-      //     $('#endDate').datepicker({
-      //       // Consistent format with the HTML5 picker
-      //       dateFormat: 'dd/mm/yy',
-      //       minDate: 0,
-      //       onClose: function () {
-      //         var dt1 = $('#startDate').datepicker('getDate');
-      //         console.log(dt1);
-      //         var dt2 = $('#endDate').datepicker('getDate');
-      //         if (dt2 <= dt1) {
-      //           var minDate = $('#endDate').datepicker('option', 'minDate');
-      //           $('#endDate').datepicker('setDate', minDate);
-      //         }
-      //       }
-      //     },
-      //       // Localization
-      //       $.datepicker.regional['en-GB']
-      //     );
-
-      //   }
-      // }
-
-
-      // Date validation for chrome/opera
-      // Set min attr of start date to current date
-      if (typeof (startDateChrome) != 'undefined') {
-        console.log("Start Date check" + today);
-        startDateChrome.setAttribute('min', today);
+      matched = jQuery.uaMatch(navigator.userAgent);
+      console.log(matched.browser);
+      if (matched.browser) {
+        browser[matched.browser] = true;
+        browser.version = matched.version;
       }
 
-      document.getElementById("startDate").onchange = function () { setEndDate(); };
+      // Chrome is Webkit, but Webkit is also Safari.
+      if (browser.chrome) {
+        browser.webkit = true;
+      } else if (browser.webkit) {
+        browser.safari = true;
+      }
+
+      jQuery.browser = browser;
+      var startDate = $('#startDate');
+      if (startDate.length > 0) {
+        if (!Modernizr.inputtypes.date) {
+          // If not native HTML5 support, fallback to jQuery datePicker
+          $('#startDate').datepicker({
+            // Consistent format with the HTML5 picker
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            onClose: function () {
+              console.log("Date picker dat changed");
+              var dt1 = $('#startDate').datepicker('getDate');
+              dt1.setDate(dt1.getDate() + 1);
+              console.log(dt1);
+              $('#endDate').datepicker('option', { minDate: dt1 });
+
+              console.log("Start set" + document.getElementById("startDate").value);
+            }
+
+
+          },
+            // Localization
+            $.datepicker.regional['en-GB']
+          );
+
+          $('#endDate').datepicker({
+            // Consistent format with the HTML5 picker
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            onClose: function () {
+              // var dt1 = $('#startDate').datepicker('getDate');
+              // console.log(dt1);
+              // var dt2 = $('#endDate').datepicker('getDate');
+              // if (dt2 <= dt1) {
+              //   $('#endDate').datepicker('setDate', minDate);
+              // }
+              console.log("End set" + document.getElementById("endDate").value);
+            }
+          },
+            // Localization
+            $.datepicker.regional['en-GB']
+          );
+
+        }
+      }
+
+      if (matched.browser == "chrome") {
+        // Date validation for chrome/opera
+        // Set min attr of start date to current date
+        if (typeof (startDateChrome) != 'undefined') {
+          console.log("Start Date check" + today);
+          startDateChrome.setAttribute('min', today);
+        }
+
+        document.getElementById("startDate").onchange = function () { setEndDate(); };
+        document.getElementById("endDate").onchange = function () { setStartDate(); };
+
+        setStartDate();
+        setEndDate();
+
+      }
 
       // Update end date based on start date
       function setEndDate() {
@@ -89,15 +105,33 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
         var startDateChrome = document.getElementById("startDate");
         var endDateChrome = document.getElementById("endDate");
         console.log(startDateChrome.value);
-        var terminationDate = new Date(startDateChrome.value);
-        console.log(terminationDate);
-        terminationDate.setDate(terminationDate.getDate() + 1);
-        terminationDate = terminationDate.toISOString().split('T')[0];
-        endDateChrome.setAttribute('min', terminationDate);
+        if (startDateChrome.value != "") {
+          var terminationDate = new Date(startDateChrome.value);
+          console.log(terminationDate);
+          terminationDate.setDate(terminationDate.getDate() + 1);
+          terminationDate = terminationDate.toISOString().split('T')[0];
+          endDateChrome.setAttribute('min', terminationDate);
+          endDateChrome.value = terminationDate;
+        }
       }
-	  
-    });
 
+      // Update end date based on start date
+      function setStartDate() {
+        console.log("Start Date Changed");
+        var startDateChrome = document.getElementById("startDate");
+        var endDateChrome = document.getElementById("endDate");
+        console.log(startDateChrome.value);
+        if (endDateChrome.value != "") {
+          var startDateSet = new Date(endDateChrome.value);
+          console.log(startDateSet);
+          startDateSet.setDate(startDateSet.getDate() - 1);
+          startDateSet = startDateSet.toISOString().split('T')[0];
+          startDateChrome.setAttribute('min', startDateSet);
+          startDateChrome.value = startDateSet;
+        }
+      }
+
+    });
 
       //fetch the localStorage data
       getCurrentUserData.getData(function (data) {
@@ -117,7 +151,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 				$state.go('login');
 		  }
 
-      });
+    });
 
 
     $scope.spinnerFlag = true;
