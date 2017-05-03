@@ -11,31 +11,31 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
       }, 0);
     }
 
-else{
+    else {
       getCurrentUserData.getData(function (currentUser) {
         console.log("1111111111111")
         $scope.currentUserEmail = currentUser.data.from_email;
         $scope.currentUserAddress = currentUser.data.from_eth_address;
- });
+      });
 
 
-   $scope.dealData = $stateParams.contract;
-        console.log($stateParams.contract);
-        console.log("Deal data: ", $scope.dealData);
+      $scope.dealData = $stateParams.contract;
+      console.log($stateParams.contract);
+      console.log("Deal data: ", $scope.dealData);
 
-        // perform verfication of the signatures of all the tx's in $scope.dealData.tx
-        var tx_array = $scope.dealData.tx;
-        //get the event details from geth Client using tx_hash
+      // perform verfication of the signatures of all the tx's in $scope.dealData.tx
+      var tx_array = $scope.dealData.tx;
+      //get the event details from geth Client using tx_hash
 
-        console.log(tx_array)
-        for (var k = 0; k < tx_array.length; k++) {
+      console.log(tx_array)
+      for (var k = 0; k < tx_array.length; k++) {
 
-          if (tx_array[k].caller== $scope.currentUserEmail){
-            console.log("No counter party transactions found!");
-          }
+        if (tx_array[k].caller == $scope.currentUserEmail) {
+          console.log("No counter party transactions found!");
+        }
 
-          else{
-            console.log("it is there")
+        else {
+          console.log("it is there")
           var data = ethdapp.web3.eth.getTransactionReceipt(tx_array[k].txHash);
 
           var event_data = data.logs[0].data;
@@ -58,20 +58,20 @@ else{
 
 
           if (event != null) {
-            var sig_data=null;
+            var sig_data = null;
             console.log(event)
 
             var inputs = event.inputs.map(function (input) { return input.type; });
 
             var data = solidity.decodeParams(inputs, log.data.replace("0x", ""));
             console.log(data);
-           // console.log(JSON.parse(data[2]));
-              if(event.name =="createContractEvent"){
-             sig_data = JSON.parse(data[2]);
-              }
-              else{
-                   sig_data = JSON.parse(data[0]);
-              }
+            // console.log(JSON.parse(data[2]));
+            if (event.name == "createContractEvent") {
+              sig_data = JSON.parse(data[2]);
+            }
+            else {
+              sig_data = JSON.parse(data[0]);
+            }
             var temp_contract_data = {};
 
             temp_contract_data.deal_id = $scope.dealData._id.toString();
@@ -127,9 +127,9 @@ else{
 
           }
         }
-        }
-     }
-     //console.log(ethdapp.web3.toAscii(event_data));
+      }
+    }
+    //console.log(ethdapp.web3.toAscii(event_data));
 
     $scope.backButtonPress = function () {
 
