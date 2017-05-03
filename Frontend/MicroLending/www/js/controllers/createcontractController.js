@@ -281,6 +281,18 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
 
                   ionicToast.show('Mined Transaction Successfully', 'bottom', true);
 
+                  // Clear form on success
+
+                  // data.description = "";
+                  // data.assetname = "";
+                  // data.assetid = "";
+                  // data.startdate = "";
+                  // data.enddate = "";
+                  // data.counterparty = "";
+
+                  //Does not work
+                  //$scope.createContractForm.$setPristine();
+
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
                   $scope.$apply();
 

@@ -53,14 +53,8 @@
     padding: 5px;
     display:block;
 }
-input[type="text"]:disabled {
-    background: #ddd;
-}
-input[type="date"]:disabled {
-    background: #ddd;
-}
-textarea:disabled{
-   background: #ddd;
+fieldset:disabled{
+  opacity: 0.5;
 }
 .loadingText{
   font-size: 2em;
