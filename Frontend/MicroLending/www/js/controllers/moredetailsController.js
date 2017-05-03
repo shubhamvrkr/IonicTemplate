@@ -27,7 +27,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
       var hash = ethdapp.web3.sha3(signature);
       console.log(log.topics[0])
       console.log(hash)
-      if (hash == log.topics[0]) {
+      if ("0x"+hash == log.topics[0]) {
         event = item;
         break;
       }
@@ -37,15 +37,12 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
     if (event != null) {
       console.log(event)
       var inputs = event.inputs.map(function (input) { return input.type; });
-      var data = SolidityCoder.decodeParams(inputs, log.data.replace("0x", ""));
-      console.log(data)
-      // Do something with the data. Depends on the log and what you're using the data for.
+      var data = solidity.decodeParams(inputs, log.data.replace("0x", ""));
+      console.log(JSON.parse(data[2]));
+      //verify the signatures using s,r,v field and nonce;
+     
     }
 
-
-    //var data1 = solidity.decodeParams(["address", "address", "string", "uint32"], log.data.replace("0x", ""))
-
-    //console.log(JSON.parse(data1[2]))
     //console.log(ethdapp.web3.toAscii(event_data));
     $scope.backButtonPress = function () {
 
