@@ -68,8 +68,16 @@ angular.module('app.services')
           payload.sig_r = r_hex.toString('hex');
           payload.sig_v = signature.v.toString();
           payload.nonce = contract_data.nonce;
-          payload.to = contract_data.from_ethAddress;
-          payload.from = contract_data.to_ethAddress;
+         
+          payload.from = addr;
+
+          if (addr==contract_data.from_ethAddress)
+          {
+            payload.to = contract_data.to_ethAddress;
+          }else
+          {
+            payload.to = contract_data.from_ethAddress;
+          }
           console.log(JSON.stringify(payload));
 
           //create a transaction
@@ -92,7 +100,6 @@ angular.module('app.services')
                
               });
             }
-
 
 
           });

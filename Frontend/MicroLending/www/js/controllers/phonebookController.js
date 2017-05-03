@@ -70,7 +70,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
            
 
           });
-            Export();
+            //Export();
         }
       });
 

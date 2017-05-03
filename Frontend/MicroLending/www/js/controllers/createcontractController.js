@@ -243,7 +243,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
-
         }
 
       });
