@@ -17,7 +17,7 @@ else{
         $scope.currentUserEmail = currentUser.data.from_email;
         $scope.currentUserAddress = currentUser.data.from_eth_address;
  });
-}
+
 
    $scope.dealData = $stateParams.contract;
         console.log($stateParams.contract);
@@ -108,8 +108,8 @@ else{
 
               } else {
 
-                console.log(response)
-                EthWallet.encryption_sign.verifyMsg(response.eth_address, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
+                console.log(response.data)
+                EthWallet.encryption_sign.verifyMsg(response.data.eth_address, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
 
                   if (err) {
 
@@ -128,7 +128,7 @@ else{
           }
         }
         }
-     
+}
      //console.log(ethdapp.web3.toAscii(event_data));
 
     $scope.backButtonPress = function () {
