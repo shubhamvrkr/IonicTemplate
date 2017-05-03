@@ -144,19 +144,23 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     });
 
-    //fetch the localStorage data
+      //fetch the localStorage data
+      getCurrentUserData.getData(function (data) {
 
-    getCurrentUserData.getData(function (data) {
+			if(data.data!=null){
+		  
+			user_data = data.data;
+			console.log(user_data);
+			from_eth_address = user_data.from_eth_address;
+			from_email = user_data.from_email;
+			ks_local = user_data.ks_local;
+			pwDerivedKey = user_data.pwDerivedKey;
+			current_user_key = user_data.current_user_key;
 
-      user_data = data.data;
-      console.log(user_data);
-      from_eth_address = user_data.from_eth_address;
-      from_email = user_data.from_email;
-      ks_local = user_data.ks_local;
-      pwDerivedKey = user_data.pwDerivedKey;
-      current_user_key = user_data.current_user_key;
-
-      console.log(pwDerivedKey);
+		  }else{
+		  
+				$state.go('login');
+		  }
 
     });
 
@@ -246,7 +250,10 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
-              doc.tx = [txHash];
+              var tx_object = {}
+              tx_object.caller = contract_data.from_email;
+              tx_object.txHash =txHash ;
+              doc.tx = [tx_object];
 
               databaseFactory.putData(deal_db, doc, function (res) {
 
