@@ -22,7 +22,10 @@ for (var i = 0; i < ABI.length; i++) {
 						var item = ABI[i];
 				   // console.log(item)
 						if (item.type != "event") continue;
-             console.log(item.inputs);
+            console.log( item.inputs.map(function(ip){
+
+              return (ip.type);
+             }));
 						var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
 						var hash = ethdapp.web3.sha3(signature);
 						if (hash == log.topics[0]) {
