@@ -18,11 +18,12 @@
                 </div>
               </label>
               <!-- Form Fields -->
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Asset Name</span>
-                <input type="text" name="assetname" placeholder="What are you lending? Eg. Camera, Book, CD" ng-model="data.assetname" ng-minlength="3" required>
-                <small ng-show="createContractForm.assetname.$error.minlength" class="ng-hide">Asset name must be longer than 3 charactes</small>
-              </label>
+              <label class="item item-input item-stacked-label" >
+				 <span class="input-label">Asset Name</span>
+				  <input type="text" name="assetname" placeholder="What are you lending? Eg. Camera, Book, CD" ng-model="data.assetname" ng-minlength="3" required>
+				  <small ng-show="createContractForm.assetname.$error.minlength" class="ng-hide">Asset name must be longer than 3 charactes</small>
+			  
+			  </label>
               <label class="item item-input item-stacked-label">
                 <span class="input-label">Asset ID</span>
                 <input type="text" name="assetid" placeholder="Unique Asset Identifier" ng-model="data.assetid" ng-minlength="3" required>
