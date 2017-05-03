@@ -53,10 +53,36 @@
     padding: 5px;
     display:block;
 }
-
+input[type="text"]:disabled {
+    background: #ddd;
+}
+input[type="date"]:disabled {
+    background: #ddd;
+}
+textarea:disabled{
+   background: #ddd;
+}
+.loadingText{
+  font-size: 2em;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #0052cc;
+}
+div.spinner {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  height: 85px;
+  text-align: center;
+  z-index: 100 !important;
+  opacity: 0.8;
+}
+.spinner svg {
+  width: 19% !important;
+  height: 85px !important;
+  stroke: #0052cc !important;
+}
 .button-radius{
   border-radius: 7px 7px 7px 7px;
-
 }
 
 a{
@@ -67,6 +93,11 @@ a{
 }
 a:hover{
   color:greenyellow ;
+}
+
+.spinner svg {
+  width: 19% !important;
+  height: 85px !important;
 }
 
 /* Hide up-down arrows for number fields - Firefox */

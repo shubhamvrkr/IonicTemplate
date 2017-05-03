@@ -1,11 +1,11 @@
-mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
+  function ($timeout, $scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData) {
 
 
     $scope.$on("$ionicView.beforeEnter", function () {
-
+      // Browser type check
       jQuery.uaMatch = function (ua) {
         ua = ua.toLowerCase();
 
@@ -144,29 +144,26 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     });
 
-      //fetch the localStorage data
-      getCurrentUserData.getData(function (data) {
+    //fetch the localStorage data
+    getCurrentUserData.getData(function (data) {
 
-			if(data.data!=null){
-		  
-			user_data = data.data;
-			console.log(user_data);
-			from_eth_address = user_data.from_eth_address;
-			from_email = user_data.from_email;
-			ks_local = user_data.ks_local;
-			pwDerivedKey = user_data.pwDerivedKey;
-			current_user_key = user_data.current_user_key;
+      if (data.data != null) {
 
-		  }else{
-		  
-				$state.go('login');
-		  }
+        user_data = data.data;
+        console.log(user_data);
+        from_eth_address = user_data.from_eth_address;
+        from_email = user_data.from_email;
+        ks_local = user_data.ks_local;
+        pwDerivedKey = user_data.pwDerivedKey;
+        current_user_key = user_data.current_user_key;
+
+      }
+      else {
+        $state.go('login');
+      }
 
     });
 
-
-    $scope.spinnerFlag = true;
-    $scope.textFlag = false;
     console.log("Stateparams: ", $stateParams);
     $scope.data = {};
 
@@ -183,10 +180,26 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     };
 
+    // $scope.Test = function () {
 
+    //   $ionicLoading.show({
+    //     template: '<ion-spinner icon="lines" class="spinner-calm" ng-hide="false"></ion-spinner><label class="miningText" ng-hide="false"><br>Mining Transaction!<label>',
+    //     maxWidth: 300,
+    //     animation: 'slide-in-up'
+    //   });
+    //   $timeout(function () {
+    //     $ionicLoading.hide();
+    //   }, 2000);
+    // }
+
+    $scope.isSaving = false;
+    $scope.submitFlag = false;
+    $scope.spinnerFlag = true;
     $scope.CreateDeal = function (data) {
+
+      $scope.isSaving = true;
+      $scope.submitFlag = true;
       $scope.spinnerFlag = false;
-      $scope.textFlag = true;
 
       console.log(data);
       console.log(data.startdate);
@@ -230,9 +243,6 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               console.log("ohh yes");
 
               //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
               var doc = {};
               doc._id = contract_data.deal_id.toString();
               doc.asset_name = contract_data.asset_name;
@@ -252,7 +262,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
               doc.notification_flag = "false";
               var tx_object = {}
               tx_object.caller = contract_data.from_email;
-              tx_object.txHash =txHash ;
+              tx_object.txHash = txHash;
               doc.tx = [tx_object];
 
               databaseFactory.putData(deal_db, doc, function (res) {
@@ -265,9 +275,15 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   clearInterval(id1);
                   $ionicLoading.hide();
 
+                  $scope.isSaving = false;
+                  $scope.submitFlag = false;
+                  $scope.spinnerFlag = true;
+
+                  ionicToast.show('Mined Transaction Successfully', 'bottom', true);
+
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
                   $scope.$apply();
-                  ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+
 
                 });
 
