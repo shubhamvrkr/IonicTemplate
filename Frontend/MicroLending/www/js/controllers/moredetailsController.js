@@ -3,6 +3,13 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
 
     console.log("more details")
 
+    if ($stateParams.contract==null){
+      console.log("NUL")
+       $timeout(function () {
+        $state.go('menu.allContracts');
+        }, 0);
+    }else{
+
     $scope.dealData = $stateParams.contract;
     console.log($stateParams.contract);
     console.log("Deal data: ", $scope.dealData);
@@ -90,8 +97,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
       });
     }
 
-    //console.log(ethdapp.web3.toAscii(event_data));
-    $scope.backButtonPress = function () {
+  }  //console.log(ethdapp.web3.toAscii(event_data));
+    
+  $scope.backButtonPress = function () {
 
       console.log("back button pressed")
       $ionicHistory.goBack();

@@ -86,7 +86,13 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     //Cleanup the popover when we're done with it!
     $scope.$on('$destroy', function() {
-      $scope.popover.remov - e();
+      try{
+
+        $scope.popover.remove();
+      }catch(err){
+
+      }
+     
     });
 
     // Execute action on hidden popover
