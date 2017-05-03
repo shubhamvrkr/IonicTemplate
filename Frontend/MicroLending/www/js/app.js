@@ -173,7 +173,6 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 	
 		function storeDatainDatabase(data){
 
-			
 				console.log('Message ', data);
 				var NotiData = JSON.parse(data.body);
 				var invoker = NotiData.invoker;
@@ -189,18 +188,18 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						if(response.status=="0"){
 						
 							console.log("Contact not found in database");
-							$http.get(apiUrl+"/api/users/"+invoker).then(function(response) {
+							$http.get(apiUrl+"/api/users/?email="+invoker).then(function(response) {
 							
 							
-								console.log("Get Call: ",response.data);
-								var publicKeyInvoker = response.data.publicKey;
-								ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
+								console.log("Get Call: ",response.data[0]);
+								var publicKeyInvoker = response.data[0].publicKey;
+								checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
 								
 								contactEntry = {
-									"_id": response.data.email,
-									"eth_address": response.data.ethAccount,
-									"name": response.data.name,
-									"publicKey": response.data.publicKey
+									"_id": response.data[0].email,
+									"eth_address": response.data[0].ethAccount,
+									"name": response.data[0].name,
+									"publicKey": response.data[0].publicKey
 								}
 								databaseFactory.putData(contact_db, contactEntry, function (response) {
 
@@ -218,7 +217,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						
 							var publicKeyInvoker = response.data.publicKey;
 							console.log("publicKeyInvoker: ",publicKeyInvoker);
-							ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
+							checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
 						
 						}
 						
@@ -230,6 +229,19 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 					console.log("Error : ",err)
 				}
 		}
+			
+		function checkUserKeyStore(NotiData,publicKey,invoker){
+
+			getCurrentUserData.getData(function(response){
+				
+				userKeyStore = response.data;
+				console.log("Key Store: ",userKeyStore)
+				ProcessNotificationData(NotiData,publicKey,invoker)
+			
+			});
+		}
+			
+			
 			
 		function ProcessNotificationData(NotiData,publicKey,invoker){
 				
