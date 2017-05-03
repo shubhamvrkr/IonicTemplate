@@ -1,341 +1,350 @@
 mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-	// You can include any angular dependencies as parameters for this function
-	// TIP: Access Route Parameters for your page via $stateParams.parameterName
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-	function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
+  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
 
-		getCurrentUserData.getData(function (response) {
-				
-			if(response.data!=null){
-				$scope.user_email = response.data.from_email;
-				$scope.user_address = response.data.from_eth_address;
-				$scope.ks_local = response.data.ks_local;
-				$scope.pwDerivedKey = response.data.pwDerivedKey;
-			}else{
-			
-				$state.go('login');
-				
-			}
-		})
+    getCurrentUserData.getData(function (response) {
 
+      if (response.data != null) {
+        $scope.user_email = response.data.from_email;
+        $scope.user_address = response.data.from_eth_address;
+        $scope.ks_local = response.data.ks_local;
+        $scope.pwDerivedKey = response.data.pwDerivedKey;
+      } else {
 
-		$scope.pendingcontracts = [];
-		$scope.activecontracts = [];
-		$scope.completedcontracts = [];
-		console.log("rootScope: ", $rootScope.globals);
-		loadDealsfromDB();
+        $state.go('login');
 
-		$scope.moreDetails = function (contract) {
+      }
+    })
 
+    $scope.dealInProgress = "true";
+    $scope.pendingcontracts = [];
+    $scope.activecontracts = [];
+    $scope.completedcontracts = [];
+    console.log("rootScope: ", $rootScope.globals);
+    loadDealsfromDB();
 
-			console.log("Moredetails: ", contract);
-			$state.go('moredetails', { contract: contract })
+    $scope.moreDetails = function (contract) {
 
 
-		}
-		$scope.settleContract = function (contract) {
+      console.log("Moredetails: ", contract);
+      $state.go('moredetails', { contract: contract })
 
 
-			console.log("settleContract: ", contract);
-			allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+    }
+    $scope.settleContract = function (contract) {
 
-				if (response.status == "1") {
 
-					console.log(response.data);
-					txHash = response.data;
-					var count1 = 0;
-					var id1 = setInterval(function () {
+      $scope.dealInProgress = "false";
+      console.log("settleContract: ", contract);
+      allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-						console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+        if (response.status == "1") {
 
-						if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-							console.log("ohh yes");
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
 
-							//insert into database
-							$scope.spinnerFlag = true;
-							$scope.textFlag = false;
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
 
-							//update status, notification_flag, tx_hash array
-							var tx_object = {};
-							var tx_array = [];
-							 tx_object.caller = $scope.user_address;
-            				  tx_object.txHash =txHash ;
-							tx_array = contract.tx;
-							tx_array.push(tx_object)
-							var doc = contract;
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
 
-							doc.status = "pending";
-							doc.notification_flag = "false";
-							doc.tx = tx_array;
-							//update call.. 3 items 
-							databaseFactory.updateDoc(deal_db, doc, function (res) {
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
 
-								console.log(res);
-								// test data in db
-								databaseFactory.getAllData(deal_db, function (response) {
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_address;
+              tx_object.txHash = txHash;
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
 
-									console.log(response);
-									clearInterval(id1);
-									//$ionicLoading.hide();
-									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+              doc.status = "pending";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
 
-								});
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
 
-							});
+                  console.log(response);
+                  clearInterval(id1);
 
-							// $state.go('registerSuccess');
-							//  TemplateVar.set(template, 'state', { isMining: false });
-							//   TemplateVar.set(template, 'state', { isMined: true });
+                  $scope.dealInProgress = "true";
+                  //$ionicLoading.hide();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
-							// TemplateVar.set(template,'state', {isUserInactive: true});
-						} else {
-							//console.log("ohh no");
-							if (count1 == 40) {
-								clearInterval(id1);
-								// TemplateVar.set(template, 'state', { isError: true });
-							}
-							count1++;
-						}
-					}, 4000);
+                });
 
+              });
 
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
 
-				} else {
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
 
-					console.log(res.data);
-					$ionicLoading.hide();
-					ionicToast.show(res.data, 'bottom', false, 2500);
 
 
-				}
+        } else {
 
+          console.log(res.data);
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
 
 
-			});
+        }
 
 
 
+      });
 
 
-		}
-		$scope.acceptContract = function (contract) {
 
-			console.log("acceptSettlement: ", contract);
 
-			//1. prepare the data for sigining with nonce. from and to are the sender
-			//payload should include s,r,v,nonce.
-			allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-				if (response.status == "1") {
+    }
+    $scope.acceptContract = function (contract) {
 
-					console.log(response.data);
-					txHash = response.data;
-					var count1 = 0;
-					var id1 = setInterval(function () {
+      console.log("acceptSettlement: ", contract);
 
-						console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+      $scope.dealInProgress = "true";
+      //1. prepare the data for sigining with nonce. from and to are the sender
+      //payload should include s,r,v,nonce.
+      allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-						if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-							console.log("ohh yes");
+        if (response.status == "1") {
 
-							//insert into database
-							$scope.spinnerFlag = true;
-							$scope.textFlag = false;
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
 
-							//update status, notification_flag, tx_hash array
-							var tx_object = {};
-							var tx_array = [];
-							 tx_object.caller = $scope.user_address;
-            				  tx_object.txHash =txHash ;
-							tx_array = contract.tx;
-							tx_array.push(tx_object)
-							var doc = contract;
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
 
-							doc.status = "active";
-							doc.notification_flag = "false";
-							doc.tx = tx_array;
-							//update call.. 3 items 
-							databaseFactory.updateDoc(deal_db, doc, function (res) {
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
 
-								console.log(res);
-								// test data in db
-								databaseFactory.getAllData(deal_db, function (response) {
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
 
-									console.log(response);
-									clearInterval(id1);
-									//$ionicLoading.hide();
-									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_address;
+              tx_object.txHash = txHash;
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
 
-								});
+              doc.status = "active";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
 
-							});
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
 
-							// $state.go('registerSuccess');
-							//  TemplateVar.set(template, 'state', { isMining: false });
-							//   TemplateVar.set(template, 'state', { isMined: true });
+                  console.log(response);
+                  clearInterval(id1);
 
-							// TemplateVar.set(template,'state', {isUserInactive: true});
-						} else {
-							//console.log("ohh no");
-							if (count1 == 40) {
-								clearInterval(id1);
-								// TemplateVar.set(template, 'state', { isError: true });
-							}
-							count1++;
-						}
-					}, 4000);
+                  $scope.dealInProgress = "true";
+                  //$ionicLoading.hide();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
+                });
 
+              });
 
-				} else {
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
 
-					console.log(res.data);
-					$ionicLoading.hide();
-					ionicToast.show(res.data, 'bottom', false, 2500);
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
 
 
-				}
 
+        } else {
 
+          console.log(res.data);
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
 
-			});
 
+        }
 
-		}
 
 
-		$scope.rejectContract = function (contract) {
+      });
 
-			console.log("rejectContract: ", contract);
 
-		}
-		$scope.acceptSettlement = function (contract) {
+    }
 
-			console.log("acceptContract: ", contract);
-			console.log("settleContract: ", contract);
-			allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-				if (response.status == "1") {
+    $scope.rejectContract = function (contract) {
 
-					console.log(response.data);
-					txHash = response.data;
-					var count1 = 0;
-					var id1 = setInterval(function () {
+      console.log("rejectContract: ", contract);
 
-						console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+    }
+    $scope.acceptSettlement = function (contract) {
 
-						if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-							console.log("ohh yes");
+      $scope.dealInProgress = "false";
+      console.log("acceptContract: ", contract);
+      console.log("settleContract: ", contract);
+      allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-							//insert into database
-							$scope.spinnerFlag = true;
-							$scope.textFlag = false;
+        if (response.status == "1") {
 
-							//update status, notification_flag, tx_hash array
-							var tx_object = {};
-							var tx_array = [];
-							 tx_object.caller = $scope.user_address;
-            				  tx_object.txHash =txHash ;
-							tx_array = contract.tx;
-							tx_array.push(tx_object)
-							var doc = contract;
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
 
-							doc.status = "completed";
-							doc.notification_flag = "false";
-							doc.tx = tx_array;
-							//update call.. 3 items 
-							databaseFactory.updateDoc(deal_db, doc, function (res) {
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
 
-								console.log(res);
-								// test data in db
-								databaseFactory.getAllData(deal_db, function (response) {
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
 
-									console.log(response);
-									clearInterval(id1);
-									//$ionicLoading.hide();
-									$rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-									//ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
 
-								});
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_address;
+              tx_object.txHash = txHash;
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
 
-							});
+              doc.status = "completed";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
 
-							// $state.go('registerSuccess');
-							//  TemplateVar.set(template, 'state', { isMining: false });
-							//   TemplateVar.set(template, 'state', { isMined: true });
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
 
-							// TemplateVar.set(template,'state', {isUserInactive: true});
-						} else {
-							//console.log("ohh no");
-							if (count1 == 40) {
-								clearInterval(id1);
-								// TemplateVar.set(template, 'state', { isError: true });
-							}
-							count1++;
-						}
-					}, 4000);
+                  console.log(response);
+                  clearInterval(id1);
+                  //$ionicLoading.hide();
 
+                  $scope.dealInProgress = "true";
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
+                });
 
-				} else {
+              });
 
-					console.log(res.data);
-					$ionicLoading.hide();
-					ionicToast.show(res.data, 'bottom', false, 2500);
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
 
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
 
-				}
 
 
+        } else {
 
-			});
+          console.log(res.data);
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
 
-		}
 
+        }
 
 
-		function loadDealsfromDB() {
 
-			allContractFactory.getallPendingContracts(function (response) {
+      });
 
-				console.log("Pending Contracts: ", response.data.docs);
+    }
 
-				if (response.status == "1") {
 
-					$scope.pendingcontracts = response.data.docs
-					$scope.$apply();
 
-				}
+    function loadDealsfromDB() {
 
-			});
-			allContractFactory.getallActiveContracts(function (response) {
+      allContractFactory.getallPendingContracts(function (response) {
 
-				console.log("Active Contracts: ", response.data.docs);
+        console.log("Pending Contracts: ", response.data.docs);
 
-				if (response.status == "1") {
+        if (response.status == "1") {
 
-					$scope.activecontracts = response.data.docs;
-					$scope.$apply();
+          $scope.pendingcontracts = response.data.docs
+          $scope.$apply();
 
-				}
+        }
 
-			});
-			allContractFactory.getallCompletedContracts(function (response) {
+      });
+      allContractFactory.getallActiveContracts(function (response) {
 
-				console.log("Completed Contracts: ", response.data.docs);
+        console.log("Active Contracts: ", response.data.docs);
 
-				if (response.status == "1") {
+        if (response.status == "1") {
 
-					$scope.completedcontracts = response.data.docs
-					$scope.$apply();
-				}
+          $scope.activecontracts = response.data.docs;
+          $scope.$apply();
 
-			});
+        }
 
+      });
+      allContractFactory.getallCompletedContracts(function (response) {
 
+        console.log("Completed Contracts: ", response.data.docs);
 
-		}
+        if (response.status == "1") {
 
-	}])
+          $scope.completedcontracts = response.data.docs
+          $scope.$apply();
+        }
+
+      });
+
+
+
+    }
+
+  }])
