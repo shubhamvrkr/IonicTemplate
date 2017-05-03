@@ -180,12 +180,23 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                        var s_hex = buffer.from(result.pwDerivedKey, 'hex');
               console.log('S_HEX: ',s_hex.toString('hex'));
-               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+              if (window.cordova){
 
+                 var key = "pwDerivedKey"
+            ss.set(
+    function (key) { console.log('Set ' + key);  $state.go('menu.allContracts');},
+    function (error) { console.log('Error ' + error); },
+    key, s_hex.toString('hex'));
+
+              }
+              else{
+               localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                $state.go('menu.allContracts');
+                      }
                        // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
-                        $state.go('menu.allContracts');
+                       
 
                       });
 

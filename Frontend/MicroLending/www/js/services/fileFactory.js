@@ -122,7 +122,7 @@ angular.module('app.services')
         //img.file("smile.gif", imgData, {base64: true});
         zip.generateAsync({ type: "blob" }).then(function (content) {
           // see FileSaver.js
-          saveAs(content, "user_profile.zip");
+          saveAs(content, fileName);
           callback({ status: "1" })
         });
 

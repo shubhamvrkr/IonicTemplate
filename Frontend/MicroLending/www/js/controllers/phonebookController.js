@@ -228,6 +228,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
       else {
         symmetricKey = localStorage.getItem("symkey");
         console.log('symmetricKey :', symmetricKey);
+        console.log($scope.localcontacts);
         EthWallet.encryption_sign.symEncrypt(JSON.stringify($scope.localcontacts), symmetricKey, function (err, result) {
 
           console.log(err)

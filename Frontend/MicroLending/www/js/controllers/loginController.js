@@ -1,18 +1,18 @@
 mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', '$ionicPush', 'ionicToast', '$ionicPopup', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
+  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
 
-  
+
     function bufferToBase64(buf) {
 
-      var binstr = Array.prototype.map.call(buf, function(ch) {
+      var binstr = Array.prototype.map.call(buf, function (ch) {
         return String.fromCharCode(ch);
       }).join('');
       return btoa(binstr);
     }
 
-    $scope.Login = function(data) {
+    $scope.Login = function (data) {
 
       console.log("Login");
       var user_name = data.username;
@@ -34,7 +34,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
       if (window.cordova) {
         ss.get(
-          function(value) {
+          function (value) {
             console.log('Success, got ' + value);
             login_data.ks = JSON.parse(value).ks;
             console.log(login_data.ks);
@@ -44,7 +44,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
             if (login_data.username == JSON.parse(value).email || login_data.username == JSON.parse(value).address) {
 
-              loginFactory.login(login_data, function(err, result) {
+              loginFactory.login(login_data, function (err, result) {
                 if (err) {
                   $ionicLoading.hide();
                   $scope.error = err;
@@ -59,8 +59,20 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 
                   var s_hex = buffer.from(result.pwDerivedKey, 'hex');
-              console.log('S_HEX: ',s_hex.toString('hex'));
-               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                  console.log('S_HEX: ', s_hex.toString('hex'));
+                  var key = "pwDerivedKey"
+                  ss.set(
+                    function (key) { console.log('Set ' + key); 
+                  
+                
+              
+           
+          
+              
+
+
+
+                  //sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
                   // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
                   //sessionStorage.setItem('pwDerivedKey', JSON.stringify( currentUser.pwDerivedKey));
@@ -69,7 +81,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   // save the pwderived key in SS.
                   console.log("encoded base64: ", bufferToBase64("temp_password"));
 
-                  registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function(response) {
+                  registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function (response) {
 
                     if (response.status == "0") {
 
@@ -84,8 +96,14 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   });
 
                   //$state.go('menu.allContracts');
+                   },
+                    function (error) { console.log('Error ' + error); },
+                    key, s_hex.toString('hex'));
 
                 }
+
+
+
               });
 
 
@@ -96,19 +114,25 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
               return;
             }
           },
-          function(error) {
+          function (error) {
             console.log('Error ' + error);
-              $scope.error = "No local account details found. Please create a new account";
+            $scope.error = "No local account details found. Please create a new account";
           },
           'user_data');
-      } else {
+      }
+      
+      
+      
+      
+      
+       else {
 
 
-          if (localStorage.getItem('user_data')===null){
+        if (localStorage.getItem('user_data') === null) {
 
-              $scope.error = "No local account details found. Please create a new account";
+          $scope.error = "No local account details found. Please create a new account";
 
-          }
+        }
 
         value = JSON.parse(localStorage.getItem('user_data'));
         login_data.ks = value.ks;
@@ -120,7 +144,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         address = value.address;
         if (login_data.username == value.email || login_data.username == value.address) {
 
-          loginFactory.login(login_data, function(err, result) {
+          loginFactory.login(login_data, function (err, result) {
             if (err) {
 
               $scope.error = "Invalid userrname or password!!";
@@ -132,16 +156,16 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
 
               var s_hex = buffer.from(result.pwDerivedKey, 'hex');
-              console.log('S_HEX: ',s_hex.toString('hex'));
-               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
-               //sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
+              console.log('S_HEX: ', s_hex.toString('hex'));
+              localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+              //sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
 
               console.log("Uintarray: ", result.pwDerivedKey);
               console.log("encoded base64: ", bufferToBase64("temp_password"));
 
-              registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function(response) {
+              registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function (response) {
 
                 if (response.status == "0") {
 
@@ -169,13 +193,13 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
     };
 
-    $scope.onchangeinput = function() {
+    $scope.onchangeinput = function () {
 
       $scope.error = "";
     };
 
 
-    $scope.Import = function() {
+    $scope.Import = function () {
 
       if (window.cordova) {
 
@@ -192,7 +216,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
       }
     };
 
-    var success = function(data) {
+    var success = function (data) {
 
 
       console.log("new Data: ", data);
@@ -206,7 +230,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         if (!status.hasPermission) {
           permissions.requestPermission(
             permissions.READ_EXTERNAL_STORAGE,
-            function(status) {
+            function (status) {
               if (!status.hasPermission) {
                 errorCallback();
               } else {
@@ -221,20 +245,20 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
       function resolveNativePath() {
 
-        window.FilePath.resolveNativePath(data, function(filepath) {
+        window.FilePath.resolveNativePath(data, function (filepath) {
           console.log("File path: ", filepath);
           //create a directory micro_lending
-          fileFactory.createDirectory("micro_lending", "/", function(res) {
+          fileFactory.createDirectory("micro_lending", "/", function (res) {
             console.log("App creation", res);
             //handle unzipping here for android
-            fileFactory.unZip("", filepath, function(data) {
+            fileFactory.unZip("", filepath, function (data) {
               console.log("unzip status", data);
               if (data.status == "0") {
                 $ionicLoading.hide();
                 ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
               }
 
-              fileFactory.readFile("user_profile.json", "micro_lending/user_data/", function(data) {
+              fileFactory.readFile("user_profile.json", "micro_lending/user_data/", function (data) {
 
 
                 var symKey = bufferToBase64("temp_password");
@@ -242,7 +266,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                 console.log("symKey: ", symKey);
                 console.log("data import: ", data.data)
 
-                EthWallet.encryption_sign.symDecrypt(data.data, symKey, function(err, dec_result) {
+                EthWallet.encryption_sign.symDecrypt(data.data, symKey, function (err, dec_result) {
 
                   console.log(err)
 
@@ -289,15 +313,12 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                         showDelay: 0
                       });
 
-                      loginFactory.login(login_data, function(err, result) {
+                      loginFactory.login(login_data, function (err, result) {
 
                         console.log("android login result: ", result);
 
-
-
-                       var s_hex = buffer.from(result.pwDerivedKey, 'hex');
-              console.log('S_HEX: ',s_hex.toString('hex'));
-               sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                       
+                        //sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
                         //sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
@@ -306,9 +327,20 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                           console.error(err);
                         } else {
                           // +save the pwderived key in SS.
-                          registerFactory.saveUserDataLocally(dec_result, 'user_data', function(res) {
 
-                            registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function(response) {
+                             var s_hex = buffer.from(result.pwDerivedKey, 'hex');
+                        console.log('S_HEX: ', s_hex.toString('hex'));
+
+                        var key = "pwDerivedKey"
+                        ss.set(
+                          function (key) { console.log('Set ' + key); 
+                      
+                  
+               
+
+                          registerFactory.saveUserDataLocally(dec_result, 'user_data', function (res) {
+
+                            registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function (response) {
 
                               if (response.status == "0") {
 
@@ -326,6 +358,11 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                             });
 
                           });
+
+                      },
+                          function (error) { console.log('Error ' + error); },
+                          key, s_hex.toString('hex'));
+                          
                         }
                       });
 
@@ -336,7 +373,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
               });
             });
           });
-        }, function(code, message) {
+        }, function (code, message) {
           console.log(code);
           console.log(message);
         });
@@ -344,21 +381,21 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
     };
 
-    var error = function(msg) {
+    var error = function (msg) {
       console.error("error: ", msg);
 
     };
 
-    var errorCallback = function() {
+    var errorCallback = function () {
       //user didnt grant permission
       //tell him export couldnot be done
       console.warn('Storage permission is not turned on');
     };
 
-    $scope.fileNameChanged = function(element) {
+    $scope.fileNameChanged = function (element) {
 
       console.log(element.value)
-        //browser
+      //browser
       $ionicLoading.show({
         templateUrl: 'templates/loading.html',
         animation: 'fade-in',
@@ -367,7 +404,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         showDelay: 0
       });
 
-      fileFactory.unZip("", element.files[0], function(data) {
+      fileFactory.unZip("", element.files[0], function (data) {
         //take password and then call login service to check if the password is correct or wrong. IF password is incorrect - display incorrect key-store
 
         var login_data = {};
@@ -399,7 +436,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
             login_data.password = pass;
 
             console.log("Password: ", pass)
-              // Show loading animation
+            // Show loading animation
 
             $ionicLoading.show({
               templateUrl: 'templates/loading.html',
@@ -410,16 +447,16 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
             });
 
             //generate same symmetric key and convert to base 64
-            EthWallet.encryption_sign.deriveKeyFromPassword(pass, function(err, pwDerivedKey) {
+            EthWallet.encryption_sign.deriveKeyFromPassword(pass, function (err, pwDerivedKey) {
 
-        console.log(err);
+              console.log(err);
               //decrypt the data
               console.log(pwDerivedKey);
               var symKey = bufferToBase64("temp_password");
 
               console.log("symKey: ", symKey);
 
-              EthWallet.encryption_sign.symDecrypt(data.data, symKey, function(err, result) {
+              EthWallet.encryption_sign.symDecrypt(data.data, symKey, function (err, result) {
 
 
                 if (err != null) {
@@ -435,50 +472,50 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   login_data.username = data.data.email;
                   login_data.ks = data.data.ks;
 
-                  loginFactory.login(login_data, function(err, login_result) {
+                  loginFactory.login(login_data, function (err, login_result) {
 
-            console.log(err);
-            console.log("browser login result: ", login_result);
-
-
-            var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
-            console.log('S_HEX: ',s_hex.toString('hex'));
-            sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
-                  // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
+                    console.log(err);
+                    console.log("browser login result: ", login_result);
 
 
-            if (err) {
-
-              console.error(err);
-              $ionicLoading.hide();
-              ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
-
-            } else {
-
-              registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function(res) {
+                    var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
+                    console.log('S_HEX: ', s_hex.toString('hex'));
+                    localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                    // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
-              registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function(response) {
+                    if (err) {
 
-                if (response.status == "0") {
+                      console.error(err);
+                      $ionicLoading.hide();
+                      ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
 
-                $scope.error = "Oops something went wrong..Please try again!!!";
-                $ionicLoading.hide();
+                    } else {
 
-                } else {
-
-                $ionicLoading.hide();
-                console.log("saved in local Storage", res);
-                ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
-                $state.go('menu.allContracts');
-
-                }
-
-              });
+                      registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function (res) {
 
 
-              });
-            }
+                        registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function (response) {
+
+                          if (response.status == "0") {
+
+                            $scope.error = "Oops something went wrong..Please try again!!!";
+                            $ionicLoading.hide();
+
+                          } else {
+
+                            $ionicLoading.hide();
+                            console.log("saved in local Storage", res);
+                            ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+                            $state.go('menu.allContracts');
+
+                          }
+
+                        });
+
+
+                      });
+                    }
                   });
 
                 }
