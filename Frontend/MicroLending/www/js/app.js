@@ -173,14 +173,6 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 	
 		function storeDatainDatabase(data){
 
-			
-					getCurrentUserData.getData(function(response){
-				
-						userKeyStore = response.data;
-						console.log("Key Store: ",userKeyStore)
-		
-					});
-			
 				console.log('Message ', data);
 				var NotiData = JSON.parse(data.body);
 				var invoker = NotiData.invoker;
@@ -201,7 +193,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 							
 								console.log("Get Call: ",response.data[0]);
 								var publicKeyInvoker = response.data[0].publicKey;
-								ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
+								checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
 								
 								contactEntry = {
 									"_id": response.data[0].email,
@@ -225,7 +217,7 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 						
 							var publicKeyInvoker = response.data.publicKey;
 							console.log("publicKeyInvoker: ",publicKeyInvoker);
-							ProcessNotificationData(NotiData,publicKeyInvoker,invoker);
+							checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
 						
 						}
 						
@@ -237,6 +229,19 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 					console.log("Error : ",err)
 				}
 		}
+			
+		function checkUserKeyStore(NotiData,publicKey,invoker){
+
+			getCurrentUserData.getData(function(response){
+				
+				userKeyStore = response.data;
+				console.log("Key Store: ",userKeyStore)
+				ProcessNotificationData(NotiData,publicKey,invoker)
+			
+			});
+		}
+			
+			
 			
 		function ProcessNotificationData(NotiData,publicKey,invoker){
 				
