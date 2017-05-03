@@ -59,7 +59,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller = $scope.user_address;
+              tx_object.caller =  $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
@@ -150,7 +150,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller = $scope.user_address;
+              tx_object.caller =  $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
@@ -243,7 +243,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller = $scope.user_address;
+              tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
