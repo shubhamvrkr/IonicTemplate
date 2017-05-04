@@ -22,21 +22,24 @@
                 </div>
 				<small ng-show="createContractForm.assetname.$error.minlength" class="ng-hide error">Asset name must be longer than 3 charactes</small>
               
-			  <span class="input-label">Asset ID</span>
+				<span class="input-label">Asset ID</span>
                 <div class="item item-input">
-					<input type="text" name="assetid" placeholder="Unique Asset Identifier" ng-model="data.assetid" ng-minlength="3" required>
-					
+					<input type="text" name="assetid" placeholder="Unique Asset Identifier" ng-model="data.assetid" ng-minlength="3" required>					
 				</div>
 				<small ng-show="createContractForm.assetid.$error.minlength" class="ng-hide error">Asset ID must be longer than 3 charactes</small>
-                <span class="input-label">Start Date</span>
+                 <label >
+				 <span class="input-label">Start Date</span>
                 <div class="item item-input">
 					<input type="date" id="startDate" name="startdate" placeholder="Start Date" ng-model="data.startdate" required>
 				</div>
-                <span class="input-label">End Date</span>
+				</label>
+                <label >
+				<span class="input-label">End Date</span>
                 <div class="item item-input">
 					<input type="date" id="endDate" name="enddate" placeholder="End Date" ng-model="data.enddate" required>
 				</div>
-                <span class="input-label">Description</span>
+                </label >
+				<span class="input-label">Description</span>
                 <div class="item item-input">
 					<textarea placeholder="Additional Terms & Conditions" name="description" ng-model="data.description" required></textarea>
 				</div>
