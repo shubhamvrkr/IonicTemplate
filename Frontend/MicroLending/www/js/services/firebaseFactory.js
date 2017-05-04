@@ -1,7 +1,7 @@
 angular.module('app.services')
 
  
-  .factory('firebaseFactory', ['$http','$state','$ionicPush', function ($http,$state,$ionicPush) {
+  .factory('firebaseFactory', ['$http','$state','$cordovaPushV5', function ($http,$state,$cordovaPushV5) {
 
 
     var service = {};
@@ -11,8 +11,28 @@ angular.module('app.services')
       if (window.cordova) {
 
         console.log("getFirebaseToken");
+		var options = {
+			android: {
+			  senderID: "1078648460837"
+			}
+		};
+		$cordovaPushV5.initialize(options).then(function() {
 
-        $ionicPush.register().then(function (t) {
+			$cordovaPushV5.onNotification();
+
+			$cordovaPushV5.onError();
+			
+			$cordovaPushV5.register().then(function(registrationId) {
+			
+				console.log("Token: ",registrationId);
+				callback({ status: '1', token: registrationId })
+			
+			});
+			
+		});
+		
+
+       /* $ionicPush.register().then(function (t) {
 
           console.log('Token saved1:', t.token);
           return $ionicPush.saveToken(t);
@@ -24,7 +44,7 @@ angular.module('app.services')
           callback({ status: '1', token: t.token })
 
 
-        });
+        });*/
       }
 
       else {

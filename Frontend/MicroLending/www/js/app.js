@@ -1,61 +1,55 @@
-mycontrollerModule = angular.module('app.controllers', ['ionic', 'ionic-toast', 'ngCordova', 'ngLetterAvatar', 'ionic.cloud']);
-var myApp = angular.module('app', ['ionic', 'ngLetterAvatar', 'ionic-toast', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'ionic.cloud']);
+mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar']);
+var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services']);
 
 
-myApp.config(function ($ionicConfigProvider, $sceDelegateProvider, $ionicCloudProvider) {
+myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
   $ionicConfigProvider.tabs.position('top');
   $sceDelegateProvider.resourceUrlWhitelist(['self', '*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-
-  $ionicCloudProvider.init({
-    "core": {
-      "app_id": "05b27b18"
-    },
-    "push": {
-      "sender_id": "1078648460837",
-      "pluginConfig": {
-        "ios": {
-          "badge": true,
-          "sound": true
-        },
-        "android": {
-          "iconColor": "#343434"
-        }
-      }
-    }
-  });
   
 });
 
-myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$rootScope) {
+myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$cordovaPushV5,$rootScope) {
 
+	if(window.cordova){
+		var options = {
+				android: {
+				  senderID: "1078648460837"
+				}
+		};
+		$cordovaPushV5.initialize(options).then(function() {
 
+				$cordovaPushV5.onNotification();
 
-	//firebaseFactory.recieveNotification();
+				$cordovaPushV5.onError();
+		});
+	}
+	$rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
 
-  $rootScope.$on('cloud:push:notification', function(event, data) {
-      
-	console.log("Data recieved ",data);
-	  alert(data)
-	  var response = data.message.text;
-	  var data = {
-	  
-			body:response
-	  }
-	  console.log(data);
-	  storeDatainDatabase(data);
-	  
-	  
-   });
-   
-	console.log("browser firebase")		
+			console.log("Message: ",data);
+			var response = data.message;
+			var data = {
+			  
+					body:response
+			}
+			console.log(data);
+			storeDatainDatabase(data);
+			
+	});
+
+	$rootScope.$on('$cordovaPushV5:errorOcurred', function(event, e){
+
+			console.log("Error: ",e);
+			
+	});
+	
 	
     $ionicPlatform.ready(function () {
 	
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
 
-
+	
       if (window.cordova) {
 
 			  ss = new cordova.plugins.SecureStorage(
@@ -498,7 +492,7 @@ myApp.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', 
       }]
     };
 
-  }]);
+}]);
 
 myApp.directive('hrefInappbrowser', function () {
     return {

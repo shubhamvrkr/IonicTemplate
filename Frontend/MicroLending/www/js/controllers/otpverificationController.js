@@ -143,6 +143,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
               firebaseFactory.getFirebaseToken(function (result_token) {
 
 
+				console.log(result_token)
                 //for mobile store it in a file && for browser on localStorage
                 //{kvs:'',email:,eth_addr:,seed_word:}
                 registerFactory.saveUserDataLocally(JSON.stringify(local_data), 'user_data', function (res) {
