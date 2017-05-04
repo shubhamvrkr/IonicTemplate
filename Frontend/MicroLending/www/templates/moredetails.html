@@ -83,7 +83,7 @@
       <div class="list card">
         <div class="item item-icon-right" href="#">
           Transactions
-          <i class="icon ion-checkmark-circled verify-icon" ng-if="verifiedResult" title="All Transactions Verified"></i>
+          <i class="icon ion-checkmark-circled verify-icon" ng-if="verificationFlag" title="All Transactions Verified"></i>
         </div>
         <div class="item item-text-wrap" ng-repeat="tx in dealData.tx">
           Transaction ID {{$index+1}} - <span>{{tx.txHash}}</span>

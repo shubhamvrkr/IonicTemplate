@@ -233,7 +233,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
 
           console.log(err)
           console.log(result)
-          fileFactory.createZip("contacts.zip", "/", result, function (status) {
+          fileFactory.createZip("contacts.json", "/", result, function (status) {
 
             console.log(status)
             if (status.status == "0") {
@@ -242,7 +242,7 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
             } else {
 
               $ionicLoading.hide();
-              ionicToast.show('Profile Exported at /Downloads/contacts.zip', 'bottom', true, 2500);
+              ionicToast.show('Contacts Exported at /Downloads/contacts.zip', 'bottom', true, 2500);
 
             }
 

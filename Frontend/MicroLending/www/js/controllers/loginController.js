@@ -89,6 +89,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                     } else {
 
+                      console.log("else")
                       $state.go('menu.allContracts');
 
                     }
