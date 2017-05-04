@@ -8,86 +8,52 @@
   <ion-content padding="true" class="has-header" style="background:#F5F5F5">
     <div class="screenadjust">
       <fieldset ng-disabled="isSaving">
-        <div class="card" style="margin:5px 0 5px 0; !important;">
-
-          <div class="list card" style="float:left; margin-left:15px; font-weight:bold;">
-            <div class="item" style="font-size:13px;">
-              Deal ID
-            </div>
-            <div class="item" style="font-size:13px;">
-              Counter-Party
-            </div>
-            <div class="item" style="font-size:13px;">
-              Asset Name
-            </div>
-            <div class="item" style="font-size:13px;">
-              Asset ID
-            </div>
-            <div class="item" style="font-size:13px;">
-              Start Date
-            </div>
-            <div class="item" style="font-size:13px;">
-              End Date
-            </div>
-            <div class="item" style="font-size:13px;">
-              Current Status
-            </div>
-            <div class="item" style="font-size:13px;">
-              Description
-            </div>
+           <div class="item item-divider">Deal ID : {{dealData._id}}</div>
+		   <div class="list card">
+           <div class="item">
+		   <div class="ContractAttr">
+              <h4>Counter-Party</h4>
+              <h4>Asset Name</h4>
+              <h4>Asset ID</h4>
+              <h4>Start Date</h4>
+              <h4>End Date</h4>
+              <h4>Status</h4>
+              <h4>Description</h4>            
+          </div>
+          <div class="ContractDetails ContractValueContainer">
+              <h4>{{dealData.counter_party_email}}</h4>
+              <h4>{{dealData.asset_name}}</h4>
+              <h4>{{dealData.asset_id}}</h4>
+              <h4>{{dealData.start_date * 1000 | date:"dd MMM yyyy "}}</h4>
+              <h4>{{dealData.end_date * 1000 | date:"dd MMM yyyy "}}</h4>
+              <h4>{{dealData.status}}</h4>
+              <h4>{{dealData.description}}</h4>
+            
+          </div>
+          </div>
           </div>
 
-          <div class="list card" style="margin-left:13px;">
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData._id}}   {{spinnerFlag}}
-{{isSaving}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.counter_party_email}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.asset_name}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.asset_id}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.start_date * 1000 | date:"dd MMM yyyy "}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.end_date * 1000 | date:"dd MMM yyyy "}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.status}}
-            </div>
-            <div class="item" style="font-size:13px;">
-              - &nbsp&nbsp&nbsp{{dealData.description}}
-            </div>
 
-          </div>
-        </div>
-
-        <div class="item-input-inset" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail || dealData.counter_party_address == user_address)">
-          <button style="margin-left: 10%; width:40%" ng-click="acceptContract(dealData)" class="button button-balanced">Accept Deal</button>
+        <div class="item-input-inset card-action" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail || dealData.counter_party_address == user_address)">
+          <button  ng-click="acceptContract(dealData)" class="button button-balanced">Accept Deal</button>
           <div class="button-divider"></div>
-          <button style="margin-right: 10%;width:40%" ng-click="rejectContract(dealData)" class="button button-assertive">Reject Deal</button>
+          <button ng-click="rejectContract(dealData)" class="button button-assertive">Reject Deal</button>
         </div>
 
         <div class="item-input-inset" ng-if="dealData.tx.length == 2">
           <button style="margin-left: 30%;" ng-click="settleContract(dealData)" class="button button-balanced">Create Settlement</button>
         </div>
 
-
-      <div class="list card">
-        <div class="item item-icon-right" href="#">
-          Transactions
-          <i class="icon ion-checkmark-circled verify-icon" ng-if="verificationFlag" title="All Transactions Verified"></i>
-
         <div class="item-input-inset" ng-if="dealData.tx.length == 3 && dealData.tx[2].caller!=currentUserEmail">
           <button style="margin-left: 30%;" ng-click="acceptSettlement(dealData)" class="button button-balanced">Accept Settlement</button>
-
         </div>
-        
+		
+		
+        <div class="list card">
+          <div class="item item-icon-right" href="#">
+            Transactions
+            <i class="icon ion-checkmark-circled verify-icon" ng-if="verifiedResult" title="All Transactions Verified"></i>
+          </div>
           <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:15px">
             Transaction ID {{$index+1}} - <span>{{tx.txHash}}</span>
           </div>
