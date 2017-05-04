@@ -71,7 +71,9 @@ div.createDealSpinner {
   opacity: 0.8;
 }
 
+
 .createDealSpinner svg {
+
   width: 19% !important;
   height: 85px !important;
   stroke: #0052cc !important;

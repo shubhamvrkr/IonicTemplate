@@ -121,10 +121,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
-
-
-
-
     }
     $scope.acceptContract = function (contract) {
 
