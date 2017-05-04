@@ -3,7 +3,8 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
     console.log("more details");
     //load current user details
-
+    $scope.verificationFlag = false;
+    //adding verification flag
     if ($stateParams.contract == null) {
       console.log("State Params NULL!")
       $timeout(function () {
@@ -12,6 +13,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
     }
 
     else {
+      $scope.dealData = $stateParams.contract;
+
+
       getCurrentUserData.getData(function (currentUser) {
         console.log("MoreDetails controller - Get User Data")
         $scope.currentUserEmail = currentUser.data.from_email;
@@ -20,7 +24,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
         $scope.ks_local = currentUser.data.ks_local;
         $scope.pwDerivedKey = currentUser.data.pwDerivedKey;
 
-        $scope.dealData = $stateParams.contract;
+
         console.log($stateParams.contract);
         console.log("Deal data: ", $scope.dealData);
 
@@ -115,10 +119,12 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                     if (err) {
 
                       console.log("Error in verifying signature: ", err);
+                      $scope.verificationFlag = false;
 
                     } else {
 
                       console.log("Verification Status: ", verifiedResult);
+                      $scope.verificationFlag = true;
 
                     };
 
