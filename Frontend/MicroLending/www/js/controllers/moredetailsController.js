@@ -189,7 +189,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-
+                  $scope.$apply();
                 });
 
               });
@@ -275,7 +275,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-
+                  $scope.$apply();
                 });
 
               });
@@ -361,7 +361,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-
+                  $scope.$apply();
                 });
 
               });
