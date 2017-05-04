@@ -1,5 +1,5 @@
 <ion-view title="Phone Book" id="page2">
-  <ion-content padding="true" class="has-header" style="background:#F5F5F5">
+  <ion-content padding="true" class="has-header" class="phoneBook-container">
 
 	<div class ="screenadjust">
 
@@ -22,10 +22,10 @@
 				<div class="item item-avatar" ng-click="selectContact(contact)">
 					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{contact._id}}" shape="round"></ng-letter-avatar>
 					<div class = "ethadress-display">
-						<h3 style="font-size:15px;font-style:bold;color:#000">{{contact._id}}</h3>
-						<h4 style="font-size:12px;color:#696969">{{contact.eth_address}}</h4>
+						<h3 class="contactEmail">{{contact._id}}</h3>
+						<h4 class="contactEthAccount" >{{contact.eth_address}}</h4>
 					</div>
-					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="deleteContact(contact);$event.stopPropagation();"><i class="icon ion-trash-b"></i> </p>
+					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="deleteContact(contact);$event.stopPropagation();"><i class="phoneBook-icon icon ion-trash-b"></i> </p>
 
 				</div>
 			</div>
@@ -38,15 +38,15 @@
 				<div class="item item-avatar" ng-click="selectContact(acontact)">
 					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{acontact.email}}" shape="round"></ng-letter-avatar>
 					<div class = "ethadress-display">
-						<h3 style="font-size:15px;font-style:bold;color:#000">{{acontact.email}}</h3>
-						<h4 style="font-size:12px;color:#696969">{{acontact.ethAccount}}</h4>
+						<h3 class="contactEmail">{{acontact.email}}</h3>
+						<h4 class="contactEthAccount">{{acontact.ethAccount}}</h4>
 					</div>
-					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="addContact(acontact);$event.stopPropagation();"><i class="icon ion-person-add"></i> </p>
+					<p ng-show="!visibilityflag" class="item-icon-right" ng-click="addContact(acontact);$event.stopPropagation();"><i class="phoneBook-icon icon ion-person-add"></i> </p>
 				</div>
 			</div>
 		</div>
 
-		<div class ="ng-hide" ng-show=" data.filteredavailablecontacts.length == 0  &&  data.filteredlocalcontacts.length == 0 " style="vertical-align: center;text-align: center;">
+		<div class ="ng-hide emptyContacts"  ng-show=" data.filteredavailablecontacts.length == 0  &&  data.filteredlocalcontacts.length == 0 " >
 				
 				No contacts available
 				

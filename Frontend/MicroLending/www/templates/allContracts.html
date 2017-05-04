@@ -5,40 +5,36 @@
       <div ng-show="pendingcontracts.length > 0 ">
 
         <div class="item item-divider">Pending Contracts</div>
+
         <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="pcontract in pendingcontracts  | orderBy : '-creation_date' track by $index ">
 
           <div class="item">
-            <div style="float:left">
-              <h4 style="font-size:13px;color:#191919">From: </h4>
-              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-              <h4 style="font-size:13px;color:#191919">Asset Name: </h4>
-              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-              <h4 style="font-size:13px;color:#191919">Created On: </h4>
+            <div class="ContractAttr">
+              <h4>From: </h4>
+              <h4>Counter Party: </h4>
+              <h4>Asset Name: </h4>
+              <h4>Deal ID: </h4>
+              <h4>Created On: </h4>
             </div>
 
-            <div style="float:left;margin-left:10px;">
+			<div class="ContractValue ContractValueContainer">
               <h4 style="font-size:13px;color:#595959">{{pcontract.from_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{pcontract.counter_party_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{pcontract.asset_name}}</h4>
               <h4 style="font-size:13px;color:#595959">{{pcontract._id}}</h4>
               <h4 style="font-size:13px;color:#595959">{{pcontract.creation_date | date:" dd/MM/yyyy h:mm:ss a "}}</h4>
+
             </div>
 
           </div>
-          <div class="card-action" style="margin-top:5px;">
 
-            <div style="float:left; width:60%;">
-              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
-                style="color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
-              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
-                style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
-              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && !pcontract.actionstatus && pcontract.tx[2].caller!=user_email" style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
-			  <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
-            </div>
-            <div style="float:right;width:40%;">
-              <a ng-click="moreDetails(pcontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;" ng-if="!pcontract.actionstatus">MORE DETAILS</a>
-            </div>
-          </div>
+          <div class="card-action">
+              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
+              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">REJECT</a>
+              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
+              <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
+              <a ng-click="moreDetails(pcontract)" class="moreDetails">MORE DETAILS</a>
+           </div>
 
         </div>
       </div>
@@ -50,15 +46,15 @@
 
           <div class="item">
 
-            <div style="float:left">
-              <h4 style="font-size:13px;color:#191919">From: </h4>
-              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-              <h4 style="font-size:13px;color:#191919">Asset Name: </h4>
-              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-              <h4 style="font-size:13px;color:#191919">Created On:</h4>
+            <div class="ContractAttr">
+              <h4>From: </h4>
+              <h4>Counter Party: </h4>
+              <h4>Asset Name: </h4>
+              <h4>Deal ID: </h4>
+              <h4>Created On:</h4>
             </div>
 
-            <div style="float:left;margin-left:10px;">
+           <div class="ContractValue ContractValueContainer">
               <h4 style="font-size:13px;color:#595959">{{acontract.from_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{acontract.counter_party_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{acontract.asset_name}}</h4>
@@ -68,16 +64,11 @@
 
           </div>
 
-          <div class="card-action" style="margin-top:5px;">
 
-            <div style="float:left; width:60%;">
-
-              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus" style="color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+          <div class="card-action">
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " class="actionButton" >SETTLE CONTRACT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
-            </div>
-            <div style="float:right;width:40%;">
-              <a ng-click="moreDetails(acontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;" ng-ig="!acontract.actionstatus">MORE DETAILS</a>
-            </div>
+              <a ng-click="moreDetails(acontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
 
         </div>
@@ -91,34 +82,33 @@
 
           <div class="item">
 
-            <div style="float:left">
-              <h4 style="font-size:13px;color:#191919">From: </h4>
-              <h4 style="font-size:13px;color:#191919">Counter Party: </h4>
-              <h4 style="font-size:13px;color:#191919">Asset Name:</h4>
-              <h4 style="font-size:13px;color:#191919">Deal ID: </h4>
-              <h4 style="font-size:13px;color:#191919">Created On:</h4>
+            <div class="ContractAttr">
+              <h4>From: </h4>
+              <h4>Counter Party: </h4>
+              <h4>Asset Name:</h4>
+              <h4>Deal ID: </h4>
+              <h4>Created On:</h4>
 
             </div>
-            <div style="float:left;margin-left:10px;">
+
+           <div class="ContractValue ContractValueContainer">
               <h4 style="font-size:13px;color:#595959">{{ccontract.from_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{ccontract.counter_party_email}}</h4>
               <h4 style="font-size:13px;color:#595959">{{ccontract.asset_name}}</h4>
               <h4 style="font-size:13px;color:#595959">{{ccontract._id}}</h4>
               <h4 style="font-size:13px;color:#595959">{{ccontract.creation_date | date:" dd/MM/yyyy h:mm:ss a"}}</h4>
             </div>
+			
           </div>
-          <div class="card-action" style="margin-top:5px;">
-
-            <div style="float:right;">
-              <a ng-click="moreDetails(ccontract)" style="cursor: pointer; cursor: hand;color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
-            </div>
+          <div class="card-action">
+              <a ng-click="moreDetails(ccontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
 
         </div>
 
       </div>
 
-      <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0)" style="vertical-align: center;text-align: center; margin-top:22%;">
+      <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0)" class="emptyContracts">
         No contracts created
       </div>
 
