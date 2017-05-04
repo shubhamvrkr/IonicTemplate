@@ -122,3 +122,4 @@ input::-webkit-inner-spin-button {
 .moreDetails{cursor: pointer; cursor: hand;color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;}
 .actionButton{cursor: pointer; cursor: hand;color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;}
 .emptyContracts{vertical-align: center;text-align: center; margin-top:22%;}
+.error{color:red;}
