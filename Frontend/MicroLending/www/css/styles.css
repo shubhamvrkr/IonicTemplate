@@ -76,7 +76,6 @@ fieldset:disabled{
   opacity: 0.8;
 }
 
-
 .miningSpinner svg {
 
   width: 19% !important;
@@ -85,8 +84,15 @@ fieldset:disabled{
 }
 
 .allContractsSpinner svg{
-	height: 20px !important;
-  stroke: #0052cc !important;
+   
+  
+  margin: auto;
+  position: absolute;
+  top: 80%; left: 0; bottom: 0; right: 0;
+  height: 100px;
+  text-align: center;
+  z-index: 100 !important;
+  stroke: #FFF !important;
 }
 
 .button-radius{
@@ -121,5 +127,6 @@ input::-webkit-inner-spin-button {
 .ContractValueContainer {margin-left:100px;}
 .moreDetails{cursor: pointer; cursor: hand;color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;}
 .actionButton{cursor: pointer; cursor: hand;color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;}
+.actionButton1{cursor: pointer; cursor: hand;color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:25px;}
 .emptyContracts{vertical-align: center;text-align: center; margin-top:22%;}
 .error{color:red;}

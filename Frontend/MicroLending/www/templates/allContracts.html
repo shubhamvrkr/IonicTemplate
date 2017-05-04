@@ -7,6 +7,7 @@
         <div class="item item-divider">Pending Contracts</div>
         <div class="list card" ng-repeat="pcontract in pendingcontracts track by $index">
 
+		<fieldset ng-disabled = "pcontract.actionstatus">
           <div class="item">
             <div class="ContractAttr">
               <h4>From: </h4>
@@ -27,12 +28,14 @@
           </div>
 
           <div class="card-action">
-              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
-              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">REJECT</a>
-              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
+              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus &&( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
+              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus &&( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton1">REJECT</a>
+              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && !pcontract.actionstatus && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(pcontract)" class="moreDetails">MORE DETAILS</a>
            </div>
+		 
+		</fieldset>
 
         </div>
       </div>
@@ -42,6 +45,7 @@
         <div class="item item-divider" >Active Contracts</div>
         <div class="list card" ng-repeat="acontract in activecontracts track by $index">
 
+		<fieldset ng-disabled = "acontract.actionstatus">
           <div class="item">
 
             <div class="ContractAttr">
@@ -64,10 +68,12 @@
 
 
           <div class="card-action">
-              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " class="actionButton" >SETTLE CONTRACT</a>
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus " class="actionButton" >SETTLE CONTRACT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(acontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
+		  
+		 </fieldset>
 
         </div>
 
@@ -78,6 +84,7 @@
         <div class="item item-divider" >Completed Contracts</div>
         <div class="list card" ng-repeat="ccontract in completedcontracts track by $index">
 
+		<fieldset ng-disabled = "ccontract.actionstatus">
           <div class="item">
 
             <div class="ContractAttr">
@@ -100,6 +107,8 @@
               <a ng-click="moreDetails(ccontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
 
+		</fieldset>
+		
         </div>
 
       </div>
