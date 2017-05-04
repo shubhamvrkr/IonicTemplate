@@ -35,6 +35,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     }
     $scope.settleContract = function (contract) {
 
+	  contract.actionstatus = true;
       console.log("settleContract: ", contract);
 	  
       allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
@@ -42,7 +43,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	
         if (response.status == "1") {
 
-		  contract.actionstatus = true;
+		
 		  
           console.log(response.data);
           txHash = response.data;
@@ -66,6 +67,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
+			  doc.actionstatus = false;
 
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -128,7 +130,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       console.log("acceptSettlement: ", contract);
 
-       
+         contract.actionstatus = true;
       //1. prepare the data for sigining with nonce. from and to are the sender
       //payload should include s,r,v,nonce.
       allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
@@ -136,7 +138,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 		
         if (response.status == "1") {
 
-		  contract.actionstatus = true;
+		
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -159,7 +161,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-
+			  doc.actionstatus = false;
+			  
               doc.status = "active";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -226,7 +229,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	
     $scope.acceptSettlement = function (contract) {
 
-        
+      contract.actionstatus = true;
       console.log("acceptContract: ", contract);
       console.log("settleContract: ", contract);
       allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
@@ -234,7 +237,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	
         if (response.status == "1") {
 
-		  contract.actionstatus = true;
+		
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -257,7 +260,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-
+			  doc.actionstatus = false;
               doc.status = "completed";
               doc.notification_flag = "false";
               doc.tx = tx_array;

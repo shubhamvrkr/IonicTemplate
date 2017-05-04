@@ -28,15 +28,15 @@
           <div class="card-action" style="margin-top:5px;">
 
             <div style="float:left; width:60%;">
-              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
+              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
                 style="color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
-              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
+              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
                 style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
-              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
+              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && !pcontract.actionstatus && pcontract.tx[2].caller!=user_email" style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
 			  <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
             </div>
             <div style="float:right;width:40%;">
-              <a ng-click="moreDetails(pcontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+              <a ng-click="moreDetails(pcontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;" ng-if="!pcontract.actionstatus">MORE DETAILS</a>
             </div>
           </div>
 
@@ -72,11 +72,11 @@
 
             <div style="float:left; width:60%;">
 
-              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " style="color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus" style="color:#26734d; font-weight: 500;float:left;width:100%;text-align:left;margin-left:10px;">SETTLE CONTRACT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
             </div>
             <div style="float:right;width:40%;">
-              <a ng-click="moreDetails(acontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;">MORE DETAILS</a>
+              <a ng-click="moreDetails(acontract)" style="color:#008ae6; font-weight: 500;float:right;margin-right:5px;margin-bottom:5px;" ng-ig="!acontract.actionstatus">MORE DETAILS</a>
             </div>
           </div>
 

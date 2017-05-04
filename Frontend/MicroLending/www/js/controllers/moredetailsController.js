@@ -9,34 +9,32 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$st
       $timeout(function () {
         $state.go('menu.allContracts');
       }, 0);
-    } 
+    }
 
-else{
+    else {
       getCurrentUserData.getData(function (currentUser) {
         console.log("1111111111111")
-        $scope.currentUserEmail = currentUser.data.email;
+        $scope.currentUserEmail = currentUser.data.from_email;
         $scope.currentUserAddress = currentUser.data.from_eth_address;
- });
-}
+      $scope.dealData = $stateParams.contract;
+      console.log($stateParams.contract);
+      console.log("Deal data: ", $scope.dealData);
 
-   $scope.dealData = $stateParams.contract;
-        console.log($stateParams.contract);
-        console.log("Deal data: ", $scope.dealData);
+      // perform verfication of the signatures of all the tx's in $scope.dealData.tx
+      var tx_array = $scope.dealData.tx;
+      //get the event details from geth Client using tx_hash
 
-        // perform verfication of the signatures of all the tx's in $scope.dealData.tx
-        var tx_array = $scope.dealData.tx;
-        //get the event details from geth Client using tx_hash
+      console.log(tx_array)
+      for (var k = 0; k < tx_array.length; k++) {
 
-        console.log(tx_array)
-        for (var k = 0; k < tx_array.length; k++) {
+        if (tx_array[k].caller == $scope.currentUserEmail) {
+          console.log("No counter party transactions found!");
+        }
 
-          if (tx_array[k].caller== $scope.currentUserEmail){
-            console.log("No counter party transactions found!");
-          }
-
-          else{
+        else {
+          console.log("it is there")
           var data = ethdapp.web3.eth.getTransactionReceipt(tx_array[k].txHash);
-            
+
           var event_data = data.logs[0].data;
           var log = data.logs[0];
 
@@ -57,11 +55,20 @@ else{
 
 
           if (event != null) {
+            var sig_data = null;
             console.log(event)
+
             var inputs = event.inputs.map(function (input) { return input.type; });
+
             var data = solidity.decodeParams(inputs, log.data.replace("0x", ""));
-            console.log(JSON.parse(data[2]));
-            var sig_data = JSON.parse(data[2]);
+            console.log(data);
+            // console.log(JSON.parse(data[2]));
+            if (event.name == "createContractEvent") {
+              sig_data = JSON.parse(data[2]);
+            }
+            else {
+              sig_data = JSON.parse(data[0]);
+            }
             var temp_contract_data = {};
 
             temp_contract_data.deal_id = $scope.dealData._id.toString();
@@ -91,15 +98,15 @@ else{
 
 
             databaseFactory.getDocById(contact_db, tx_array[k].caller, function (response) {
-                  console.log("Caller",tx_array[k].caller)
+
               if (response.status == "0") {
 
                 console.log("contact with email not found : ");
 
               } else {
 
-                console.log(response)
-                EthWallet.encryption_sign.verifyMsg(response.eth_address, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
+                console.log(response.data)
+                EthWallet.encryption_sign.verifyMsg(response.data.eth_address, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
 
                   if (err) {
 
@@ -117,9 +124,13 @@ else{
 
           }
         }
+
         }
-     
-     //console.log(ethdapp.web3.toAscii(event_data));
+    });
+}
+    
+
+
 
     $scope.backButtonPress = function () {
 

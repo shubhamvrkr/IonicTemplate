@@ -61,7 +61,7 @@ fieldset:disabled{
   font-family: Arial, Helvetica, sans-serif;
   color: #0052cc;
 }
-div.spinner {
+div.createDealSpinner {
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
@@ -71,15 +71,14 @@ div.spinner {
   opacity: 0.8;
 }
 
-.spinner svg {
+.createDealSpinner svg {
   width: 19% !important;
   height: 85px !important;
   stroke: #0052cc !important;
 }
 
 .allContractsSpinner svg{
-  width: 20% !important;
-  height: 40px !important;
+	height: 20px !important;
   stroke: #0052cc !important;
 }
 
