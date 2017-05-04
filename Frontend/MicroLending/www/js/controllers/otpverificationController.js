@@ -140,10 +140,10 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
 
               // get firebase token
-              //firebaseFactory.getFirebaseToken(function (result_token) {
+              firebaseFactory.getFirebaseToken(function (result_token) {
 
 
-				console.log(result_token)
+			      	console.log(result_token)
                 //for mobile store it in a file && for browser on localStorage
                 //{kvs:'',email:,eth_addr:,seed_word:}
                 registerFactory.saveUserDataLocally(JSON.stringify(local_data), 'user_data', function (res) {
@@ -172,7 +172,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                     var new_data = {};
                     new_data.name = response.name;
                     new_data.ethAccount = result.address;
-                    new_data.firebaseToken = '';
+                    new_data.firebaseToken = result_token.token;
                     new_data.publicKey = result.publickey[0];
 
                     console.log(apiUrl + "/api/users/" + response._id + "/account")
@@ -232,7 +232,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                 });
                 //end of main
 
-             // });
+             });
 
             });
           }
