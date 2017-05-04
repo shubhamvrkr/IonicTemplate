@@ -3,7 +3,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
 
     console.log("more details");
     //load current user details
-
+  $scope.verificationFlag = false;
     if ($stateParams.contract == null) {
       console.log("State Params NULL!")
       $timeout(function () {
@@ -115,10 +115,12 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
                     if (err) {
 
                       console.log("Error in verifying signature: ", err);
+                       $scope.verificationFlag = false;
 
                     } else {
 
                       console.log("Verification Status: ", verifiedResult);
+                       $scope.verificationFlag = true;
 
                     };
 
