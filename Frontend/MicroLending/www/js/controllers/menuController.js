@@ -1,8 +1,8 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'databaseFactory', 'exportProfileFactory', 'registerFactory', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile',  'registerFactory', 'databaseFactory','exportDataFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory,exportProfileFactory,$rootScope) {
+  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory,exportDataFactory,$rootScope) {
 
 
     console.log("menuCtrl");
@@ -130,7 +130,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
         } 
         else {
 
-          console.log(response.data.rows);
+        
 
           response.data.rows.forEach(function (item) {
             localcontacts.push(item.doc);
@@ -138,7 +138,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
           console.log("Local contacts to send it to the exportProfileFactory",localcontacts);
 
-          databaseFactory.getAllData(deals_db,function(deals_res){
+          databaseFactory.getAllData(deal_db,function(deals_res){
 
             if (deals_res.status == "0") {
              console.log(deals_res.data);
@@ -146,13 +146,13 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
             
          else{
 
-            console.log(deals_res.data.rows);
+            
          deals_res.data.rows.forEach(function (item) {
             localdeals.push(item.doc);
           });
 
            console.log("Local contacts to send it to the exportProfileFactory",localdeals);
-          exportProfileFactory.exportProfile(symmetricKey,JSON.stringify(localcontacts),JSON.stringify(localdeals) ,function (result) {
+          exportDataFactory.exportData(symmetricKey,JSON.stringify(localcontacts),JSON.stringify(localdeals) ,function (result) {
 
               console.log(result)
 
