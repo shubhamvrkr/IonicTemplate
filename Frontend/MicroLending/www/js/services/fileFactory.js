@@ -95,39 +95,42 @@ angular.module('app.services')
 
     service.createZip = function (fileName, path, data, callback) {
 
-      if (window.cordova) {
 
-        var PathToFileInString = cordova.file.externalRootDirectory + path;
-        console.log("PathToFileInString: ", PathToFileInString)
 
-        var PathToResultZip = cordova.file.externalRootDirectory + "micro_lending/"
-        JJzip.zip(PathToFileInString, { target: PathToResultZip, name: "user_profile" }, function (data) {
+      var PathToFileInString = cordova.file.externalRootDirectory + path;
+      console.log("PathToFileInString: ", PathToFileInString)
 
-          console.log("zipeed", data)
-          callback({ status: "1", data: data })
+      var PathToResultZip = cordova.file.externalRootDirectory + "micro_lending/"
+      JJzip.zip(PathToFileInString, { target: PathToResultZip, name: "user_profile" }, function (data) {
 
-        }, function (error) {
+        console.log("zipeed", data)
+        callback({ status: "1", data: data })
 
-          console.log("error", error)
-          callback({ status: "0", data: error })
+      }, function (error) {
 
-        })
-      }
+        console.log("error", error)
+        callback({ status: "0", data: error })
 
-      else {
+      })
+    }
 
-        var zip = new JSZip();
-        zip.file(fileName, data);
-        //var img = zip.folder("images");
-        //img.file("smile.gif", imgData, {base64: true});
-        zip.generateAsync({ type: "blob" }).then(function (content) {
-          // see FileSaver.js
-          saveAs(content, "user_profile");
-          callback({ status: "1" })
-        });
+    service.createZipBrowser = function (user_data, contacts_data, contracts_data, callback) {
 
-      }
-    };
+      var zip = new JSZip();
+      var userProfileZip = zip.folder("user_data");
+      // this call will create photos/README
+      userProfileZip.file("contacts.json", contacts_data);
+      userProfileZip.file("contracts.json", contracts_data);
+      userProfileZip.file("user_profile.json", user_data);
+
+      zip.generateAsync({ type: "blob" }).then(function (content) {
+        // see FileSaver.js
+        saveAs(content, "user_profile");
+        callback({ status: "1" })
+      });
+
+    }
+
 
     service.unZip = function (fileName, path, callback) {
 
@@ -168,20 +171,26 @@ console.log(error)
 
       else {
         console.log(path)
+
         var new_zip = new JSZip();
         new_zip.loadAsync(path)
           .then(function (zip) {
+            new_zip.folder("user_data").file("user_profile.json").async("string").then(function (user_data_encrypted) {
 
-            new_zip.file("user_profile.json").async("string").then(function (result) {
-             
-              data = result
-              callback({ status: "1", data: data });
+              console.log(user_data_encrypted);
 
-              // save the result in the local storage
-              /*registerFactory.saveUserDataLocally(result,'user_data',function(res){
-                                      console.log(res)
-                                       callback(res)
-                       });*/
+              new_zip.folder("user_data").file("contacts.json").async("string").then(function (contacts_encrypted) {
+
+                console.log(contacts_encrypted);
+
+                new_zip.folder("user_data").file("contracts.json").async("string").then(function (contracts_encrypted) {
+
+                  console.log(contracts_encrypted);
+                  callback({ status: "1", user_data_encrypted: user_data_encrypted, contacts_encrypted:contacts_encrypted,contracts_encrypted:contracts_encrypted});
+                });
+
+              });
+
             })
 
           }).catch(function (err) {

@@ -89,8 +89,29 @@ angular.module('app.services')
 		  });
     };
 
+service.bulkUpadte = function(db,data_array,callback){
 
-    return service;
+//var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+console.log("DAta array",data_array);
 
 
-  }]);
+//check if the array is empty or not.  
+if(data_array.length==0){
+  callback({status:"0"});
+}
+else{
+
+
+db.bulkDocs(data_array).then(function (result) {
+ console.log(result);
+ 
+  callback({status:"0"});
+}).catch(function (err) {
+  console.log(err);
+});
+}
+}
+ return service;
+
+}]);

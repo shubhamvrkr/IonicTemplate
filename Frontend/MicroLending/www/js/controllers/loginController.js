@@ -1,7 +1,7 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', '$ionicPush', 'ionicToast', '$ionicPopup', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', '$ionicPush', 'ionicToast', '$ionicPopup', '$rootScope', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope) {
+  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope, databaseFactory) {
 
 
     function bufferToBase64(buf) {
@@ -62,42 +62,32 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                   console.log('S_HEX: ', s_hex.toString('hex'));
                   var key = "pwDerivedKey"
                   ss.set(
-                    function (key) { console.log('Set ' + key); 
-                  
-                
-              
-           
-          
-              
+                    function (key) {
+                      console.log('Set ' + key);
 
 
 
-                  //sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
-                  // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
+                      console.log("Uintarray: ", result.pwDerivedKey);
+                      // save the pwderived key in SS.
+                      console.log("encoded base64: ", bufferToBase64("temp_password"));
 
-                  //sessionStorage.setItem('pwDerivedKey', JSON.stringify( currentUser.pwDerivedKey));
+                      registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function (response) {
 
-                  console.log("Uintarray: ", result.pwDerivedKey);
-                  // save the pwderived key in SS.
-                  console.log("encoded base64: ", bufferToBase64("temp_password"));
+                        if (response.status == "0") {
 
-                  registerFactory.saveSymmetricKeyDataLocally(bufferToBase64("temp_password"), "symkey", function (response) {
+                          $scope.error = "Oops something went wrong..Please try again!!!";
 
-                    if (response.status == "0") {
+                        } else {
 
-                      $scope.error = "Oops something went wrong..Please try again!!!";
+                          console.log("else")
+                          $state.go('menu.allContracts');
 
-                    } else {
+                        }
 
-                      console.log("else")
-                      $state.go('menu.allContracts');
+                      });
 
-                    }
-
-                  });
-
-                  //$state.go('menu.allContracts');
-                   },
+                      //$state.go('menu.allContracts');
+                    },
                     function (error) { console.log('Error ' + error); },
                     key, s_hex.toString('hex'));
 
@@ -121,12 +111,12 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
           },
           'user_data');
       }
-      
-      
-      
-      
-      
-       else {
+
+
+
+
+
+      else {
 
 
         if (localStorage.getItem('user_data') === null) {
@@ -318,52 +308,118 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                         console.log("android login result: ", result);
 
-                       
-                        //sessionStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
-                        //sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
-
-
-
                         if (err) {
                           console.error(err);
                         } else {
                           // +save the pwderived key in SS.
 
-                             var s_hex = buffer.from(result.pwDerivedKey, 'hex');
-                        console.log('S_HEX: ', s_hex.toString('hex'));
+                          var s_hex = buffer.from(result.pwDerivedKey, 'hex');
+                          console.log('S_HEX: ', s_hex.toString('hex'));
 
-                        var key = "pwDerivedKey"
-                        ss.set(
-                          function (key) { console.log('Set ' + key); 
-                      
-                  
-               
+                          var key = "pwDerivedKey"
+                          ss.set(
+                            function (key) {
+                              console.log('Set ' + key);
 
-                          registerFactory.saveUserDataLocally(dec_result, 'user_data', function (res) {
+                              registerFactory.saveUserDataLocally(dec_result, 'user_data', function (res) {
 
-                            registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function (response) {
+                                registerFactory.saveSymmetricKeyDataLocally(symKey, "symkey", function (response) {
 
-                              if (response.status == "0") {
+                                  if (response.status == "0") {
 
-                                $scope.error = "Oops something went wrong..Please try again!!!";
-                                $ionicLoading.hide();
+                                    $scope.error = "Oops something went wrong..Please try again!!!";
+                                    $ionicLoading.hide();
 
-                              } else {
+                                  } else {
 
-                                $ionicLoading.hide();
-                                console.log("saved in local Storage", res);
-                                ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
-                                $state.go('menu.allContracts');
+                                    //import contracts and contacts and do bulk update on databases
+                                    //chekc if the data is empty or not.
+                                    //case 1: read contacts file and do buld update
+                                    fileFactory.readFile("contacts.json", "micro_lending/user_data/", function (contacts_data) {
+                                      console.log("symKey: ", symKey);
+                                      console.log("contatcs data to import: ", contacts_data.data);
+                                      //decrypt the contacts_data
+                                      EthWallet.encryption_sign.symDecrypt(contacts_data.data, symKey, function (err, contacts_data_decrypted) {
 
-                              }
-                            });
+                                        if (err != null) {
 
-                          });
+                                          console.log("Error reading file after zipping");
+                                          $ionicLoading.hide();
+                                          ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
+                                          return;
 
-                      },
-                          function (error) { console.log('Error ' + error); },
-                          key, s_hex.toString('hex'));
-                          
+                                        } else {
+
+                                          console.log("Decrypted contacts data  : ", JSON.parse(contacts_data_decrypted));
+                                          contacts_array = JSON.parse(contacts_data_decrypted);
+                                          contacts_array_omitted_rev = [];
+
+                                          contacts_array.forEach(function (item) {
+                                            new_item = _.omit(item, ['_rev'])
+                                            contacts_array_omitted_rev.push(new_item);
+                                          });
+
+                                          //do bulk update. call databaseFactory to do bulk update
+                                          databaseFactory.bulkUpadte(contact_db, contacts_array_omitted_rev, function (bulkUpdate) {
+                                            console.log(bulkUpdate);
+
+
+                                            //case 2: read contracts file 
+                                            fileFactory.readFile("contracts.json", "micro_lending/user_data/", function (contracts_data) {
+                                              console.log("symKey: ", symKey);
+                                              console.log("contratcs data to import: ", contracts_data.data);
+
+                                              //decrypt contracts_data
+
+                                              EthWallet.encryption_sign.symDecrypt(contracts_data.data, symKey, function (err, contracts_data_decrypted) {
+
+                                                console.log(err)
+
+                                                if (err != null) {
+
+                                                  console.log("Error reading file after zipping");
+                                                  $ionicLoading.hide();
+                                                  ionicToast.show('Please upload valid zip file', 'bottom', false, 2500);
+                                                  return;
+
+                                                } else {
+
+                                                  contracts_array = JSON.parse(contracts_data_decrypted);
+                                                  console.log("Decrypted contracts data  : ", contracts_array.length);
+                                                  contracts_array_omitted_rev = [];
+
+                                                  contracts_array.forEach(function (item) {
+                                                    new_item = _.omit(item, ['_rev'])
+                                                    contracts_array_omitted_rev.push(new_item);
+                                                  });
+                                                  //do bulk update . call databaseFactory to do bulk update
+                                                  databaseFactory.bulkUpadte(deal_db, contracts_array_omitted_rev, function (bulkUpdate) {
+                                                    console.log(bulkUpdate);
+
+
+                                                    $ionicLoading.hide();
+                                                    console.log("saved in local Storage", res);
+                                                    ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+                                                    $state.go('menu.allContracts');
+                                                  });
+                                                }
+                                              });
+
+                                            });
+                                          });
+                                        }
+                                      });
+
+                                    });
+                                  }
+                                });
+
+                              });
+
+                            },
+                            function (error) { console.log('Error ' + error); },
+                            key, s_hex.toString('hex'));
+
                         }
                       });
 
@@ -418,7 +474,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
         } else {
 
 
-          console.log("data import: ", data.data);
+          //console.log("data import: ", data.data);
 
           $ionicLoading.hide();
           $ionicPopup.prompt({
@@ -457,7 +513,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
               console.log("symKey: ", symKey);
 
-              EthWallet.encryption_sign.symDecrypt(data.data, symKey, function (err, result) {
+              EthWallet.encryption_sign.symDecrypt(data.user_data_encrypted, symKey, function (err, result) {
 
 
                 if (err != null) {
@@ -505,13 +561,70 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                           } else {
 
-                            $ionicLoading.hide();
-                            console.log("saved in local Storage", res);
-                            ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
-                            $state.go('menu.allContracts');
+                            //decrypt the contacts
+                            EthWallet.encryption_sign.symDecrypt(data.contacts_encrypted, symKey, function (err, contacts_data_decrypted) {
 
+
+                              if (err != null) {
+
+                                console.log("Error ind ecrypting data: ", err);
+                                $ionicLoading.hide();
+                                ionicToast.show('File contents is not valid', 'bottom', false, 2500);
+
+                              } else {
+
+
+                                console.log("Decrypted contacts data  : ", JSON.parse(contacts_data_decrypted));
+                                contacts_array = JSON.parse(contacts_data_decrypted);
+                                contacts_array_omitted_rev = [];
+
+                                contacts_array.forEach(function (item) {
+                                  new_item = _.omit(item, ['_rev'])
+                                  contacts_array_omitted_rev.push(new_item);
+                                });
+
+                                //do bulk update. call databaseFactory to do bulk update
+                                databaseFactory.bulkUpadte(contact_db, contacts_array_omitted_rev, function (bulkUpdate) {
+                                  console.log(bulkUpdate);
+
+                                  //decrypt the contracts
+                                  EthWallet.encryption_sign.symDecrypt(data.contracts_encrypted, symKey, function (err, contracts_data_decrypted) {
+
+
+                                    if (err != null) {
+
+                                      console.log("Error ind ecrypting data: ", err);
+                                      $ionicLoading.hide();
+                                      ionicToast.show('File contents is not valid', 'bottom', false, 2500);
+
+                                    } else {
+
+                                   
+                                      contracts_array = JSON.parse(contracts_data_decrypted);
+                                      console.log("Decrypted contracts data  : ", contracts_array.length);
+                                      contracts_array_omitted_rev = [];
+
+                                      contracts_array.forEach(function (item) {
+                                        new_item = _.omit(item, ['_rev'])
+                                        contracts_array_omitted_rev.push(new_item);
+                                      });
+                                      //do bulk update . call databaseFactory to do bulk update
+                                      databaseFactory.bulkUpadte(deal_db, contracts_array_omitted_rev, function (bulkUpdate) {
+                                        console.log(bulkUpdate);
+
+                                        $ionicLoading.hide();
+                                        console.log("saved in local Storage", res);
+                                        ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+                                        $state.go('menu.allContracts');
+                                      });
+                                    }//else 1
+                                  });
+
+
+                                });
+                              } //else
+                            });
                           }
-
                         });
 
 

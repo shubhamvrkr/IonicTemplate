@@ -35,7 +35,7 @@ angular.module('app.services')
                         //create a json file for deals   
                         fileFactory.createFile("contracts.json", "/micro_lending/user_data", function (contacts_file) {
                           EthWallet.encryption_sign.symEncrypt(dealsFromLocalDb, symmetricKey, function (err, contracts_encrypted) {
-                            console.log("Encrypted data: ", contacts_encrypted)
+                            console.log("Encrypted data: ", contracts_encrypted)
                             fileFactory.writeToFile("contracts.json", "/micro_lending/user_data", contracts_encrypted, function (result) {
 
                               //zip it
@@ -44,10 +44,10 @@ angular.module('app.services')
                                 //TODO: delete the .json file as it is not needed anymore
                                 console.log(status)
                                 if (status.status == "0") {
-                                 callback({status:"0"});
+                                  callback({ status: "0" });
                                 } else {
 
-                                 callback({status:"1"});
+                                  callback({ status: "1" });
 
                                 }
 
@@ -75,33 +75,36 @@ angular.module('app.services')
           'user_data');
       }
 
-      else{
+      else {
 
         //for browsers
-         console.log('local storage', localStorage.getItem('user_data'))
+        console.log('local storage', localStorage.getItem('user_data'))
         user_data_content = localStorage.getItem('user_data')
 
         //var symKey = EthWallet.encryption_sign.getSymmetricKey256();
         //console.log("symKey: ",symKey);
 
-        EthWallet.encryption_sign.symEncrypt(user_data_content, symmetricKey, function(err, result) {
+        EthWallet.encryption_sign.symEncrypt(user_data_content, symmetricKey, function (err, user_data_encrypted) {
 
-          console.log(err)
-          console.log(result)
-          fileFactory.createZip("user_profile.json", "/", result, function(status) {
+          console.log(err);
+          console.log(user_data_encrypted);
+          EthWallet.encryption_sign.symEncrypt(contactsFromLocalDb, symmetricKey, function (err, contacts_encrypted) {
+            console.log("contacts_encrypted data: ", contacts_encrypted);
 
-            console.log(status)
-            if (status.status == "0") {
-              $ionicLoading.hide();
-              ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
-            } else {
+            EthWallet.encryption_sign.symEncrypt(dealsFromLocalDb, symmetricKey, function (err, contracts_encrypted) {
+              console.log("contracts_encrypted data: ", contracts_encrypted);
 
-              $ionicLoading.hide();
-              ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
+              fileFactory.createZipBrowser(user_data_encrypted, contacts_encrypted, contracts_encrypted, function (status) {
+                console.log(status)
+                if (status.status == "0") {
+                  callback({ status: "0" });
+                } else {
 
-            }
+                  callback({ status: "1" });
 
-
+                }
+              });
+            })
           })
 
         });

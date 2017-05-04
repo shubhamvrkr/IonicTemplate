@@ -1,8 +1,8 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile',  'registerFactory', 'databaseFactory','exportDataFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory', 'databaseFactory', 'exportDataFactory', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory,exportDataFactory,$rootScope) {
+  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory, exportDataFactory, $rootScope) {
 
 
     console.log("menuCtrl");
@@ -127,39 +127,52 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
         if (response.status == "0") {
           console.log(response.data);
-        } 
+        }
         else {
 
-        
+
 
           response.data.rows.forEach(function (item) {
             localcontacts.push(item.doc);
           });
 
-          console.log("Local contacts to send it to the exportProfileFactory",localcontacts);
+          console.log("Local contacts to send it to the exportProfileFactory", localcontacts);
 
-          databaseFactory.getAllData(deal_db,function(deals_res){
+          databaseFactory.getAllData(deal_db, function (deals_res) {
 
             if (deals_res.status == "0") {
-             console.log(deals_res.data);
-            } 
-            
-         else{
+              console.log(deals_res.data);
+            }
 
-            
-         deals_res.data.rows.forEach(function (item) {
-            localdeals.push(item.doc);
-          });
+            else {
 
-           console.log("Local contacts to send it to the exportProfileFactory",localdeals);
-          exportDataFactory.exportData(symmetricKey,JSON.stringify(localcontacts),JSON.stringify(localdeals) ,function (result) {
 
-              console.log(result)
+              deals_res.data.rows.forEach(function (item) {
+                localdeals.push(item.doc);
+              });
 
-          });
-         }
-           })
-          
+              console.log("Local contacts to send it to the exportProfileFactory", localdeals);
+              exportDataFactory.exportData(symmetricKey, JSON.stringify(localcontacts), JSON.stringify(localdeals), function (result) {
+
+                console.log(result);
+                if (status.status == "0") {
+                  $ionicLoading.hide();
+                  ionicToast.show('Error Exporting. Please try again', 'bottom', true, 2500);
+                } else {
+
+                  $ionicLoading.hide();
+                  if(window.cordova){
+                  ionicToast.show('Profile Exported at ' + cordova.file.externalRootDirectory + 'micro_lending/user_profile.zip', 'bottom', true, 2500);
+                  }
+                  else{
+                    ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
+                  }
+                }
+
+              });
+            }
+          })
+
         };
       });
       // create a JSON file with the user_profile content and zip it
