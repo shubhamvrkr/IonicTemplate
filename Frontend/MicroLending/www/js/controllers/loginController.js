@@ -4,6 +4,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
   function ($http, $scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, ionicToast, $ionicPopup, $rootScope, databaseFactory, firebaseFactory) {
 
 
+
     function bufferToBase64(buf) {
 
       var binstr = Array.prototype.map.call(buf, function (ch) {
@@ -364,7 +365,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                                             console.log(bulkUpdate);
 
 
-                                            //case 2: read contracts file 
+                                            //case 2: read contracts file
                                             fileFactory.readFile("contracts.json", "micro_lending/user_data/", function (contracts_data) {
                                               console.log("symKey: ", symKey);
                                               console.log("contratcs data to import: ", contracts_data.data);
