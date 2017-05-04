@@ -4,6 +4,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
     console.log("more details");
     //load current user details
     $scope.verificationFlag = false;
+    //adding verification flag
     if ($stateParams.contract == null) {
       console.log("State Params NULL!")
       $timeout(function () {
