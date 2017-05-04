@@ -68,15 +68,8 @@ myApp.run(function ($ionicPlatform, $ionicPush,databaseFactory,firebaseFactory,$
 
 			deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
 			console.log(deal_db);
-			deal_db.createIndex({index: { fields: ['status'] }
-
-			}).then(function (result) {
-				console.log(result);
-			}).catch(function (err) {
-
-				console.log(err);
-
-			});
+			
+			
 
       }else {
 

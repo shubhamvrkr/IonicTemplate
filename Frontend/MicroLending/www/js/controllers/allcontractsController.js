@@ -18,7 +18,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       }
     })
 
-    $scope.dealInProgress = "true";
+    $scope.dealInProgress = false;
     $scope.pendingcontracts = [];
     $scope.activecontracts = [];
     $scope.completedcontracts = [];
@@ -35,13 +35,16 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     }
     $scope.settleContract = function (contract) {
 
-
-      $scope.dealInProgress = "false";
+	  contract.actionstatus = true;
       console.log("settleContract: ", contract);
+	  
       allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
+	
         if (response.status == "1") {
 
+		
+		  
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -64,6 +67,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
+			  doc.actionstatus = false;
 
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -78,11 +82,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   console.log(response);
                   clearInterval(id1);
 
-                  $scope.dealInProgress = "true";
+                 contract.actionstatus = false;
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-
+					$scope.$apply();
                 });
 
               });
@@ -117,22 +121,20 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
-
-
-
-
     }
     $scope.acceptContract = function (contract) {
 
       console.log("acceptSettlement: ", contract);
 
-      $scope.dealInProgress = "true";
+         contract.actionstatus = true;
       //1. prepare the data for sigining with nonce. from and to are the sender
       //payload should include s,r,v,nonce.
       allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
+		
         if (response.status == "1") {
 
+		
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -155,7 +157,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-
+			  doc.actionstatus = false;
+			  
               doc.status = "active";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -169,10 +172,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   console.log(response);
                   clearInterval(id1);
 
-                  $scope.dealInProgress = "true";
+                  contract.actionstatus = false;
+				
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+				    $scope.$apply();
 
                 });
 
@@ -217,15 +222,18 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       console.log("rejectContract: ", contract);
 
     }
+	
     $scope.acceptSettlement = function (contract) {
 
-      $scope.dealInProgress = "false";
+      contract.actionstatus = true;
       console.log("acceptContract: ", contract);
       console.log("settleContract: ", contract);
       allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
+	
         if (response.status == "1") {
 
+		
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -248,7 +256,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-
+			  doc.actionstatus = false;
               doc.status = "completed";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -263,9 +271,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
                   //$ionicLoading.hide();
 
-                  $scope.dealInProgress = "true";
+                  contract.actionstatus = false;
+				  
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+				  $scope.$apply();
 
                 });
 

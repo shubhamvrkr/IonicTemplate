@@ -25,13 +25,15 @@
             </div>
 
           </div>
+
           <div class="card-action">
               <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
               <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">REJECT</a>
               <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
-              <ion-spinner icon="dots" class="allContractsSpinner" ng-hide="dealInProgress"></ion-spinner>
+              <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(pcontract)" class="moreDetails">MORE DETAILS</a>
            </div>
+
         </div>
       </div>
 
@@ -60,9 +62,10 @@
 
           </div>
 
+
           <div class="card-action">
               <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " class="actionButton" >SETTLE CONTRACT</a>
-              <ion-spinner icon="dots" class="allContractsSpinner" ng-hide="dealInProgress"></ion-spinner>
+              <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(acontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
 
