@@ -1,7 +1,7 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', '$ionicPush', 'ionicToast', '$ionicPopup', '$rootScope', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', 'ionicToast', '$ionicPopup', '$rootScope', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, $ionicPush, ionicToast, $ionicPopup, $rootScope, databaseFactory) {
+  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactoryionicToast, $ionicPopup, $rootScope, databaseFactory) {
 
 
     function bufferToBase64(buf) {
@@ -364,7 +364,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                                             console.log(bulkUpdate);
 
 
-                                            //case 2: read contracts file 
+                                            //case 2: read contracts file
                                             fileFactory.readFile("contracts.json", "micro_lending/user_data/", function (contracts_data) {
                                               console.log("symKey: ", symKey);
                                               console.log("contratcs data to import: ", contracts_data.data);
@@ -599,7 +599,7 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
 
                                     } else {
 
-                                   
+
                                       contracts_array = JSON.parse(contracts_data_decrypted);
                                       console.log("Decrypted contracts data  : ", contracts_array.length);
                                       contracts_array_omitted_rev = [];

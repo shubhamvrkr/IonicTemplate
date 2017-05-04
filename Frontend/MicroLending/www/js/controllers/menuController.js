@@ -1,8 +1,8 @@
-mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory', 'databaseFactory', 'exportDataFactory', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopover', '$state', '$ionicLoading', '$timeout', 'ionicToast', 'fileFactory', '$cordovaCamera', '$cordovaFile', 'registerFactory', 'databaseFactory', 'exportDataFactory', '$rootScope', '$ionicActionSheet',
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory, exportDataFactory, $rootScope) {
+  function ($scope, $stateParams, $ionicPopover, $state, $ionicLoading, $timeout, ionicToast, fileFactory, $cordovaCamera, $cordovaFile, registerFactory, databaseFactory, exportDataFactory, $rootScope, $ionicActionSheet) {
 
 
     console.log("menuCtrl");
@@ -62,6 +62,34 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     }
 
+    $scope.showActionsheet = function () {
+      $scope.closePopover();
+      $ionicActionSheet.show({
+        titleText: 'Export Options',
+        buttons: [
+          { text: '<i class="icon ion-person"></i> Export Profile' },
+          { text: '<i class="icon ion-code-download"></i> Export All Data' },
+        ],
+        cancelText: 'Cancel',
+        cancel: function () {
+          console.log('CANCELLED');
+        },
+        buttonClicked: function (index) {
+          console.log('BUTTON CLICKED', index);
+          if (index === 0) {
+            // TODO Export only profile info
+            console.log("Export Profile Only");
+          } else {
+            $scope.exportProfile();
+          }
+          return true;
+        },
+        destructiveButtonClicked: function () {
+          console.log('DESTRUCT');
+          return true;
+        }
+      });
+    };
 
     // .fromTemplateUrl() method
 
@@ -161,10 +189,10 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
                 } else {
 
                   $ionicLoading.hide();
-                  if(window.cordova){
-                  ionicToast.show('Profile Exported at ' + cordova.file.externalRootDirectory + 'micro_lending/user_profile.zip', 'bottom', true, 2500);
+                  if (window.cordova) {
+                    ionicToast.show('Profile Exported at ' + cordova.file.externalRootDirectory + 'micro_lending/user_profile.zip', 'bottom', true, 2500);
                   }
-                  else{
+                  else {
                     ionicToast.show('Profile Exported at /Downloads/user_profile.zip', 'bottom', true, 2500);
                   }
                 }
