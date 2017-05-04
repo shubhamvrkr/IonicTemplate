@@ -16,18 +16,11 @@
   font-weight:bold;
 }
 
-.more-details > .list > .item {
-  font-weight: bold;
-}
 .button-divider{
     width:2em;
     height:auto;
     display:inline-block;
 }
-.more-details > .list > .item > span{
-  font-weight: 100;
-}
-
 
 .item > small{
   color: red;
@@ -52,6 +45,14 @@
     margin:auto;
     padding: 5px;
     display:block;
+}
+
+fieldset{
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+
 }
 fieldset:disabled{
   opacity: 0.5;

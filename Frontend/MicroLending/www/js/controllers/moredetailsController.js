@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory','databaseFactory', 'getCurrentUserData',
-  function ($scope,$rootScope ,$stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory,databaseFactory, getCurrentUserData ) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData',
+  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData) {
 
     console.log("more details");
     //load current user details
@@ -133,11 +133,15 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
       });
     }
 
+    // Loader flags
+    $scope.spinnerFlag = true;
+    $scope.isSaving = false;
+
     // Button actions
-
     $scope.settleContract = function (contract) {
+      $scope.spinnerFlag = false;
+      $scope.isSaving = true;
 
-      $scope.dealInProgress = "false";
       console.log("settleContract: ", contract);
       allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.currentUserAddress, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
@@ -154,9 +158,6 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
               console.log("ohh yes");
 
               //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
@@ -178,8 +179,8 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
 
                   console.log(response);
                   clearInterval(id1);
-
-                  $scope.dealInProgress = "true";
+                  $scope.spinnerFlag = true;
+                  $scope.isSaving = false;
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -220,6 +221,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
     }
     $scope.acceptContract = function (contract) {
 
+      $scope.spinnerFlag = false;
+      $scope.isSaving = true;
+
       console.log("acceptSettlement: ", contract);
 
       $scope.dealInProgress = "true";
@@ -240,9 +244,6 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
               console.log("ohh yes");
 
               //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
@@ -264,8 +265,8 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
 
                   console.log(response);
                   clearInterval(id1);
-
-                  $scope.dealInProgress = "true";
+                  $scope.spinnerFlag = true;
+                  $scope.isSaving = false;
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -306,9 +307,11 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
       console.log("rejectContract: ", contract);
 
     }
+
     $scope.acceptSettlement = function (contract) {
 
-      $scope.dealInProgress = "false";
+      $scope.spinnerFlag = false;
+      $scope.isSaving = true;
       console.log("acceptContract: ", contract);
       console.log("settleContract: ", contract);
       allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.currentUserAddress, $scope.ks_local, $scope.pwDerivedKey, function (response) {
@@ -326,8 +329,6 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
               console.log("ohh yes");
 
               //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
 
               //update status, notification_flag, tx_hash array
               var tx_object = {};
@@ -350,9 +351,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$state
 
                   console.log(response);
                   clearInterval(id1);
+                  $scope.spinnerFlag = true;
+                  $scope.isSaving = false;
                   //$ionicLoading.hide();
-
-                  $scope.dealInProgress = "true";
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
 
