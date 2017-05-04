@@ -61,7 +61,10 @@ fieldset:disabled{
   font-family: Arial, Helvetica, sans-serif;
   color: #0052cc;
 }
-
+.verify-icon {
+  font-size: 35px;
+  color: #33cd5f;
+}
 .miningSpinner {
   margin: auto;
   position: absolute;
