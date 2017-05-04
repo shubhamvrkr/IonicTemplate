@@ -32,7 +32,7 @@
                 style="color:#26734d; font-weight: 500;float:left;text-align:left; margin-left:10px;">ACCEPT</a>
               <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)"
                 style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:30px;">REJECT</a>
-              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
+              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email" style="color:#26734d; font-weight: 500;float:left;text-align:left;margin-left:10px;">ACCEPT SETTLEMENT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-hide="dealInProgress"></ion-spinner>
             </div>
             <div style="float:right;width:40%;">

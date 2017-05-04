@@ -9,115 +9,74 @@
     <div class="screenadjust more-details">
         <div class="card moreDetails" style="margin:5px 0 5px 0; !important;">
 
-          <div class="list card" style="float:left; margin-left:25px; font-weight:bold">
-            <div class="item">
+          <div class="list card" style="float:left; margin-left:15px; font-weight:bold; ">
+            <div class="item" style="font-size:13px;">
               Deal ID
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               Counter-Party
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               Asset Name
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               Asset ID
             </div>
-            <div class="item">
-              Contract Start Date
+            <div class="item" style="font-size:13px;">
+              Start Date
             </div>
-            <div class="item">
-              Contract End Date
+            <div class="item" style="font-size:13px;">
+              End Date
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               Current Status
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               Description
             </div>
           </div>
 
-          <div class="list card" style="margin-left:20px;margin-right:25px;">
-            <div class="item">
+          <div class="list card" style="margin-left:13px;margin-right:25px;">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData._id}}
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData.counter_party_email}}
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData.asset_name}}
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData.asset_id}}
             </div>
-            <div class="item">
-              - &nbsp&nbsp&nbsp{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}
+            <div class="item" style="font-size:13px;">
+              - &nbsp&nbsp&nbsp{{dealData.start_date * 1000 | date:"dd MMM yyyy "}}
             </div>
-            <div class="item">
-              - &nbsp&nbsp&nbsp{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}
+            <div class="item" style="font-size:13px;">
+              - &nbsp&nbsp&nbsp{{dealData.end_date * 1000 | date:"dd MMM yyyy "}}
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData.status}}
             </div>
-            <div class="item">
+            <div class="item" style="font-size:13px;">
               - &nbsp&nbsp&nbsp{{dealData.description}}
             </div>
 
           </div>
         </div>
-          <!--<div class="item item-divider">
-            Deal Information
-          </div>
-          <h4>Deal ID: {{dealData._id}}</h4>
-          <h4>Counter-Party: {{dealData.counter_party_email}}</h4>
-          Asset Name:
-          <h4>{{dealData.asset_name}}</h4>
-          Asset ID:
-          <h4>{{dealData.asset_id}}</h4>
-          Contract Start Date:
-          <h4>{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}</h4>
-          Contract End Date:
-          <h4>{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}</h4>
-          Current Status:
-          <h4>{{dealData.status}}</h4>
-          Description:
-          <h4>{{dealData.description}}</h4>-->
-          <!--<div class="item item-text-wrap">
-          Deal ID: <span>{{dealData._id}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Counter-Party: <span>{{dealData.counter_party_email}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Asset Name: <span>{{dealData.asset_name}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Asset ID: <span>{{dealData.asset_id}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Contract Start Date: <span>{{dealData.start_date * 1000 | date:" dd/MM/yyyy "}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Contract End Date:<span>{{dealData.end_date * 1000 | date:" dd/MM/yyyy "}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Current Status: <span>{{dealData.status}}</span>
-        </div>
-        <div class="item item-text-wrap">
-          Description: <span>{{dealData.description}}</span>
-        </div>-->
 
-        <div class="item-input-inset" ng-if="dealData.tx.length == 1">
-          <button style="margin-left: 10%; width:40%" class="button button-balanced">Accept Deal</button>
+        <div class="item-input-inset" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail || dealData.counter_party_address == user_address)">
+          <button style="margin-left: 10%; width:40%" ng-click="acceptContract(dealData)" class="button button-balanced">Accept Deal</button>
           <div class="button-divider"></div>
-          <button style="margin-right: 10%;width:40%" class="button button-assertive">Reject Deal</button>
+          <button style="margin-right: 10%;width:40%" ng-click="rejectContract(dealData)" class="button button-assertive">Reject Deal</button>
         </div>
 
         <div class="item-input-inset" ng-if="dealData.tx.length == 2">
-          <button style="margin-left: 30%;" class="button button-balanced">Create Settlement</button>
+          <button style="margin-left: 30%;" ng-click="settleContract(dealData)" class="button button-balanced">Create Settlement</button>
         </div>
 
-        <div class="item-input-inset" ng-if="dealData.tx.length == 3">
-          <button style="margin-left: 30%;" class="button button-balanced">Accept Settlement</button>
+        <div class="item-input-inset" ng-if="dealData.tx.length == 3 && dealData.tx[2].caller!=currentUserEmail">
+          <button style="margin-left: 30%;" ng-click="acceptSettlement(dealData)" class="button button-balanced">Accept Settlement</button>
         </div>
 
         <div class="list card">
