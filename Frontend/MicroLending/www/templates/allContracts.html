@@ -1,12 +1,11 @@
 <ion-view title="All Contracts" id="page1">
-  <ion-content padding="true" class="has-header" style="background:#F5F5F5">
+  <ion-content padding="true" class="has-header" style="background:#F8F8F8">
     <div class="screenadjust">
 
       <div ng-show="pendingcontracts.length > 0 ">
 
         <div class="item item-divider">Pending Contracts</div>
-
-        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="pcontract in pendingcontracts  | orderBy : '-creation_date' track by $index ">
+        <div class="list card" ng-repeat="pcontract in pendingcontracts track by $index">
 
           <div class="item">
             <div class="ContractAttr">
@@ -17,13 +16,12 @@
               <h4>Created On: </h4>
             </div>
 
-			<div class="ContractValue ContractValueContainer">
-              <h4 style="font-size:13px;color:#595959">{{pcontract.from_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{pcontract.counter_party_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{pcontract.asset_name}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{pcontract._id}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{pcontract.creation_date | date:" dd/MM/yyyy h:mm:ss a "}}</h4>
-
+            <div class="ContractValue ContractValueContainer">
+              <h4>{{pcontract.from_email}}</h4>
+              <h4>{{pcontract.counter_party_email}}</h4>
+              <h4>{{pcontract.asset_name}}</h4>
+              <h4>{{pcontract._id}}</h4>
+              <h4>{{pcontract.start_date*1000 | date:" dd/MM/yyyy "}}</h4>
             </div>
 
           </div>
@@ -41,8 +39,8 @@
 
       <div ng-show="activecontracts.length > 0 ">
 
-        <div class="item item-divider" style="margin:10px 0 0 0; !important;">Active Contracts</div>
-        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="acontract in activecontracts  | orderBy : '-creation_date' track by $index">
+        <div class="item item-divider" >Active Contracts</div>
+        <div class="list card" ng-repeat="acontract in activecontracts track by $index">
 
           <div class="item">
 
@@ -54,12 +52,12 @@
               <h4>Created On:</h4>
             </div>
 
-           <div class="ContractValue ContractValueContainer">
-              <h4 style="font-size:13px;color:#595959">{{acontract.from_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{acontract.counter_party_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{acontract.asset_name}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{acontract._id}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{acontract.creation_date | date:" dd/MM/yyyy h:mm:ss a"}}</h4>
+             <div class="ContractValue ContractValueContainer">
+              <h4>{{acontract.from_email}}</h4>
+              <h4>{{acontract.counter_party_email}}</h4>
+              <h4>{{acontract.asset_name}}</h4>
+              <h4>{{acontract._id}}</h4>
+              <h4>{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
             </div>
 
           </div>
@@ -77,8 +75,8 @@
 
       <div ng-show="completedcontracts.length > 0 ">
 
-        <div class="item item-divider" style="margin:10px 0 0 0; !important;">Completed Contracts</div>
-        <div class="list card" style="margin:5px 0 5px 0; !important;" ng-repeat="ccontract in completedcontracts | orderBy : '-creation_date' track by $index">
+        <div class="item item-divider" >Completed Contracts</div>
+        <div class="list card" ng-repeat="ccontract in completedcontracts track by $index">
 
           <div class="item">
 
@@ -90,15 +88,13 @@
               <h4>Created On:</h4>
 
             </div>
-
-           <div class="ContractValue ContractValueContainer">
-              <h4 style="font-size:13px;color:#595959">{{ccontract.from_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{ccontract.counter_party_email}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{ccontract.asset_name}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{ccontract._id}}</h4>
-              <h4 style="font-size:13px;color:#595959">{{ccontract.creation_date | date:" dd/MM/yyyy h:mm:ss a"}}</h4>
+            <div class="ContractValue ContractValueContainer">
+              <h4>{{ccontract.from_email}}</h4>
+              <h4>{{ccontract.counter_party_email}}</h4>
+              <h4>{{ccontract.asset_name}}</h4>
+              <h4>{{ccontract._id}}</h4>
+              <h4>{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
             </div>
-			
           </div>
           <div class="card-action">
               <a ng-click="moreDetails(ccontract)" class="moreDetails" >MORE DETAILS</a>
