@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'databaseFactory', 'getCurrentUserData',
-  function ($scope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, databaseFactory, getCurrentUserData) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope','$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory','databaseFactory', 'getCurrentUserData',
+  function ($scope,$rootScope ,$stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory,databaseFactory, getCurrentUserData ) {
 
     console.log("more details");
     //load current user details
