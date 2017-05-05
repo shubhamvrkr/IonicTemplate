@@ -143,7 +143,13 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
               firebaseFactory.getFirebaseToken(function (result_token) {
 
 
-			      	console.log(result_token)
+			      	  console.log(result_token);
+                if (result_token.status=="0"|| result_token.token==""){
+                  console.log("No token found.");
+                    $ionicLoading.hide();
+                     ionicToast.show('New OTP has been sent to you email id!!', 'bottom', false, 2500);
+                }
+                else{
                 //for mobile store it in a file && for browser on localStorage
                 //{kvs:'',email:,eth_addr:,seed_word:}
                 registerFactory.saveUserDataLocally(JSON.stringify(local_data), 'user_data', function (res) {
@@ -231,7 +237,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                 });
                 //end of main
-
+              }
              });
 
             });
