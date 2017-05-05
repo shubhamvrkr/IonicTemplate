@@ -439,8 +439,19 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
+allContractFactory.getallRejectedContracts(function (response) {
+
+        console.log("rejected Contracts: ", response.data.docs);
+
+        if (response.status == "1") {
+
+          $scope.rejectedcontracts = response.data.docs
+          $scope.$apply();
+        }
+
+      });
 
 
     }
 
-  }])
+  }]);
