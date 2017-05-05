@@ -94,6 +94,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+					 loadDealsfromDB();
 					$scope.$apply();
                 });
 
@@ -185,7 +186,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				    $scope.$apply();
+				     loadDealsfromDB();
+					$scope.$apply();
 
                 });
 
@@ -279,7 +281,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				    $scope.$apply();
+				     loadDealsfromDB();
+					$scope.$apply();
 
                 });
 
@@ -369,6 +372,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 				  
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+				   loadDealsfromDB();
 				  $scope.$apply();
 
                 });
@@ -447,7 +451,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
-allContractFactory.getallRejectedContracts(function (response) {
+	allContractFactory.getallRejectedContracts(function (response) {
 
         console.log("rejected Contracts: ", response.data.docs);
 
