@@ -311,6 +311,8 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                         if (err) {
                           console.error(err);
+                      $ionicLoading.hide();
+                      ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
                         } else {
                           // +save the pwderived key in SS.
 
@@ -555,12 +557,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                   loginFactory.login(login_data, function (err, login_result) {
 
                     console.log(err);
-                    console.log("browser login result: ", login_result);
-
-
-                    var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
-                    console.log('S_HEX: ', s_hex.toString('hex'));
-                    localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                   
                     // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
@@ -571,6 +568,13 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                       ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
 
                     } else {
+
+                       console.log("browser login result: ", login_result);
+
+
+                    var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
+                    console.log('S_HEX: ', s_hex.toString('hex'));
+                    localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
 
                       registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function (res) {
 
