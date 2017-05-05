@@ -33,11 +33,19 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	  doc.notification_flag = "false";
 	  databaseFactory.updateDoc(deal_db, doc, function (res) {
 	
-	  
+			
 			console.log("Doc updated successfully")
+			databaseFactory.getDocById(deal_db,doc._id,function(response){
+			
+				if(response.status=="1"){
+				
+					$state.go('moredetails', { contract: response.data })
+				}
+			
+			});
 	  });
 	  
-      $state.go('moredetails', { contract: contract })
+      
 
 
     }
@@ -171,6 +179,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               doc.status = "active";
               doc.notification_flag = "false";
               doc.tx = tx_array;
+			  console.log("Doc to be updated: ",doc);
               //update call.. 3 items
               databaseFactory.updateDoc(deal_db, doc, function (res) {
 
