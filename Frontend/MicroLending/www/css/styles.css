@@ -55,9 +55,11 @@ fieldset{
 
 }
 fieldset:disabled{
-  opacity: 0.5;
+  opacity: 0.3;
 }
 .loadingText{
+
+  font-weight:bold;
   font-size: 2em;
   font-family: Arial, Helvetica, sans-serif;
   color: #0052cc;

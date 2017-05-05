@@ -16,7 +16,7 @@
 		<div ng-show="localcontacts.length > 0 && data.filteredlocalcontacts.length > 0 ">
 
 			<div class="item item-divider">Local Contacts</div>
-			<div class="list card" ng-repeat="contact in data.filteredlocalcontacts = ( localcontacts | filter: { _id: data.searchText } | orderBy: '_id' ) track by $index">
+			<div class="list card" ng-repeat="contact in data.filteredlocalcontacts = ( localcontacts | filter: { _id: data.searchText }:exact | orderBy: '_id' ) track by $index">
 
 
 				<div class="item item-avatar" ng-click="selectContact(contact)">
@@ -33,7 +33,7 @@
 
 		<div ng-show="availablecontacts.length > 0 && data.filteredavailablecontacts.length > 0">
 			<div class="item item-divider">Server Contacts</div>
-			<div class="list card" ng-repeat="acontact in data.filteredavailablecontacts = ( availablecontacts |  filter: { email: data.searchText } | orderBy: 'email') track by $index">
+			<div class="list card" ng-repeat="acontact in data.filteredavailablecontacts = ( availablecontacts |  filter: { email: data.searchText }:exact | orderBy: 'email') track by $index">
 
 				<div class="item item-avatar" ng-click="selectContact(acontact)">
 					<ng-letter-avatar avatarcustomborder=" border:1px solid #c3c3c3" data="{{acontact.email}}" shape="round"></ng-letter-avatar>
