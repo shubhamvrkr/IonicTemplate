@@ -47,7 +47,7 @@
             <a ng-click="rejectContract(dealData)" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
               class="actionButton">REJECT</a>
             <a ng-click="acceptSettlement(dealData)" ng-if="dealData.tx.length == 3 && dealData.tx[2].caller!=currentUserEmail" class="actionButton">ACCEPT SETTLEMENT</a>
-            <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 " class="actionButton">SETTLE CONTRACT</a>
+            <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 && dealData.status=='active' " class="actionButton">SETTLE CONTRACT</a>
             <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
           </div>
 
