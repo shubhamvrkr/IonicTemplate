@@ -3,7 +3,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
     console.log("more details");
     //load current user details
-    $scope.verificationFlag = false;
+    $scope.verificationFlag = true;
     //adding verification flag
     if ($stateParams.contract == null) {
       console.log("State Params NULL!")
@@ -124,7 +124,14 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                     } else {
 
                       console.log("Verification Status: ", verifiedResult);
-                      $scope.verificationFlag = true;
+					  if(verifiedResult){
+						$scope.verificationFlag = true;
+					  }else{
+						$scope.verificationFlag = false;
+						
+					  }
+					  $scope.$apply();
+                     
 
                     };
 

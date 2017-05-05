@@ -5,6 +5,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
 
 
+
     function bufferToBase64(buf) {
 
       var binstr = Array.prototype.map.call(buf, function (ch) {

@@ -5,9 +5,12 @@
       <div ng-show="pendingcontracts.length > 0 ">
 
         <div class="item item-divider">Pending Contracts</div>
-        <div class="list card" ng-repeat="pcontract in pendingcontracts track by $index">
-
-          <div class="item">
+        <div class="list card" ng-repeat="pcontract in pendingcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
+	
+		<fieldset ng-disabled = "pcontract.actionstatus" >
+         
+		 <div class="item" ng-class ="ccontract.notification_flag=='true'?'unreadMessage':''">
+			
             <div class="ContractAttr">
               <h4>From: </h4>
               <h4>Counter Party: </h4>
@@ -21,28 +24,29 @@
               <h4>{{pcontract.counter_party_email}}</h4>
               <h4>{{pcontract.asset_name}}</h4>
               <h4>{{pcontract._id}}</h4>
-              <h4>{{pcontract.start_date*1000 | date:" dd/MM/yyyy "}}</h4>
+              <h4>{{pcontract.creation_date | date:" dd MMM yyyy h:mm:ss a"}}</h4>
             </div>
 
           </div>
+		  <div class="card-action">
+			<a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus &&( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
+			<a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && !pcontract.actionstatus &&( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton1">REJECT</a>
+			<a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && !pcontract.actionstatus && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
+			<ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
+			<a ng-click="moreDetails(pcontract)" class="moreDetails">MORE DETAILS</a>
+		 </div>
 
-          <div class="card-action">
-              <a ng-click="acceptContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
-              <a ng-click="rejectContract(pcontract)" ng-if="pcontract.tx.length == 1 && ( pcontract.counter_party_email == user_email || pcontract.counter_party_address == user_address)" class="actionButton">REJECT</a>
-              <a ng-click="acceptSettlement(pcontract)" ng-if="pcontract.tx.length == 3 && pcontract.tx[2].caller!=user_email " class="actionButton">ACCEPT SETTLEMENT</a>
-              <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
-              <a ng-click="moreDetails(pcontract)" class="moreDetails">MORE DETAILS</a>
-           </div>
-
-        </div>
+		</fieldset>
+		</div>
       </div>
 
       <div ng-show="activecontracts.length > 0 ">
 
         <div class="item item-divider" >Active Contracts</div>
-        <div class="list card" ng-repeat="acontract in activecontracts track by $index">
+        <div class="list card" ng-repeat="acontract in activecontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 
-          <div class="item">
+		<fieldset ng-disabled = "acontract.actionstatus">
+          <div class="item" ng-class ="ccontract.notification_flag=='true'?'unreadMessage':''">
 
             <div class="ContractAttr">
               <h4>From: </h4>
@@ -57,18 +61,53 @@
               <h4>{{acontract.counter_party_email}}</h4>
               <h4>{{acontract.asset_name}}</h4>
               <h4>{{acontract._id}}</h4>
-              <h4>{{acontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+              <h4>{{acontract.creation_date| date:" dd MMM yyyy h:mm:ss a"}}</h4>
             </div>
 
           </div>
-
-
           <div class="card-action">
-              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 " class="actionButton" >SETTLE CONTRACT</a>
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus " class="actionButton" >SETTLE CONTRACT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(acontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
+		  
+		 </fieldset>
 
+        </div>
+
+      </div>
+	  
+	  
+	 <div ng-show="rejectedcontracts.length > 0 ">
+
+        <div class="item item-divider" >Rejected Contracts</div>
+        <div class="list card" ng-repeat="rcontract in rejectedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
+
+		<fieldset ng-disabled = "rcontract.actionstatus">
+          <div class="item" ng-class ="rcontract.notification_flag=='true'?'unreadMessage':''">
+
+            <div class="ContractAttr">
+              <h4>From: </h4>
+              <h4>Counter Party: </h4>
+              <h4>Asset Name:</h4>
+              <h4>Deal ID: </h4>
+              <h4>Created On:</h4>
+
+            </div>
+            <div class="ContractValue ContractValueContainer">
+              <h4>{{rcontract.from_email}}</h4>
+              <h4>{{rcontract.counter_party_email}}</h4>
+              <h4>{{rcontract.asset_name}}</h4>
+              <h4>{{rcontract._id}}</h4>
+              <h4>{{rcontract.creation_date | date:" dd MMM yyyy h:mm:ss a"}}</h4>
+            </div>
+          </div>
+          <div class="card-action">
+              <a ng-click="moreDetails(rcontract)" class="moreDetails" >MORE DETAILS</a>
+          </div>
+
+		</fieldset>
+		
         </div>
 
       </div>
@@ -76,9 +115,10 @@
       <div ng-show="completedcontracts.length > 0 ">
 
         <div class="item item-divider" >Completed Contracts</div>
-        <div class="list card" ng-repeat="ccontract in completedcontracts track by $index">
+        <div class="list card" ng-repeat="ccontract in completedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 
-          <div class="item">
+		<fieldset ng-disabled = "ccontract.actionstatus">
+          <div class="item" ng-class ="ccontract.notification_flag=='true'?'unreadMessage':''">
 
             <div class="ContractAttr">
               <h4>From: </h4>
@@ -93,13 +133,15 @@
               <h4>{{ccontract.counter_party_email}}</h4>
               <h4>{{ccontract.asset_name}}</h4>
               <h4>{{ccontract._id}}</h4>
-              <h4>{{ccontract.creation_date*1000 | date:" MM/dd/yyyy h:mm:ss a"}}</h4>
+              <h4>{{ccontract.creation_date | date:" dd MMM yyyy h:mm:ss a"}}</h4>
             </div>
           </div>
           <div class="card-action">
               <a ng-click="moreDetails(ccontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
 
+		</fieldset>
+		
         </div>
 
       </div>

@@ -29,6 +29,14 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
       console.log("Moredetails: ", contract);
+	  var doc = contract;
+	  doc.notification_flag = "false";
+	  databaseFactory.updateDoc(deal_db, doc, function (res) {
+	
+	  
+			console.log("Doc updated successfully")
+	  });
+	  
       $state.go('moredetails', { contract: contract })
 
 
