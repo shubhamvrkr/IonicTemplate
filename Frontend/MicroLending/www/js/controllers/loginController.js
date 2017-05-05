@@ -1,7 +1,9 @@
-mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', 'ionicToast', '$ionicPopup', '$rootScope', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '$state', '$ionicLoading', '$timeout', 'fileFactory', 'loginFactory', "$cordovaZip", 'registerFactory', 'ionicToast', '$ionicPopup', '$rootScope', 'databaseFactory', 'firebaseFactory',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+  function ($http, $scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactory, ionicToast, $ionicPopup, $rootScope, databaseFactory, firebaseFactory) {
 
 
-  function ($scope, $stateParams, $state, $ionicLoading, $timeout, fileFactory, loginFactory, $cordovaZip, registerFactoryionicToast, $ionicPopup, $rootScope, databaseFactory) {
 
 
     function bufferToBase64(buf) {
@@ -395,12 +397,34 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                                                   //do bulk update . call databaseFactory to do bulk update
                                                   databaseFactory.bulkUpadte(deal_db, contracts_array_omitted_rev, function (bulkUpdate) {
                                                     console.log(bulkUpdate);
+                                                    // get users details and update firebase token
+                                                    $http.get(apiUrl + "/api/users?email=" + login_data.username).then(function (user) {
 
+                                                      if (user.data.length == 0) {
+                                                        console.log("No user found.")
 
-                                                    $ionicLoading.hide();
-                                                    console.log("saved in local Storage", res);
-                                                    ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
-                                                    $state.go('menu.allContracts');
+                                                      }
+                                                      //retrieve firebase token and update the database
+                                                      firebaseFactory.getFirebaseToken(function (result_token) {
+                                                        console.log(user);
+                                                        var post_data = {};
+                                                        post_data.firebaseToken = result_token.token
+                                                        console.log(result_token);
+                                                        $http.post(apiUrl + "/api/users/" + user.data[0]._id, post_data).then(function (update_result) {
+
+                                                          console.log(update_result);
+
+                                                          $ionicLoading.hide();
+                                                          console.log("saved in local Storage", res);
+                                                          ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+                                                          $state.go('menu.allContracts');
+                                                        }).catch(function (error) {
+                                                          console.log("error in updating user details");
+                                                        });
+                                                      })
+                                                    }).catch(function (error) {
+                                                      console.log("error in fetching user details");
+                                                    });
                                                   });
                                                 }
                                               });
@@ -611,6 +635,38 @@ mycontrollerModule.controller('loginCtrl', ['$scope', '$stateParams', '$state', 
                                       //do bulk update . call databaseFactory to do bulk update
                                       databaseFactory.bulkUpadte(deal_db, contracts_array_omitted_rev, function (bulkUpdate) {
                                         console.log(bulkUpdate);
+
+                                        // get users details and update firebase token
+                                        $http.get(apiUrl + "/api/users?email=" + login_data.username).then(function (user) {
+                                         
+                                          if (user.data.length == 0) {
+                                            console.log("No user found.")
+
+                                          }
+
+                                          //retrieve firebase token and update the database
+                                          firebaseFactory.getFirebaseToken(function (result_token) {
+                                            console.log(user);
+                                            var post_data = {};
+                                            post_data.firebaseToken = result_token.token
+                                            console.log(result_token);
+                                            $http.post(apiUrl + "/api/users/" + user.data[0]._id, post_data).then(function (update_result) {
+
+                                              console.log(update_result);
+
+                                              $ionicLoading.hide();
+                                              console.log("saved in local Storage", res);
+                                              ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+                                              $state.go('menu.allContracts');
+                                            }).catch(function (error) {
+                                              console.log("error in updating user details");
+                                            });
+                                          })
+                                        }).catch(function (error) {
+                                          console.log("error in fetching user details");
+                                        });
+
+
 
                                         $ionicLoading.hide();
                                         console.log("saved in local Storage", res);

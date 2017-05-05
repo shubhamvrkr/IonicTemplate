@@ -28,6 +28,14 @@ angular.module('app.services')
 
     };
 
+    service.getallRejectedContracts = function (callback) {
+
+
+      databaseFactory.getDoc(deal_db, { status: "rejected" }, callback)
+
+
+    };
+
     //make it send response. take function name as param.
     service.sendResponseForNotification = function (contract,fn_name ,addr,ks,pwDerivedKey,callback) {
 

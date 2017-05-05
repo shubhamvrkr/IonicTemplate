@@ -5,7 +5,7 @@
       <div ng-show="pendingcontracts.length > 0 ">
 
         <div class="item item-divider">Pending Contracts</div>
-        <div class="list card" ng-repeat="pcontract in pendingcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true'">
+        <div class="list card" ng-repeat="pcontract in pendingcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 	
 		<fieldset ng-disabled = "pcontract.actionstatus" >
          
@@ -43,7 +43,7 @@
       <div ng-show="activecontracts.length > 0 ">
 
         <div class="item item-divider" >Active Contracts</div>
-        <div class="list card" ng-repeat="acontract in activecontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true'">
+        <div class="list card" ng-repeat="acontract in activecontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 
 		<fieldset ng-disabled = "acontract.actionstatus">
           <div class="item" ng-class ="ccontract.notification_flag=='true'?'unreadMessage':''">
@@ -81,7 +81,7 @@
 	 <div ng-show="rejectedcontracts.length > 0 ">
 
         <div class="item item-divider" >Rejected Contracts</div>
-        <div class="list card" ng-repeat="rcontract in rejectedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true'">
+        <div class="list card" ng-repeat="rcontract in rejectedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 
 		<fieldset ng-disabled = "rcontract.actionstatus">
           <div class="item" ng-class ="rcontract.notification_flag=='true'?'unreadMessage':''">
@@ -115,7 +115,7 @@
       <div ng-show="completedcontracts.length > 0 ">
 
         <div class="item item-divider" >Completed Contracts</div>
-        <div class="list card" ng-repeat="ccontract in completedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true'">
+        <div class="list card" ng-repeat="ccontract in completedcontracts | orderBy: '-creation_date' | orderBy:'notification_flag':'true' track by $index">
 
 		<fieldset ng-disabled = "ccontract.actionstatus">
           <div class="item" ng-class ="ccontract.notification_flag=='true'?'unreadMessage':''">

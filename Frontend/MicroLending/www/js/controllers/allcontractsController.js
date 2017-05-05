@@ -29,6 +29,14 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
       console.log("Moredetails: ", contract);
+	  var doc = contract;
+	  doc.notification_flag = "false";
+	  databaseFactory.updateDoc(deal_db, doc, function (res) {
+	
+	  
+			console.log("Doc updated successfully")
+	  });
+	  
       $state.go('moredetails', { contract: contract })
 
 
@@ -220,6 +228,92 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     $scope.rejectContract = function (contract) {
 
       console.log("rejectContract: ", contract);
+       contract.actionstatus = true;
+      //1. prepare the data for sigining with nonce. from and to are the sender
+      //payload should include s,r,v,nonce.
+      allContractFactory.sendResponseForNotification(contract, "rejectContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+
+		
+        if (response.status == "1") {
+
+		
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
+
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
+
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
+
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller =  $scope.user_email;
+              tx_object.txHash = txHash;
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
+			  doc.actionstatus = false;
+			  
+              doc.status = "rejected";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
+
+                  console.log(response);
+                  clearInterval(id1);
+
+                  contract.actionstatus = false;
+				
+                  //$ionicLoading.hide();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+				    $scope.$apply();
+
+                });
+
+              });
+
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
+
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
+
+
+
+        } else {
+
+          console.log(res.data);
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
+
+
+        }
+
+
+
+      });
 
     }
 	
@@ -353,8 +447,19 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
+allContractFactory.getallRejectedContracts(function (response) {
+
+        console.log("rejected Contracts: ", response.data.docs);
+
+        if (response.status == "1") {
+
+          $scope.rejectedcontracts = response.data.docs
+          $scope.$apply();
+        }
+
+      });
 
 
     }
 
-  }])
+  }]);

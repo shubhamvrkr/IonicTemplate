@@ -424,6 +424,8 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 											}else if(eventName == "acceptSettleContractEvent"){
 											
 												doc1.status = "completed";
+											}else if (eventName=="rejectContractEvent"){
+												doc1.status = "rejected";
 											}
 											doc1.notification_flag = "true";
 											doc1.tx = arr;
