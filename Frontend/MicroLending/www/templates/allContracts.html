@@ -66,7 +66,7 @@
 
           </div>
           <div class="card-action">
-              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus " class="actionButton" >SETTLE CONTRACT</a>
+              <a ng-click="settleContract(acontract)" ng-if="acontract.tx.length == 2 && !acontract.actionstatus && acontract.status=='active'" class="actionButton" >SETTLE CONTRACT</a>
               <ion-spinner icon="dots" class="allContractsSpinner" ng-if="acontract.actionstatus"></ion-spinner>
               <a ng-click="moreDetails(acontract)" class="moreDetails" >MORE DETAILS</a>
           </div>
