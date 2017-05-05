@@ -326,6 +326,7 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 													 doc.symmteric_key = decryptedKey;
 													 doc.status = "pending";
 													 doc.notification_flag = "true";
+													 doc.actionstatus = false;
 													 doc.tx = [{caller:invoker,txHash:NotiData.transactionHash}];
 												
 													 console.log(doc)
