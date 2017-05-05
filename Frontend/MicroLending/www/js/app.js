@@ -11,19 +11,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
 myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$cordovaPushV5,$rootScope) {
 
-	if(window.cordova){
-		var options = {
-				android: {
-				  senderID: "1078648460837"
-				}
-		};
-		$cordovaPushV5.initialize(options).then(function() {
 
-				$cordovaPushV5.onNotification();
-
-				$cordovaPushV5.onError();
-		});
-	}
 	$rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
 
 			console.log("Message: ",data);
@@ -48,7 +36,19 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 	
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
+	if(window.cordova){
+		var options = {
+				android: {
+				  senderID: "1078648460837"
+				}
+		};
+		$cordovaPushV5.initialize(options).then(function() {
 
+				$cordovaPushV5.onNotification();
+
+				$cordovaPushV5.onError();
+		});
+	}
 	
       if (window.cordova) {
 

@@ -166,7 +166,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-			  doc.actionstatus = false;
+			        doc.actionstatus = false;
 			  
               doc.status = "active";
               doc.notification_flag = "false";

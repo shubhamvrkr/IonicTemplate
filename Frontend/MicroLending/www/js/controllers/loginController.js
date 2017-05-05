@@ -253,7 +253,6 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
               fileFactory.readFile("user_profile.json", "micro_lending/user_data/", function (data) {
 
-
                 var symKey = bufferToBase64("temp_password");
 
                 console.log("symKey: ", symKey);
