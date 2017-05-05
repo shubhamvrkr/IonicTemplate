@@ -268,6 +268,7 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
               tx_object.caller = contract_data.from_email;
               tx_object.txHash = txHash;
               doc.tx = [tx_object];
+              doc.actionstatus = false;
 
               databaseFactory.putData(deal_db, doc, function (res) {
 
