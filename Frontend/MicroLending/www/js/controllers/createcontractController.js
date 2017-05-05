@@ -123,7 +123,11 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
           terminationDate.setDate(terminationDate.getDate() + 1);
           terminationDate = terminationDate.toISOString().split('T')[0];
           endDateChrome.setAttribute('min', terminationDate);
-          endDateChrome.value = terminationDate;
+
+          // terminationDate = new Date(terminationDate);
+          // console.log(terminationDate);
+          // endDateChrome.value = terminationDate;
+          //$scope.data.enddate = terminationDate;
         }
       }
 
