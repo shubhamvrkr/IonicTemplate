@@ -8,59 +8,66 @@
   <ion-content padding="true" class="has-header" style="background:#F8F8F8">
     <div class="screenadjust">
       <fieldset ng-disabled="isSaving">
-          
-	    <div class="list card">
-		   <div class="item item-divider item-icon-right">
-		   
-		   <div class="ContractAttr"><h2>Deal ID :</h2> </div><div class="ContractDetails ContractValueContainer"><h2>{{dealData._id}}</h2></div>
-		    <i class="icon ion-checkmark-circled verify-icon" ng-if="verifiedResult" title="All Transactions Verified"></i>
-		   
-		   </div>
-          
-  		   <div class="item">
-			   <div class="ContractAttr">
-				  <h4>From</h4>
-				  <h4>Counter-Party</h4>
-				  <h4>Asset Name</h4>
-				  <h4>Asset ID</h4>
-				  <h4>Start Date</h4>
-				  <h4>End Date</h4>
-				  <h4>Created On</h4>
-				  <h4>Status</h4>
-				  <h4>Description</h4>            
-			  </div>
-			  <div class="ContractDetails ContractValueContainer">
-			      <h4>{{dealData.from_email}}</h4>
-				  <h4>{{dealData.counter_party_email}}</h4>
-				  <h4>{{dealData.asset_name}}</h4>
-				  <h4>{{dealData.asset_id}}</h4>
-				  <h4>{{dealData.start_date * 1000 | date:" dd MMM yyyy h:mm:ss a "}}</h4>
-				  <h4>{{dealData.end_date * 1000 | date:" dd MMM yyyy h:mm:ss a "}}</h4>
-				  <h4>{{dealData.creation_date | date:" dd MMM yyyy h:mm:ss a "}}
-				  <h4>{{dealData.status}}</h4>
-				  <h4>{{dealData.description}}</h4>
-				
-			  </div>
-          </div>
-		   <div class="card-action" style="min-height:25px;">
-              <a ng-click="acceptContract(dealData)" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)" class="actionButton">ACCEPT</a>
-              <a ng-click="rejectContract(dealData)" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)" class="actionButton">REJECT</a>
-              <a ng-click="acceptSettlement(dealData)" ng-if="dealData.tx.length == 3 && dealData.tx[2].caller!=currentUserEmail" class="actionButton">ACCEPT SETTLEMENT</a>
-              <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 " class="actionButton" >SETTLE CONTRACT</a>
-			  <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
-           </div>
-		   
-        </div>
-		
+
         <div class="list card">
-          <div class="item item-divider ">
-		   <h2>Transactions</h2>
-		  </div>
-          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px">
-				<h4>Transaction ID {{$index+1}}</h4> <span>{{tx.txHash}}</span>
+          <div class="item item-divider item-icon-right">
+
+            <div class="ContractAttr">
+              <h2>Deal ID :</h2>
+            </div>
+            <div class="ContractDetails ContractValueContainer">
+              <h2>{{dealData._id}}</h2>
+            </div>
+            <i class="icon ion-checkmark-circled verify-icon" ng-if="verifiedResult" title="All Transactions Verified"></i>
+
+          </div>
+
+          <div class="item">
+            <div class="ContractAttr">
+              <h4>From</h4>
+              <h4>Counter-Party</h4>
+              <h4>Asset Name</h4>
+              <h4>Asset ID</h4>
+              <h4>Start Date</h4>
+              <h4>End Date</h4>
+              <h4>Created On</h4>
+              <h4>Status</h4>
+              <h4>Description</h4>
+            </div>
+            <div class="ContractDetails ContractValueContainer">
+              <h4>{{dealData.from_email}}</h4>
+              <h4>{{dealData.counter_party_email}}</h4>
+              <h4>{{dealData.asset_name}}</h4>
+              <h4>{{dealData.asset_id}}</h4>
+              <h4>{{dealData.start_date * 1000 | date:" dd MMM yyyy h:mm:ss a "}}</h4>
+              <h4>{{dealData.end_date * 1000 | date:" dd MMM yyyy h:mm:ss a "}}</h4>
+              <h4>{{dealData.creation_date | date:" dd MMM yyyy h:mm:ss a "}}
+                <h4>{{dealData.status}}</h4>
+                <h4>{{dealData.description}}</h4>
+
+            </div>
+          </div>
+          <div class="card-action" style="min-height:25px;">
+            <a ng-click="acceptContract(dealData)" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
+              class="actionButton">ACCEPT</a>
+            <a ng-click="rejectContract(dealData)" ng-if="dealData.tx.length == 1 && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
+              class="actionButton">REJECT</a>
+            <a ng-click="acceptSettlement(dealData)" ng-if="dealData.tx.length == 3 && dealData.tx[2].caller!=currentUserEmail" class="actionButton">ACCEPT SETTLEMENT</a>
+            <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 " class="actionButton">SETTLE CONTRACT</a>
+            <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
+          </div>
+
+        </div>
+
+        <div class="list card">
+          <div class="item item-divider">
+            <h2>Transactions</h2>
+          </div>
+          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px;">
+            <h4 style="float:left"> Transaction ID {{$index+1}} :</h4> <span><h4>&nbsp{{tx.txHash}}</h4></span>
           </div>
         </div>
-      <!-- End of primary div (Screenadjust)-->
+        <!-- End of primary div (Screenadjust)-->
       </fieldset>
     </div>
 
