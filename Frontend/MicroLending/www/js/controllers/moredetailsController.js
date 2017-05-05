@@ -234,6 +234,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
       });
     }
     $scope.acceptContract = function (contract) {
+      
 
       $scope.spinnerFlag = false;
       $scope.isSaving = true;
@@ -352,7 +353,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               var doc = contract;
                doc.actionstatus = false;
 
-              doc.status = "active";
+              doc.status = "rejected";
               doc.notification_flag = "false";
               doc.tx = tx_array;
               //update call.. 3 items
