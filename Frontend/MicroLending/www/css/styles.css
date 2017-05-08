@@ -94,7 +94,8 @@ fieldset:disabled{
   height: 100px;
   text-align: center;
   z-index: 100 !important;
-  stroke: #FFF !important;
+  stroke: #33cd5f !important;
+  
 }
 
 .button-radius{
