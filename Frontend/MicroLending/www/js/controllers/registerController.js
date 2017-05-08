@@ -68,12 +68,18 @@ mycontrollerModule.controller('registerCtrl', ['$scope', '$stateParams', '$state
 
 
       registerFactory.registerUser(user_data, function (response) {
+        console.log(response);
+        if (response.data.status == 409) {
 
-        if (response.status == "0") {
           $ionicLoading.hide();
-          $scope.error = "Email ID already exits!! "
+          $scope.error = "Email ID already exists!"
 
-        } else {
+        } else if (response.data.status == 500) {
+          $ionicLoading.hide();
+          $scope.error = "Server Error. Please try after some time!"
+        }
+
+        else {
 
           $ionicLoading.hide();
           console.log("register user: ", response);

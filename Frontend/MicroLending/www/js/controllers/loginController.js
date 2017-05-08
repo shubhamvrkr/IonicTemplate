@@ -311,8 +311,8 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                         if (err) {
                           console.error(err);
-                      $ionicLoading.hide();
-                      ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
+                          $ionicLoading.hide();
+                          ionicToast.show('Incorrect password!!', 'bottom', false, 2500);
                         } else {
                           // +save the pwderived key in SS.
 
@@ -403,6 +403,9 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                                                       if (user.data.length == 0) {
                                                         console.log("No user found.")
+                                                        $ionicLoading.hide();
+                                                        console.log(error);
+                                                        $scope.error = "No user found.";
 
                                                       }
                                                       //retrieve firebase token and update the database
@@ -420,11 +423,30 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                                                           ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
                                                           $state.go('menu.allContracts');
                                                         }).catch(function (error) {
+                                                          $ionicLoading.hide();
+
                                                           console.log("error in updating user details");
+                                                          if (error.status == 400) {
+
+                                                            console.log(error);
+                                                            $scope.error = "Bad Data. Please try again!";
+                                                          } else if (error.status == 404) {
+
+                                                            console.log(error);
+                                                            $scope.error = "Error. Please try again!";
+                                                          } else if (error.status == 500) {
+
+                                                            console.log(error);
+                                                            $scope.error = "Server Error. Please try after some time!";
+                                                          }
+
                                                         });
                                                       })
                                                     }).catch(function (error) {
                                                       console.log("error in fetching user details");
+                                                      $ionicLoading.hide();
+                                                      console.log(error);
+                                                      $scope.error = "Something went wrong. Please try again!";
                                                     });
                                                   });
                                                 }
@@ -557,7 +579,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                   loginFactory.login(login_data, function (err, login_result) {
 
                     console.log(err);
-                   
+
                     // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
 
 
@@ -569,12 +591,12 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                     } else {
 
-                       console.log("browser login result: ", login_result);
+                      console.log("browser login result: ", login_result);
 
 
-                    var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
-                    console.log('S_HEX: ', s_hex.toString('hex'));
-                    localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
+                      var s_hex = buffer.from(login_result.pwDerivedKey, 'hex');
+                      console.log('S_HEX: ', s_hex.toString('hex'));
+                      localStorage.setItem('pwDerivedKey', s_hex.toString('hex'));
 
                       registerFactory.saveUserDataLocally(JSON.stringify(data.data), 'user_data', function (res) {
 
@@ -641,9 +663,12 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                                         // get users details and update firebase token
                                         $http.get(apiUrl + "/api/users?email=" + login_data.username).then(function (user) {
-                                         
+
                                           if (user.data.length == 0) {
                                             console.log("No user found.")
+                                            $ionicLoading.hide();
+                                            console.log(error);
+                                            $scope.error = "No user found.";
 
                                           }
 
@@ -663,10 +688,30 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                                               $state.go('menu.allContracts');
                                             }).catch(function (error) {
                                               console.log("error in updating user details");
+                                              $ionicLoading.hide();
+
+                                              console.log("error in updating user details");
+                                              if (error.status == 400) {
+
+                                                console.log(error);
+                                                $scope.error = "Bad Data. Please try again!";
+                                              } else if (error.status == 404) {
+
+                                                console.log(error);
+                                                $scope.error = "Error. Please try again!";
+                                              } else if (error.status == 500) {
+
+                                                console.log(error);
+                                                $scope.error = "Server Error. Please try after some time!";
+                                              }
+
                                             });
                                           })
                                         }).catch(function (error) {
                                           console.log("error in fetching user details");
+                                          $ionicLoading.hide();
+                                          console.log(error);
+                                          $scope.error = "Something went wrong. Please try again!";
                                         });
 
 

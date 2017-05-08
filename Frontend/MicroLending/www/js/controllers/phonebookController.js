@@ -28,6 +28,8 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
       $http.get(apiUrl + "/api/users?email=" + data)
         .success(function (response) {
 
+         
+          
           console.log(response);
           response.forEach(function (item) {
             $scope.availablecontacts.push(item);
