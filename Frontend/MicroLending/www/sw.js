@@ -14,7 +14,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
  
   console.log(payload.data)
   // Customize notification here
-	notificationTitle = 'Resource Lending Notification!!';
+	notificationTitle = payload.data.title;
 	notificationOptions = {
     body: payload.data.body
   };
