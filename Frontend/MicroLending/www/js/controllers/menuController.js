@@ -340,7 +340,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
 
               $scope.user.imagesrc = cordova.file.externalRootDirectory + "micro_lending/user_data/user_pic.png";
-			  $scope.$apply()
+			  $scope.$apply();
               console.log(response);
 
               ss.get(
