@@ -13,7 +13,7 @@
           <input type="password" placeholder="Password" name="password" ng-model="data.password" ng-change = "onchangeinput()" required/>
         </label>
         <small ng-show="loginForm.username.$error.required || loginForm.password.$error.required">All fields are mandatory</small>
-        <small ng-show="error">{{error}}</small>
+        <small ng-show="error" class="">{{error}}</small>
       </div>
 
       <!-- Login Buton -->
