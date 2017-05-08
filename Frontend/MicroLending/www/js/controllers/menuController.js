@@ -62,6 +62,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
     }
 
+    // Option to export profile or all data
     $scope.showActionsheet = function () {
       $scope.closePopover();
       $ionicActionSheet.show({
