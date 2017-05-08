@@ -16,7 +16,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
   // Customize notification here
 	notificationTitle = 'Resource Lending Notification!!';
 	notificationOptions = {
-    body: payload.data
+    body: payload.data.body
   };
 
   const promiseChain = clients.matchAll({

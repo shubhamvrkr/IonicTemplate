@@ -15,12 +15,12 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 	$rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
 
 			console.log("Message: ",data);
-			var response = data.message;
+			var response = data.additionalData.additionalData.info;
 			var data = {
 			  
 					body:response
 			}
-			console.log(data);
+			console.log("Data sent to function: ",data);
 			storeDatainDatabase(data);
 			
 	});
@@ -47,6 +47,7 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 				$cordovaPushV5.onNotification();
 
 				$cordovaPushV5.onError();
+				
 		});
 	}
 	
@@ -127,19 +128,32 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 			}
 		
 			messaging.onMessage(function(payload) {
-
-				console.log("On Message: ",payload.data)
+	
+				var info = JSON.parse(payload.data.additionalData).info;
+				var data = {
+			  
+					body:info
+				}
+				console.log("On Message: ",data)
+				
+				
 				//console.log(payload.data)
 				if(payload.data.body!=null){
-					storeDatainDatabase(payload.data)
+					storeDatainDatabase(data)
 				}
 			});
 		
 			navigator.serviceWorker.addEventListener('message', function(event) {
 			
-				console.log("Event Listener: ",event.data)
+				var info = JSON.parse(event.data.additionalData).info
+				
+				var data = {
+			  
+					body:info
+				}
+				console.log("Event Listener: ",data)
 				if(event.data.body!=null){
-					storeDatainDatabase(event.data)
+					storeDatainDatabase(data)
 				}
 			});	
 
