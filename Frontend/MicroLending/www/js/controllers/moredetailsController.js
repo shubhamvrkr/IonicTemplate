@@ -492,7 +492,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
     $scope.backButtonPress = function () {
 
       console.log("back button pressed")
-      $ionicHistory.goBack();
-      console.log($ionicHistory.goBack());
+	  $state.go('menu.allContracts');
+	  
     }
   }]);
