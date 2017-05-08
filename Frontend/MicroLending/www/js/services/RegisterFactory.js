@@ -19,12 +19,12 @@ angular.module('app.services')
         .success(function (response) {
 
           console.log(response);
-          callback({ status: "1", data: response })
+          callback({ data: response })
 
         }).catch(function (err) {
 
           console.log(err)
-          callback({ status: "0", data: err })
+          callback({ data: err })
 
 
         });
@@ -40,11 +40,11 @@ angular.module('app.services')
       $http.post(apiUrl + "/api/users/verify/" + data.tmp_id, data)
         .success(function (response, status) {
           console.log(response)
-           callback({status:"1",data:response});
+           callback({data:response});
 
         }).catch(function (err, status) {
           console.log(err, status);
-          callback({status:"0",data:err});
+          callback({data:err});
         });
     }
 
