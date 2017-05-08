@@ -53,11 +53,15 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
       registerFactory.registerUser(userData, function (response) {
 
-        if (response.status == "0") {
+        
+       if (response.data.status == 409) {
 
           $ionicLoading.hide();
-          $scope.error = "Email ID already exits!! "
+          $scope.error = "Email ID already exists!"
 
+        } else if (response.data.status == 500) {
+          $ionicLoading.hide();
+          $scope.error = "Server Error. Please try after some time!"
         } else {
 
           console.log("resent OTP user: ", response);
@@ -68,7 +72,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
         }
         $state.go('emailVerification', {
           params: {
-            temp_id: response._id,
+            temp_id: response.data._id,
             passphrase: userData.password,
             user_data: userData
           }
