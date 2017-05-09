@@ -49,11 +49,13 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
             onClose: function () {
               console.log("Date picker dat changed");
               var dt1 = $('#startDate').datepicker('getDate');
-              dt1.setDate(dt1.getDate() + 1);
-              console.log(dt1);
+              //dt1.setDate(dt1.getDate() + 1);
+              //console.log(dt1);
               $('#endDate').datepicker('option', { minDate: dt1 });
               console.log("Start set" + document.getElementById("startDate").value);
+              $scope.data.startdate = dt1
               $scope.$apply();
+              console.log($scope.data.startdate);
             }
 
 
@@ -67,12 +69,16 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
             dateFormat: 'dd/mm/yy',
             minDate: 0,
             onClose: function () {
+              var dt2 = $('#endDate').datepicker('getDate');
+              dt2.setDate(dt2.getDate());
+              console.log("End set" + document.getElementById("endDate").value);
               // var dt1 = $('#startDate').datepicker('getDate');
               // console.log(dt1);
               // var dt2 = $('#endDate').datepicker('getDate');
               // if (dt2 <= dt1) {
               //   $('#endDate').datepicker('setDate', minDate);
               // }
+              $scope.data.enddate = dt2;
               $scope.$apply();
               console.log("End set" + document.getElementById("endDate").value);
             }
