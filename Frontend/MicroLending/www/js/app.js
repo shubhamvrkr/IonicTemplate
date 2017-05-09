@@ -1,5 +1,5 @@
 mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar']);
-var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services']);
+var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services','angular-clipboard']);
 
 
 myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {

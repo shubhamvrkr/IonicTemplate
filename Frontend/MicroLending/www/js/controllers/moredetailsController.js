@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData',
-  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard','clipboard'
+  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard,clipboard) {
 
     console.log("more details");
     //load current user details
@@ -13,6 +13,24 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
     }
 
     else {
+
+      // Copy To Clipboard
+      $scope.copyToClipboard = function (text) {
+        if (window.cordova){
+        $cordovaClipboard
+          .copy(text)
+          .then(function () {
+            // success
+            console.log("Copied!")
+          }, function () {
+            // error
+
+            console.log("Copying failed!")
+          });
+      }else{
+         clipboard.copyText(text);
+      }
+      }
       $scope.dealData = $stateParams.contract;
 
 
@@ -124,14 +142,14 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                     } else {
 
                       console.log("Verification Status: ", verifiedResult);
-					  if(verifiedResult){
-						$scope.verificationFlag = true;
-					  }else{
-						$scope.verificationFlag = false;
-						
-					  }
-					  $scope.$apply();
-                     
+                      if (verifiedResult) {
+                        $scope.verificationFlag = true;
+                      } else {
+                        $scope.verificationFlag = false;
+
+                      }
+                      $scope.$apply();
+
 
                     };
 
@@ -179,7 +197,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-               doc.actionstatus = false;
+              doc.actionstatus = false;
 
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -234,7 +252,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
       });
     }
     $scope.acceptContract = function (contract) {
-      
+
 
       $scope.spinnerFlag = false;
       $scope.isSaving = true;
@@ -267,9 +285,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-               doc.actionstatus = false;
+              doc.actionstatus = false;
 
-              console.log("doc to be updated",doc)
+              console.log("doc to be updated", doc)
               doc.status = "active";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -351,7 +369,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-               doc.actionstatus = false;
+              doc.actionstatus = false;
 
               doc.status = "rejected";
               doc.notification_flag = "false";
@@ -432,7 +450,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-               doc.actionstatus = false;
+              doc.actionstatus = false;
 
               doc.status = "completed";
               doc.notification_flag = "false";
@@ -492,7 +510,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
     $scope.backButtonPress = function () {
 
       console.log("back button pressed")
-	  $state.go('menu.allContracts');
-	  
+      $state.go('menu.allContracts');
+
     }
   }]);
