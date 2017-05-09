@@ -130,7 +130,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
+          $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -226,7 +226,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
+          $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -323,7 +323,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
+          $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -416,7 +416,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
+          $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -511,10 +511,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
     }
-
-
-    console.log("Accordion")
-    console.log($scope.pendingcontracts)
 
 	  /*
 	   * if given group is the selected group, deselect it
