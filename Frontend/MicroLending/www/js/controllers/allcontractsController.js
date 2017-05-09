@@ -4,6 +4,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
 
+
+
     getCurrentUserData.getData(function (response) {
 
       if (response.data != null) {
@@ -85,7 +87,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
-
               doc.status = "pending";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -367,7 +368,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_object.txHash = txHash;
               tx_object.eventName = "acceptSettlement";
               tx_array = contract.tx;
-
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
@@ -432,16 +432,24 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
     function loadDealsfromDB() {
-
+      $scope.groups = [];
       allContractFactory.getallPendingContracts(function (response) {
 
         console.log("Pending Contracts: ", response.data.docs);
 
         if (response.status == "1") {
 
-          $scope.pendingcontracts = response.data.docs
+          $scope.pendingcontracts = response.data.docs;
           $scope.$apply();
+          console.log("PC Length : " + $scope.pendingcontracts.length);
+          console.log($scope.pendingcontracts);
 
+
+          $scope.groups.push({ name: "Pending Contracts", items: [] });
+
+          $scope.pendingcontracts.forEach(function (element) {
+            $scope.groups[0].items.push(element);
+          });
         }
 
       });
@@ -454,6 +462,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.activecontracts = response.data.docs;
           $scope.$apply();
 
+          $scope.groups.push({ name: "Active Contracts", items: [] });
+
+          $scope.activecontracts.forEach(function (element) {
+            $scope.groups[1].items.push(element);
+          });
+
         }
 
       });
@@ -463,8 +477,14 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         if (response.status == "1") {
 
-          $scope.completedcontracts = response.data.docs
+          $scope.completedcontracts = response.data.docs;
           $scope.$apply();
+          $scope.groups.push({ name: "Completed Contracts", items: [] });
+
+          $scope.completedcontracts.forEach(function (element) {
+            $scope.groups[2].items.push(element);
+          });
+
         }
 
       });
@@ -475,29 +495,22 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         if (response.status == "1") {
 
-          $scope.rejectedcontracts = response.data.docs
+          $scope.rejectedcontracts = response.data.docs;
           $scope.$apply();
+
+          $scope.groups.push({ name: "Rejected Contracts", items: [] });
+          $scope.rejectedcontracts.forEach(function (element) {
+            $scope.groups[3].items.push(element);
+          });
+          $scope.$apply();
+          console.log("Rejected accordion" + $scope.groups[3]);
         }
 
+      console.log("Group length: " +$scope.groups.length);
       });
 
 
     }
-
-
-
-
-
-
-
-    $scope.groups = [
-						{ name: "Pending Contracts", items: $scope.pendingcontracts },
-						{ name: "Active Contracts", items: [1, 2, 3] },
-						{ name: "Rejected Contracts", items: [1, 2, 3] },
-						{ name: "Completed Contracts", items: [1, 2, 3] }
-    ];
-
-
 
 	  /*
 	   * if given group is the selected group, deselect it
