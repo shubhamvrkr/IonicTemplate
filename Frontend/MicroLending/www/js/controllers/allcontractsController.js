@@ -4,6 +4,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
 
+
+
     getCurrentUserData.getData(function (response) {
 
       if (response.data != null) {
@@ -29,38 +31,38 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
       console.log("Moredetails: ", contract);
-	  var doc = contract;
-	  doc.notification_flag = "false";
-	  databaseFactory.updateDoc(deal_db, doc, function (res) {
-	
-			
-			console.log("Doc updated successfully")
-			databaseFactory.getDocById(deal_db,doc._id,function(response){
-			
-				if(response.status=="1"){
-				
-					$state.go('moredetails', { contract: response.data })
-				}
-			
-			});
-	  });
-	  
-      
+      var doc = contract;
+      doc.notification_flag = "false";
+      databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+
+        console.log("Doc updated successfully")
+        databaseFactory.getDocById(deal_db, doc._id, function (response) {
+
+          if (response.status == "1") {
+
+            $state.go('moredetails', { contract: response.data })
+          }
+
+        });
+      });
+
+
 
 
     }
     $scope.settleContract = function (contract) {
 
-	  contract.actionstatus = true;
+      contract.actionstatus = true;
       console.log("settleContract: ", contract);
-	  
+
       allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-	
+
         if (response.status == "1") {
 
-		
-		  
+
+
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -78,12 +80,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller =  $scope.user_email;
+              tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-			  doc.actionstatus = false;
+              doc.actionstatus = false;
 
               doc.status = "pending";
               doc.notification_flag = "false";
@@ -98,12 +100,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   console.log(response);
                   clearInterval(id1);
 
-                 contract.actionstatus = false;
+                  contract.actionstatus = false;
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-					 loadDealsfromDB();
-					$scope.$apply();
+                  loadDealsfromDB();
+                  $scope.$apply();
                 });
 
               });
@@ -143,15 +145,15 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       console.log("acceptSettlement: ", contract);
 
-         contract.actionstatus = true;
+      contract.actionstatus = true;
       //1. prepare the data for sigining with nonce. from and to are the sender
       //payload should include s,r,v,nonce.
       allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-		
+
         if (response.status == "1") {
 
-		
+
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -169,17 +171,17 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller =  $scope.user_email;
+              tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-			        doc.actionstatus = false;
-			  
+              doc.actionstatus = false;
+
               doc.status = "active";
               doc.notification_flag = "false";
               doc.tx = tx_array;
-			  console.log("Doc to be updated: ",doc);
+              console.log("Doc to be updated: ", doc);
               //update call.. 3 items
               databaseFactory.updateDoc(deal_db, doc, function (res) {
 
@@ -191,12 +193,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
 
                   contract.actionstatus = false;
-				
+
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				     loadDealsfromDB();
-					$scope.$apply();
+                  loadDealsfromDB();
+                  $scope.$apply();
 
                 });
 
@@ -239,15 +241,15 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     $scope.rejectContract = function (contract) {
 
       console.log("rejectContract: ", contract);
-       contract.actionstatus = true;
+      contract.actionstatus = true;
       //1. prepare the data for sigining with nonce. from and to are the sender
       //payload should include s,r,v,nonce.
       allContractFactory.sendResponseForNotification(contract, "rejectContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-		
+
         if (response.status == "1") {
 
-		
+
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -265,13 +267,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               //update status, notification_flag, tx_hash array
               var tx_object = {};
               var tx_array = [];
-              tx_object.caller =  $scope.user_email;
+              tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-			  doc.actionstatus = false;
-			  
+              doc.actionstatus = false;
+
               doc.status = "rejected";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -286,12 +288,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
 
                   contract.actionstatus = false;
-				
+
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				     loadDealsfromDB();
-					$scope.$apply();
+                  loadDealsfromDB();
+                  $scope.$apply();
 
                 });
 
@@ -328,7 +330,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       });
 
     }
-	
+
     $scope.acceptSettlement = function (contract) {
 
       contract.actionstatus = true;
@@ -336,10 +338,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       console.log("settleContract: ", contract);
       allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-	
+
         if (response.status == "1") {
 
-		
+
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -362,7 +364,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
-			  doc.actionstatus = false;
+              doc.actionstatus = false;
               doc.status = "completed";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -378,11 +380,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   //$ionicLoading.hide();
 
                   contract.actionstatus = false;
-				  
+
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				   loadDealsfromDB();
-				  $scope.$apply();
+                  loadDealsfromDB();
+                  $scope.$apply();
 
                 });
 
@@ -423,16 +425,24 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
     function loadDealsfromDB() {
-
+      $scope.groups = [];
       allContractFactory.getallPendingContracts(function (response) {
 
         console.log("Pending Contracts: ", response.data.docs);
 
         if (response.status == "1") {
 
-          $scope.pendingcontracts = response.data.docs
+          $scope.pendingcontracts = response.data.docs;
           $scope.$apply();
+          console.log("PC Length : " + $scope.pendingcontracts.length);
+          console.log($scope.pendingcontracts);
 
+
+          $scope.groups.push({ name: "Pending Contracts", items: [] });
+
+          $scope.pendingcontracts.forEach(function (element) {
+            $scope.groups[0].items.push(element);
+          });
         }
 
       });
@@ -445,6 +455,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.activecontracts = response.data.docs;
           $scope.$apply();
 
+          $scope.groups.push({ name: "Active Contracts", items: [] });
+
+          $scope.activecontracts.forEach(function (element) {
+            $scope.groups[1].items.push(element);
+          });
+
         }
 
       });
@@ -454,55 +470,58 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         if (response.status == "1") {
 
-          $scope.completedcontracts = response.data.docs
+          $scope.completedcontracts = response.data.docs;
           $scope.$apply();
+          $scope.groups.push({ name: "Completed Contracts", items: [] });
+
+          $scope.completedcontracts.forEach(function (element) {
+            $scope.groups[2].items.push(element);
+          });
+
         }
 
       });
 
-	allContractFactory.getallRejectedContracts(function (response) {
+      allContractFactory.getallRejectedContracts(function (response) {
 
         console.log("rejected Contracts: ", response.data.docs);
 
         if (response.status == "1") {
 
-          $scope.rejectedcontracts = response.data.docs
+          $scope.rejectedcontracts = response.data.docs;
           $scope.$apply();
+
+          $scope.groups.push({ name: "Rejected Contracts", items: [] });
+          $scope.rejectedcontracts.forEach(function (element) {
+            $scope.groups[3].items.push(element);
+          });
+          $scope.$apply();
+          console.log("Rejected accordion" + $scope.groups[3]);
         }
 
+      console.log("Group length: " +$scope.groups.length);
       });
 
 
     }
 
-	
-	
-	
-	
-	
-	
-		$scope.groups = [
-						{ name: "Pending Contracts",items:$scope.pendingcontracts},
-						{ name: "Active Contracts",items:[1,2,3]},
-						{ name: "Rejected Contracts",items:[1,2,3]},
-						{ name: "Completed Contracts",items:[1,2,3]}
-					];
-					
-		
-  
+
+    console.log("Accordion")
+    console.log($scope.pendingcontracts)
+
 	  /*
 	   * if given group is the selected group, deselect it
 	   * else, select the given group
 	   */
-	  $scope.toggleGroup = function(group) {
-		if ($scope.isGroupShown(group)) {
-		  $scope.shownGroup = null;
-		} else {
-		  $scope.shownGroup = group;
-		}
-	  };
-	  $scope.isGroupShown = function(group) {
-		return $scope.shownGroup === group;
-	  };
-	  
+    $scope.toggleGroup = function (group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+    $scope.isGroupShown = function (group) {
+      return $scope.shownGroup === group;
+    };
+
   }]);
