@@ -1,4 +1,4 @@
-mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar']);
+mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar','angular-clipboard']);
 var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services','angular-clipboard']);
 
 
