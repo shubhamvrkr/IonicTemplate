@@ -45,7 +45,7 @@
                 <textarea placeholder="Additional Terms & Conditions" name="description" ng-model="data.description" required></textarea>
               </div>
               <small class="error"  ng-if="createContractForm.$invalid"><strong>All fields are mandatory</strong></small>
-
+              <small class="error">{{error}}</small>
             <div>
               <button id="create-deal" class="button button-medium button-radius button-balanced button-block" ng-hide="submitFlag" ng-disabled="createContractForm.$invalid">
                   <label class="loginText" ng-hide="textFlag">Create Deal<label>
