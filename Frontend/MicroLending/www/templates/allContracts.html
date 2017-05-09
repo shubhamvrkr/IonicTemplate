@@ -6,7 +6,7 @@
       <ion-list>
         <div ng-repeat="group in groups">
           <ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
-            <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i> {{group.name}}
+            <i class="icon accordion-icon " ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i> {{group.name}} <span class="contract-count">({{group.items.length}})</span>
           </ion-item>
           <ion-item class="list card" ng-show="isGroupShown(group)" ng-repeat="item in group.items track by $index">
             <!--{{item}}<br>-->
