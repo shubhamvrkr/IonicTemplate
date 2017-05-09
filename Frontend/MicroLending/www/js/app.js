@@ -1,5 +1,5 @@
-mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar']);
-var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services']);
+mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar','angular-clipboard']);
+var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services','angular-clipboard']);
 
 
 myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
@@ -341,7 +341,7 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 													 doc.status = "pending";
 													 doc.notification_flag = "true";
 													 doc.actionstatus = false;
-													 doc.tx = [{caller:invoker,txHash:NotiData.transactionHash}];
+													 doc.tx = [{caller:invoker,txHash:NotiData.transactionHash,eventName:"createContract"}];
 												
 													 console.log(doc)
 													 databaseFactory.putData(deal_db, doc, function(res) {
@@ -426,21 +426,26 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 											
 											var doc1 = response.data;
 											var arr = response.data.tx;
-											arr.push({caller:invoker,txHash:NotiData.transactionHash});
+											//arr.push({caller:invoker,txHash:NotiData.transactionHash});
 											
 											if(eventName == "acceptContractEvent"){
 											
 												doc1.status = "active";
+												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"acceptContract"});
+												
 												
 											}else if(eventName == "settleContractEvent"){
 											
 												doc1.status = "pending";
+												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"initiateSettlement"});
 												
 											}else if(eventName == "acceptSettleContractEvent"){
 											
 												doc1.status = "completed";
+												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"acceptSettlement"});
 											}else if (eventName=="rejectContractEvent"){
 												doc1.status = "rejected";
+												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"rejectContract"});
 											}
 											doc1.notification_flag = "true";
 											doc1.tx = arr;

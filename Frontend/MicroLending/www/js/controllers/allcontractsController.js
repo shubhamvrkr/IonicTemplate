@@ -82,11 +82,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               var tx_array = [];
               tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
+              tx_object.eventName = "initiateSettlement";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
-
               doc.status = "pending";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -130,6 +130,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+            $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -173,6 +174,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               var tx_array = [];
               tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
+              tx_object.eventName = "acceptContract";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -224,6 +226,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+            $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -269,6 +272,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               var tx_array = [];
               tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
+              tx_object.eventName = "rejectContract";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -319,6 +323,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+            $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -361,6 +366,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               var tx_array = [];
               tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
+              tx_object.eventName = "acceptSettlement";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -410,6 +416,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+            $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
