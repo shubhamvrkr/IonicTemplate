@@ -29,323 +29,38 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
       console.log("Moredetails: ", contract);
-	  var doc = contract;
-	  doc.notification_flag = "false";
-	  databaseFactory.updateDoc(deal_db, doc, function (res) {
-	
-			
-			console.log("Doc updated successfully")
-			databaseFactory.getDocById(deal_db,doc._id,function(response){
-			
-				if(response.status=="1"){
-				
-					$state.go('moredetails', { contract: response.data })
-				}
-			
-			});
-	  });
-	  
-      
+      var doc = contract;
+      doc.notification_flag = "false";
+      databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+
+        console.log("Doc updated successfully")
+        databaseFactory.getDocById(deal_db, doc._id, function (response) {
+
+          if (response.status == "1") {
+
+            $state.go('moredetails', { contract: response.data })
+          }
+
+        });
+      });
+
+
 
 
     }
     $scope.settleContract = function (contract) {
 
-	  contract.actionstatus = true;
+      contract.actionstatus = true;
       console.log("settleContract: ", contract);
-	  
+
       allContractFactory.sendResponseForNotification(contract, "initiateSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-	
+
         if (response.status == "1") {
 
-		
-		  
-          console.log(response.data);
-          txHash = response.data;
-          var count1 = 0;
-          var id1 = setInterval(function () {
 
-            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
 
-            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-              console.log("ohh yes");
-
-              //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
-              //update status, notification_flag, tx_hash array
-              var tx_object = {};
-              var tx_array = [];
-              tx_object.caller =  $scope.user_email;
-              tx_object.txHash = txHash;
-               tx_object.eventName = "initiateSettlement";
-              tx_array = contract.tx;
-              tx_array.push(tx_object)
-              var doc = contract;
-			     doc.actionstatus = false;
-          
-              doc.status = "pending";
-              doc.notification_flag = "false";
-              doc.tx = tx_array;
-              //update call.. 3 items
-              databaseFactory.updateDoc(deal_db, doc, function (res) {
-
-                console.log(res);
-                // test data in db
-                databaseFactory.getAllData(deal_db, function (response) {
-
-                  console.log(response);
-                  clearInterval(id1);
-
-                 contract.actionstatus = false;
-                  //$ionicLoading.hide();
-                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-					 loadDealsfromDB();
-					$scope.$apply();
-                });
-
-              });
-
-              // $state.go('registerSuccess');
-              //  TemplateVar.set(template, 'state', { isMining: false });
-              //   TemplateVar.set(template, 'state', { isMined: true });
-
-              // TemplateVar.set(template,'state', {isUserInactive: true});
-            } else {
-              //console.log("ohh no");
-              if (count1 == 40) {
-                clearInterval(id1);
-                // TemplateVar.set(template, 'state', { isError: true });
-              }
-              count1++;
-            }
-          }, 4000);
-
-
-
-        } else {
-
-          console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
-
-
-        }
-
-
-
-      });
-
-    }
-    $scope.acceptContract = function (contract) {
-
-      console.log("acceptSettlement: ", contract);
-
-         contract.actionstatus = true;
-      //1. prepare the data for sigining with nonce. from and to are the sender
-      //payload should include s,r,v,nonce.
-      allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
-
-		
-        if (response.status == "1") {
-
-		
-          console.log(response.data);
-          txHash = response.data;
-          var count1 = 0;
-          var id1 = setInterval(function () {
-
-            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
-
-            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-              console.log("ohh yes");
-
-              //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
-              //update status, notification_flag, tx_hash array
-              var tx_object = {};
-              var tx_array = [];
-              tx_object.caller =  $scope.user_email;
-              tx_object.txHash = txHash;
-               tx_object.eventName = "acceptContract";
-              tx_array = contract.tx;
-              tx_array.push(tx_object)
-              var doc = contract;
-			        doc.actionstatus = false;
-			  
-              doc.status = "active";
-              doc.notification_flag = "false";
-              doc.tx = tx_array;
-			  console.log("Doc to be updated: ",doc);
-              //update call.. 3 items
-              databaseFactory.updateDoc(deal_db, doc, function (res) {
-
-                console.log(res);
-                // test data in db
-                databaseFactory.getAllData(deal_db, function (response) {
-
-                  console.log(response);
-                  clearInterval(id1);
-
-                  contract.actionstatus = false;
-				
-                  //$ionicLoading.hide();
-                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				     loadDealsfromDB();
-					$scope.$apply();
-
-                });
-
-              });
-
-              // $state.go('registerSuccess');
-              //  TemplateVar.set(template, 'state', { isMining: false });
-              //   TemplateVar.set(template, 'state', { isMined: true });
-
-              // TemplateVar.set(template,'state', {isUserInactive: true});
-            } else {
-              //console.log("ohh no");
-              if (count1 == 40) {
-                clearInterval(id1);
-                // TemplateVar.set(template, 'state', { isError: true });
-              }
-              count1++;
-            }
-          }, 4000);
-
-
-
-        } else {
-
-          console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
-
-
-        }
-
-
-
-      });
-
-
-    }
-
-
-    $scope.rejectContract = function (contract) {
-
-      console.log("rejectContract: ", contract);
-       contract.actionstatus = true;
-      //1. prepare the data for sigining with nonce. from and to are the sender
-      //payload should include s,r,v,nonce.
-      allContractFactory.sendResponseForNotification(contract, "rejectContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
-
-		
-        if (response.status == "1") {
-
-		
-          console.log(response.data);
-          txHash = response.data;
-          var count1 = 0;
-          var id1 = setInterval(function () {
-
-            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
-
-            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
-              console.log("ohh yes");
-
-              //insert into database
-              $scope.spinnerFlag = true;
-              $scope.textFlag = false;
-
-              //update status, notification_flag, tx_hash array
-              var tx_object = {};
-              var tx_array = [];
-              tx_object.caller =  $scope.user_email;
-              tx_object.txHash = txHash;
-               tx_object.eventName = "rejectContract";
-              tx_array = contract.tx;
-              tx_array.push(tx_object)
-              var doc = contract;
-			  doc.actionstatus = false;
-			  
-              doc.status = "rejected";
-              doc.notification_flag = "false";
-              doc.tx = tx_array;
-              //update call.. 3 items
-              databaseFactory.updateDoc(deal_db, doc, function (res) {
-
-                console.log(res);
-                // test data in db
-                databaseFactory.getAllData(deal_db, function (response) {
-
-                  console.log(response);
-                  clearInterval(id1);
-
-                  contract.actionstatus = false;
-				
-                  //$ionicLoading.hide();
-                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
-                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				     loadDealsfromDB();
-					$scope.$apply();
-
-                });
-
-              });
-
-              // $state.go('registerSuccess');
-              //  TemplateVar.set(template, 'state', { isMining: false });
-              //   TemplateVar.set(template, 'state', { isMined: true });
-
-              // TemplateVar.set(template,'state', {isUserInactive: true});
-            } else {
-              //console.log("ohh no");
-              if (count1 == 40) {
-                clearInterval(id1);
-                // TemplateVar.set(template, 'state', { isError: true });
-              }
-              count1++;
-            }
-          }, 4000);
-
-
-
-        } else {
-
-          console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
-
-
-        }
-
-
-
-      });
-
-    }
-	
-    $scope.acceptSettlement = function (contract) {
-
-      contract.actionstatus = true;
-      console.log("acceptContract: ", contract);
-      console.log("settleContract: ", contract);
-      allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
-
-	
-        if (response.status == "1") {
-
-		
           console.log(response.data);
           txHash = response.data;
           var count1 = 0;
@@ -365,13 +80,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               var tx_array = [];
               tx_object.caller = $scope.user_email;
               tx_object.txHash = txHash;
-               tx_object.eventName = "acceptSettlement";
+              tx_object.eventName = "initiateSettlement";
               tx_array = contract.tx;
-               
               tx_array.push(tx_object)
               var doc = contract;
-			  doc.actionstatus = false;
-              doc.status = "completed";
+              doc.actionstatus = false;
+
+              doc.status = "pending";
               doc.notification_flag = "false";
               doc.tx = tx_array;
               //update call.. 3 items
@@ -383,14 +98,108 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
                   console.log(response);
                   clearInterval(id1);
-                  //$ionicLoading.hide();
 
                   contract.actionstatus = false;
-				  
+                  //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
-				   loadDealsfromDB();
-				  $scope.$apply();
+                  loadDealsfromDB();
+                  $scope.$apply();
+                });
+
+              });
+
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
+
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
+
+
+
+        } else {
+
+          console.log(res.data);
+          $scope.error = "Insufficient funds to make any transactions!"
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
+
+
+        }
+
+
+
+      });
+
+    }
+    $scope.acceptContract = function (contract) {
+
+      console.log("acceptSettlement: ", contract);
+
+      contract.actionstatus = true;
+      //1. prepare the data for sigining with nonce. from and to are the sender
+      //payload should include s,r,v,nonce.
+      allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+
+
+        if (response.status == "1") {
+
+
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
+
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
+
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
+
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_email;
+              tx_object.txHash = txHash;
+              tx_object.eventName = "acceptContract";
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
+              doc.actionstatus = false;
+
+              doc.status = "active";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              console.log("Doc to be updated: ", doc);
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
+
+                  console.log(response);
+                  clearInterval(id1);
+
+                  contract.actionstatus = false;
+
+                  //$ionicLoading.hide();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+                  loadDealsfromDB();
+                  $scope.$apply();
 
                 });
 
@@ -416,7 +225,198 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
-            $scope.error = "Insufficient funds to make any transactions!"
+          $scope.error = "Insufficient funds to make any transactions!"
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
+
+
+        }
+
+
+
+      });
+
+
+    }
+
+
+    $scope.rejectContract = function (contract) {
+
+      console.log("rejectContract: ", contract);
+      contract.actionstatus = true;
+      //1. prepare the data for sigining with nonce. from and to are the sender
+      //payload should include s,r,v,nonce.
+      allContractFactory.sendResponseForNotification(contract, "rejectContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+
+
+        if (response.status == "1") {
+
+
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
+
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
+
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
+
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_email;
+              tx_object.txHash = txHash;
+              tx_object.eventName = "rejectContract";
+              tx_array = contract.tx;
+              tx_array.push(tx_object)
+              var doc = contract;
+              doc.actionstatus = false;
+
+              doc.status = "rejected";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
+
+                  console.log(response);
+                  clearInterval(id1);
+
+                  contract.actionstatus = false;
+
+                  //$ionicLoading.hide();
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+                  loadDealsfromDB();
+                  $scope.$apply();
+
+                });
+
+              });
+
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
+
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
+
+
+
+        } else {
+
+          console.log(res.data);
+          $scope.error = "Insufficient funds to make any transactions!"
+          $ionicLoading.hide();
+          ionicToast.show(res.data, 'bottom', false, 2500);
+
+
+        }
+
+
+
+      });
+
+    }
+
+    $scope.acceptSettlement = function (contract) {
+
+      contract.actionstatus = true;
+      console.log("acceptContract: ", contract);
+      console.log("settleContract: ", contract);
+      allContractFactory.sendResponseForNotification(contract, "acceptSettleContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
+
+
+        if (response.status == "1") {
+
+
+          console.log(response.data);
+          txHash = response.data;
+          var count1 = 0;
+          var id1 = setInterval(function () {
+
+            console.log("res===" + txHash + ethdapp.web3.eth.getTransactionReceipt(txHash));
+
+            if (ethdapp.web3.eth.getTransactionReceipt(txHash)) {
+              console.log("ohh yes");
+
+              //insert into database
+              $scope.spinnerFlag = true;
+              $scope.textFlag = false;
+
+              //update status, notification_flag, tx_hash array
+              var tx_object = {};
+              var tx_array = [];
+              tx_object.caller = $scope.user_email;
+              tx_object.txHash = txHash;
+              tx_object.eventName = "acceptSettlement";
+              tx_array = contract.tx;
+
+              tx_array.push(tx_object)
+              var doc = contract;
+              doc.actionstatus = false;
+              doc.status = "completed";
+              doc.notification_flag = "false";
+              doc.tx = tx_array;
+              //update call.. 3 items
+              databaseFactory.updateDoc(deal_db, doc, function (res) {
+
+                console.log(res);
+                // test data in db
+                databaseFactory.getAllData(deal_db, function (response) {
+
+                  console.log(response);
+                  clearInterval(id1);
+                  //$ionicLoading.hide();
+
+                  contract.actionstatus = false;
+
+                  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
+                  //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
+                  loadDealsfromDB();
+                  $scope.$apply();
+
+                });
+
+              });
+
+              // $state.go('registerSuccess');
+              //  TemplateVar.set(template, 'state', { isMining: false });
+              //   TemplateVar.set(template, 'state', { isMined: true });
+
+              // TemplateVar.set(template,'state', {isUserInactive: true});
+            } else {
+              //console.log("ohh no");
+              if (count1 == 40) {
+                clearInterval(id1);
+                // TemplateVar.set(template, 'state', { isError: true });
+              }
+              count1++;
+            }
+          }, 4000);
+
+
+
+        } else {
+
+          console.log(res.data);
+          $scope.error = "Insufficient funds to make any transactions!"
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -469,7 +469,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       });
 
-	allContractFactory.getallRejectedContracts(function (response) {
+      allContractFactory.getallRejectedContracts(function (response) {
 
         console.log("rejected Contracts: ", response.data.docs);
 
@@ -484,34 +484,34 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
     }
 
-	
-	
-	
-	
-	
-	
-		$scope.groups = [
-						{ name: "Pending Contracts",items:$scope.pendingcontracts},
-						{ name: "Active Contracts",items:[1,2,3]},
-						{ name: "Rejected Contracts",items:[1,2,3]},
-						{ name: "Completed Contracts",items:[1,2,3]}
-					];
-					
-		
-  
+
+
+
+
+
+
+    $scope.groups = [
+						{ name: "Pending Contracts", items: $scope.pendingcontracts },
+						{ name: "Active Contracts", items: [1, 2, 3] },
+						{ name: "Rejected Contracts", items: [1, 2, 3] },
+						{ name: "Completed Contracts", items: [1, 2, 3] }
+    ];
+
+
+
 	  /*
 	   * if given group is the selected group, deselect it
 	   * else, select the given group
 	   */
-	  $scope.toggleGroup = function(group) {
-		if ($scope.isGroupShown(group)) {
-		  $scope.shownGroup = null;
-		} else {
-		  $scope.shownGroup = group;
-		}
-	  };
-	  $scope.isGroupShown = function(group) {
-		return $scope.shownGroup === group;
-	  };
-	  
+    $scope.toggleGroup = function (group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+    $scope.isGroupShown = function (group) {
+      return $scope.shownGroup === group;
+    };
+
   }]);
