@@ -294,12 +294,12 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
 
                   // Clear form on success
 
-                  // data.description = "";
-                  // data.assetname = "";
-                  // data.assetid = "";
-                  // data.startdate = "";
-                  // data.enddate = "";
-                  // data.counterparty = "";
+                  data.description = "";
+                  data.assetname = "";
+                  data.assetid = "";
+                  data.startdate = "";
+                  data.enddate = "";
+                  data.counterparty = "";
 
                   //Does not work
                   //$scope.createContractForm.$setPristine();
