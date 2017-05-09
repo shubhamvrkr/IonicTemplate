@@ -144,4 +144,5 @@ input::-webkit-inner-spin-button {
 .list .item.item-accordion.ng-hide { line-height: 0px; }
 .list .item.item-accordion.ng-hide-add,.list .item.item-accordion.ng-hide-remove { display: block !important; }
 .accordion-icon { margin-right: 10px; }
-.contract-count{ color: #4390df; font-weight: bold; margin-left: 10px;}
+.contract-count{ color: #4390df; font-weight: bold; margin-left: 10px;float:right;}
+.contract-status{ float:left;}
