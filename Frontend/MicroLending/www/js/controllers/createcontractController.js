@@ -270,9 +270,11 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
+            
               var tx_object = {}
               tx_object.caller = contract_data.from_email;
               tx_object.txHash = txHash;
+              tx_object.eventName = "createContract";
               doc.tx = [tx_object];
               doc.actionstatus = false;
 
@@ -332,6 +334,7 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
         } else {
 
           console.log(res.data);
+          $scope.error = "Insufficient funds."
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 

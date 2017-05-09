@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard','clipboard',
-  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard,clipboard) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard', 'clipboard',
+  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard, clipboard) {
 
     console.log("more details");
     //load current user details
@@ -16,24 +16,24 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
       // Copy To Clipboard
       $scope.copyToClipboard = function (text) {
-        if (window.cordova){
-        $cordovaClipboard
-          .copy(text)
-          .then(function () {
-            // success
-            console.log("Copied!")
-          }, function () {
-            // error
+        if (window.cordova) {
+          $cordovaClipboard
+            .copy(text)
+            .then(function () {
+              // success
+              console.log("Copied!")
+            }, function () {
+              // error
 
-            console.log("Copying failed!")
-          });
-      }else{
-         clipboard.copyText(text);
-      }
+              console.log("Copying failed!")
+            });
+        } else {
+          clipboard.copyText(text);
+        }
       }
       $scope.dealData = $stateParams.contract;
 
-
+      
       getCurrentUserData.getData(function (currentUser) {
         console.log("MoreDetails controller - Get User Data")
         $scope.currentUserEmail = currentUser.data.from_email;
@@ -194,6 +194,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               var tx_array = [];
               tx_object.caller = $scope.currentUserEmail;
               tx_object.txHash = txHash;
+               tx_object.eventName = "initiateSettlement";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -282,6 +283,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               var tx_array = [];
               tx_object.caller = $scope.currentUserEmail;
               tx_object.txHash = txHash;
+               tx_object.eventName = "acceptContract";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -366,6 +368,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               var tx_array = [];
               tx_object.caller = $scope.currentUserEmail;
               tx_object.txHash = txHash;
+                    tx_object.eventName = "rejectContract";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
@@ -447,6 +450,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               var tx_array = [];
               tx_object.caller = $scope.currentUserEmail;
               tx_object.txHash = txHash;
+                    tx_object.eventName = "acceptSettlement";
               tx_array = contract.tx;
               tx_array.push(tx_object)
               var doc = contract;
