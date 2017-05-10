@@ -1,79 +1,82 @@
-mycontrollerModule = angular.module('app.controllers', ['ngCordova','ionic', 'ionic-toast','ngLetterAvatar','angular-clipboard']);
-var myApp = angular.module('app', ['ngCordova','ionic','ngLetterAvatar','ionic-toast','app.controllers','app.routes','app.directives','app.services','angular-clipboard']);
+mycontrollerModule = angular.module('app.controllers', ['ngCordova', 'ionic', 'ionic-toast', 'ngLetterAvatar', 'angular-clipboard']);
+var myApp = angular.module('app', ['ngCordova', 'ionic', 'ngLetterAvatar', 'ionic-toast', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'angular-clipboard']);
 
 
 myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
-  $ionicConfigProvider.tabs.position('top');
-  $sceDelegateProvider.resourceUrlWhitelist(['self', '*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-  
+	$ionicConfigProvider.tabs.position('top');
+	$sceDelegateProvider.resourceUrlWhitelist(['self', '*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+
 });
 
-myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurrentUserData,$timeout,$state,$cordovaPushV5,$rootScope) {
+myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory) {
 
 
-	$rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
+	$rootScope.$on('$cordovaPushV5:notificationReceived', function (event, data) {
 
-			console.log("Message: ",data);
-			var response = data.additionalData.additionalData.info;
-			var data = {
-			  
-					body:response
-			}
-			console.log("Data sent to function: ",data);
-			storeDatainDatabase(data);
-			
+		console.log("Message: ", data);
+		var response = data.additionalData.additionalData.info;
+		var data = {
+
+			body: response
+		}
+		console.log("Data sent to function: ", data);
+		storeDatainDatabase(data);
+
 	});
 
-	$rootScope.$on('$cordovaPushV5:errorOcurred', function(event, e){
+	$rootScope.$on('$cordovaPushV5:errorOcurred', function (event, e) {
 
-			console.log("Error: ",e);
-			
+		console.log("Error: ", e);
+
 	});
-	
-	
+
+
     $ionicPlatform.ready(function () {
-	
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-	if(window.cordova){
-		var options = {
+
+
+
+		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+		// for form inputs)
+		if (window.cordova) {
+			var options = {
 				android: {
-				  senderID: "1078648460837"
+					senderID: "1078648460837"
 				}
-		};
-		$cordovaPushV5.initialize(options).then(function() {
+			};
+			$cordovaPushV5.initialize(options).then(function () {
 
 				$cordovaPushV5.onNotification();
 
 				$cordovaPushV5.onError();
-				
-		});
-	}
-	
-      if (window.cordova) {
 
-			  ss = new cordova.plugins.SecureStorage(
-			  function () { console.log('Success') ;},
-			  function (error) { console.log('Error ' + error); },
-			  'my_app');
+			});
+		}
+
+		if (window.cordova) {
+
+			ss = new cordova.plugins.SecureStorage(
+				function () { console.log('Success'); },
+				function (error) { console.log('Error ' + error); },
+				'my_app');
 
 			contact_db = new PouchDB('contacts.db', { adapter: 'cordova-sqlite', location: 'default' });
 			console.log(contact_db);
 
 			deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
 			console.log(deal_db);
-			
-			
 
-      }else {
+
+
+		} else {
 
 			contact_db = new PouchDB('contacts');
 			console.log(contact_db.adapter);
 
 			deal_db = new PouchDB('deals');
 			console.log(deal_db.adapter);
-			deal_db.createIndex({index: { fields: ['status'] }
+			deal_db.createIndex({
+				index: { fields: ['status'] }
 
 			}).then(function (result) {
 				console.log(result);
@@ -82,80 +85,89 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 				console.log(err);
 
 			});
-	   }
-	   
-	   	console.log("Notification Handler Messages");
-		getCurrentUserData.getData(function(response){
-				
+		}
+
+		/* expiredContractsFactory.getAllExpiredContracts(function(res){
+			  console.log(res);
+		  });*/
+
+		expiredContractsFactory.getAllUnSettledExpiredContracts(function (res) {
+			console.log(res);
+		});
+
+
+		console.log("Notification Handler Messages");
+		getCurrentUserData.getData(function (response) {
+
 			userKeyStore = response.data;
-			console.log("Key Store: ",userKeyStore)
-			if(userKeyStore!=null){
-			
-				$timeout(function(){
+			console.log("Key Store: ", userKeyStore)
+			if (userKeyStore != null) {
+
+				$timeout(function () {
 					$state.go("menu.allContracts")
 				})
 			}
-		
+
 		});
-		
+
 		var config = {
-			  apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
-			  authDomain: "lending-16a7a.firebaseapp.com",
-			  databaseURL: "https://lending-16a7a.firebaseio.com",
-			  projectId: "lending-16a7a",
-			  storageBucket: "lending-16a7a.appspot.com",
-			  messagingSenderId: "1078648460837"
+			apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
+			authDomain: "lending-16a7a.firebaseapp.com",
+			databaseURL: "https://lending-16a7a.firebaseio.com",
+			projectId: "lending-16a7a",
+			storageBucket: "lending-16a7a.appspot.com",
+			messagingSenderId: "1078648460837"
 		};
 		firebase.initializeApp(config);
 		messaging = firebase.messaging();
-		if(!window.cordova){
-		
-			if ('serviceWorker' in navigator){
+		if (!window.cordova) {
 
-					console.log("SW present !!! ");
-					navigator.serviceWorker.register('sw.js', {}).then(function(registration){
+			if ('serviceWorker' in navigator) {
 
-						registration.update();
-						console.log("registered");
-						messaging.useServiceWorker(registration);
-						console.log('Service worker registered : ', registration.scope);
+				console.log("SW present !!! ");
+				navigator.serviceWorker.register('sw.js', {}).then(function (registration) {
 
-					}).catch(function(err){
-					 
-						console.log("Service worker registration failed : ", err);
-					});
+					registration.update();
+					console.log("registered");
+					messaging.useServiceWorker(registration);
+					console.log('Service worker registered : ', registration.scope);
+
+				}).catch(function (err) {
+
+					console.log("Service worker registration failed : ", err);
+				});
 
 			}
-		
-			messaging.onMessage(function(payload) {
-	
+
+			messaging.onMessage(function (payload) {
+
 				var info = JSON.parse(payload.data.additionalData).info;
 				var data = {
-			  
-					body:info
+
+					body: info
 				}
-				console.log("On Message: ",data)
-				
-				
+				console.log("On Message: ", data)
+
+
 				//console.log(payload.data)
-				if(payload.data.body!=null){
+				if (payload.data.body != null) {
 					storeDatainDatabase(data)
 				}
 			});
-		
-			navigator.serviceWorker.addEventListener('message', function(event) {
-			
+
+			navigator.serviceWorker.addEventListener('message', function (event) {
+
 				var info = JSON.parse(event.data.additionalData).info
-				
+
 				var data = {
-			  
-					body:info
+
+					body: info
 				}
-				console.log("Event Listener: ",data)
-				if(event.data.body!=null){
+				console.log("Event Listener: ", data)
+				if (event.data.body != null) {
 					storeDatainDatabase(data)
 				}
-			});	
+			});
 
 		}
 
@@ -171,372 +183,372 @@ myApp.run(function ($ionicPlatform,databaseFactory,firebaseFactory,$http,getCurr
 
 
     });
-	
-		function storeDatainDatabase(data){
 
-				console.log('Message ', data);
-				var NotiData = JSON.parse(data.body);
-				var invoker = NotiData.invoker;
-				console.log(invoker)
-				
-				try{
-					
-					
-					databaseFactory.getDocById(contact_db,invoker,function(response){
-					
-						//console.log("Database: ",response);
-						
-						if(response.status=="0"){
-						
-							console.log("Contact not found in database");
-							$http.get(apiUrl+"/api/users/?email="+invoker).then(function(response) {
-							
-							
-								console.log("Get Call: ",response.data[0]);
-								var publicKeyInvoker = response.data[0].publicKey;
-								checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
-								
-								contactEntry = {
-									"_id": response.data[0].email,
-									"eth_address": response.data[0].ethAccount,
-									"name": response.data[0].name,
-									"publicKey": response.data[0].publicKey
-								}
-								databaseFactory.putData(contact_db, contactEntry, function (response) {
+	function storeDatainDatabase(data) {
 
-									if(response.status=="0"){
-									
-										console.log("Error inserting into database")
-										
-									}else{
-										console.log("Contract saved successfully")
-									}
-								});
-								
-							});
-						}else{
-						
-							var publicKeyInvoker = response.data.publicKey;
-							console.log("publicKeyInvoker: ",publicKeyInvoker);
-							checkUserKeyStore(NotiData,publicKeyInvoker,invoker);
-						
+		console.log('Message ', data);
+		var NotiData = JSON.parse(data.body);
+		var invoker = NotiData.invoker;
+		console.log(invoker)
+
+		try {
+
+
+			databaseFactory.getDocById(contact_db, invoker, function (response) {
+
+				//console.log("Database: ",response);
+
+				if (response.status == "0") {
+
+					console.log("Contact not found in database");
+					$http.get(apiUrl + "/api/users/?email=" + invoker).then(function (response) {
+
+
+						console.log("Get Call: ", response.data[0]);
+						var publicKeyInvoker = response.data[0].publicKey;
+						checkUserKeyStore(NotiData, publicKeyInvoker, invoker);
+
+						contactEntry = {
+							"_id": response.data[0].email,
+							"eth_address": response.data[0].ethAccount,
+							"name": response.data[0].name,
+							"publicKey": response.data[0].publicKey
 						}
-						
-					});
-					
-					
-				}catch(err){
-				
-					console.log("Error : ",err)
-				}
-		}
-			
-		function checkUserKeyStore(NotiData,publicKey,invoker){
+						databaseFactory.putData(contact_db, contactEntry, function (response) {
 
-			getCurrentUserData.getData(function(response){
-				
-				userKeyStore = response.data;
-				console.log("Key Store: ",userKeyStore)
-				ProcessNotificationData(NotiData,publicKey,invoker)
-			
-			});
-		}
-			
-			
-			
-		function ProcessNotificationData(NotiData,publicKey,invoker){
-				
-				console.log("NotiData: ",NotiData);
-				console.log("publicKey",publicKey);
-				
-				var sign_s = NotiData.sig_s;
-				var sign_r = NotiData.sig_r;
-				var sign_v = NotiData.sig_v;
-				var deal_id = NotiData.dealId;
-				var sig_nonce = NotiData.nonce;
-				
-				console.log(userKeyStore)
-	
-				try{
-				
-					
-					if(NotiData.contract_data != null && NotiData.key_symmteric!=null){
-					
-						
-						var contract_data = NotiData.contract_data;
-						var symmetric_key = NotiData.key_symmteric;
-						console.log(symmetric_key)
-						EthWallet.encryption_sign.asymDecrypt(symmetric_key, userKeyStore.ks_local, userKeyStore.pwDerivedKey, publicKey,userKeyStore.current_user_key, function (err, decryptedKey) {
-							
-							if (err){
-							
-								console.log("Error decrypting symmetric key: ",err);
-							
-							}else{
-								
-								console.log("decryptedKey: ",decryptedKey);
-								
-								EthWallet.encryption_sign.symDecrypt(contract_data, decryptedKey ,function(err,decryptedContractData){
-								
-									if (err){
-									
-										console.log("Error decrypting data: ",err);
-										
-									}else{
-									
-										console.log("Decrypted Contract Data: ",decryptedContractData);
-										
-										var dec_contract_data = JSON.parse(decryptedContractData);
-										
-										var temp_contract_data = {};
-										
-										temp_contract_data.deal_id = dec_contract_data.deal_id.toString();
-										temp_contract_data.from_ethAddress = dec_contract_data.from_ethAddress;
-										temp_contract_data.to_ethAddress = dec_contract_data.to_ethAddress;
-										temp_contract_data.from_email = dec_contract_data.from_email;
-										temp_contract_data.to_email = dec_contract_data.to_email;
-										temp_contract_data.start_date = dec_contract_data.start_date;
-										temp_contract_data.end_date = dec_contract_data.end_date;
-										temp_contract_data.asset_id = dec_contract_data.asset_id;
-										temp_contract_data.asset_name = dec_contract_data.asset_name;
-										temp_contract_data.description = dec_contract_data.description;
-										temp_contract_data.nonce = sig_nonce;
-										
-										console.log(temp_contract_data)
-								
-										var s_hex = buffer.from(sign_s.toString('hex'), 'hex');
-										console.log(s_hex)
-										var r_hex = buffer.from(sign_r.toString('hex'), 'hex');
-										console.log(r_hex)
-										var v_hex = parseInt(sign_v);
-										console.log(v_hex)									
+							if (response.status == "0") {
 
-										
-										EthWallet.encryption_sign.verifyMsg(NotiData.from,JSON.stringify(temp_contract_data),v_hex, r_hex, s_hex, function (err, verifiedResult) {
-											
-											if (err){
+								console.log("Error inserting into database")
 
-												console.log("Error in verifying signature: ",err);
-												
-											}else{
-											
-												console.log("Verification Status: ",verifiedResult);
-												if(verifiedResult){
-												
-													//enter into database
-													 var doc = {};
-													 
-													 doc._id = dec_contract_data.deal_id ;
-													 doc.asset_name = dec_contract_data.asset_name ;
-													 doc.counter_party_address = dec_contract_data.to_ethAddress;
-													 doc.counter_party_email = dec_contract_data.to_email;
-													 doc.creation_date = sig_nonce  ;
-													 doc.start_date = dec_contract_data.start_date;
-													 doc.end_date = dec_contract_data.end_date;
-													 doc.from_address = dec_contract_data.from_ethAddress;
-													 doc.from_email = dec_contract_data.from_email;
-													 doc.description = dec_contract_data.description ;
-													 doc.asset_id = dec_contract_data.asset_id;
-													 doc.symmteric_key = decryptedKey;
-													 doc.status = "pending";
-													 doc.notification_flag = "true";
-													 doc.actionstatus = false;
-													 doc.tx = [{caller:invoker,txHash:NotiData.transactionHash,eventName:"createContract"}];
-												
-													 console.log(doc)
-													 databaseFactory.putData(deal_db, doc, function(res) {
-													 
-														if(res.status=="1"){
-														
-															console.log("Deal : "+ doc + " entered successfully");
-														
-														}else{
-														
-															console.log("Error entering deal in database: ");
-														}
-													 
-													 });
-													 
-												}else{
-												
-													console.log("Signature Verification Failed");
-												
-												}
-												
-											}
-											
-										});
-										
-									}
-								});
-										
+							} else {
+								console.log("Contract saved successfully")
 							}
-							
 						});
-						
-					}else{
-						
-						//get event name;
-						
-						var eventName = NotiData.status ;
-						console.log("eventName: ",eventName)
-						
-						databaseFactory.getDocById(deal_db,deal_id,function(response){
-						
-							if(response.status=="0"){
-							
-								console.log("Deail with id : "+ deal_id + " not found in db"); 
-							
-							}else{
-							
+
+					});
+				} else {
+
+					var publicKeyInvoker = response.data.publicKey;
+					console.log("publicKeyInvoker: ", publicKeyInvoker);
+					checkUserKeyStore(NotiData, publicKeyInvoker, invoker);
+
+				}
+
+			});
+
+
+		} catch (err) {
+
+			console.log("Error : ", err)
+		}
+	}
+
+	function checkUserKeyStore(NotiData, publicKey, invoker) {
+
+		getCurrentUserData.getData(function (response) {
+
+			userKeyStore = response.data;
+			console.log("Key Store: ", userKeyStore)
+			ProcessNotificationData(NotiData, publicKey, invoker)
+
+		});
+	}
+
+
+
+	function ProcessNotificationData(NotiData, publicKey, invoker) {
+
+		console.log("NotiData: ", NotiData);
+		console.log("publicKey", publicKey);
+
+		var sign_s = NotiData.sig_s;
+		var sign_r = NotiData.sig_r;
+		var sign_v = NotiData.sig_v;
+		var deal_id = NotiData.dealId;
+		var sig_nonce = NotiData.nonce;
+
+		console.log(userKeyStore)
+
+		try {
+
+
+			if (NotiData.contract_data != null && NotiData.key_symmteric != null) {
+
+
+				var contract_data = NotiData.contract_data;
+				var symmetric_key = NotiData.key_symmteric;
+				console.log(symmetric_key)
+				EthWallet.encryption_sign.asymDecrypt(symmetric_key, userKeyStore.ks_local, userKeyStore.pwDerivedKey, publicKey, userKeyStore.current_user_key, function (err, decryptedKey) {
+
+					if (err) {
+
+						console.log("Error decrypting symmetric key: ", err);
+
+					} else {
+
+						console.log("decryptedKey: ", decryptedKey);
+
+						EthWallet.encryption_sign.symDecrypt(contract_data, decryptedKey, function (err, decryptedContractData) {
+
+							if (err) {
+
+								console.log("Error decrypting data: ", err);
+
+							} else {
+
+								console.log("Decrypted Contract Data: ", decryptedContractData);
+
+								var dec_contract_data = JSON.parse(decryptedContractData);
+
 								var temp_contract_data = {};
-										
-								temp_contract_data.deal_id = response.data._id;
-								temp_contract_data.from_ethAddress = response.data.from_address;
-								temp_contract_data.to_ethAddress = response.data.counter_party_address;
-								temp_contract_data.from_email = response.data.from_email;
-								temp_contract_data.to_email = response.data.counter_party_email;
-								temp_contract_data.start_date = response.data.start_date;
-								temp_contract_data.end_date = response.data.end_date;
-								temp_contract_data.asset_id = response.data.asset_id ;
-								temp_contract_data.asset_name = response.data.asset_name;
-								temp_contract_data.description = response.data.description;
+
+								temp_contract_data.deal_id = dec_contract_data.deal_id.toString();
+								temp_contract_data.from_ethAddress = dec_contract_data.from_ethAddress;
+								temp_contract_data.to_ethAddress = dec_contract_data.to_ethAddress;
+								temp_contract_data.from_email = dec_contract_data.from_email;
+								temp_contract_data.to_email = dec_contract_data.to_email;
+								temp_contract_data.start_date = dec_contract_data.start_date;
+								temp_contract_data.end_date = dec_contract_data.end_date;
+								temp_contract_data.asset_id = dec_contract_data.asset_id;
+								temp_contract_data.asset_name = dec_contract_data.asset_name;
+								temp_contract_data.description = dec_contract_data.description;
 								temp_contract_data.nonce = sig_nonce;
-										
+
 								console.log(temp_contract_data)
-								
+
 								var s_hex = buffer.from(sign_s.toString('hex'), 'hex');
 								console.log(s_hex)
 								var r_hex = buffer.from(sign_r.toString('hex'), 'hex');
 								console.log(r_hex)
 								var v_hex = parseInt(sign_v);
-								console.log(v_hex)	
-								
-								EthWallet.encryption_sign.verifyMsg(NotiData.from,JSON.stringify(temp_contract_data),v_hex, r_hex, s_hex, function (err, verifiedResult) {
-								
-									if (err){
+								console.log(v_hex)
 
-										console.log("Error in verifying signature: ",err);
-												
-									}else{
-											
-										console.log("Verification Status: ",verifiedResult);
-										if(verifiedResult){
-										
-											
-											var doc1 = response.data;
-											var arr = response.data.tx;
-											//arr.push({caller:invoker,txHash:NotiData.transactionHash});
-											
-											if(eventName == "acceptContractEvent"){
-											
-												doc1.status = "active";
-												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"acceptContract"});
-												
-												
-											}else if(eventName == "settleContractEvent"){
-											
-												doc1.status = "pending";
-												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"initiateSettlement"});
-												
-											}else if(eventName == "acceptSettleContractEvent"){
-											
-												doc1.status = "completed";
-												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"acceptSettlement"});
-											}else if (eventName=="rejectContractEvent"){
-												doc1.status = "rejected";
-												arr.push({caller:invoker,txHash:NotiData.transactionHash,eventName:"rejectContract"});
-											}
-											doc1.notification_flag = "true";
-											doc1.tx = arr;
-											console.log("Doc: ",response.data)
-											
-											databaseFactory.putData(deal_db, doc1, function(res) {
-											
-												if(res.status=="0"){
-													console.log("Error storing doc")
-												}else{
-													console.log("Deal update")
+
+								EthWallet.encryption_sign.verifyMsg(NotiData.from, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
+
+									if (err) {
+
+										console.log("Error in verifying signature: ", err);
+
+									} else {
+
+										console.log("Verification Status: ", verifiedResult);
+										if (verifiedResult) {
+
+											//enter into database
+											var doc = {};
+
+											doc._id = dec_contract_data.deal_id;
+											doc.asset_name = dec_contract_data.asset_name;
+											doc.counter_party_address = dec_contract_data.to_ethAddress;
+											doc.counter_party_email = dec_contract_data.to_email;
+											doc.creation_date = sig_nonce;
+											doc.start_date = dec_contract_data.start_date;
+											doc.end_date = dec_contract_data.end_date;
+											doc.from_address = dec_contract_data.from_ethAddress;
+											doc.from_email = dec_contract_data.from_email;
+											doc.description = dec_contract_data.description;
+											doc.asset_id = dec_contract_data.asset_id;
+											doc.symmteric_key = decryptedKey;
+											doc.status = "pending";
+											doc.notification_flag = "true";
+											doc.actionstatus = false;
+											doc.tx = [{ caller: invoker, txHash: NotiData.transactionHash, eventName: "createContract" }];
+
+											console.log(doc)
+											databaseFactory.putData(deal_db, doc, function (res) {
+
+												if (res.status == "1") {
+
+													console.log("Deal : " + doc + " entered successfully");
+
+												} else {
+
+													console.log("Error entering deal in database: ");
 												}
-												
+
 											});
-											
-											
-										}else{
-										
+
+										} else {
+
 											console.log("Signature Verification Failed");
+
 										}
+
 									}
-								
-								
-								
+
 								});
-							
+
 							}
-						
-						
-						
 						});
-				
-				
-				
+
 					}
-				
-				}catch(err){
-				
-					console.log("Exception: ",err)
-				
-				}
+
+				});
+
+			} else {
+
+				//get event name;
+
+				var eventName = NotiData.status;
+				console.log("eventName: ", eventName)
+
+				databaseFactory.getDocById(deal_db, deal_id, function (response) {
+
+					if (response.status == "0") {
+
+						console.log("Deail with id : " + deal_id + " not found in db");
+
+					} else {
+
+						var temp_contract_data = {};
+
+						temp_contract_data.deal_id = response.data._id;
+						temp_contract_data.from_ethAddress = response.data.from_address;
+						temp_contract_data.to_ethAddress = response.data.counter_party_address;
+						temp_contract_data.from_email = response.data.from_email;
+						temp_contract_data.to_email = response.data.counter_party_email;
+						temp_contract_data.start_date = response.data.start_date;
+						temp_contract_data.end_date = response.data.end_date;
+						temp_contract_data.asset_id = response.data.asset_id;
+						temp_contract_data.asset_name = response.data.asset_name;
+						temp_contract_data.description = response.data.description;
+						temp_contract_data.nonce = sig_nonce;
+
+						console.log(temp_contract_data)
+
+						var s_hex = buffer.from(sign_s.toString('hex'), 'hex');
+						console.log(s_hex)
+						var r_hex = buffer.from(sign_r.toString('hex'), 'hex');
+						console.log(r_hex)
+						var v_hex = parseInt(sign_v);
+						console.log(v_hex)
+
+						EthWallet.encryption_sign.verifyMsg(NotiData.from, JSON.stringify(temp_contract_data), v_hex, r_hex, s_hex, function (err, verifiedResult) {
+
+							if (err) {
+
+								console.log("Error in verifying signature: ", err);
+
+							} else {
+
+								console.log("Verification Status: ", verifiedResult);
+								if (verifiedResult) {
+
+
+									var doc1 = response.data;
+									var arr = response.data.tx;
+									//arr.push({caller:invoker,txHash:NotiData.transactionHash});
+
+									if (eventName == "acceptContractEvent") {
+
+										doc1.status = "active";
+										arr.push({ caller: invoker, txHash: NotiData.transactionHash, eventName: "acceptContract" });
+
+
+									} else if (eventName == "settleContractEvent") {
+
+										doc1.status = "pending";
+										arr.push({ caller: invoker, txHash: NotiData.transactionHash, eventName: "initiateSettlement" });
+
+									} else if (eventName == "acceptSettleContractEvent") {
+
+										doc1.status = "completed";
+										arr.push({ caller: invoker, txHash: NotiData.transactionHash, eventName: "acceptSettlement" });
+									} else if (eventName == "rejectContractEvent") {
+										doc1.status = "rejected";
+										arr.push({ caller: invoker, txHash: NotiData.transactionHash, eventName: "rejectContract" });
+									}
+									doc1.notification_flag = "true";
+									doc1.tx = arr;
+									console.log("Doc: ", response.data)
+
+									databaseFactory.putData(deal_db, doc1, function (res) {
+
+										if (res.status == "0") {
+											console.log("Error storing doc")
+										} else {
+											console.log("Deal update")
+										}
+
+									});
+
+
+								} else {
+
+									console.log("Signature Verification Failed");
+								}
+							}
+
+
+
+						});
+
+					}
+
+
+
+				});
+
+
+
+			}
+
+		} catch (err) {
+
+			console.log("Exception: ", err)
+
 		}
+	}
 
 
 });
 
 myApp.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {
     return {
-      restrict: "A",
-      controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+		restrict: "A",
+		controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
-        function stopDrag() {
-          $ionicSideMenuDelegate.canDragContent(false);
-        }
+			function stopDrag() {
+				$ionicSideMenuDelegate.canDragContent(false);
+			}
 
-        function allowDrag() {
-          $ionicSideMenuDelegate.canDragContent(true);
-        }
+			function allowDrag() {
+				$ionicSideMenuDelegate.canDragContent(true);
+			}
 
-        $rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
-        $element.on('touchstart', stopDrag);
-        $element.on('touchend', allowDrag);
-        $element.on('mousedown', stopDrag);
-        $element.on('mouseup', allowDrag);
+			$rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
+			$element.on('touchstart', stopDrag);
+			$element.on('touchend', allowDrag);
+			$element.on('mousedown', stopDrag);
+			$element.on('mouseup', allowDrag);
 
-      }]
+		}]
     };
 
 }]);
 
 myApp.directive('hrefInappbrowser', function () {
     return {
-      restrict: 'A',
-      replace: false,
-      transclude: false,
-      link: function (scope, element, attrs) {
-        var href = attrs['hrefInappbrowser'];
+		restrict: 'A',
+		replace: false,
+		transclude: false,
+		link: function (scope, element, attrs) {
+			var href = attrs['hrefInappbrowser'];
 
-        attrs.$observe('hrefInappbrowser', function (val) {
-          href = val;
-        });
+			attrs.$observe('hrefInappbrowser', function (val) {
+				href = val;
+			});
 
-        element.bind('click', function (event) {
+			element.bind('click', function (event) {
 
-          window.open(href, '_system', 'location=yes');
+				window.open(href, '_system', 'location=yes');
 
-          event.preventDefault();
-          event.stopPropagation();
+				event.preventDefault();
+				event.stopPropagation();
 
-        });
-      }
+			});
+		}
     };
 
 });

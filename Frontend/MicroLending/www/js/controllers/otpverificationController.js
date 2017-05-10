@@ -213,11 +213,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                           console.log("App creation", response);
                           $ionicLoading.hide();
-
-
-
                           currentUser = {};
-
                           currentUser.address = result.address;
                           currentUser.pwDerivedKey = result.pwDerivedKey;
                           currentUser.keystore = result.ks;
@@ -241,8 +237,6 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
                             $state.go('menu.allContracts');
                           }
                           // sessionStorage.setItem('ks', JSON.stringify( currentUser.keystore));
-
-
 
 
                         });

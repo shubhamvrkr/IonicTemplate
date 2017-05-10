@@ -409,7 +409,6 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address), 'ether').toString();
       console.log(ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address), 'ether').toString())
 
-
     };
 
   }])

@@ -39,8 +39,10 @@ angular.module('app.routes', [])
           'allcontracts': {
             templateUrl: 'templates/allContracts.html',
             controller: 'allContractsCtrl'
-          }
-        },
+            
+          },
+        },  
+        
 		cache: false
 	
       })

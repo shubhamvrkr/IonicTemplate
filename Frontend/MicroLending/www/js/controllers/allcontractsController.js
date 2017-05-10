@@ -4,8 +4,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
 
+   
 
-
+  
     getCurrentUserData.getData(function (response) {
 
       if (response.data != null) {
@@ -20,6 +21,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       }
     })
 
+  
     $scope.dealInProgress = false;
     $scope.pendingcontracts = [];
     $scope.activecontracts = [];
@@ -48,7 +50,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       });
 
 
-
+    
 
     }
     $scope.settleContract = function (contract) {
@@ -506,7 +508,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           console.log("Rejected accordion" + $scope.groups[3]);
         }
 
-      console.log("Group length: " +$scope.groups.length);
+        console.log("Group length: " + $scope.groups.length);
       });
 
 
@@ -526,5 +528,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     $scope.isGroupShown = function (group) {
       return $scope.shownGroup === group;
     };
+
 
   }]);

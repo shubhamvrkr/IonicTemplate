@@ -32,6 +32,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
         }
       }
       $scope.dealData = $stateParams.contract;
+      //if ($scope.dealData.ev==)
 
       
       getCurrentUserData.getData(function (currentUser) {
