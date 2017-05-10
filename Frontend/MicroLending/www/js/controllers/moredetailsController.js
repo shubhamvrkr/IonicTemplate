@@ -56,6 +56,7 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
           if (tx_array[k].caller == $scope.currentUserEmail) {
             console.log("No counter party transactions found!");
+            $scope.dealData.tx[k].verificationFlag = true;
           }
 
           else {
@@ -139,14 +140,17 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
                       console.log("Error in verifying signature: ", err);
                       $scope.verificationFlag = false;
+                      $scope.dealData.tx[k].verificationFlag = false;
 
                     } else {
 
                       console.log("Verification Status: ", verifiedResult);
                       if (verifiedResult) {
                         $scope.verificationFlag = true;
+                        $scope.dealData.tx[k].verificationFlag = true;
                       } else {
                         $scope.verificationFlag = false;
+                        $scope.dealData.tx[k].verificationFlag = false;
 
                       }
                       $scope.$apply();

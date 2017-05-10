@@ -277,6 +277,7 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
               tx_object.eventName = "createContract";
               doc.tx = [tx_object];
               doc.actionstatus = false;
+               doc.isExpired= false;
 
               databaseFactory.putData(deal_db, doc, function (res) {
 

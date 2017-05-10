@@ -89,6 +89,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
+             
               doc.status = "pending";
               doc.notification_flag = "false";
               doc.tx = tx_array;
@@ -181,6 +182,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
+             
 
               doc.status = "active";
               doc.notification_flag = "false";
@@ -279,6 +281,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               tx_array.push(tx_object)
               var doc = contract;
               doc.actionstatus = false;
+              
 
               doc.status = "rejected";
               doc.notification_flag = "false";
@@ -376,6 +379,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
               doc.status = "completed";
               doc.notification_flag = "false";
               doc.tx = tx_array;
+              
               //update call.. 3 items
               databaseFactory.updateDoc(deal_db, doc, function (res) {
 

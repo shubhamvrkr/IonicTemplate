@@ -87,11 +87,13 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			});
 		}
 
-		/* expiredContractsFactory.getAllExpiredContracts(function(res){
-			  console.log(res);
-		  });*/
+		//set expiry status to true
+expiredContractsFactory.updateExpireContractFlag(function(result){
+console.log(result);
 
-		expiredContractsFactory.getAllUnSettledExpiredContracts(function (res) {
+});
+
+		expiredContractsFactory.getAllUnsettledExpiredContracts(function (res) {
 			console.log(res);
 		});
 
@@ -353,6 +355,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 											doc.status = "pending";
 											doc.notification_flag = "true";
 											doc.actionstatus = false;
+											
 											doc.tx = [{ caller: invoker, txHash: NotiData.transactionHash, eventName: "createContract" }];
 
 											console.log(doc)
