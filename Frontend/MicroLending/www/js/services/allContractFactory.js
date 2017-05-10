@@ -13,6 +13,15 @@ angular.module('app.services')
 
     };
 
+service.getExpiredContracts = function (callback) {
+
+
+      databaseFactory.getDoc(deal_db, { status: "expired" }, callback);
+
+
+    };
+    
+
     service.getallActiveContracts = function (callback) {
 
 
