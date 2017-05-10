@@ -146,3 +146,4 @@ input::-webkit-inner-spin-button {
 .accordion-icon { margin-right: 10px; }
 .contract-count{ color: #4390df; font-weight: bold; margin-left: 10px;float:right;}
 .contract-status{ float:left;}
+.item .badge { display: flex;line-height: 16px;position: absolute;right: 50px;top: 16px;}
