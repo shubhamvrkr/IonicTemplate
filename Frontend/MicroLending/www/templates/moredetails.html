@@ -62,16 +62,30 @@
           <div class="item item-divider">
             <h2>Transactions</h2>
           </div>
-          <div class="item item-text-wrap item-icon-right" ng-repeat="tx in dealData.tx" style="font-size:13px;">
-            <h4 style="float:left"> Tx ID {{$index+1}}:&nbsp </h4> <span><h4>{{tx.txHash}}</h4></span>
-            <i class="icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"></i>
-            <br>
-             <h4 style="float:left"> Event Name: &nbsp </h4> <span><h4> {{tx.eventName}}</h4></span>
-             <div style="float:right" ng-if="verificationFlag">
-                 <span>Hash of deal verified<i class="icon ion-checkmark-circled verify-icon"  title="Hash of deal Verified"></i></span><br>
-                  <span>Signature Verified<i class="icon ion-checkmark-circled verify-icon" title="Signature Verified"></i></span><br>
-                   <span>Transaction Verified<i class="icon ion-checkmark-circled verify-icon"  title="Transaction Verified"></i></span>
-               </div>
+          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px;">
+				<div class="txID">
+					<strong>Tx ID {{$index+1}}:</strong> {{tx.txHash}}<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"  title="Copy to clipboard"></i>
+				</div>
+				<div class="txData">
+					<strong>Event Name:</strong> {{tx.eventName}}
+				</div>
+				<div class="txvarify">				
+					<div class="tnxvarify">
+						Transaction Verified
+						<i class="varify-icon icon ion-checkmark-circled verify-icon"  title="Transaction Verified"></i>
+					</div>
+					<div class="sigvarify">
+						Signature Verified
+						<i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature Verified"></i>
+					</div>
+					<div class="hashvarify">
+						Deal Hash Verified
+						<i class="varify-icon icon ion-checkmark-circled verify-icon"  title="Hash of deal Verified"></i>
+					</div>
+				</div>
+				
+            
+				
 
 
            </div>
