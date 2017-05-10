@@ -63,11 +63,11 @@
             <h2>Transactions</h2>
           </div>
           <div class="item item-text-wrap item-icon-right" ng-repeat="tx in dealData.tx" style="font-size:13px;">
-            <h4 style="float:left"> Tx ID {{$index+1}}:&nbsp </h4> <span><h4>{{tx.txHash}}</h4></span>
-            <i class="icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"></i>
-            <br>
-             <h4 style="float:left"> Event Name: &nbsp </h4> <span><h4> {{tx.eventName}}</h4></span>
-
+            
+				<h4> Tx ID {{$index+1}}:&nbsp {{tx.txHash}}<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"  title="Copy to clipboard"></i></h4>
+				
+				<h4"> Event Name: &nbsp </h4> <h4> {{tx.eventName}}</h4>
+			
 
            </div>
         </div>
