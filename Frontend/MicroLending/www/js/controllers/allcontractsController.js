@@ -447,12 +447,23 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           console.log($scope.pendingcontracts);
 
 
-          $scope.groups.push({ name: "Pending Contracts", items: [] });
+          $scope.groups.push({ name: "Pending Contracts", items: [],notification_flag:"false" });
 
           $scope.pendingcontracts.forEach(function (element) {
             $scope.groups[0].items.push(element);
+            if (element.notification_flag=="true"){
+
+              console.log("flag is true");
+               $scope.groups[0].notification_flag="true";
+            }
           });
-        }
+
+         
+          //loop through items array and check for the notification flag. If it is set to true then set notification flag for groups array to true.
+
+
+
+    }
 
       });
       allContractFactory.getallActiveContracts(function (response) {
@@ -464,10 +475,15 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.activecontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Active Contracts", items: [] });
+          $scope.groups.push({ name: "Active Contracts", items: [],notification_flag:"false" });
 
           $scope.activecontracts.forEach(function (element) {
             $scope.groups[1].items.push(element);
+             if (element.notification_flag=="true"){
+
+              console.log("flag is true");
+               $scope.groups[1].notification_flag="true";
+            }
           });
 
         }
@@ -481,10 +497,15 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
           $scope.completedcontracts = response.data.docs;
           $scope.$apply();
-          $scope.groups.push({ name: "Completed Contracts", items: [] });
+          $scope.groups.push({ name: "Completed Contracts", items: [],notification_flag:"false" });
 
           $scope.completedcontracts.forEach(function (element) {
             $scope.groups[2].items.push(element);
+             if (element.notification_flag=="true"){
+
+              console.log("flag is true");
+               $scope.groups[2].notification_flag="true";
+            }
           });
 
         }
@@ -500,9 +521,14 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.rejectedcontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Rejected Contracts", items: [] });
+          $scope.groups.push({ name: "Rejected Contracts", items: [],notification_flag:"false" });
           $scope.rejectedcontracts.forEach(function (element) {
             $scope.groups[3].items.push(element);
+             if (element.notification_flag=="true"){
+
+              console.log("flag is true");
+               $scope.groups[3].notification_flag="true";
+            }
           });
           $scope.$apply();
           console.log("Rejected accordion" + $scope.groups[3]);
