@@ -11,10 +11,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       function (value) {
 
         console.log('Success, got ' + value);
+		if(value){
+		 alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+		}
       },
       function (error) {
         console.log('Error ' + error);
-         alarmmanager.start("10", "15", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+         alarmmanager.start("10", "53", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
 
        ss.set(
 
