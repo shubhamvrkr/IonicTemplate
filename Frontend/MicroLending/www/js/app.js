@@ -9,7 +9,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
 });
 
-myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory,$cordovaLocalNotification) {
+myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory, $cordovaLocalNotification) {
 
 
 	$rootScope.$on('$cordovaPushV5:notificationReceived', function (event, data) {
@@ -30,35 +30,43 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 		console.log("Error: ", e);
 
 	});
-	
-	$rootScope.$on('$cordovaLocalNotification:click',function (event, notification, state) {
-      
+
+	$rootScope.$on('$cordovaLocalNotification:click', function (event, notification, state) {
+
 		console.log("notification clicked!!!");
-		console.log("notification: ",notification);
-		//$state.go("menu.allContracts");
-		
+		console.log("notification: ", notification);
+		$state.go("menu.allContracts");
+
     });
-    
-	$rootScope.alarmSuccessCallback = function(data){
-	
-		console.log("Success callback: ",data)
+
+	$rootScope.alarmSuccessCallback = function (data) {
+
+		console.log("Success callback: ", data)
 		data = JSON.parse(data);
-		if(data.status==2){
+		if (data.status == 2) {
 			//sets a notification
-			console.log("Show notification")
-			$cordovaLocalNotification.schedule({
-				id: 1,
-				title: 'Ethereum Resource Lending',
-				text: 'Some contracts are about to expire!!'
-			}).then(function (result) {
-						
+			console.log("Show notification");
+			expiredContractsFactory.getAllUnsettledExpiredContracts(function (result) {
+				console.log(result)
+				if (result.length != 0) {
+
+					$cordovaLocalNotification.schedule({
+						id: 1,
+						title: 'Ethereum Resource Lending',
+						text: 'Some contracts are about to expire!! Click to view.'
+					}).then(function (result) {
+
+
+					});
+				}
 			});
 		}
+
 	}
-	
-	$rootScope.alarmErrorCallback = function(err){
-			
-		console.log("Error callback: ",err);
+
+	$rootScope.alarmErrorCallback = function (err) {
+
+		console.log("Error callback: ", err);
 	}
 
     $ionicPlatform.ready(function () {
@@ -67,7 +75,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova) {
-			
+
 			var options = {
 				android: {
 					senderID: "1078648460837"
@@ -80,10 +88,10 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 				$cordovaPushV5.onError();
 
 			});
-			
+
 			//call alarm manager plugin
-			alarmmanager.start("10","15",$rootScope.alarmSuccessCallback,$rootScope.alarmErrorCallback);
-		
+
+
 		}
 
 		if (window.cordova) {
@@ -98,7 +106,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 			deal_db = new PouchDB('deals.db', { adapter: 'cordova-sqlite', location: 'default' });
 			console.log(deal_db);
-	
+
 		} else {
 
 			contact_db = new PouchDB('contacts');
@@ -532,7 +540,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 		}
 	}
 
-	
+
 	function notifyMe() {
 		// Let's check if the browser supports notifications
 		if (!("Notification" in window)) {
@@ -546,11 +554,11 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			expiredContractsFactory.getAllUnsettledExpiredContracts(function (result) {
 				console.log(result)
 				if (result.length != 0) {
-					var notification = new Notification( "Few of your contracts are getting expired soon!");
-					notification.onclick= function(event){
-						  //event.preventDefault();
-						  console.log("clicked")
-						  window.open('localhost:8100/#/tabs/allcontracts', '_self');
+					var notification = new Notification("Few of your contracts are getting expired soon!");
+					notification.onclick = function (event) {
+						//event.preventDefault();
+						console.log("clicked")
+						window.open('localhost:8100/#/tabs/allcontracts', '_self');
 					}
 				}
 			});
