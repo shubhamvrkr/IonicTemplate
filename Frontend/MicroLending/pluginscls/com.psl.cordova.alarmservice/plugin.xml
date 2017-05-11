@@ -1,0 +1,28 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.psl.cordova.alarmservice"
+    version="0.0.1">
+    <name>Alarm Manager</name>
+    <description>Cordova native alarm manager pluggin for Android</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,alarmmanager</keywords>
+
+    <js-module src="www/alarmmanager.js" name="alarmmanager">
+        <clobbers target="alarmmanager" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AlarmManager" >
+                <param name="android-package" value="com.psl.cordova.alarmservice.AlarmManager"/>
+            </feature>
+        </config-file>
+		 <config-file target="AndroidManifest.xml" parent="/manifest/application">
+             <receiver android:name="com.psl.cordova.alarmservice.MyBroadcastReceiver"/>
+        </config-file>
+        <source-file src="src/android/AlarmManager.java" target-dir="src/com/psl/cordova/alarmservice"/>
+		<source-file src="src/android/MyBroadcastReceiver.java" target-dir="src/com/psl/cordova/alarmservice"/> 
+    </platform>
+</plugin>
