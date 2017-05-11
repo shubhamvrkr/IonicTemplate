@@ -26,9 +26,9 @@
 14 verbose correctMkdir C:\Users\nitesh_solanki\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
 15 verbose addTmpTarball validating metadata from D:\Lending\IonicTemplate\Frontend\MicroLending\plugman
 16 verbose tar unpack D:\Lending\IonicTemplate\Frontend\MicroLending\plugman
-17 verbose tar unpacking to C:\Users\NITESH~1\AppData\Local\Temp\npm-8904-4946ab21\unpack-2b25091c
-18 silly gentlyRm C:\Users\NITESH~1\AppData\Local\Temp\npm-8904-4946ab21\unpack-2b25091c is being purged
-19 verbose gentlyRm don't care about contents; nuking C:\Users\NITESH~1\AppData\Local\Temp\npm-8904-4946ab21\unpack-2b25091c
+17 verbose tar unpacking to C:\Users\NITESH~1\AppData\Local\Temp\npm-10012-a542edb4\unpack-208f707c
+18 silly gentlyRm C:\Users\NITESH~1\AppData\Local\Temp\npm-10012-a542edb4\unpack-208f707c is being purged
+19 verbose gentlyRm don't care about contents; nuking C:\Users\NITESH~1\AppData\Local\Temp\npm-10012-a542edb4\unpack-208f707c
 20 silly gunzTarPerm modes [ '777', '666' ]
 21 error tar.unpack error reading D:\Lending\IonicTemplate\Frontend\MicroLending\plugman
 22 error addLocal Could not install D:\Lending\IonicTemplate\Frontend\MicroLending\plugman

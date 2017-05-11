@@ -1,35 +1,34 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
+  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory) {
 
 
     //retrieve flag from secure storage and check the condition
+   	//set expiry status to true
+    expiredContractsFactory.updateExpireContractFlag(function (result) {
+      console.log("Expired contracts", result);
+    });
     var reminder_flag = "reminder_flag"
-    ss.get(
-      function (value) {
-
-        console.log('Success, got ' + value);
-		if(value){
-		 alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
-		}
+    if (window.cordova) {
+      ss.get(
+        function (value) {
+		 console.log('Success ' + value);
       },
       function (error) {
         console.log('Error ' + error);
-         alarmmanager.start("10", "53", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+		alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+          ss.set(
 
-       ss.set(
+            function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },
+            function (error) { console.log('Error ' + error); },
+            'reminder_flag', "true"
+          );
 
-          function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },
-          function (error) { console.log('Error ' + error); },
-          'reminder_flag', "true"
-        );
-
-      },
-      reminder_flag);
-   
-
+        },
+        reminder_flag);
+    }
 
     getCurrentUserData.getData(function (response) {
 
@@ -464,7 +463,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     function loadDealsfromDB() {
       $scope.groups = [];
       allContractFactory.getallPendingContracts(function (response) {
-
+        var count = 0;
         console.log("Pending Contracts: ", response.data.docs);
 
         if (response.status == "1") {
@@ -474,19 +473,18 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           console.log("PC Length : " + $scope.pendingcontracts.length);
           console.log($scope.pendingcontracts);
 
-
-          $scope.groups.push({ name: "Pending Contracts", items: [], notification_flag: "false" });
+          $scope.groups.push({ name: "Pending Contracts", items: [], notification_flag: "false", notification_count: 0 ,isExpired:"false"});
 
           $scope.pendingcontracts.forEach(function (element) {
             $scope.groups[0].items.push(element);
             if (element.notification_flag == "true") {
-
+              count++;
               console.log("flag is true");
               $scope.groups[0].notification_flag = "true";
             }
           });
 
-
+          $scope.groups[0].notification_count = count;
           //loop through items array and check for the notification flag. If it is set to true then set notification flag for groups array to true.
 
 
@@ -497,45 +495,47 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       allContractFactory.getallActiveContracts(function (response) {
 
         console.log("Active Contracts: ", response.data.docs);
-
+        var count = 0;
         if (response.status == "1") {
 
           $scope.activecontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Active Contracts", items: [], notification_flag: "false" });
+          $scope.groups.push({ name: "Active Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
 
           $scope.activecontracts.forEach(function (element) {
             $scope.groups[1].items.push(element);
             if (element.notification_flag == "true") {
 
               console.log("flag is true");
+               count++;
               $scope.groups[1].notification_flag = "true";
             }
           });
-
+          $scope.groups[1].notification_count = count;
         }
 
       });
       allContractFactory.getallCompletedContracts(function (response) {
 
         console.log("Completed Contracts: ", response.data.docs);
-
+        var count=0;
         if (response.status == "1") {
 
           $scope.completedcontracts = response.data.docs;
           $scope.$apply();
-          $scope.groups.push({ name: "Completed Contracts", items: [], notification_flag: "false" });
+          $scope.groups.push({ name: "Completed Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
 
           $scope.completedcontracts.forEach(function (element) {
             $scope.groups[2].items.push(element);
             if (element.notification_flag == "true") {
 
-              console.log("flag is true");
+              console.log("flag is true"); 
+              count++;
               $scope.groups[2].notification_flag = "true";
             }
           });
-
+          $scope.groups[2].notification_count = count;
         }
 
       });
@@ -543,48 +543,68 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       allContractFactory.getallRejectedContracts(function (response) {
 
         console.log("rejected Contracts: ", response.data.docs);
-
+        var count = 0;
         if (response.status == "1") {
 
           $scope.rejectedcontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Rejected Contracts", items: [], notification_flag: "false" });
+          $scope.groups.push({ name: "Rejected Contracts", items: [], notification_flag: "false", notification_count: 0 ,isExpired:"false"});
           $scope.rejectedcontracts.forEach(function (element) {
             $scope.groups[3].items.push(element);
             if (element.notification_flag == "true") {
-
+              count++;
               console.log("flag is true");
               $scope.groups[3].notification_flag = "true";
             }
           });
-          $scope.$apply();
-          console.log("Rejected accordion" + $scope.groups[3]);
+
+          $scope.groups[3].notification_count = count;
         }
 
-        console.log("Group length: " + $scope.groups.length);
+
       });
 
 
       allContractFactory.getExpiredContracts(function (response) {
 
         console.log("Expired Contracts: ", response.data.docs);
-
+        var count = 0;
         if (response.status == "1") {
 
           $scope.expiredcontracts = response.data.docs;
           $scope.$apply();
-          $scope.groups.push({ name: "Expired Contracts", items: [], notification_flag: "false" });
+          $scope.groups.push({ name: "Expired Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
 
           $scope.expiredcontracts.forEach(function (element) {
             $scope.groups[4].items.push(element);
             if (element.notification_flag == "true") {
 
-              $scope.groups[2].notification_flag = "true";
+              // $scope.groups[4].notification_flag = "true";
+
             }
           });
-          $scope.$apply();
+             $scope.groups[4].isExpired = "true";
         }
+
+      });
+
+      expiredContractsFactory.getAllUnsettledExpiredContracts(function (response) {
+
+        $scope.unsettledcontracts = response;
+        $scope.$apply();
+        $scope.groups.push({ name: "Contracts Valid till midnight", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
+
+        $scope.unsettledcontracts.forEach(function (element) {
+          $scope.groups[5].items.push(element);
+
+          $scope.groups[5].notification_flag = "true";
+
+
+        });
+         $scope.groups[4].isExpired = "true";
+        $scope.$apply();
+
 
       });
 

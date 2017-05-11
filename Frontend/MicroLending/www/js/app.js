@@ -12,6 +12,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory, $cordovaLocalNotification) {
 
 
+
 	$rootScope.$on('$cordovaPushV5:notificationReceived', function (event, data) {
 
 		console.log("Message: ", data);
@@ -89,8 +90,6 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 			});
 
-			//call alarm manager plugin
-
 
 		}
 
@@ -124,14 +123,12 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 				console.log(err);
 
 			});
+
+
+			notifyMe();
+
 		}
 
-		//set expiry status to true
-		expiredContractsFactory.updateExpireContractFlag(function (result) {
-			console.log(result);
-		});
-
-		notifyMe();
 
 
 		console.log("Notification Handler Messages");
@@ -222,6 +219,55 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
     });
 
+
+	function notifyMe() {
+
+
+		if (!("Notification" in window)) {
+			alert("This browser does not support desktop notification");
+		}
+
+		// Let's check whether notification permissions have already been granted
+		else if (Notification.permission === "granted") {
+			// If it's okay let's create a notification
+			//call getAllUnsettledExpiredContracts
+			expiredContractsFactory.getAllUnsettledExpiredContracts(function (result) {
+				console.log(result)
+				if (result.length != 0) {
+					var title = 'Micro-Lending Reminder';
+					var options = {
+						body: 'Few of your contracts are expiring soon!',
+						tag: 'reminder',
+					
+						lang: 'en-US',
+						dir: 'ltr'
+					};
+					var notification = new Notification(title,options);
+					notification.onclick = function (event) {
+						//event.preventDefault();
+						console.log("clicked")
+						window.open('localhost:8100/#/tabs/allcontracts', '_self');
+					}
+				}
+			});
+
+
+
+		}
+
+		// Otherwise, we need to ask the user for permission
+		else if (Notification.permission !== "denied") {
+			Notification.requestPermission(function (permission) {
+				// If the user accepts, let's create a notification
+				if (permission === "granted") {
+					var notification = new Notification("Hi there!");
+				}
+			});
+		}
+
+		// At last, if the user has denied notifications, and you 
+		// want to be respectful there is no need to bother them any more.
+	}
 	function storeDatainDatabase(data) {
 
 		console.log('Message ', data);
@@ -541,45 +587,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 	}
 
 
-	function notifyMe() {
-		// Let's check if the browser supports notifications
-		if (!("Notification" in window)) {
-			alert("This browser does not support desktop notification");
-		}
 
-		// Let's check whether notification permissions have already been granted
-		else if (Notification.permission === "granted") {
-			// If it's okay let's create a notification
-			//call getAllUnsettledExpiredContracts
-			expiredContractsFactory.getAllUnsettledExpiredContracts(function (result) {
-				console.log(result)
-				if (result.length != 0) {
-					var notification = new Notification("Few of your contracts are getting expired soon!");
-					notification.onclick = function (event) {
-						//event.preventDefault();
-						console.log("clicked")
-						window.open('localhost:8100/#/tabs/allcontracts', '_self');
-					}
-				}
-			});
-
-
-
-		}
-
-		// Otherwise, we need to ask the user for permission
-		else if (Notification.permission !== "denied") {
-			Notification.requestPermission(function (permission) {
-				// If the user accepts, let's create a notification
-				if (permission === "granted") {
-					var notification = new Notification("Hi there!");
-				}
-			});
-		}
-
-		// At last, if the user has denied notifications, and you 
-		// want to be respectful there is no need to bother them any more.
-	}
 
 });
 

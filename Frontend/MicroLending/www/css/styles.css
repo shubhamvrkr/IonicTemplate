@@ -144,10 +144,20 @@ input::-webkit-inner-spin-button {
 .list .item.item-accordion.ng-hide { line-height: 0px; }
 .list .item.item-accordion.ng-hide-add,.list .item.item-accordion.ng-hide-remove { display: block !important; }
 .accordion-icon { margin-right: 10px; }
-.contract-count{ color: #4390df; font-weight: bold; margin-left: 10px;float:right;}
+/*.contract-count{ color: #4390df; font-weight: bold; margin-left: 10px;float:right;}*/
+.contract-count{ background-color:rgb(215, 25, 64);
+  border-radius: 20px;
+  color: white;
+ 
+  padding: 2px 10px;
+  font-size: 13px;
+  
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 25px;
+  right: 7px;}
 .contract-status{ float:left;}
 .item .badge { display: flex;line-height: 16px;position: absolute;right: 50px;top: 16px;}
 .copy-icon { font-size: 20px !important; cursor: pointer; cursor: hand;  height: 50% !important;float:right;}
 .varify-icon { font-size: 15px !important; position: relative !important;float: right;  margin-left: 5px;width: 10px;}
-.hashvarify,.sigvarify,.tnxvarify { float: right;margin-right: 15px;font-size: 13px; }
-.txvarify { margin-top: 5px; }
+.hashvarify,.sigvarify,.tnxvarify { float: left;margin-right: 15px;font-size: 13px; }
+.txvarify { margin-top: 5px;float:left; }
