@@ -482,7 +482,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           });
 
           $scope.groups[0].notification_count = count;
-
         }
 
       });
