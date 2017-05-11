@@ -1,4 +1,4 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
@@ -6,6 +6,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
 
     //retrieve flag from secure storage and check the condition
+   
     var reminder_flag = "reminder_flag"
     ss.get(
       function (value) {
@@ -25,9 +26,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
       },
       reminder_flag);
-   
-
-
+    
     getCurrentUserData.getData(function (response) {
 
       if (response.data != null) {

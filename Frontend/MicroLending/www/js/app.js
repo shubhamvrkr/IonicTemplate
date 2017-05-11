@@ -126,11 +126,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			});
 		}
 
-		//set expiry status to true
-		expiredContractsFactory.updateExpireContractFlag(function (result) {
-			console.log(result);
-		});
-
+	
 		notifyMe();
 
 

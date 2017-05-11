@@ -61,6 +61,7 @@ angular.module('app.services')
         //get all contracts which are not settled and expired
         service.updateExpireContractFlag = function (callback) {
 
+            console.log("Updating");
             var todayDate = new Date();
             var then = new Date(
                 todayDate.getFullYear(),
