@@ -159,5 +159,5 @@ input::-webkit-inner-spin-button {
 .item .badge { display: flex;line-height: 16px;position: absolute;right: 50px;top: 16px;}
 .copy-icon { font-size: 20px !important; cursor: pointer; cursor: hand;  height: 50% !important;float:right;}
 .varify-icon { font-size: 15px !important; position: relative !important;float: right;  margin-left: 5px;width: 10px;}
-.hashvarify,.sigvarify,.tnxvarify { float: right;margin-right: 15px;font-size: 13px; }
-.txvarify { margin-top: 5px; }
+.hashvarify,.sigvarify,.tnxvarify { float: left;margin-right: 15px;font-size: 13px; }
+.txvarify { margin-top: 5px;float:left; }

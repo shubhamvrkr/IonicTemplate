@@ -22,48 +22,8 @@
           </div>
 
           <div class="item">
-            <div class="txvarify" ng-if="verificationFlag && dealData.counter_party_email == currentUserEmail && dealData.tx.length!=1">
-              <div class="hashvarify">
-                Deal Hash Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
-              </div><br>
-              <div class="sigvarify">
-                Signature of {{dealData.from_email}} is Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.from_email}} Verified"></i>
-              </div><br>
-              <div class="tnxvarify">
-                Transactions are Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
-              </div>
-            </div>
-            <div class="txvarify" ng-if="verificationFlag && dealData.counter_party_email != currentUserEmail  && dealData.tx.length!=1">
-              <div class="hashvarify">
-                Deal Hash Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
-              </div><br>
-              <div class="sigvarify">
-                Signature of {{dealData.counter_party_email}} is Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.counter_party_email}} Verified"></i>
-              </div><br>
-              <div class="tnxvarify">
-                Transactions are Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
-              </div>
-            </div>
-            <div class="txvarify" ng-if="verificationFlag && dealData.tx.length==1 && dealData.counter_party_email == currentUserEmail ">
-              <div class="hashvarify">
-                Deal Hash Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
-              </div><br>
-              <div class="sigvarify">
-                Signature of {{dealData.from_email}} is Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.from_email}} Verified"></i>
-              </div><br>
-              <div class="tnxvarify">
-                Transactions are Verified
-                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
-              </div>
-            </div>
+		  
+			
             <div class="ContractAttr">
               <h4>From</h4>
               <h4>Counter-Party</h4>
@@ -87,6 +47,54 @@
                 <h4>{{dealData.description}}</h4>
 
             </div>
+			<div style="margin-top:10px;">
+            <div class="txvarify" ng-if="verificationFlag && dealData.counter_party_email == currentUserEmail && dealData.tx.length!=1">
+              <div class="hashvarify">
+                Deal Hash verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
+              </div><br>
+              <div class="sigvarify">
+                Signature of {{dealData.from_email}} verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.from_email}} Verified"></i>
+              </div><br>
+              <div class="tnxvarify">
+                Transactions verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
+              </div>
+            </div>
+            <div class="txvarify" ng-if="verificationFlag && dealData.counter_party_email != currentUserEmail  && dealData.tx.length!=1">
+              <div class="hashvarify">
+                Deal Hash verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
+              </div><br>
+              <div class="sigvarify">
+                Signature of {{dealData.counter_party_email}} verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.counter_party_email}} Verified"></i>
+              </div><br>
+              <div class="tnxvarify">
+                Transactions are verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
+              </div>
+            </div>
+            <div class="txvarify" ng-if="verificationFlag && dealData.tx.length==1 && dealData.counter_party_email == currentUserEmail ">
+              <div class="hashvarify">
+                Deal Hash verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
+              </div><br>
+              <div class="sigvarify">
+                Signature of {{dealData.from_email}} verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Signature of {{dealData.from_email}} Verified"></i>
+              </div><br>
+              <div class="tnxvarify">
+                Transactions are verified
+                <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Transaction Verified"></i>
+              </div>
+            </div>
+			</div>
+			
+			
+			
+			
           </div>
           <div class="card-action" style="min-height:25px;">
 
@@ -108,8 +116,8 @@
           </div>
           <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px;" ng-init="verify(tx)">
             <div class="txID">
-              <strong>Tx ID {{$index+1}}:</strong> {{tx.txHash}}<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"
-                title="Copy to clipboard"></i>
+				<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"title="Copy to clipboard"></i>
+              <strong>Tx ID {{$index+1}}:</strong> {{tx.txHash}}
             </div>
             <div class="txData">
               <strong>Event Name:</strong> {{tx.eventName}}

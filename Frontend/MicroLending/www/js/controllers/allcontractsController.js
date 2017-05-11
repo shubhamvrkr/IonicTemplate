@@ -10,13 +10,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     if (window.cordova) {
       ss.get(
         function (value) {
-
-          console.log('Success, got ' + value);
-        },
-        function (error) {
-          console.log('Error ' + error);
-          alarmmanager.start("10", "15", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
-
+		 console.log('Success ' + value);
+      },
+      function (error) {
+        console.log('Error ' + error);
+		alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
           ss.set(
 
             function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },
@@ -27,9 +25,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         },
         reminder_flag);
     }
-
-
-
 
     getCurrentUserData.getData(function (response) {
 
