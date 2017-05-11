@@ -5,11 +5,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory) {
 
 
-    //retrieve flag from secure storage and check the condition
-   	//set expiry status to true
-    expiredContractsFactory.updateExpireContractFlag(function (result) {
-      console.log("Expired contracts", result);
-    });
+
     var reminder_flag = "reminder_flag"
     if (window.cordova) {
       ss.get(
@@ -462,7 +458,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
     function loadDealsfromDB() {
       $scope.groups = [];
-	  
       allContractFactory.getallPendingContracts(function (response) {
         var count = 0;
         console.log("Pending Contracts: ", response.data.docs);
@@ -474,7 +469,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           console.log("PC Length : " + $scope.pendingcontracts.length);
           console.log($scope.pendingcontracts);
 
-          $scope.groups.push({ name: "Pending Contracts", items: [], notification_flag: "false", notification_count: 0 ,isExpired:"false"});
+          $scope.groups.push({ name: "Pending Contracts", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
 
           $scope.pendingcontracts.forEach(function (element) {
             $scope.groups[0].items.push(element);
@@ -486,7 +481,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           });
 
           $scope.groups[0].notification_count = count;
-          //loop through items array and check for the notification flag. If it is set to true then set notification flag for groups array to true.
         }
 
       });
@@ -499,14 +493,14 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.activecontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Active Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
+          $scope.groups.push({ name: "Active Contracts", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
 
           $scope.activecontracts.forEach(function (element) {
             $scope.groups[1].items.push(element);
             if (element.notification_flag == "true") {
 
               console.log("flag is true");
-               count++;
+              count++;
               $scope.groups[1].notification_flag = "true";
             }
           });
@@ -517,18 +511,18 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       allContractFactory.getallCompletedContracts(function (response) {
 
         console.log("Completed Contracts: ", response.data.docs);
-        var count=0;
+        var count = 0;
         if (response.status == "1") {
 
           $scope.completedcontracts = response.data.docs;
           $scope.$apply();
-          $scope.groups.push({ name: "Completed Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
+          $scope.groups.push({ name: "Completed Contracts", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
 
           $scope.completedcontracts.forEach(function (element) {
             $scope.groups[2].items.push(element);
             if (element.notification_flag == "true") {
 
-              console.log("flag is true"); 
+              console.log("flag is true");
               count++;
               $scope.groups[2].notification_flag = "true";
             }
@@ -547,7 +541,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $scope.rejectedcontracts = response.data.docs;
           $scope.$apply();
 
-          $scope.groups.push({ name: "Rejected Contracts", items: [], notification_flag: "false", notification_count: 0 ,isExpired:"false"});
+          $scope.groups.push({ name: "Rejected Contracts", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
           $scope.rejectedcontracts.forEach(function (element) {
             $scope.groups[3].items.push(element);
             if (element.notification_flag == "true") {
@@ -558,32 +552,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           });
 
           $scope.groups[3].notification_count = count;
+
         }
 
-
-      });
-
-
-      allContractFactory.getExpiredContracts(function (response) {
-
-        console.log("Expired Contracts: ", response.data.docs);
-        var count = 0;
-        if (response.status == "1") {
-
-          $scope.expiredcontracts = response.data.docs;
-          $scope.$apply();
-          $scope.groups.push({ name: "Expired Contracts", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
-
-          $scope.expiredcontracts.forEach(function (element) {
-            $scope.groups[4].items.push(element);
-            if (element.notification_flag == "true") {
-
-              // $scope.groups[4].notification_flag = "true";
-
-            }
-          });
-             $scope.groups[4].isExpired = "true";
-        }
 
       });
 
@@ -591,16 +562,19 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         $scope.unsettledcontracts = response;
         $scope.$apply();
-        $scope.groups.push({ name: "Contracts Valid till midnight", items: [], notification_flag: "false", notification_count: 0,isExpired:"false" });
+        $scope.groups.push({ name: "Contracts Due for settlement", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
 
         $scope.unsettledcontracts.forEach(function (element) {
-          $scope.groups[5].items.push(element);
 
-          $scope.groups[5].notification_flag = "true";
+          if (element.tx.length != 1) {
+            $scope.groups[4].items.push(element);
 
+            $scope.groups[4].notification_flag = "true";
 
+          }
         });
-         $scope.groups[4].isExpired = "true";
+
+        $scope.groups[4].isExpired = "true";
         $scope.$apply();
 
 
