@@ -45,7 +45,9 @@
                 <a ng-click="acceptSettlement(item)" ng-if="item.tx.length == 3 && !item.actionstatus && item.tx[2].caller!=user_email "
                   class="actionButton">ACCEPT SETTLEMENT</a>
                 <a ng-click="settleContract(item)" ng-if="item.tx.length == 2 && !item.actionstatus && item.status=='active'" class="actionButton" >SETTLE CONTRACT</a>
-                <a ng-click="moreDetails(item)" class="moreDetails">MORE DETAILS</a>
+                <a ng-click="moreDetails(item)" class="moreDetails">MORE DETAILS</a> 
+                
+              
               </div>
 
             </fieldset>
