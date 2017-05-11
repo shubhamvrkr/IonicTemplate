@@ -462,6 +462,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
     function loadDealsfromDB() {
       $scope.groups = [];
+	  
       allContractFactory.getallPendingContracts(function (response) {
         var count = 0;
         console.log("Pending Contracts: ", response.data.docs);
@@ -486,9 +487,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
           $scope.groups[0].notification_count = count;
           //loop through items array and check for the notification flag. If it is set to true then set notification flag for groups array to true.
-
-
-
         }
 
       });
