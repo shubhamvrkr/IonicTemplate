@@ -459,8 +459,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     function loadDealsfromDB() {
       $scope.groups = [];
 
-
-
       allContractFactory.getallPendingContracts(function (response) {
         var count = 0;
         console.log("Pending Contracts: ", response.data.docs);

@@ -46,8 +46,8 @@ angular.module('app.services')
 
                             Contracts.forEach(function (element) {
                                 console.log("end date", element.end_date);
-
-                                if (currentTimeInMS <= element.end_date && element.end_date <= DayAfterTimeInMs) {
+                                    // && element.end_date <= DayAfterTimeInMs
+                                if (currentTimeInMS <= element.end_date) {
                                     console.log("Found", element)
                                     expiredContracts.push(element);
                                 } else {
