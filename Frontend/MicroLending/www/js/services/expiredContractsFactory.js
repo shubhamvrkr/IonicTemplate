@@ -22,38 +22,48 @@ angular.module('app.services')
 
             databaseFactory.getDoc(deal_db, { status: "pending" }, function (pending_contracts) {
 
-                console.log(pending_contracts.data.docs)
-                if (pending_contracts.data.docs.length != 0) {
+                console.log(pending_contracts)
 
-                    pending_contracts.data.docs.forEach(function (ele) {
-                        Contracts.push(ele);
-                    });
 
-                }
+                if (pending_contracts.status == "1") {
+                    if (pending_contracts.data.docs.length != 0) {
 
-                databaseFactory.getDoc(deal_db, { status: "active" }, function (active_contracts) {
-
-                    if (active_contracts.data.docs.length != 0) {
-                        active_contracts.data.docs.forEach(function (ele) {
+                        pending_contracts.data.docs.forEach(function (ele) {
                             Contracts.push(ele);
                         });
+
                     }
 
-                    Contracts.forEach(function (element) {
-                        console.log("end date", element.end_date);
+                    databaseFactory.getDoc(deal_db, { status: "active" }, function (active_contracts) {
 
-                        if (currentTimeInMS <= element.end_date && element.end_date <= DayAfterTimeInMs) {
-                            console.log("Found", element)
-                            expiredContracts.push(element);
+                        console.log(active_contracts)
+                        if (active_contracts.status == "1") {
+                            if (active_contracts.data.docs.length != 0) {
+                                active_contracts.data.docs.forEach(function (ele) {
+                                    Contracts.push(ele);
+                                });
+                            }
+
+                            Contracts.forEach(function (element) {
+                                console.log("end date", element.end_date);
+
+                                if (currentTimeInMS <= element.end_date && element.end_date <= DayAfterTimeInMs) {
+                                    console.log("Found", element)
+                                    expiredContracts.push(element);
+                                } else {
+                                    console.log("Not present")
+                                }
+
+                            });
+
+                            callback(expiredContracts);
                         } else {
-                            console.log("Not present")
+                            callback(expiredContracts);
                         }
-
                     });
-
-                    callback(expiredContracts);
-                });
-
+                } else {
+                    callback(expiredContracts)
+                }
             });
         };
 
@@ -96,27 +106,28 @@ angular.module('app.services')
                     }
 
                     Contracts.forEach(function (element) {
-                       console.log("element", element);
+                       
                         if (currentTimeInMS >= element.end_date) {
-                            console.log("Expired", element);
+                            console.log("Expired contract", element);
                             //call update doc function
                             doc = element
                             doc.status = "expired";
                             databaseFactory.updateDoc(deal_db, doc, function (res) {
-                                if(res.status=="1"){
+                                if (res.status == "1") {
                                     console.log("flag updated to expired");
-                                }else{
-                                    callback({status:"0"});
+                                    console.log("expired deal is", doc)
+                                } else {
+                                    callback({ status: "0" });
                                 }
-                                    
-                                    
+
+
                             });
-                            
+
                         } else {
                             console.log("Not Expired")
                         }
                     });
-                    callback({status:"1"});
+                    callback({ status: "1" });
                 });
             });
         };

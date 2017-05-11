@@ -1,22 +1,21 @@
 <ion-view title="All Contracts" id="page1">
   <ion-content padding="true" class="has-header" style="background:#F8F8F8">
     <div class="screenadjust">
-
-
       <ion-list>
         <div ng-repeat="group in groups">
-          <ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+
+          <ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}" ng-hide="group.items.length=='0'">
 
             <span class="contract-status"> <i class="icon accordion-icon " ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i> {{group.name}} 
-			<i class="badge badge-assertive" ng-if="group.notification_flag=='true'">New</i>
-			</span>
-			
-			<span class="contract-count">({{group.items.length}})</span>
-
+		<!--	<i class="badge badge-assertive" ng-if="group.notification_flag=='true'">New</i>-->
+      	<span class="contract-count" ng-if="group.notification_flag=='true' && group.isExpired=='false'">{{group.notification_count}}</span>
+        <span class="contract-count" ng-if="group.notification_flag=='true' && group.isExpired=='true'">{{group.items.length}}</span>
+            </span>
           </ion-item>
+         
           <ion-item class="list card" ng-show="isGroupShown(group)" ng-repeat="item in group.items track by $index">
-            <!--{{item}}<br>-->
-
+            <!--{{item}}<br>-->{{group[$index]}}
+            
             <fieldset ng-disabled="item.actionstatus">
               <div class="item" ng-class="item.notification_flag=='true'?'unreadMessage':''">
 
@@ -38,28 +37,29 @@
 
               </div>
               <div class="card-action">
-                <a ng-click="acceptContract(item)" ng-if="item.tx.length == 1 && !item.actionstatus &&( item.counter_party_email == user_email || item.counter_party_address == user_address)"
+                <a ng-click="acceptContract(item)" ng-if="item.tx.length == 1 && item.status!='expired'&& !item.actionstatus &&( item.counter_party_email == user_email || item.counter_party_address == user_address)"
                   class="actionButton">ACCEPT</a>
-                <a ng-click="rejectContract(item)" ng-if="item.tx.length == 1 && !item.actionstatus &&( item.counter_party_email == user_email || item.counter_party_address == user_address)"
+                <a ng-click="rejectContract(item)" ng-if="item.tx.length == 1 && item.status!='expired'&&!item.actionstatus &&( item.counter_party_email == user_email || item.counter_party_address == user_address)"
                   class="actionButton1">REJECT</a>
-                <a ng-click="acceptSettlement(item)" ng-if="item.tx.length == 3 && !item.actionstatus && item.tx[2].caller!=user_email "
+                <a ng-click="acceptSettlement(item)" ng-if="item.tx.length == 3 && item.status!='expired'&& !item.actionstatus && item.tx[2].caller!=user_email "
                   class="actionButton">ACCEPT SETTLEMENT</a>
-                <a ng-click="settleContract(item)" ng-if="item.tx.length == 2 && !item.actionstatus && item.status=='active'" class="actionButton" >SETTLE CONTRACT</a>
-                <a ng-click="moreDetails(item)" class="moreDetails">MORE DETAILS</a> 
-                
-              
+                <a ng-click="settleContract(item)" ng-if="item.tx.length == 2 && item.status!='expired'&& !item.actionstatus && item.status=='active'"
+                  class="actionButton">SETTLE CONTRACT</a>
+                <a ng-click="moreDetails(item)" class="moreDetails">MORE DETAILS</a>
+
+
               </div>
 
             </fieldset>
             <ion-spinner icon="lines" class="allContractsSpinner" ng-if="item.actionstatus"></ion-spinner>
-        </ion-item>
-      </div>
-    </ion-list>
+          </ion-item>
+        </div>
+      </ion-list>
 
-    <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0 && rejectedcontracts.length == 0)"
-      class="emptyContracts">
-      No contracts created
-    </div>
+      <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0 && rejectedcontracts.length == 0)"
+        class="emptyContracts">
+        No contracts created
+      </div>
 
     </div>
   </ion-content>

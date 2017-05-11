@@ -13,14 +13,14 @@ angular.module('app.services')
 
     };
 
-service.getExpiredContracts = function (callback) {
+    service.getExpiredContracts = function (callback) {
 
 
       databaseFactory.getDoc(deal_db, { status: "expired" }, callback);
 
 
     };
-    
+
 
     service.getallActiveContracts = function (callback) {
 
@@ -45,8 +45,10 @@ service.getExpiredContracts = function (callback) {
 
     };
 
+
+
     //make it send response. take function name as param.
-    service.sendResponseForNotification = function (contract,fn_name ,addr,ks,pwDerivedKey,callback) {
+    service.sendResponseForNotification = function (contract, fn_name, addr, ks, pwDerivedKey, callback) {
 
       contract_data = {};
       contract_data.deal_id = contract._id;
@@ -85,14 +87,12 @@ service.getExpiredContracts = function (callback) {
           payload.sig_r = r_hex.toString('hex');
           payload.sig_v = signature.v.toString();
           payload.nonce = contract_data.nonce;
-         
+
           payload.from = addr;
 
-          if (addr==contract_data.from_ethAddress)
-          {
+          if (addr == contract_data.from_ethAddress) {
             payload.to = contract_data.to_ethAddress;
-          }else
-          {
+          } else {
             payload.to = contract_data.from_ethAddress;
           }
           console.log(JSON.stringify(payload));
@@ -108,13 +108,13 @@ service.getExpiredContracts = function (callback) {
                 data: error
               });
             } else {
-              console.log(tx_hash);         
+              console.log(tx_hash);
 
 
               callback({
                 status: "1",
                 data: tx_hash
-               
+
               });
             }
 
