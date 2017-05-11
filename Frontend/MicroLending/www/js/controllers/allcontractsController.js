@@ -5,6 +5,27 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory) {
 
 
+    //retrieve flag from secure storage and check the condition
+    var reminder_flag = "reminder_flag"
+    ss.get(
+      function (value) {
+
+        console.log('Success, got ' + value);
+      },
+      function (error) {
+        console.log('Error ' + error);
+         alarmmanager.start("10", "15", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+
+       ss.set(
+
+          function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },
+          function (error) { console.log('Error ' + error); },
+          'reminder_flag', "true"
+        );
+
+      },
+      reminder_flag);
+   
 
 
     getCurrentUserData.getData(function (response) {
