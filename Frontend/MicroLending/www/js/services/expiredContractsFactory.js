@@ -25,8 +25,7 @@ angular.module('app.services')
                 //callback
 
             });
-
-
+			
         };
 
 
