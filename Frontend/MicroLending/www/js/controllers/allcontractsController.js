@@ -4,17 +4,15 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory) {
 
-
-
     var reminder_flag = "reminder_flag"
     if (window.cordova) {
       ss.get(
         function (value) {
-		 console.log('Success ' + value);
-      },
-      function (error) {
-        console.log('Error ' + error);
-		alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+          console.log('Success ' + value);
+        },
+        function (error) {
+          console.log('Error ' + error);
+          alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
           ss.set(
 
             function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },
@@ -148,7 +146,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           }, 4000);
 
 
-
         } else {
 
           console.log(res.data);
@@ -156,10 +153,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
           $ionicLoading.hide();
           ionicToast.show(res.data, 'bottom', false, 2500);
 
-
         }
-
-
 
       });
 
@@ -173,9 +167,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       //payload should include s,r,v,nonce.
       allContractFactory.sendResponseForNotification(contract, "acceptContract", $scope.user_address, $scope.ks_local, $scope.pwDerivedKey, function (response) {
 
-
         if (response.status == "1") {
-
 
           console.log(response.data);
           txHash = response.data;
@@ -458,6 +450,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
     function loadDealsfromDB() {
       $scope.groups = [];
+
       allContractFactory.getallPendingContracts(function (response) {
         var count = 0;
         console.log("Pending Contracts: ", response.data.docs);
@@ -484,6 +477,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         }
 
       });
+
       allContractFactory.getallActiveContracts(function (response) {
 
         console.log("Active Contracts: ", response.data.docs);
@@ -508,6 +502,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         }
 
       });
+
       allContractFactory.getallCompletedContracts(function (response) {
 
         console.log("Completed Contracts: ", response.data.docs);
@@ -555,7 +550,6 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         }
 
-
       });
 
       expiredContractsFactory.getAllUnsettledExpiredContracts(function (response) {
@@ -575,8 +569,13 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         });
 
         $scope.groups[4].isExpired = "true";
+
+        var tem = $scope.groups[4];
+        $scope.groups[4] = $scope.groups[0];
+        $scope.groups[0] = tem;
         $scope.$apply();
 
+        console.log("Length is ", $scope.groups);
 
       });
 
