@@ -13,7 +13,7 @@
             </span>
           </ion-item>
          
-          <ion-item class="list card" ng-show="isGroupShown(group)" ng-repeat="item in group.items | orderBy:'notification_flag':'true' | orderBy: '-creation_date'  track by $index">
+          <ion-item class="list card" ng-show="isGroupShown(group)" ng-repeat="item in group.items | orderBy:'notification_flag':'true' | orderBy: selectColoumByGroup(group) track by $index">
             <!--{{item}}<br>-->{{group[$index]}}
             
             <fieldset ng-disabled="item.actionstatus">
