@@ -584,7 +584,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.groups[1] = tem;
        // $scope.shownGroup = $scope.groups[0];
         $scope.$apply();
-checkAccordianIsOpen();
+//checkAccordianIsOpen();
     
 
         console.log("Length is ", $scope.groups);
@@ -629,20 +629,24 @@ checkAccordianIsOpen();
 	
 	}
 
-  function checkAccordianIsOpen(){
+   $scope.checkAccordianIsOpen =function (){
     if($scope.groups[0].items.length!=0){
       $scope.shownGroup = $scope.groups[0];
+      return true
 
     }else if($scope.groups[1].items.length!=0){
       $scope.shownGroup = $scope.groups[1];
+       return true
 
     
     }else if($scope.groups[2].items.length!=0){
       $scope.shownGroup = $scope.groups[2];
+       return true
 
     
     }else if($scope.groups[3].items.length!=0){
       $scope.shownGroup = $scope.groups[3];
+       return true
 
     
     }

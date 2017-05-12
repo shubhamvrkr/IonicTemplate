@@ -6,7 +6,7 @@
 	
       
 	  <ion-list>
-        <div ng-repeat="group in groups" >
+        <div ng-repeat="group in groups" ng-if="checkAccordianIsOpen()">
 
           <ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}" ng-hide="group.items.length=='0'">
 
