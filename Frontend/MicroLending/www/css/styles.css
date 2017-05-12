@@ -67,6 +67,7 @@ fieldset:disabled{
 .verify-icon {
   font-size: 35px;
   color: #33cd5f;
+  
 }
 .miningSpinner {
   margin: auto;
@@ -158,6 +159,6 @@ input::-webkit-inner-spin-button {
 .contract-status{ float:left;}
 .item .badge { display: flex;line-height: 16px;position: absolute;right: 50px;top: 16px;}
 .copy-icon { font-size: 20px !important; cursor: pointer; cursor: hand;  height: 50% !important;float:right;}
-.varify-icon { font-size: 15px !important; position: relative !important;float: right;  margin-left: 5px;width: 10px;}
+.varify-icon { font-size: 15px !important; position: relative !important;float: left;  margin-right: 10px;width: 10px;}
 .hashvarify,.sigvarify,.tnxvarify { float: left;margin-right: 15px;font-size: 13px; }
 .txvarify { margin-top: 5px;float:left; }
