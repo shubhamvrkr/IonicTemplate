@@ -257,5 +257,12 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
       }
 
     }
+	
+	$scope.doRefresh =function(){
+	
+		contactsFromLocalDB();
+		$scope.$broadcast('scroll.refreshComplete');
+	
+	}
 
   }])

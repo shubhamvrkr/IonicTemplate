@@ -205,6 +205,7 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
     $scope.isSaving = false;
     $scope.submitFlag = false;
     $scope.spinnerFlag = true;
+	
     $scope.CreateDeal = function (data) {
 
       $scope.isSaving = true;
@@ -344,5 +345,12 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
       });
 
     };
+	
+	$scope.doRefresh =function(){
+	
+		$scope.$broadcast('scroll.refreshComplete');
+	
+	};
   }
+  
 ]);
