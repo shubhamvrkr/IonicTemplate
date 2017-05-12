@@ -34,11 +34,11 @@ angular.module('app.services')
     };
 
 
-    service.getDoc = function (db, indexData, callback) {
+    service.getDoc = function (db, indexData,sortparameter ,callback) {
 
       db.find({
-        selector: indexData
-        //sort: ['name']
+        selector: indexData,
+        //sort: [{sortparameter:'desc'}]
       }).then(function (result) {
         console.log(result);
         callback({ status: "1", data: result });

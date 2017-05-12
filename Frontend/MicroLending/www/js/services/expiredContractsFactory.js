@@ -20,7 +20,7 @@ angular.module('app.services')
             console.log("currentTimeInMS", currentTimeInMS);
             console.log("DayAfterTimeInMs", DayAfterTimeInMs);
 
-            databaseFactory.getDoc(deal_db, { status: "pending" }, function (pending_contracts) {
+            databaseFactory.getDoc(deal_db, { status: "pending" },'end_date', function (pending_contracts) {
 
                 console.log(pending_contracts)
 
@@ -34,7 +34,7 @@ angular.module('app.services')
 
                     }
 
-                    databaseFactory.getDoc(deal_db, { status: "active" }, function (active_contracts) {
+                    databaseFactory.getDoc(deal_db, { status: "active" }, 'end_date',function (active_contracts) {
 
                         console.log(active_contracts)
                         if (active_contracts.status == "1") {
@@ -47,11 +47,11 @@ angular.module('app.services')
                             Contracts.forEach(function (element) {
                                 console.log("end date", element.end_date);
                                     // && element.end_date <= DayAfterTimeInMs
-                                if (currentTimeInMS <= element.end_date) {
+                                if ((currentTimeInMS <= element.end_date && element.end_date <= DayAfterTimeInMs) || (currentTimeInMS >= element.end_date)){
                                     console.log("Found", element)
                                     expiredContracts.push(element);
                                 } else {
-                                    console.log("Not present")
+                                    console.log("Not present");
                                 }
 
                             });

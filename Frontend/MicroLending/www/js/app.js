@@ -54,7 +54,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 					$cordovaLocalNotification.schedule({
 						id: 1,
 						title: 'Ethereum Resource Lending',
-						text: 'Some contracts are about to expire!! Click to view.'
+						text: 'You have some Unsettled contracts!! Click to view'
 					}).then(function (result) {
 
 
@@ -236,7 +236,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 				if (result.length != 0) {
 					var title = 'Micro-Lending Reminder';
 					var options = {
-						body: 'Few of your contracts are expiring soon!',
+						body: 'You have some Unsettled contracts!',
 						tag: 'reminder',
 					
 						lang: 'en-US',

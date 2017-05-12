@@ -8,31 +8,25 @@ angular.module('app.services')
     service.getallPendingContracts = function (callback) {
 
 
-      databaseFactory.getDoc(deal_db, { status: "pending" }, callback);
+      databaseFactory.getDoc(deal_db, { status: "pending" },'creation_date',callback);
 
 
     };
 
-    service.getExpiredContracts = function (callback) {
-
-
-      databaseFactory.getDoc(deal_db, { status: "expired" }, callback);
-
-
-    };
+   
 
 
     service.getallActiveContracts = function (callback) {
 
 
-      databaseFactory.getDoc(deal_db, { status: "active" }, callback)
+      databaseFactory.getDoc(deal_db, { status: "active" },'creation_date' ,callback)
 
 
     };
     service.getallCompletedContracts = function (callback) {
 
 
-      databaseFactory.getDoc(deal_db, { status: "completed" }, callback)
+      databaseFactory.getDoc(deal_db, { status: "completed" },'creation_date', callback)
 
 
     };
@@ -40,7 +34,7 @@ angular.module('app.services')
     service.getallRejectedContracts = function (callback) {
 
 
-      databaseFactory.getDoc(deal_db, { status: "rejected" }, callback)
+      databaseFactory.getDoc(deal_db, { status: "rejected" },'creation_date' ,callback)
 
 
     };
