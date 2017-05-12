@@ -6,6 +6,9 @@
   </ion-nav-bar>
 
   <ion-content padding="true" class="has-header" style="background:#F8F8F8">
+  
+   <ion-refresher pulling-icon = "none" on-refresh="doRefresh()"></ion-refresher>
+   
     <div class="screenadjust">
       <fieldset ng-disabled="isSaving">
         <div class="list card">

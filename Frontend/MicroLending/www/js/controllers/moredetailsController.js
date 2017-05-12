@@ -620,5 +620,12 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
 
       }
 
-    }
+    };
+	
+	$scope.doRefresh =function(){
+	
+		
+		$scope.$broadcast('scroll.refreshComplete');
+	
+	}
   }]);
