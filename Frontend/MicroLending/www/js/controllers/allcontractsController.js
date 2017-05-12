@@ -4,7 +4,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
   function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory) {
 
+  
     var reminder_flag = "reminder_flag"
+	
     if (window.cordova) {
       ss.get(
         function (value) {
@@ -44,7 +46,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     $scope.activecontracts = [];
     $scope.completedcontracts = [];
     console.log("rootScope: ", $rootScope.globals);
-    loadDealsfromDB();
+    
+	loadDealsfromDB();
 
     $scope.moreDetails = function (contract) {
 
@@ -583,9 +586,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.groups[2] = $scope.groups[1];
         $scope.groups[1] = tem;
        // $scope.shownGroup = $scope.groups[0];
-        $scope.$apply();
-        $scope.checkAccordianIsOpen();
        
+        $scope.checkAccordianIsOpen();
+        $scope.$apply();
+		
         console.log("Length is ", $scope.groups);
 
       });
@@ -630,24 +634,21 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 	}
 
    $scope.checkAccordianIsOpen =function (){
+   
+   console.log("called Accordian")
     if($scope.groups[0].items.length!=0){
       $scope.shownGroup = $scope.groups[0];
-      return true
 
     }else if($scope.groups[1].items.length!=0){
       $scope.shownGroup = $scope.groups[1];
-       return true
-
-    
+	  
     }else if($scope.groups[2].items.length!=0){
       $scope.shownGroup = $scope.groups[2];
-       return true
-
-    
     }else if($scope.groups[3].items.length!=0){
       $scope.shownGroup = $scope.groups[3];
-       return true
-
+    
+    }else if($scope.groups[4].items.length!=0){
+      $scope.shownGroup = $scope.groups[4];
     
     }
 

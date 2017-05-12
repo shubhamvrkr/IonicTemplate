@@ -42,7 +42,6 @@ angular.module('app.routes', [])
             
           },
         },  
-        
 		cache: false
 	
       })
