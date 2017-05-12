@@ -557,7 +557,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.unsettledcontracts = response;
         $scope.$apply();
         $scope.groups.push({ name: "Contracts Due for settlement", items: [], notification_flag: "false", notification_count: 0, isExpired: "false" });
-
+        $scope.shownGroup = $scope.groups[0];
         $scope.unsettledcontracts.forEach(function (element) {
 
           if (element.tx.length != 1) {
@@ -566,6 +566,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
             $scope.groups[4].notification_flag = "true";
 
           }
+          
         });
 
         $scope.groups[4].isExpired = "true";
@@ -581,14 +582,16 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
          tem = $scope.groups[2];
         $scope.groups[2] = $scope.groups[1];
         $scope.groups[1] = tem;
+        $scope.shownGroup = $scope.groups[0];
         $scope.$apply();
+
+    
 
         console.log("Length is ", $scope.groups);
 
       });
 
     }
-
 
 	  /*
 	   * if given group is the selected group, deselect it
