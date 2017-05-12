@@ -609,5 +609,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 		}
 	
 	};
+	
+	$scope.doRefresh =function(){
+	
+		loadDealsfromDB();
+		$scope.$broadcast('scroll.refreshComplete');
+	
+	}
 
   }]);
