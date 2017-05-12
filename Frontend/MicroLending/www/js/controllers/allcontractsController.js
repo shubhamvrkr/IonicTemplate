@@ -584,12 +584,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.groups[1] = tem;
        // $scope.shownGroup = $scope.groups[0];
         $scope.$apply();
-//checkAccordianIsOpen();
-    
-
+        $scope.checkAccordianIsOpen();
+       
         console.log("Length is ", $scope.groups);
 
       });
+
 
     }
 
