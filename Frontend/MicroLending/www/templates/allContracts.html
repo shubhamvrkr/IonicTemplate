@@ -1,7 +1,10 @@
 <ion-view title="All Contracts" id="page1">
   <ion-content padding="true" class="has-header" style="background:#F8F8F8">
     <div class="screenadjust">
-      <ion-list>
+	
+	 <ion-refresher pulling-icon = "none" on-refresh="doRefresh()"></ion-refresher>
+      
+	  <ion-list>
         <div ng-repeat="group in groups">
 
           <ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}" ng-hide="group.items.length=='0'">
@@ -55,12 +58,14 @@
           </ion-item>
         </div>
       </ion-list>
+	  
+
 
       <div ng-show="( completedcontracts.length == 0 && pendingcontracts.length == 0 && activecontracts.length == 0 && rejectedcontracts.length == 0)"
         class="emptyContracts">
         No contracts created
       </div>
-
+	
     </div>
   </ion-content>
 </ion-view>
