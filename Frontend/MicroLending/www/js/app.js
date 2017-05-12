@@ -331,9 +331,51 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 		getCurrentUserData.getData(function (response) {
 
+			
 			userKeyStore = response.data;
 			console.log("Key Store: ", userKeyStore)
-			ProcessNotificationData(NotiData, publicKey, invoker)
+			
+			databaseFactory.getDocById(deal_db, NotiData.dealId, function (response) {
+			
+				if(response.status=="0"){
+				
+					console.log("Check Doc: ","deal ID not found")
+					ProcessNotificationData(NotiData, publicKey, invoker);
+				
+				}else{
+					
+						var arr = response.data.tx;
+						var tX = arr[arr.length-1];
+						console.log("Tx: ",tX)
+						if(tX.eventName  == "createContract" && NotiData.status !="createContractEvent"){
+						
+							ProcessNotificationData(NotiData, publicKey, invoker);
+						}else if(tX.eventName  == "acceptContract" && NotiData.status !="acceptContractEvent"){
+						
+							ProcessNotificationData(NotiData, publicKey, invoker);
+							
+						}else if(tX.eventName  == "rejectContract" && NotiData.status !="rejectContractEvent"){
+						
+							ProcessNotificationData(NotiData, publicKey, invoker);
+							
+						} else if(tX.eventName  == "initiateSettlement" && NotiData.status !="settleContractEvent"){
+						
+							ProcessNotificationData(NotiData, publicKey, invoker);
+							
+						}else if(tX.eventName  == "acceptSettlement" && NotiData.status !="acceptSettleContractEvent"){
+						
+							ProcessNotificationData(NotiData, publicKey, invoker);
+						}else{
+						
+							console.log("Duplicate entry");
+						}
+					
+				
+				
+				}
+			})
+			
+			
 
 		});
 	}
