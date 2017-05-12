@@ -596,5 +596,18 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       return $scope.shownGroup === group;
     };
 
+	$scope.selectColoumByGroup = function(group){
+	
+		console.log(group);
+		if(group.isExpired =="false"){
+		
+			return '-creation_date';
+		
+		}else{
+				
+			return '-end_date';
+		}
+	
+	};
 
   }]);
