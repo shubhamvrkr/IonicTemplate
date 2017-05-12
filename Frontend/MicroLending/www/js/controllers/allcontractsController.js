@@ -569,13 +569,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         });
 
         $scope.groups[4].isExpired = "true";
-
-       // swap($scope.groups[4],$scope.groups[0]);
-         
-       // swap($scope.groups[4],$scope.groups[2]);
-       
-        // swap($scope.groups[2],$scope.groups[1]);
-       
+           
         var tem = $scope.groups[4];
         $scope.groups[4] = $scope.groups[0];
         $scope.groups[0] = tem;
