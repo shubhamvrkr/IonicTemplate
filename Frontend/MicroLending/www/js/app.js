@@ -346,7 +346,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 					
 						var arr = response.data.tx;
 						var tX = arr[arr.length-1];
-						console.log("Tx: ",tx)
+						console.log("Tx: ",tX)
 						if(tX.eventName  == "createContract" && NotiData.status !="createContractEvent"){
 						
 							ProcessNotificationData(NotiData, publicKey, invoker);
@@ -358,11 +358,11 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 						
 							ProcessNotificationData(NotiData, publicKey, invoker);
 							
-						} else if(tX.eventName  == "settleContractEvent" && NotiData.status !="initiateSettlement"){
+						} else if(tX.eventName  == "initiateSettlement" && NotiData.status !="settleContractEvent"){
 						
 							ProcessNotificationData(NotiData, publicKey, invoker);
 							
-						}else if(tX.eventName  == "acceptSettleContractEvent" && NotiData.status !="acceptSettlement"){
+						}else if(tX.eventName  == "acceptSettlement" && NotiData.status !="acceptSettleContractEvent"){
 						
 							ProcessNotificationData(NotiData, publicKey, invoker);
 						}else{
