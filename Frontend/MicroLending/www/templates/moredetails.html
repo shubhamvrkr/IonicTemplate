@@ -50,8 +50,10 @@
 			<div style="margin-top:10px;">
             <div class="txvarify" ng-if="verificationFlag && dealData.counter_party_email == currentUserEmail && dealData.tx.length!=1">
               <div class="hashvarify">
+                 
                 Deal Hash verified
                 <i class="varify-icon icon ion-checkmark-circled verify-icon" title="Hash of deal Verified"></i>
+               
               </div><br>
               <div class="sigvarify">
                 Signature of {{dealData.from_email}} verified
@@ -100,10 +102,10 @@
 
             <a ng-click="acceptContract(dealData)" ng-if="dealData.tx.length == 1 && dealData.status!='expired' &&( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
               class="actionButton">ACCEPT</a>
-            <a ng-click="rejectContract(dealData)" ng-if="dealData.tx.length == 1 dealData.status!='expired' && && ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
+            <a ng-click="rejectContract(dealData)" ng-if="dealData.tx.length == 1 && dealData.status!='expired' &&  ( dealData.counter_party_email == currentUserEmail  || dealData.counter_party_address == user_address)"
               class="actionButton">REJECT</a>
-            <a ng-click="acceptSettlement(dealData)" ng-if="dealData.tx.length == 3 dealData.status!='expired' && && dealData.tx[2].caller!=currentUserEmail" class="actionButton">ACCEPT SETTLEMENT</a>
-            <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 dealData.status!='expired' && && dealData.status=='active' " class="actionButton">SETTLE CONTRACT</a>
+            <a ng-click="acceptSettlement(dealData)" ng-if="dealData.tx.length == 3 && dealData.status!='expired' &&  dealData.tx[2].caller!=currentUserEmail" class="actionButton">ACCEPT SETTLEMENT</a>
+            <a ng-click="settleContract(dealData)" ng-if="dealData.tx.length == 2 && dealData.status!='expired' &&  dealData.status=='active'" class="actionButton">SETTLE CONTRACT</a>
             <ion-spinner icon="dots" class="allContractsSpinner" ng-if="pcontract.actionstatus"></ion-spinner>
           </div>
 
