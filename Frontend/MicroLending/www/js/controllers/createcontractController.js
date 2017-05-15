@@ -333,11 +333,14 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
 
 
 
-        } else {
-
-          $ionicLoading.hide();
-          $scope.error = "Insufficient funds to make any transactions!"
-          console.log(res.data);
+			} else {
+			$ionicLoading.hide();
+			$scope.isSaving = false;
+			$scope.submitFlag = false;
+			$scope.spinnerFlag = true;
+			
+			$scope.error = "Insufficient funds to make any transactions!"
+			console.log(res.data);
 
 
 
