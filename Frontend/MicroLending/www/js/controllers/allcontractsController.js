@@ -14,7 +14,7 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         },
         function (error) {
           console.log('Error ' + error);
-          alarmmanager.start("11", "02", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
+          alarmmanager.start("09", "00", $rootScope.alarmSuccessCallback, $rootScope.alarmErrorCallback);
           ss.set(
 
             function (reminder_flag) { console.log('Set reminder_flag', reminder_flag); },

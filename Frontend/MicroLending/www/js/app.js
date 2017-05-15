@@ -129,8 +129,6 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 		}
 
-
-
 		console.log("Notification Handler Messages");
 		getCurrentUserData.getData(function (response) {
 
