@@ -205,7 +205,7 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
     $scope.isSaving = false;
     $scope.submitFlag = false;
     $scope.spinnerFlag = true;
-	
+
     $scope.CreateDeal = function (data) {
 
       $scope.isSaving = true;
@@ -271,14 +271,14 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
               doc.symmteric_key = res.key;
               doc.status = "pending";
               doc.notification_flag = "false";
-            
+
               var tx_object = {}
               tx_object.caller = contract_data.from_email;
               tx_object.txHash = txHash;
               tx_object.eventName = "createContract";
               doc.tx = [tx_object];
               doc.actionstatus = false;
-               doc.isExpired= false;
+              doc.isExpired = false;
 
               databaseFactory.putData(deal_db, doc, function (res) {
 
@@ -335,10 +335,12 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
 
         } else {
 
-          console.log(res.data);
           $ionicLoading.hide();
           $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
+          console.log(res.data);
+
+
+
           //ionicToast.show(res.data, 'bottom', false, 2500);
 
         }
@@ -346,12 +348,12 @@ mycontrollerModule.controller('createDealCtrl', ['$timeout', '$scope', '$statePa
       });
 
     };
-	
-	$scope.doRefresh =function(){
-	
-		$scope.$broadcast('scroll.refreshComplete');
-	
-	};
+
+    $scope.doRefresh = function () {
+
+      $scope.$broadcast('scroll.refreshComplete');
+
+    };
   }
-  
+
 ]);
