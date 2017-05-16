@@ -136,6 +136,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			console.log("Key Store: ", userKeyStore)
 			if (window.cordova) {
 				navigator.splashscreen.hide();
+			}
 				if (userKeyStore != null) {
 
 
@@ -143,7 +144,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 						$state.go("menu.allContracts")
 					})
 				}
-			}
+			
 		});
 
 		var config = {
