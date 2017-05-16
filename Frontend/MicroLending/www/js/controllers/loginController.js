@@ -109,6 +109,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
           },
           function (error) {
             console.log('Error ' + error);
+              $ionicLoading.hide();
             $scope.error = "No local account details found. Please create a new account";
           },
           'user_data');
