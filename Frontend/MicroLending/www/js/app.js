@@ -134,8 +134,10 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 			userKeyStore = response.data;
 			console.log("Key Store: ", userKeyStore)
+			navigator.splashscreen.hide();
 			if (userKeyStore != null) {
 
+				
 				$timeout(function () {
 					$state.go("menu.allContracts")
 				})
