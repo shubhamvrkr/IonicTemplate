@@ -7,7 +7,7 @@
 3. Zip compression/decompression on the Apache Cordova / PhoneGap platform
 - cordova plugin add cordova-plugin-zeep
 
-4. A plugin to zip and unzip files or directories
+4. A plugin to zip and unzip files or directories (JJDLTC)
 - cordova plugin add cordova-zip-plugin
 
 5. SecureStorage plugin for Apache Cordova

@@ -2,13 +2,13 @@
   /*background: url(../img/background-blue.jpg) no-repeat center;
   background-size:cover;*/
 
-  /*background-color:  #0052cc;*/
+  background-color:  #4B0082	;
 
   /* Gradient of two colors */
-  background: -webkit-linear-gradient(bottom right, #000, #0052cc);
-  background: -o-linear-gradient(bottom right, #000, #0052cc);
-  background: -moz-linear-gradient(bottom right, #000, #0052cc);
-  background: linear-gradient(bottom right, #000, #0052cc);
+  background: -webkit-linear-gradient(bottom right, #000066, #0052cc);
+  background: -o-linear-gradient(bottom right, #000066, #0052cc);
+  background: -moz-linear-gradient(bottom right, #000066, #0052cc);
+  background: linear-gradient(bottom right, #000066, #0052cc);
 }
 
 .form-validation{
@@ -67,7 +67,7 @@ fieldset:disabled{
 .verify-icon {
   font-size: 35px;
   color: #33cd5f;
-  
+
 }
 .miningSpinner {
   margin: auto;
@@ -87,8 +87,8 @@ fieldset:disabled{
 }
 
 .allContractsSpinner svg{
-   
-  
+
+
   margin: auto;
   position: absolute;
   top: 80%; left: 0; bottom: 0; right: 0;
@@ -96,7 +96,7 @@ fieldset:disabled{
   text-align: center;
   z-index: 100 !important;
   stroke: #33cd5f !important;
-  
+
 }
 
 .button-radius{
@@ -149,10 +149,10 @@ input::-webkit-inner-spin-button {
 .contract-count{ background-color:rgb(215, 25, 64);
   border-radius: 20px;
   color: white;
- 
+
   padding: 2px 10px;
   font-size: 13px;
-  
+
   position: absolute; /* Position the badge within the relatively positioned button */
   top: 25px;
   right: 7px;}

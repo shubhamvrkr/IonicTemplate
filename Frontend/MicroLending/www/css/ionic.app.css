@@ -9861,10 +9861,12 @@ input:-ms-input-placeholder {
 
 .side-menu-gradient {
 
-  background: -webkit-linear-gradient(bottom right, #000, #4885ed);
+  /*background: -webkit-linear-gradient(bottom right, #000, #4885ed);
   background: -o-linear-gradient(bottom right, #000, #4885ed);
   background: -moz-linear-gradient(bottom right, #000, #4885ed);
-  background: linear-gradient(bottom right, #000, #4885ed);
+  background: linear-gradient(bottom right, #000, #4885ed);*/
+
+  background-color: #0052cc;
 
 }
 
@@ -9911,7 +9913,7 @@ input:-ms-input-placeholder {
     border-radius: 4px;
 }
 small{
-	font-weight: normal; 
+	font-weight: normal;
 	font-size: 14px;
 
 }
