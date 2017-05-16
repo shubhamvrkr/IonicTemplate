@@ -509,8 +509,6 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
           $scope.spinnerFlag = true;
           $scope.error = "Insufficient funds to make any transactions!"
         
-
-
         }
 
 
