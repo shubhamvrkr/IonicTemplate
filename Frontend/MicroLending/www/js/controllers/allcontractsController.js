@@ -161,9 +161,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+           $ionicLoading.hide();
           $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
+         
+          //ionicToast.show(res.data, 'bottom', false, 2500);
 
         }
 
@@ -253,9 +254,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+            $ionicLoading.hide();
           $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
+        
+         // ionicToast.show(res.data, 'bottom', false, 2500);
 
 
         }
@@ -351,9 +353,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+               $ionicLoading.hide();
           $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
+     
+         // ionicToast.show(res.data, 'bottom', false, 2500);
 
 
         }
@@ -445,9 +448,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         } else {
 
           console.log(res.data);
+           $ionicLoading.hide();
           $scope.error = "Insufficient funds to make any transactions!"
-          $ionicLoading.hide();
-          ionicToast.show(res.data, 'bottom', false, 2500);
+         
+          //ionicToast.show(res.data, 'bottom', false, 2500);
 
 
         }
