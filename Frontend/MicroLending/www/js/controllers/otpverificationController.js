@@ -243,7 +243,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                         });
 
-                        ionicToast.show('We are seeding some ethers in your account! Please wait for some time.', 'bottom', false, 2500);
+                        ionicToast.show('We are seeding some ethers in your account! Please wait for some time.', 'bottom', false, 8000);
 
                       }).catch(function (error) {
 

@@ -134,15 +134,16 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 			userKeyStore = response.data;
 			console.log("Key Store: ", userKeyStore)
-			navigator.splashscreen.hide();
-			if (userKeyStore != null) {
+			if (window.cordova) {
+				navigator.splashscreen.hide();
+				if (userKeyStore != null) {
 
-				
-				$timeout(function () {
-					$state.go("menu.allContracts")
-				})
+
+					$timeout(function () {
+						$state.go("menu.allContracts")
+					})
+				}
 			}
-
 		});
 
 		var config = {
@@ -238,11 +239,11 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 					var options = {
 						body: 'You have some Unsettled contracts!',
 						tag: 'reminder',
-					
+
 						lang: 'en-US',
 						dir: 'ltr'
 					};
-					var notification = new Notification(title,options);
+					var notification = new Notification(title, options);
 					notification.onclick = function (event) {
 						//event.preventDefault();
 						console.log("clicked")
@@ -331,51 +332,51 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
 		getCurrentUserData.getData(function (response) {
 
-			
+
 			userKeyStore = response.data;
 			console.log("Key Store: ", userKeyStore)
-			
+
 			databaseFactory.getDocById(deal_db, NotiData.dealId, function (response) {
-			
-				if(response.status=="0"){
-				
-					console.log("Check Doc: ","deal ID not found")
+
+				if (response.status == "0") {
+
+					console.log("Check Doc: ", "deal ID not found")
 					ProcessNotificationData(NotiData, publicKey, invoker);
-				
-				}else{
-					
-						var arr = response.data.tx;
-						var tX = arr[arr.length-1];
-						console.log("Tx: ",tX)
-						if(tX.eventName  == "createContract" && NotiData.status !="createContractEvent"){
-						
-							ProcessNotificationData(NotiData, publicKey, invoker);
-						}else if(tX.eventName  == "acceptContract" && NotiData.status !="acceptContractEvent"){
-						
-							ProcessNotificationData(NotiData, publicKey, invoker);
-							
-						}else if(tX.eventName  == "rejectContract" && NotiData.status !="rejectContractEvent"){
-						
-							ProcessNotificationData(NotiData, publicKey, invoker);
-							
-						} else if(tX.eventName  == "initiateSettlement" && NotiData.status !="settleContractEvent"){
-						
-							ProcessNotificationData(NotiData, publicKey, invoker);
-							
-						}else if(tX.eventName  == "acceptSettlement" && NotiData.status !="acceptSettleContractEvent"){
-						
-							ProcessNotificationData(NotiData, publicKey, invoker);
-						}else{
-						
-							console.log("Duplicate entry");
-						}
-					
-				
-				
+
+				} else {
+
+					var arr = response.data.tx;
+					var tX = arr[arr.length - 1];
+					console.log("Tx: ", tX)
+					if (tX.eventName == "createContract" && NotiData.status != "createContractEvent") {
+
+						ProcessNotificationData(NotiData, publicKey, invoker);
+					} else if (tX.eventName == "acceptContract" && NotiData.status != "acceptContractEvent") {
+
+						ProcessNotificationData(NotiData, publicKey, invoker);
+
+					} else if (tX.eventName == "rejectContract" && NotiData.status != "rejectContractEvent") {
+
+						ProcessNotificationData(NotiData, publicKey, invoker);
+
+					} else if (tX.eventName == "initiateSettlement" && NotiData.status != "settleContractEvent") {
+
+						ProcessNotificationData(NotiData, publicKey, invoker);
+
+					} else if (tX.eventName == "acceptSettlement" && NotiData.status != "acceptSettleContractEvent") {
+
+						ProcessNotificationData(NotiData, publicKey, invoker);
+					} else {
+
+						console.log("Duplicate entry");
+					}
+
+
+
 				}
 			})
-			
-			
+
+
 
 		});
 	}

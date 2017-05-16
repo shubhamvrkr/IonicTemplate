@@ -162,3 +162,7 @@ input::-webkit-inner-spin-button {
 .varify-icon { font-size: 15px !important; position: relative !important;float: left;  margin-right: 10px;width: 10px;}
 .hashvarify,.sigvarify,.tnxvarify { float: left;margin-right: 15px;font-size: 13px; }
 .txvarify { margin-top: 5px;float:left; }
+.helpText{ font-weight:bold;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #0052cc;}
