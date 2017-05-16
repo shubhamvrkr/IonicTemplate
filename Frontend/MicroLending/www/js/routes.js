@@ -31,7 +31,8 @@ angular.module('app.routes', [])
       .state('menu', {
         url: '/tabs',
         templateUrl: 'templates/menu.html',
-        controller: 'menuCtrl'
+        controller: 'menuCtrl',
+		cache: false
       })
       .state('menu.allContracts', {
         url: '/allcontracts',

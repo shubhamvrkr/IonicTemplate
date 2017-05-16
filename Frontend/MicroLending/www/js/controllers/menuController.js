@@ -8,7 +8,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
     console.log("menuCtrl");
     var symmetricKey = null;
     $scope.user = {}
-
+	$rootScope.balance = 0;
 
     if (window.cordova) {
 
@@ -404,7 +404,11 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
 
     function getBalance(address) {
-	  $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address), 'ether').toString();     
+	
+	
+	 $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(address), 'ether').toString();
+	 console.log($rootScope.balance);
+
     };
 
   }])

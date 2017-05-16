@@ -77,9 +77,7 @@ mycontrollerModule.controller('registerCtrl', ['$scope', '$stateParams', '$state
         } else if (response.data.status == 500) {
           $ionicLoading.hide();
           $scope.error = "Server Error. Please try after some time!"
-        }
-
-        else {
+        } else {
 
           $ionicLoading.hide();
           console.log("register user: ", response);

@@ -1,12 +1,11 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory','$timeout',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory) {
+  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory,$timeout) {
 
   
-    var reminder_flag = "reminder_flag"
-	
+    var reminder_flag = "reminder_flag"		
     if (window.cordova) {
       ss.get(
         function (value) {
@@ -33,6 +32,16 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.user_address = response.data.from_eth_address;
         $scope.ks_local = response.data.ks_local;
         $scope.pwDerivedKey = response.data.pwDerivedKey;
+		
+		$timeout(function(){
+		
+			 console.log("calling function");
+			 $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(response.data.from_eth_address), 'ether').toString();
+			 console.log($rootScope.balance);
+			 
+			 $scope.$apply();
+		
+		}, 2000);
       } else {
 
         $state.go('login');
