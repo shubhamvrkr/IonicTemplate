@@ -1,8 +1,8 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory','$timeout',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state','$ionicLoading' ,'ionicToast','allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory','$timeout',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $state, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory,$timeout) {
+  function ($scope, $stateParams, $state, $ionicLoading,ionicToast,allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory,$timeout) {
 
   
     var reminder_flag = "reminder_flag"		
@@ -160,12 +160,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-          console.log(res.data);
+         
            $ionicLoading.hide();
             contract.actionstatus = false;
-          $scope.error = "Insufficient funds to make any transactions!"
+         // $scope.error = "Insufficient funds to make any transactions!"
          
-          //ionicToast.show(res.data, 'bottom', false, 2500);
+          ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
 
         }
 
@@ -254,10 +254,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-          console.log(res.data);
+        
             $ionicLoading.hide();
              contract.actionstatus = false;
-          $scope.error = "Insufficient funds to make any transactions!"
+           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
         
          // ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -354,10 +354,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-          console.log(res.data);
+        
                $ionicLoading.hide();
                 contract.actionstatus = false;
-          $scope.error = "Insufficient funds to make any transactions!"
+           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
      
          // ionicToast.show(res.data, 'bottom', false, 2500);
 
@@ -450,10 +450,10 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-          console.log(res.data);
+        
            $ionicLoading.hide();
             contract.actionstatus = false;
-          $scope.error = "Insufficient funds to make any transactions!"
+          ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
          
           //ionicToast.show(res.data, 'bottom', false, 2500);
 

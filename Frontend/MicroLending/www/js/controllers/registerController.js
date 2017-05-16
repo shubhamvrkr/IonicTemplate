@@ -77,18 +77,13 @@ mycontrollerModule.controller('registerCtrl', ['$scope', '$stateParams', '$state
         } else if (response.data.status == 500) {
           $ionicLoading.hide();
           $scope.error = "Server Error. Please try after some time!"
-        }else if (response.data.data == null) {
+        }else if (response.data.status == -1) {
           $ionicLoading.hide();
-          $scope.error = "Connection Error. Please ensure that you are not behind the proxy!"
-        }  
-        
-        else {
-
+          $scope.error = "Connection Error. Please ensure that you are not behind a proxy!"
+        }else {
           $ionicLoading.hide();
           console.log("register user: ", response);
           $state.go('emailVerification', { params: { temp_id: response.data._id, passphrase: user_data.password, user_data: user_data } });
-
-
         }
 
       })

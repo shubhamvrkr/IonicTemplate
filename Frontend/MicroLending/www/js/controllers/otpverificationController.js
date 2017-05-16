@@ -8,7 +8,7 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
     console.log($stateParams);
     console.log($stateParams.params.temp_id);
 
-    $scope.email = $stateParams.params.user_data.email;
+    $scope.emailid = $stateParams.params.user_data.email;
 
     $scope.$on("$ionicView.beforeEnter", function () {
       $("#otpnumber").keypress(function (e) {
