@@ -10,7 +10,7 @@ angular.module('app.services')
       var post_data = {};
 
       post_data.email = data.email;
-      post_data.name = data.fname + data.lname;
+      post_data.name = data.fname +" "+ data.lname;
 
 
       console.log("Register user ", post_data);

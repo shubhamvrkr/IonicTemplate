@@ -341,7 +341,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
 
               $scope.user.imagesrc = cordova.file.externalRootDirectory + "micro_lending/user_data/user_pic.png";
-			  $scope.$apply();
+			    
               console.log(response);
 
               ss.get(
@@ -353,6 +353,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
                   registerFactory.saveUserDataLocally(JSON.stringify(old_ss), 'user_data', function (res) {
 
                     console.log("image path set successfully.")
+                      $scope.$apply();
 
                   });
 
