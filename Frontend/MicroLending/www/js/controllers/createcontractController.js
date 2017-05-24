@@ -1,7 +1,7 @@
-mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData','$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$state', '$ionicModal', 'createContractFactory', '$rootScope', '$ionicLoading', 'ionicToast', 'databaseFactory', 'getCurrentUserData', '$timeout','$cordovaNativeAudio', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ( $scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData,$timeout) {
+  function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData, $timeout,$cordovaNativeAudio) {
 
     $scope.$on("$ionicView.beforeEnter", function () {
       // Browser type check
@@ -295,6 +295,10 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
                   ionicToast.show('Mined Transaction Successfully', 'bottom', true);
 
+                  $cordovaNativeAudio.play('bass')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
+
                   // Clear form on success
 
                   data.description = "";
@@ -308,6 +312,8 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   //$scope.createContractForm.$setPristine();
 
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(from_eth_address), 'ether').toString();
+
+                 
                   $scope.$apply();
 
 
@@ -332,14 +338,14 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
 
 
-			} else {
-			$ionicLoading.hide();
-			$scope.isSaving = false;
-			$scope.submitFlag = false;
-			$scope.spinnerFlag = true;
-			
-			$scope.error = "Insufficient funds to make any transactions!"
-			console.log(res.data);
+        } else {
+          $ionicLoading.hide();
+          $scope.isSaving = false;
+          $scope.submitFlag = false;
+          $scope.spinnerFlag = true;
+
+          $scope.error = "Insufficient funds to make any transactions!"
+          console.log(res.data);
 
 
 

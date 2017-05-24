@@ -1,11 +1,11 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state','$ionicLoading' ,'ionicToast','allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory','$timeout',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', 'ionicToast', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory', '$timeout','$cordovaNativeAudio',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $state, $ionicLoading,ionicToast,allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory,$timeout) {
+  function ($scope, $stateParams, $state, $ionicLoading, ionicToast, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory, $timeout,$cordovaNativeAudio) {
 
-  
-    var reminder_flag = "reminder_flag"		
+
+    var reminder_flag = "reminder_flag"
     if (window.cordova) {
       ss.get(
         function (value) {
@@ -32,16 +32,16 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
         $scope.user_address = response.data.from_eth_address;
         $scope.ks_local = response.data.ks_local;
         $scope.pwDerivedKey = response.data.pwDerivedKey;
-		
-		$timeout(function(){
-		
-			 console.log("calling function");
-			 $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(response.data.from_eth_address), 'ether').toString();
-			 console.log($rootScope.balance);
-			 
-			 $scope.$apply();
-		
-		}, 2000);
+
+        $timeout(function () {
+
+          console.log("calling function");
+          $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance(response.data.from_eth_address), 'ether').toString();
+          console.log($rootScope.balance);
+
+          $scope.$apply();
+
+        }, 2000);
       } else {
 
         $state.go('login');
@@ -55,8 +55,8 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
     $scope.activecontracts = [];
     $scope.completedcontracts = [];
     console.log("rootScope: ", $rootScope.globals);
-    
-	loadDealsfromDB();
+
+    loadDealsfromDB();
 
     $scope.moreDetails = function (contract) {
 
@@ -133,6 +133,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
 
                   contract.actionstatus = false;
+                  $cordovaNativeAudio.play('bass')
+                    .then(function (msg) { console.log(msg); })
+                    .catch(function (error) { console.error(error); });
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -160,11 +163,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-         
-           $ionicLoading.hide();
-            contract.actionstatus = false;
-         // $scope.error = "Insufficient funds to make any transactions!"
-         
+
+          $ionicLoading.hide();
+          contract.actionstatus = false;
+          // $scope.error = "Insufficient funds to make any transactions!"
+
           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
 
         }
@@ -224,6 +227,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
 
                   contract.actionstatus = false;
+                  $cordovaNativeAudio.play('bass')
+                    .then(function (msg) { console.log(msg); })
+                    .catch(function (error) { console.error(error); });
 
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
@@ -254,12 +260,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-        
-            $ionicLoading.hide();
-             contract.actionstatus = false;
-           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
-        
-         // ionicToast.show(res.data, 'bottom', false, 2500);
+
+          $ionicLoading.hide();
+          contract.actionstatus = false;
+          ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
+
+          // ionicToast.show(res.data, 'bottom', false, 2500);
 
 
         }
@@ -324,6 +330,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   clearInterval(id1);
 
                   contract.actionstatus = false;
+                  $cordovaNativeAudio.play('bass')
+                    .then(function (msg) { console.log(msg); })
+                    .catch(function (error) { console.error(error); });
 
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
@@ -354,12 +363,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-        
-               $ionicLoading.hide();
-                contract.actionstatus = false;
-           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
-     
-         // ionicToast.show(res.data, 'bottom', false, 2500);
+
+          $ionicLoading.hide();
+          contract.actionstatus = false;
+          ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
+
+          // ionicToast.show(res.data, 'bottom', false, 2500);
 
 
         }
@@ -421,6 +430,9 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
                   //$ionicLoading.hide();
 
                   contract.actionstatus = false;
+                  $cordovaNativeAudio.play('bass')
+                    .then(function (msg) { console.log(msg); })
+                    .catch(function (error) { console.error(error); });
 
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.user_address), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -450,11 +462,11 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
 
         } else {
 
-        
-           $ionicLoading.hide();
-            contract.actionstatus = false;
+
+          $ionicLoading.hide();
+          contract.actionstatus = false;
           ionicToast.show("Insufficient funds to make any transactions!", 'bottom', false, 2500);
-         
+
           //ionicToast.show(res.data, 'bottom', false, 2500);
 
 
@@ -586,27 +598,27 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
             $scope.groups[4].notification_flag = "true";
 
           }
-          
+
         });
 
         $scope.groups[4].isExpired = "true";
-           
+
         var tem = $scope.groups[4];
         $scope.groups[4] = $scope.groups[0];
         $scope.groups[0] = tem;
-      
-       tem = $scope.groups[4];
+
+        tem = $scope.groups[4];
         $scope.groups[4] = $scope.groups[2];
         $scope.groups[2] = tem;
 
-         tem = $scope.groups[2];
+        tem = $scope.groups[2];
         $scope.groups[2] = $scope.groups[1];
         $scope.groups[1] = tem;
-       // $scope.shownGroup = $scope.groups[0];
-       
+        // $scope.shownGroup = $scope.groups[0];
+
         $scope.checkAccordianIsOpen();
         $scope.$apply();
-		
+
         console.log("Length is ", $scope.groups);
 
       });
@@ -629,46 +641,46 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       return $scope.shownGroup === group;
     };
 
-	$scope.selectColoumByGroup = function(group){
-	
-		console.log(group);
-		if(group.isExpired =="false"){
-		
-			return '-creation_date';
-		
-		}else{
-				
-			return '-end_date';
-		}
-	
-	};
-	
-	$scope.doRefresh =function(){
-	
-		loadDealsfromDB();
-		$scope.$broadcast('scroll.refreshComplete');
-	
-	}
+    $scope.selectColoumByGroup = function (group) {
 
-   $scope.checkAccordianIsOpen =function (){
-   
-   console.log("called Accordian")
-    if($scope.groups[0].items.length!=0){
-      $scope.shownGroup = $scope.groups[0];
+      console.log(group);
+      if (group.isExpired == "false") {
 
-    }else if($scope.groups[1].items.length!=0){
-      $scope.shownGroup = $scope.groups[1];
-	  
-    }else if($scope.groups[2].items.length!=0){
-      $scope.shownGroup = $scope.groups[2];
-    }else if($scope.groups[3].items.length!=0){
-      $scope.shownGroup = $scope.groups[3];
-    
-    }else if($scope.groups[4].items.length!=0){
-      $scope.shownGroup = $scope.groups[4];
-    
+        return '-creation_date';
+
+      } else {
+
+        return '-end_date';
+      }
+
+    };
+
+    $scope.doRefresh = function () {
+
+      loadDealsfromDB();
+      $scope.$broadcast('scroll.refreshComplete');
+
     }
 
-  }
+    $scope.checkAccordianIsOpen = function () {
+
+      console.log("called Accordian")
+      if ($scope.groups[0].items.length != 0) {
+        $scope.shownGroup = $scope.groups[0];
+
+      } else if ($scope.groups[1].items.length != 0) {
+        $scope.shownGroup = $scope.groups[1];
+
+      } else if ($scope.groups[2].items.length != 0) {
+        $scope.shownGroup = $scope.groups[2];
+      } else if ($scope.groups[3].items.length != 0) {
+        $scope.shownGroup = $scope.groups[3];
+
+      } else if ($scope.groups[4].items.length != 0) {
+        $scope.shownGroup = $scope.groups[4];
+
+      }
+
+    }
 
   }]);

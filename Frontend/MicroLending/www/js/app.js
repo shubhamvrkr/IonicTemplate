@@ -9,7 +9,7 @@ myApp.config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
 });
 
-myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory, $cordovaLocalNotification) {
+myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, getCurrentUserData, $timeout, $state, $cordovaPushV5, $rootScope, expiredContractsFactory, $cordovaLocalNotification, $cordovaNativeAudio) {
 
 
 
@@ -72,6 +72,9 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
     $ionicPlatform.ready(function () {
 
+		$cordovaNativeAudio.preloadSimple('bass', 'audio/bass.mp3')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
 
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
@@ -137,14 +140,14 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			if (window.cordova) {
 				navigator.splashscreen.hide();
 			}
-				if (userKeyStore != null) {
+			if (userKeyStore != null) {
 
 
-					$timeout(function () {
-						$state.go("menu.allContracts")
-					})
-				}
-			
+				$timeout(function () {
+					$state.go("menu.allContracts")
+				})
+			}
+
 		});
 
 		var config = {

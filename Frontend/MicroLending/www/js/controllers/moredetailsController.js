@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard', 'clipboard',
-  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard, clipboard) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard', 'clipboard','$cordovaNativeAudio',
+  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard, clipboard, $cordovaNativeAudio) {
 
 
     //load current user details
@@ -213,6 +213,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   clearInterval(id1);
                   $scope.spinnerFlag = true;
                   $scope.isSaving = false;
+                    $cordovaNativeAudio.play('bass')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -307,6 +310,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   clearInterval(id1);
                   $scope.spinnerFlag = true;
                   $scope.isSaving = false;
+                    $cordovaNativeAudio.play('bass')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -393,6 +399,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   clearInterval(id1);
                   $scope.spinnerFlag = true;
                   $scope.isSaving = false;
+                    $cordovaNativeAudio.play('bass')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
@@ -477,6 +486,9 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
                   clearInterval(id1);
                   $scope.spinnerFlag = true;
                   $scope.isSaving = false;
+                    $cordovaNativeAudio.play('bass')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
                   //$ionicLoading.hide();
                   $rootScope.balance = ethdapp.web3.fromWei(ethdapp.web3.eth.getBalance($scope.currentUserAddress), 'ether').toString();
                   //ionicToast.show('Mined Successfully', 'bottom', false, 2500);
