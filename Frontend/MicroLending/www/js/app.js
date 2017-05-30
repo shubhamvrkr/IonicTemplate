@@ -72,14 +72,15 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 
     $ionicPlatform.ready(function () {
 
-		$cordovaNativeAudio.preloadSimple('bass', 'audio/bass.mp3')
-					   .then(function(msg) { console.log(msg); })
-					   .catch(function(error) { console.error(error); });
-
+		console.log("Hello ready")
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova) {
 
+			$cordovaNativeAudio.preloadSimple('bass', 'audio/bass.mp3')
+					   .then(function(msg) { console.log(msg); })
+					   .catch(function(error) { console.error(error); });
+					   
 			var options = {
 				android: {
 					senderID: "1078648460837"
@@ -149,17 +150,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			}
 
 		});
-
-		var config = {
-			apiKey: "AIzaSyDWqtn3mu1Em8D_zX5TY5gHqhxXR-OtBsw",
-			authDomain: "lending-16a7a.firebaseapp.com",
-			databaseURL: "https://lending-16a7a.firebaseio.com",
-			projectId: "lending-16a7a",
-			storageBucket: "lending-16a7a.appspot.com",
-			messagingSenderId: "1078648460837"
-		};
-		firebase.initializeApp(config);
-		messaging = firebase.messaging();
+		
 		if (!window.cordova) {
 
 			if ('serviceWorker' in navigator) {
