@@ -156,7 +156,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			if ('serviceWorker' in navigator) {
 
 				console.log("SW present !!! ");
-				navigator.serviceWorker.register('sw.js', {}).then(function (registration) {
+				navigator.serviceWorker.register('www/sw.js', { insecure: true }).then(function (registration) {
 
 					registration.update();
 					console.log("registered");
