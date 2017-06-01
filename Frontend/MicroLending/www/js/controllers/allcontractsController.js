@@ -1,8 +1,8 @@
-mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', 'ionicToast', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory', '$timeout','$cordovaNativeAudio',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', 'ionicToast', 'allContractFactory', '$rootScope', 'getCurrentUserData', 'databaseFactory', 'expiredContractsFactory', '$timeout','$cordovaNativeAudio','$ionicPlatform',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-  function ($scope, $stateParams, $state, $ionicLoading, ionicToast, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory, $timeout,$cordovaNativeAudio) {
+  function ($scope, $stateParams, $state, $ionicLoading, ionicToast, allContractFactory, $rootScope, getCurrentUserData, databaseFactory, expiredContractsFactory, $timeout,$cordovaNativeAudio,$ionicPlatform) {
 
 
     var reminder_flag = "reminder_flag"
@@ -682,5 +682,12 @@ mycontrollerModule.controller('allContractsCtrl', ['$scope', '$stateParams', '$s
       }
 
     }
+	
+	$ionicPlatform.onHardwareBackButton(function(){
+	
+		console.log("On hardware back button pressed")
+		navigator.app.exitApp();
+	
+	});
 
   }]);
