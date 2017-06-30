@@ -293,7 +293,7 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
                   $scope.submitFlag = false;
                   $scope.spinnerFlag = true;
 
-                  ionicToast.show('Mined Transaction Successfully', 'bottom', true);
+                  ionicToast.show('Created Contract Successfully', 'bottom', true);
 
                   $cordovaNativeAudio.play('bass')
 					   .then(function(msg) { console.log(msg); })

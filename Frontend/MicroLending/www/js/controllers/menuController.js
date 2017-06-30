@@ -296,6 +296,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
 
       console.log("Logout");
       $scope.closePopover();
+	  registerFactory.isLogoutClicked("true","islogoutclicked",function(res10){});
       $state.go('login');
     }
 

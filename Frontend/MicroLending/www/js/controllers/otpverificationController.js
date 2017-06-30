@@ -225,6 +225,9 @@ mycontrollerModule.controller('emailVerificationCtrl', ['$scope', '$stateParams'
 
                           var s_hex = buffer.from(result.pwDerivedKey, 'hex');
                           console.log('S_HEX: ', s_hex.toString('hex'));
+						  
+						  registerFactory.isLogoutClicked("false","islogoutclicked",function(res10){});
+						  
                           if (window.cordova) {
 
                             var key = "pwDerivedKey"

@@ -82,6 +82,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                         } else {
 
                           console.log("else")
+						  registerFactory.isLogoutClicked("false","islogoutclicked",function(res10){});
                           $state.go('menu.allContracts');
 
                         }
@@ -167,6 +168,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
 
                 } else {
 
+				  registerFactory.isLogoutClicked("false","islogoutclicked",function(res10){});
                   $state.go('menu.allContracts');
 
                 }
@@ -422,6 +424,7 @@ mycontrollerModule.controller('loginCtrl', ['$http', '$scope', '$stateParams', '
                                                           $ionicLoading.hide();
                                                           console.log("saved in local Storage", res);
                                                           ionicToast.show('Profile successfully imported', 'bottom', false, 2500);
+														  registerFactory.isLogoutClicked("false","islogoutclicked",function(res10){});
                                                           $state.go('menu.allContracts');
                                                         }).catch(function (error) {
                                                           $ionicLoading.hide();

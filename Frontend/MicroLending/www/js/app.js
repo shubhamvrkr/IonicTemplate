@@ -134,6 +134,7 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 		}
 
 		console.log("Notification Handler Messages");
+		
 		getCurrentUserData.getData(function (response) {
 
 			userKeyStore = response.data;
@@ -143,14 +144,39 @@ myApp.run(function ($ionicPlatform, databaseFactory, firebaseFactory, $http, get
 			}
 			if (userKeyStore != null) {
 
+				if (window.cordova) {
 
-				$timeout(function () {
-					$state.go("menu.allContracts")
-				})
+					  ss.get(
+						function (value) {
+
+						  console.log('Success, got ' + value);
+						  if(value=="false"){
+							$timeout(function () {
+								$state.go("menu.allContracts")
+							})
+						  
+						  }
+						},
+						function (error) {
+						  console.log('Error ' + error);
+						},
+						'islogoutclicked');
+						
+				} else {
+
+					var value = localStorage.getItem("islogoutclicked");
+					if(value=="false"){
+							$timeout(function () {
+								$state.go("menu.allContracts")
+							})
+						  
+					}
+
+				}
+				
 			}
 
 		});
-		
 		if (!window.cordova) {
 
 			if ('serviceWorker' in navigator) {

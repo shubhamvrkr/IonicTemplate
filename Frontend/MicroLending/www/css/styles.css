@@ -2,13 +2,13 @@
   /*background: url(../img/background-blue.jpg) no-repeat center;
   background-size:cover;*/
 
-  background-color:  #4B0082	;
+  background-color:  #023269	;
 
   /* Gradient of two colors */
-  background: -webkit-linear-gradient(bottom right, #000066, #0052cc);
+/*   background: -webkit-linear-gradient(bottom right, #023269, #023269);
   background: -o-linear-gradient(bottom right, #000066, #0052cc);
   background: -moz-linear-gradient(bottom right, #000066, #0052cc);
-  background: linear-gradient(bottom right, #000066, #0052cc);
+  background: linear-gradient(bottom right, #000066, #0052cc); */
 }
 
 .form-validation{
