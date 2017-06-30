@@ -119,9 +119,9 @@
           <div class="item item-divider">
             <h2>Transactions</h2>
           </div>
-          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px;" ng-init="verify(tx)">
+          <div class="item item-text-wrap" ng-repeat="tx in dealData.tx" style="font-size:13px;" ng-init="verify(tx)" on-hold="copyToClipboard(tx.txHash)">
             <div class="txID">
-				<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)"title="Copy to clipboard"></i>
+				<i class="copy-icon icon ion-ios-copy" ng-click="copyToClipboard(tx.txHash)" title="Copy to clipboard"></i>
               <strong>Tx ID {{$index+1}}:</strong> {{tx.txHash}}
             </div>
             <div class="txData">

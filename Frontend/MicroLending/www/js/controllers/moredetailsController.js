@@ -1,5 +1,5 @@
-mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard', 'clipboard','$cordovaNativeAudio',
-  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard, clipboard, $cordovaNativeAudio) {
+mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stateParams', '$state', '$ionicLoading', '$timeout', '$ionicHistory', 'allContractFactory', 'databaseFactory', 'getCurrentUserData', '$cordovaClipboard', 'clipboard','$cordovaNativeAudio','ionicToast',
+  function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $timeout, $ionicHistory, allContractFactory, databaseFactory, getCurrentUserData, $cordovaClipboard, clipboard, $cordovaNativeAudio,ionicToast) {
 
 
     //load current user details
@@ -17,10 +17,12 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
       // Copy To Clipboard
       $scope.copyToClipboard = function (text) {
         if (window.cordova) {
+		
           $cordovaClipboard
             .copy(text)
             .then(function () {
               // success
+			  ionicToast.show('Copied to clipboard', 'bottom', false,1500);
               console.log("Copied!")
             }, function () {
               // error
@@ -28,6 +30,8 @@ mycontrollerModule.controller('moredetailsCtrl', ['$scope', '$rootScope', '$stat
               console.log("Copying failed!")
             });
         } else {
+		
+		  ionicToast.show('Copied to clipboard', 'bottom', false,1500);
           clipboard.copyText(text);
         }
       }
