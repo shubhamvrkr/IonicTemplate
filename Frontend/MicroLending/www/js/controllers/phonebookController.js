@@ -1,10 +1,10 @@
-mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$state', 'databaseFactory', '$http', '$ionicLoading', 'ionicToast', 'fileFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$state', 'databaseFactory', '$http', '$ionicLoading', 'ionicToast', 'fileFactory','$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function ($scope, $stateParams, $state, databaseFactory, $http, $ionicLoading, ionicToast, fileFactory) {
+  function ($scope, $stateParams, $state, databaseFactory, $http, $ionicLoading, ionicToast, fileFactory,$rootScope) {
 
     console.log("Stateparams: ", $stateParams)
-
+	console.log("PhoneBook: ",$rootScope.email)
     $scope.visibilityflag = $stateParams.flag;
 
     $scope.data = {};
@@ -32,7 +32,9 @@ mycontrollerModule.controller('phoneBookCtrl', ['$scope', '$stateParams', '$stat
           
           console.log(response);
           response.forEach(function (item) {
-            $scope.availablecontacts.push(item);
+			if(item.email != $rootScope.email){
+				$scope.availablecontacts.push(item);
+			}
           });
           //$scope.availablecontacts.push(response)
 

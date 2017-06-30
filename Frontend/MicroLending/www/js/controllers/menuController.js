@@ -23,6 +23,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
           $scope.user.eth_address = user_data.address
           $scope.user.email = user_data.email
           $scope.user.imagesrc = user_data.imagePath;
+		  $rootScope.email = user_data.email; 
           getBalance(user_data.address);
 
         },
@@ -52,6 +53,7 @@ mycontrollerModule.controller('menuCtrl', ['$scope', '$stateParams', '$ionicPopo
       $scope.user.name = user_data.fname + " " + user_data.lname
       $scope.user.eth_address = user_data.address
       $scope.user.email = user_data.email
+	  $rootScope.email = user_data.email; 
       $scope.user.imagesrc = "null";
 
       symmetricKey = localStorage.getItem("symkey");
