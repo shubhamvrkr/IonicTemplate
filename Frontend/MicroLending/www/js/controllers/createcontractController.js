@@ -4,6 +4,9 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
   function ($scope, $stateParams, $state, $ionicModal, createContractFactory, $rootScope, $ionicLoading, ionicToast, databaseFactory, getCurrentUserData, $timeout,$cordovaNativeAudio) {
 
     $scope.$on("$ionicView.beforeEnter", function () {
+	
+		$scope.data.startdate = new Date();
+		$scope.$apply();
       // Browser type check
       jQuery.uaMatch = function (ua) {
         ua = ua.toLowerCase();
