@@ -5,8 +5,16 @@ mycontrollerModule.controller('createDealCtrl', ['$scope', '$stateParams', '$sta
 
     $scope.$on("$ionicView.beforeEnter", function () {
 	
+		// Temporary - Automatically setting start date & end date;
 		$scope.data.startdate = new Date();
+		
+		enddate1 = new Date();
+        enddate1.setDate(enddate1.getDate() + 1);
+
+		$scope.data.startdate = new Date();
+		$scope.data.enddate = enddate1;
 		$scope.$apply();
+		
       // Browser type check
       jQuery.uaMatch = function (ua) {
         ua = ua.toLowerCase();
